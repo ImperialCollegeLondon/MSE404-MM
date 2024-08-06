@@ -1,86 +1,141 @@
 Getting Started in Linux
 ========================
 
-Connecting to the Linux server
-------------------------------
+## 1. Introduction
 
-Most materials modelling research of the type you will be learning about in
-this course is done through the Linux Operating System. For example, all the
-major High Performance Computing (HPC) resources you may eventually use, such
-as ARCHER2 which is a national HPC facility and CX1 which is the Imperial HPC
-system, run Linux.
 
-In this course, you will also be using a Linux server to run your
-calculations. You can remotely open a desktop session on the server we will be
-using with `x2go` which can be run from the
-[Imperial Software Hub](https://softwarehub.imperial.ac.uk/) if you're using
-a lab workstation. If you'd prefer to use your own laptop to connect, you'll
-need to download and install the x2go client that's freely available via
-[their website](https://wiki.x2go.org/doku.php/download:start).
+In this course, you will use a dedicated Linux server to run your calculations, which can be accessed remotely. In this first Lab, you will learn how to:
 
-If there is not already a session named "mt-studenty" or "mt-studentx" visible 
-in the right-hand list on x2go when you start it up, you will need to create it.
+1. access this server remotely with your college credentials
+2. interact with the server using the Linux command line
+3. set up your work environment in the terminal
+4. run your first DFT calculation!
 
-- The shortcut to create a new session is "Ctrl+n".
-- In this menu, you should name the session "mt-studenty" or "mt-studentx".
-- Set the Host as "mt-studenty.mt.ic.ac.uk" or "mt-studentx.mt.ic.ac.uk".
-- Select "XFCE" as the session type in the bottom drop down menu.
-- An image of this is given below:
+These steps closely resemble what you would need to do in a real-world scenario. When you’re researching more advanced topics, you will require powerful computers to run your simulations. At Imperial, you could get access to CX1, the local High Performance Computing (HPC) facility containing hundreds of machines. On a national level, you could get access to ARCHER2, the UK national supercomputing service. All these facilities use the Linux operating system, so it is important to get comfortable with the Linux command line because in many situations this will be your only option to interact with those machines. The server you will use in this course is called ??? and it will be your first step into the world of material simulation.
 
-<figure markdown="span">
-  ![x2go session preferences for linux server](x2go-session-prefs.png){ width="500" }
-</figure>
 
-- Once you have set this, click OK.
-- Then select the session from the right-hand menu (e.g. click on the
-  picture).
-- Enter your Imperial username and password to login.
-    - The username is case sensitive and should be in lowercase letters.
-- Note: while I try to ensure students registered for the course have
-  access before the first class, I may not have the most up-to-date
-  information. If it doesn't accept your login details please let me know
-  and I can give you access.
-- If it is your first time connecting it may ask you whether you want to
-  accept the host key (or something to that effect), to which you should click
-  "yes".
-- If using a college workstation you may also get some pop up messages
-  about pulseaudio which you're free to ignore.
-- It will take a minute or so for the session to fully start up so by patient.
-- When logging in for the first time, once the desktop loads it will ask if
-  you want to accept the default menu configuration. **You should accept the
-  default here**. If you do not, you'll have no desktop menus. You can still
-  access everything by right clicking on the desktop. The desktop menus are
-  all customizable and you can always  change them later however you'd like,
-  but the default is the best place to start. If you make any customizations,
-  they'll be remembered when you next log in.
-- I'd suggest also turning the sound volume on your pc down as command line
-  work can produce a lot of beeps which may become annoying.
+## 2. Accessing the server remotely
 
-Once you've loaded into the desktop session, feel free to take a look around
-the menus and settings that are there. This is the XFCE desktop manager, and
-while it is basic, it is quite light on resources (important as you are all in
-fact using a single powerful workstation simultaneously), and very
-customizable.
+The server can be accessed by using PuTTY and XMing, which can be run from the [Imperial Software Hub](https://softwarehub.imperial.ac.uk/). XMing runs in the background in your Windows machine and enables the remote server to display graphics when needed. For the most part, however, you will have to interact with the command line. PuTTY is the program used to establish the connection to the remote server.
 
-Using the command line
-----------------------
+!!! example "Task 1 - Connecting to the remote server"
 
-For the majority of first principles codes calculations are launched from the
-command line, so it's important to have some familiarity with it. Often, when
-running calculations on a HPC system, the command line will be the only way
-to access the system. While you'll be able to use a file manager on the
-desktop to access files, I encourage you to use the command line instead
-even if it takes you a little longer initially.
+    1. Access the [Imperial Software Hub](https://softwarehub.imperial.ac.uk/) and first run Xming, then PuTTY.
 
-The terminal application brings you to the command line and allows you to type
-in various commands and instructions directly. Open the terminal application
-from the menu. You can customize the appearance to your preference by changing
-the text size, font and colour scheme.
+    2. Inside the PuTTY interface, select the name of the server that you want to access.
+    3. Instruct PuTTY to enable X11 forwarding. This will allow the server to communicate with Xming to show you graphical data when required.
+    4. Press connect
+    5. A terminal will be presented to you. In order to login, you will have to enter your College username, press enter, then enter your password.
 
-You can launch a program from the terminal by typing its name. For example
-typing `gedit` will launch the gedit text editor by default. Note if you
-do this now, you won't be able to use the same terminal until gedit is closed.
-A way around this is discussed later in the lab.
+    **Note 1:** while I try to ensure students registered for the course have access before the first class, I may not have the most up-to-date information. If it doesn't accept your login details please let me know and I can give you access.
+    **Note 2:** If it is your first time connecting, it may ask you whether you want to accept the host key (or something to that effect), to which you should write `yes`, and then press enter.
+
+    Congratulations! You are now connected to ??? and have complete access to its ***powerful*** Linux command line.
+
+
+
+
+## Using the command line
+
+While using a computer for day-to-day activities, you most likely have become familiar with a Graphical User Interface (GUI), which is a graphical way to interact with the computer. Most Operating Systems (OS) also provide a non-graphical way to interact with the computer through the command line (also usually denoted as the terminal). In this course we will deal exclusively with the Linux command line. The command line offers a completely equivalent way to the GUI to perform tasks, but has several advantages:
+- It uses very few system resources. This is especially useful if there are dozens of users using the same machines simultaneously, as in this Lab
+- It is extremely flexible. With knowledge of just a few basic operations, it is possible to chain them together to perform complex tasks, or to automate tasks altogether
+
+In this section, you will learn how to use the command line to perform simple tasks like listing the files inside a directory, creating and copying directories and run simple programs. Most of the programs that you will use in this course will run exclusively in the command line, but you can also use it to run programs with a GUI.
+
+If you successfully connected to the remote server using PuTTY, you should have a Linux command line in front of you right now.
+
+Once you open the terminal, you will have access to a prompt that can be used to interact with the computer. The prompt contains three sections: username @ machine : current working directory \$. The tilde ~ stands for the home directory, which is a shorthand for “/home/username/” . The commands you write will always be in front of the \\$ symbol.
+
+!!! example "Task 1: launching your first program"
+
+    Write the command “gedit” then press Enter. This will open a graphical text editor. The prompt will be unresponsive until this program finishes. This will be the case for most Linux commands. In this case, the program will finish once you close the "gedit" window. Until the command completes its assigned task, you cannot use the prompt, but once the task is finished, the prompt can be used again.
+
+    **Important** Remember to close the "gedit" window
+
+!!! example "Task 2: command line programs"
+
+    Not all commands open up graphical interactive windows. Let's now take a look at commands which provide output exclusively in the command line. 
+    1. Run the program “date”, which will print out to the terminal the current date and time. 
+    2. You can also provide additional parameters to certain commands to make them do specific tasks. For example, the command “echo” prints out to the terminal the text that’s written after it. Run the program echo with DFT as a parameter - “echo DFT”, and check that it prints out the word “DFT” to the terminal. 
+
+
+In sum, commands in the Linux command line have the following structure
+
+```bash
+command argument1 argument2 ...
+```
+
+
+where the number of arguments can be virtually arbitrary.
+
+
+### 3.1 Writing to and reading from file
+In many circumstances, you might want to save the output of a command to a file so that you can process it later. This can be done with the “output redirect” symbol `>`. For example, running 
+```bash
+date > file.txt 
+```
+
+in the command line will will save the output that you got previously into the file “file.txt”. You can check that this file has been created by navigating with the GUI to your “home” directory and opening it with a text editor.
+
+!!! example "Task 3: saving to file"
+    1. Run the previous command
+    2. Open it using gedit and check that its contents match your expectation
+    ```bash
+    gedit file.txt
+    ```
+
+While gedit provides all the means necessary to read and write files, it can be very slow when the connection to the server is not stable, or when many people are connected to the server simultaneously. A quicker way to read the contents of a file is by using the `cat` command. When you provide an argument to the `cat` command, it will assume that the argument is a file name and will output its contents.
+
+!!! example "Task 4: Reading from a file"
+    Run the following command and check that the output matches what you saw with gedit
+
+    ```bash
+    cat file.txt
+    ```
+ 
+ If the file is very long, you can also use “head file.txt” if you just want to print out the first lines of the file, or “tail file.txt” if you just want to print out the last lines. Alternatively, you can use a more interactive command like “less file.txt” which will replace the terminal with a file reader that you can scroll through with your mouse wheel or the keyboard arrows. You can exit this file reader by pressing “q”. Reading the file directly from the command line is often the quickest and most convenient way to do so.
+
+### 3.2 Using a file as argument to a command
+Some Linux commands can use instructions saved in files to perform their job. For the purposes of this Lab, we will be doing this by using the “input redirect” feature with the symbol “<”. 
+
+!!! example "Task 5 - Files as input"
+    The command “sort” sorts the input that is given to it. 
+
+    1. Using gedit, create a file called “numbers.txt” containing three separate lines with the numbers 3,9 and 1
+    2. run “sort < numbers.txt”. This command will print out the sorted list of numbers.
+    3. Save the output of this command into another file “numbers_sorted.txt” using what you learned previously: “sort < numbers.txt > numbers_sorted.txt”
+    4. Read the contents of this new file using "cat" and check that the numbers have been sorted
+
+
+
+## 4. Navigating the system
+So far, all the commands you have been running were done inside of your “home” directory. In a GUI, you navigate the system by clicking on folders with the cursor and looking at their contents. In a terminal, everything is done via commands. Instead of clicking on a folder, you issue a command to change your current location to that folder. Instead of visualizing the files as icons inside a folder, you issue a command to show the file names in the current directory.
+
+### 4.1 Understanding the directory structure
+The directory (or folder) structure in Linux is defined through the use of the forward slash `/`. For example, `/file1.txt` means that `file1.txt` is inside the root directory, which is represented by a single forward slash `/`. `/directory1/file1.txt` means that `file1.txt` is inside `directory1` which is inside the root directory `/`. As a regular user of the ??? server, your files are located in the directory `/home/user123`, which has a shorthand expression `~`. This is called the **home** directory.
+
+### 4.2 Figuring out where you are
+If you want to check what is your current directory, run the command `pwd`, which stands for **print working directory**. This will print out something like “/home/sjoao”, which means that the directory “sjoao” is located inside the directory “home”. It also means that you are currently located inside the `/home/sjoao` folder. This directory “/home/sjoao” is known as the home directory, and is equivalently represented by a tilde “~” as a shorthand.
+
+!!! example "Task 4.1"
+    Run the command `pwd` in the command line. Check that this output corresponds to a directory structure as discussed above
+
+### 4.3 List the contents of the directory
+If you want to list the contents of your current directory, run `ls`. This will print out to the terminal the list of folders and files that exist in the current directory. 
+
+
+!!! example "Task 4.3" 
+    Run the command `ls` and check that the files that you created in the previous tasks are here.
+
+### 4.3 Creating new directories and changing directories
+The command `mkdir` (which stands for **make directory**) is used to create new directories inside of the current directory. If you run `mkdir newDirectory`, you will see that a directory **newDirectory** has been created. To navigate to that directory, run `cd newDirectory`. To navigate to its parent directory, run `cd ..` in the command line. The two dots **..** stand for **parent directory**. 
+
+!!! example "Task 4.4" 
+    Run the commands specified in 4.3 and in each step run `ls` and `pwd` to inspect the contents of the 
+
+
+
 
 Files and Directories
 ---------------------
