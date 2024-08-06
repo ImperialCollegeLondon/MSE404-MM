@@ -1,7 +1,7 @@
 Getting Started in Linux
 ========================
 
-## 1. Introduction
+## Introduction
 
 
 In this course, you will use a dedicated Linux server to run your calculations, which can be accessed remotely. In this first Lab, you will learn how to:
