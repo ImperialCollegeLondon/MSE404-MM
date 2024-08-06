@@ -1,0 +1,8 @@
+ &input
+    asr='simple'
+    flfrc='Siyyyy.fc'
+    flfrq='Siyyyy-q20.freq'
+    nk1=20,nk2=20,nk3=20
+    nosym=.true.
+    dos=.true.
+ /

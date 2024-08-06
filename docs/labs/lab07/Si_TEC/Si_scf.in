@@ -1,0 +1,26 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'low'
+    prefix = 'Siyyyy'
+ /
+
+ &SYSTEM
+    ibrav = 2
+    A = xxxx
+    nat = 2
+    ntyp = 1
+    ecutwfc = 30.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ Si  28.085  Si.pz-vbc.UPF
+
+ATOMIC_POSITIONS {crystal}
+ Si 0.00 0.00 0.00
+ Si 0.25 0.25 0.25
+
+K_POINTS {automatic}
+  4 4 4 1 1 1

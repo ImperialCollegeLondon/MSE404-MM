@@ -1,0 +1,4 @@
+set xlabel "k-points along each direction"
+set ylabel "kinetic energy cutoff [Ry]"
+set zlabel "total energy [Ry]"
+splot "etot_v_nkpt_ekin.dat" using 1:2:3

@@ -1,0 +1,9 @@
+set ytics nomirror
+set xlabel "#k-points along each direction"
+set ylabel "Energy (eV)"
+set key top left
+plot "etot_v_nkpt.dat" using 1:2 with linespoints pt 7 
+     
+set term pdf
+set output "C_diamond_conv.pdf"
+replot

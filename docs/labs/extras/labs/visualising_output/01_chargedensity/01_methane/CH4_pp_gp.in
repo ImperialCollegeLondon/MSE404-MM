@@ -1,0 +1,13 @@
+ &INPUTPP
+ /
+
+ &PLOT
+    filepp(1) = 'methane_charge'
+    iflag = 2
+    output_format = 7
+    fileout = 'CH4.rho.gpl'
+    e1(1) = 0.4, e1(2) = 0.0, e1(3) = 0.0
+    e2(1) = 0.0, e2(2) = 0.0, e2(3) = 0.4
+    x0(1) = -0.2, x0(2) = 0.0, x0(3) = -0.2
+    nx = 100, ny = 100
+ /

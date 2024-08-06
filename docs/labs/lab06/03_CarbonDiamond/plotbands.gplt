@@ -1,0 +1,22 @@
+set encoding utf8 # This lets us use the Gamma symbol directly
+
+# The locations of the tics are given in the output of the bands.x calculation
+set xtics ("Γ" 0.0000, "K" 0.9185,"X" 1.2247, "Γ" 1.9319, "L" 2.7979, "X" 3.2979, "W" 3.6514, "L" 4.0050)
+
+# This gives us a full vertical line
+set grid xtics lt -1 lw 1.0
+
+# We don't need a legend
+unset key
+
+# set a label and a title
+set ylabel "Frequency (cm-1)"
+set title "Carbon Diamond Normal Mode Band Structure"
+
+# This tells gnuplot to plot all the points from this file connected with lines
+plot "CD-bands-gpl.dat" with lines
+
+# And if you run this script directly as an argument to gnuplot, rather than
+# by loading it within gnuplot, you can uncomment the following to keep the
+# plot window open until clicked. You can save to a file from here.
+pause mouse

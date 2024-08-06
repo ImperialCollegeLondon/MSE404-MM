@@ -1,0 +1,134 @@
+site_name: MSE404
+site_author: Johannes Lischner
+site_description: Labs for MSE404.
+
+# Copyright
+copyright: Copyright &copy; 2024 Johannes Lischner
+
+# Repository
+repo_name: Chengcheng-Xiao/mse404
+repo_url: https://github.com/Chengcheng-Xiao/mse404
+edit_uri: ""
+
+
+extra_javascript:
+  # mathjax
+  - javascripts/mathjax.js
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js
+  # katex
+  - javascripts/katex.js 
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js  
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+
+extra_css:
+  - stylesheets/extra.css
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+# Configuration
+theme:
+  palette:
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: light
+      toggle:
+        icon: material/weather-night #material/toggle-switch-off-outline
+        name: Switch to dark mode
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: dark
+      toggle:
+        icon: material/weather-sunny #material/toggle-switch
+        name: Switch to light mode
+  logo: assets/IMPV2.svg
+  favicon: assets/favicon.png
+  name: material
+  language: 'en'
+  font: false
+  # features:
+  #   - navigation.sections
+  #   - navigation.tabs
+  #   - navigation.top
+  #   - navigation.expand
+  # custom_dir: overrides
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - navigation.sections
+    - navigation.top
+    - navigation.expand
+
+
+markdown_extensions:
+  - def_list
+  - admonition
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      # emoji_index: !!python/name:materialx.emoji.twemoji
+      # emoji_generator: !!python/name:materialx.emoji.to_svg
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.keys
+  - pymdownx.inlinehilite
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.caret
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  # - toc:
+  #     permalink: true
+  - pymdownx.highlight:
+      linenums: true
+      # anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - attr_list
+  - md_in_html
+  - pymdownx.tabbed:
+      alternate_style: true
+
+
+validation:
+  omitted_files: warn
+  not_found: ignore
+
+plugins:
+  - search
+  #   lang: en
+  - macros
+
+nav:
+  - Introduction: index.md
+  - Labs:
+    - Lab 1 - Getting Started in Linux: labs/lab01/readme.md
+    - Lab 2 - Quantum Espresso Input and Output for Molecules: labs/lab02/readme.md
+    - Lab 3 - Convergence and Importance Parameters: labs/lab03/readme.md
+    - Lab 4 - Crystals and Electronic Band Structures: labs/lab04/readme.md
+    - Lab 5 - Forces, Stresses and Structures: labs/lab05/readme.md
+    - Lab 6 - Vibrational Frequencies and Normal Modes: labs/lab06/readme.md
+    - Lab 7 - Finite Temperature Properties: labs/lab07/readme.md
+    - Lab 8 - Metals, Spin Polarization and Magnetic Systems: labs/lab08/readme.md
+    - Lab 9 - Charged system and excited states: labs/lab09/readme.md
+  - Extra labs:
+    - Ex Lab 1: labs/extras/labs/using_total_energies/readme.md
+    - Ex Lab 2: labs/extras/labs/visualising_output/readme.md
+    - Ex Lab 3: labs/extras/labs/hydrogen_atom/readme.md 
+    - Ex Lab 4: labs/extras/labs/tetrahedron_method/readme.md 
+    - Ex Lab 5: labs/extras/labs/tddft/readme.md 
+    - Ex Lab 6: labs/extras/labs/high_symmetry_points/readme.md 
+  - Extra resources:
+    - Virtual machines: labs/extras/misc/vmsetup/readme.md
+    - Linux commands: labs/extras/misc/linuxcommands/readme.md
+    - Gnuplot: labs/extras/misc/gnuplot/readme.md
+    - Bash scripting: labs/extras/misc/shellscripting/readme.md
+    - Parallel computing: labs/extras/misc/running_in_parallel/readme.md
