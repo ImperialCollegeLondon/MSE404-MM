@@ -45,6 +45,18 @@ When you are done editing the files. Save the changes and deploy the website by:
 git add .
 # commit the change with message.
 git commit -m "message."
+```
+
+Before pushing the changes, make sure that you have the latest version of the
+`master` branch by:
+
+```bash
+git pull
+```
+
+Finally, push the changes to the remote repository by:
+
+```bash
 # push the change to the remote repository.
 git push -u origin master
 ```
