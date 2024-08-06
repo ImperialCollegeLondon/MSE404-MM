@@ -132,3 +132,6 @@ nav:
     - Gnuplot: labs/extras/misc/gnuplot/readme.md
     - Bash scripting: labs/extras/misc/shellscripting/readme.md
     - Parallel computing: labs/extras/misc/running_in_parallel/readme.md
+  - Admin: 
+    - Contributing: admin/contributing.md
+    - Server config: admin/server_config.md

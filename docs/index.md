@@ -103,6 +103,12 @@ marked as admonitions like the one below:
 !!! example "Taks 1 - Read me"
     Read this `readme.md` file.
 
+## Admin resources
+
+- [Contributing](admin/contributing.md)
+- [Server config](admin/server_config.md)
 
 ## Acknowledgements
-Webpage refreshed by Chengcheng Xiao, 2024.
+- Original materials provided by Éamonn Murray (https://gitlab.com/eamonnmurray/MaterialsModelling)
+- Contributors: Simao Joao, Christopher Chung, Jordan Edwards, Chengcheng Xiao, Indrajit Maity, Valerio Vitale, Laura Ratcliff and Johannes Lischner.
+- Webpage refreshed by Chengcheng Xiao, 2024.

@@ -92,17 +92,22 @@ You can click on the annotation to see the explanation.
 
 There will also be admonitions like the one below:
 
-!!! Warning "Coder's Tip [important]"
-    Don'f forget to add comments to your code to explain what you are doing!
-??? note "Coder's Tip [side-note]"
-    Don't forget to sleep and eat! (well, this is important too!)
+> [!WARNING] 
+> Don'f forget to add comments to your code to explain what you are doing!
 
 where important/optional information is given. Also, the Tasks will also be
 marked as admonitions like the one below:
 
-!!! example "Taks 1 - Read me"
-    Read this `readme.md` file.
+> [!Note] 
+> Read this `readme.md` file.
 
+## Admin resources
+
+- [Contributing](admin/contributing.md)
+- [Server config](admin/server_config.md)
 
 ## Acknowledgements
-Webpage refreshed by Chengcheng Xiao, 2024.
+- Original materials provided by Éamonn Murray (https://gitlab.com/eamonnmurray/MaterialsModelling)
+- Contributors: Simao Joao, Christopher Chung, Jordan Edwards, Chengcheng Xiao, Indrajit Maity, Valerio Vitale, Laura Ratcliff and Johannes Lischner.
+- Webpage refreshed by Chengcheng Xiao, 2024.
+
