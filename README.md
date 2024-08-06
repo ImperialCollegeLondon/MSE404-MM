@@ -59,10 +59,10 @@ Extras:
 ## How to Use this Material
 
 The latest version of the course is available online at
-<https://github.com/Chengcheng-Xiao/mse404>. The text source files named
+<https://imperialcollegelondon.github.io/MSE404-MM/>. The text source files named
 `readme.md` in the various directories use markdown. You can download the
 whole repository and view them in a terminal, or read them at the Github site
-<https://chengcheng-xiao.github.io/mse404/>.
+<https://imperialcollegelondon.github.io/MSE404-MM/>.
 
 
 Each lab is designed to be self-contained. The webpage will show the general
