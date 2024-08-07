@@ -1,0 +1,1726 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MSE404.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../lab04/readme/">
+      
+      
+        <link rel="next" href="../../lab06/readme/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>Lab 5 - Forces, Stresses and Structures - MSE404</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#forces-stresses-and-structures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MSE404" class="md-header__button md-logo" aria-label="MSE404" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MSE404
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 5 - Forces, Stresses and Structures
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MSE404" class="md-nav__button md-logo" aria-label="MSE404" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    MSE404
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Labs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Labs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 - Getting Started in Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 3 - Convergence and Importance Parameters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab04/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 4 - Crystals and Electronic Band Structures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab 5 - Forces, Stresses and Structures
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab 5 - Forces, Stresses and Structures
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#forces-in-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forces in Methane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forces in Methane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convergence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimizing-ionic-positions-ppp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimizing Ionic Positions - PPP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimizing Ionic Positions - PPP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-some-atoms-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixing Some Atoms - Methane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing Some Atoms - Methane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimizing-unit-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimizing Unit Cells
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimizing Unit Cells">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extra-optimizing-graphene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extra: Optimizing Graphene
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab06/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 6 - Vibrational Frequencies and Normal Modes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 7 - Finite Temperature Properties
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 8 - Metals, Spin Polarization and Magnetic Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 9 - Charged system and excited states
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Extra labs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Extra labs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/using_total_energies/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/visualising_output/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/hydrogen_atom/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/tetrahedron_method/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/tddft/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/high_symmetry_points/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 6
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Extra resources
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Extra resources
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/vmsetup/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Virtual machines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/linuxcommands/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux commands
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/gnuplot/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gnuplot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/shellscripting/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bash scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/running_in_parallel/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parallel computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Admin
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Admin
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../admin/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../admin/server_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Server config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#forces-in-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Forces in Methane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Forces in Methane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convergence
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimizing-ionic-positions-ppp" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimizing Ionic Positions - PPP
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimizing Ionic Positions - PPP">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fixing-some-atoms-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fixing Some Atoms - Methane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Fixing Some Atoms - Methane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#optional-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optional Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimizing-unit-cells" class="md-nav__link">
+    <span class="md-ellipsis">
+      Optimizing Unit Cells
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Optimizing Unit Cells">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extra-optimizing-graphene" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extra: Optimizing Graphene
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="forces-stresses-and-structures">Forces, Stresses and Structures</h1>
+<p><strong>Reminder</strong> Don't forget to copy the <code>lab05</code> folder from <code>/opt/Courses/MSE404/lab05</code></p>
+<p>To find the minimum energy position of an atom, we could manually move it,
+calculating the total energy each time, effectively finding the position where
+the total force on it is zero. Some examples of how you can do this are given
+<a href="../../extras/labs/using_total_energies/readme/">here</a>, you can take a look
+through in your own time if you're interested. Instead, in this lab we'll be
+looking at how forces and stresses can be calculated within DFT at essentially
+no extra cost via the Hellman-Feynman theorem, and how these can be used.</p>
+<p>In Quantum Espresso you can enable the calculation of forces and stresses by
+setting <code>tprnfor = .true.</code> and <code>tstress = .true.</code> respectively in the
+<code>CONTROL</code> section of the input file.</p>
+<h2 id="forces-in-methane">Forces in Methane</h2>
+<p>As a first example, let's look at methane and calculate how the forces
+converge with planewave energy cut-off. We have set up a template input file
+as before in
+<a href="../01_forces/01_methane/CH4_base.in"><code>01_forces/01_methane/CH4_base.in</code></a>. Take a
+look at this now. The only new settings here are the two additional variables
+mentioned above.</p>
+<p>We also have a simple script to run this template file with energy cut-off
+values from 20 to 60 Ry as <a href="../01_forces/01_methane/auto_run.sh"><code>auto_run.sh</code></a>.
+Run this now and take a look at one of the output files. You'll see before the
+final timing information a section that looks like the following:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1">     Forces acting on atoms (cartesian axes, Ry/au):
+</span><span id="__span-0-2">
+</span><span id="__span-0-3">     atom    1 type  1   force =     0.00000620    0.00000000    0.00002841
+</span><span id="__span-0-4">     atom    2 type  2   force =     0.00000137    0.00000000    0.01218625
+</span><span id="__span-0-5">     atom    3 type  2   force =     0.01151561    0.00000000   -0.00407450
+</span><span id="__span-0-6">     atom    4 type  2   force =    -0.00576159   -0.00997884   -0.00407008
+</span><span id="__span-0-7">     atom    5 type  2   force =    -0.00576159    0.00997884   -0.00407008
+</span><span id="__span-0-8">
+</span><span id="__span-0-9">     Total force =     0.024421     Total SCF correction =     0.000247
+</span><span id="__span-0-10">
+</span><span id="__span-0-11">
+</span><span id="__span-0-12">     Computing stress (Cartesian axis) and pressure
+</span><span id="__span-0-13">
+</span><span id="__span-0-14">          total   stress  (Ry/bohr**3)                   (kbar)     P=   -0.06
+</span><span id="__span-0-15">  -0.00000044   0.00000000   0.00000000         -0.06      0.00      0.00
+</span><span id="__span-0-16">   0.00000000  -0.00000044   0.00000000          0.00     -0.06      0.00
+</span><span id="__span-0-17">   0.00000000   0.00000000  -0.00000044          0.00      0.00     -0.06
+</span></code></pre></div></td></tr></table></div>
+<p>So we have a list of the components of the force acting on each atom along
+Cartesian axes, then a total force and total scf correction.
+<strong>Note</strong> the <code>Total force</code> listed here is the square root of the sum of <em>all</em>
+of the force components squared rather than the sum of the magnitudes of the
+individual forces on the atoms. I'm not sure why, but it's likely because the
+number is intended more as a guide to check overall accuracy. If the
+<code>Total SCF correction</code> is comparable to the <code>Total force</code> it usually means
+you need to try to better converge the SCF cycle (via <code>conv_thr</code>).</p>
+<p>Following this we can see the calculated stress and corresponding pressure
+on the unit cell. While this number doesn't mean much in principle for a
+calculation on a molecule in a box, if these numbers are not all close to
+zero it indicates your box size is likely not big enough.</p>
+<h3 id="convergence">Convergence</h3>
+<p>Now let's look at the convergence of the forces. As we've been doing in
+previous labs, we can extract the total force as a function of the energy
+cut-off using <a href="../../extras/misc/linuxcommands/readme/#awk"><code>awk</code></a>:</p>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1">awk<span class="w"> </span><span class="s1">&#39;/kinetic-energy/{ecut=$4} /Total force/{print ecut, $4}&#39;</span><span class="w"> </span>*out
+</span></code></pre></div></td></tr></table></div>
+This works by saving (space delimited) field number 4 as a variable <code>ecut</code> on
+a line containing the string <code>kinetic-energy</code>, and then on a line containing
+the text <code>Total force</code> it outputs the value of this variable along with the
+text in the fourth field.</p>
+<p>We could modify this to also output the total energy as
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1">awk<span class="w"> </span><span class="s1">&#39;/kinetic-energy/{ecut=$4}</span>
+</span><span id="__span-2-2"><span class="s1">     /!.*total/{etot=$5}</span>
+</span><span id="__span-2-3"><span class="s1">     /Total force/{print ecut, etot, $4}&#39;</span><span class="w"> </span>*out
+</span></code></pre></div></td></tr></table></div>
+(You can add line breaks for clarity within an awk command if it gets long).</p>
+<p>And add in the total pressure also with
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1">awk<span class="w"> </span><span class="s1">&#39;/kinetic-energy/{ecut=$4}</span>
+</span><span id="__span-3-2"><span class="s1">     /!.*total/{etot=$5}</span>
+</span><span id="__span-3-3"><span class="s1">     /Total force/{totfor=$4}</span>
+</span><span id="__span-3-4"><span class="s1">     /total.*stress/{print ecut, etot, totfor, $6}&#39;</span><span class="w"> </span>*out
+</span></code></pre></div></td></tr></table></div></p>
+<p>Try running this and saving the convergence to a file.</p>
+<h3 id="task"><em>Task</em></h3>
+<ul>
+<li>Plot the fractional difference with respect to the most well converged
+  result, i.e. <span class="arithmatex">\(|\frac{x_{conv} - x_i}{x_{conv}}|\)</span>, for each of total energy, 
+  total force and pressure as a function of energy cut-off.</li>
+<li>What can you see about the rate of convergence of each of these parameters?</li>
+</ul>
+<h2 id="optimizing-ionic-positions-ppp">Optimizing Ionic Positions - PPP</h2>
+<p>Now let's look at a polymer, in this case poly(para-phenylene) (PPP), which consists
+of a chain of benzene rings, with a torsion angle of <span class="arithmatex">\(\theta\)</span>, which should be around
+<span class="arithmatex">\(30^{\circ}\)</span>. If we wanted to predict the value of <span class="arithmatex">\(\theta\)</span>, we could take structures
+with a few different angles and find the minimum of the energy by fitting a parabola. 
+In the directory <code>02_structure/01_ppp</code> there are some input files for different torsion
+angles, where e.g. <a href="../02_structure/01_ppp/PPP_30.in"><code>02_structure/01_ppp/PPP_30.in</code></a> corresponds to
+<span class="arithmatex">\(\theta=30^{\circ}\)</span>. Since the polymer is periodic in only 1 dimension (the z axis),
+we have added empty space in the other two directions. We have also added k-point sampling
+along the z-axis only.</p>
+<h3 id="task_1"><em>Task</em></h3>
+<ul>
+<li>Run the input files for PPP for angles of 20, 25, 30, 35 and 40 degrees. Try writing a script
+  to automate the process. Your script should generate an output file called <code>e_v_theta.txt</code>
+  which has two columns - the first should be the torsion angle and the second should be the
+  calculated energy.</li>
+<li>Use the file <code>plot_ppp.gp</code> to plot energy vs. <span class="arithmatex">\(\theta\)</span>. This will generate a file called
+  <code>ppp.eps</code>, where a quadratic function has been fit to the data. Using this fit, work out
+  what the optimum torsion angle is.</li>
+</ul>
+<p>While the above approach gives us a good idea of the optimum torsion angle, it's a bit tedious
+to generate the input structures, and it doesn't tell us whether or not the benzenes remain
+rigid, or if there are some internal distortions. To tell us this, we can use the forces.
+In fact, given that we can readily calculate forces, wouldn't it be nice if the code could
+automatically use these forces and find the atomic positions where these forces are zero
+(or at least within some tolerance of zero)?</p>
+<p>In Quantum Espresso this type of calculation, where the atomic positions are
+relaxed to their minimum energy positions can be performed by selecting
+<code>calculation = 'relax'</code> in the <code>CONTROL</code> section. There are a number of
+additional variables that you can specify to control this process:</p>
+<ul>
+<li><code>tprnfor</code> is automatically set to <code>.true.</code> so that forces are computed.</li>
+<li>You'll need to add an <code>IONS</code> section to the input. This is the only
+  mandatory addition. There are several variables that can be specified within
+  this section (it can be empty if you're happy with all defaults), which
+  control the algorithm used to find the optimal ionic positions. Consult the
+  PW documentation for details.</li>
+</ul>
+<h3 id="task_2"><em>Task</em></h3>
+<p>The directory <code>02_structure/01_ppp</code> also contains an input file
+<a href="../02_structure/01_ppp/PPP_opt.in">02_structure/01_ppp/PPP_opt.in</a> for relaxing the
+structure of PPP, where we start from the <span class="arithmatex">\(\theta=30^{\circ}\)</span> structure since this
+is close to the minimum. Run this and take a look at the output file once the 
+calculation finishes - it might take a couple of minutes. The interesting bit
+is right near the end, just before the timing output. It should look something
+like the following:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1">     Forces acting on atoms (cartesian axes, Ry/au):
+</span><span id="__span-4-2">
+</span><span id="__span-4-3">     atom    1 type  1   force =     0.00001266    0.00000665   -0.00024259
+</span><span id="__span-4-4">     atom    2 type  1   force =     0.00066443    0.00046526    0.00036559
+</span><span id="__span-4-5">     atom    3 type  1   force =    -0.00064066   -0.00045488    0.00039018
+</span><span id="__span-4-6">     atom    4 type  1   force =     0.00066443    0.00046526   -0.00036559
+</span><span id="__span-4-7">     ....
+</span><span id="__span-4-8">     atom   17 type  2   force =     0.00017760    0.00095599   -0.00028356
+</span><span id="__span-4-9">     atom   18 type  2   force =    -0.00020428   -0.00097249   -0.00028734
+</span><span id="__span-4-10">     atom   19 type  2   force =     0.00017760    0.00095599    0.00028356
+</span><span id="__span-4-11">     atom   20 type  2   force =    -0.00020428   -0.00097249    0.00028734
+</span><span id="__span-4-12">
+</span><span id="__span-4-13">     Total force =     0.003777     Total SCF correction =     0.000132
+</span><span id="__span-4-14">
+</span><span id="__span-4-15">     bfgs converged in   6 scf cycles and   5 bfgs steps
+</span><span id="__span-4-16">     (criteria: energy &lt;  1.0E-04 Ry, force &lt;  1.0E-03 Ry/Bohr)
+</span><span id="__span-4-17">
+</span><span id="__span-4-18">     End of BFGS Geometry Optimization
+</span><span id="__span-4-19">
+</span><span id="__span-4-20">     Final energy   =    -144.7886351866 Ry
+</span><span id="__span-4-21">Begin final coordinates
+</span><span id="__span-4-22">
+</span><span id="__span-4-23">ATOMIC_POSITIONS (bohr)
+</span><span id="__span-4-24">C        6.140945672   6.140862654   1.381651769
+</span><span id="__span-4-25">C        6.169063980   3.869814143   2.732426642
+</span><span id="__span-4-26">C        6.112760385   8.411811375   2.732410276
+</span><span id="__span-4-27">C        6.169063980   3.869814143   5.337957358
+</span><span id="__span-4-28">....
+</span><span id="__span-4-29">H        8.194183393   2.617484701   9.770830680
+</span><span id="__span-4-30">H        4.087214702   9.663976947   9.770881223
+</span><span id="__span-4-31">H        8.194183393   2.617484701  14.440322320
+</span><span id="__span-4-32">H        4.087214702   9.663976947  14.440271777
+</span><span id="__span-4-33">End final coordinates
+</span></code></pre></div></td></tr></table></div></p>
+<ul>
+<li>We have the force output. They should all be pretty close to zero now.</li>
+<li>Then it should say that our relaxation converged (<code>bfgs</code> is the name of the
+  default algorithm used) and how many steps it took.</li>
+<li>We have the final total energy output.</li>
+<li>Finally we have the optimized atomic positions. </li>
+</ul>
+<p>In order to be sure we have accurately relaxed the structure, we should converge
+the forces with respect to cut-off energy, k-points and x and y cell dimensions.
+There are also some variable which affect when the calculation stops. These include</p>
+<ul>
+<li><code>etot_conv_thr</code> and <code>forc_conv_thr</code>, which are used to determine when the optimization
+  finishes (listed following <code>criteria:</code> in the output above) and</li>
+<li><code>conv_thr</code>, which as we've already seen is the scf convergence criteria.</li>
+</ul>
+<h3 id="task_3"><em>Task</em></h3>
+<ul>
+<li>Open the output file in <code>xcrysden</code>. As you will see, it's possible to just open the
+  final optimized structure, or load the optimization as an animation. Since we already
+  started quite close to the final structure, you won't see much of a change if you
+  watch an animation.</li>
+<li>Use the <code>dihedral angle</code> option in xcrysden to find the torsion angle of the relaxed
+  structure. How does this compare to what you previously predicted?</li>
+</ul>
+<h2 id="fixing-some-atoms-methane">Fixing Some Atoms - Methane</h2>
+<p>Finally, it's useful to know that we can also optimize the positions of selected atoms
+within a system, keeping some atoms fixed.  The input file
+<a href="../02_structure/02_methane/CH4.in">02_structure/02_methane/CH4.in</a> shows how this works
+for the example of methane.</p>
+<h3 id="optional-task"><em>Optional Task</em></h3>
+<ul>
+<li>Take a look at the input file.</li>
+<li>We've added some 1s and 0s following the atomic positions. These define
+  multiplying factors for the various calculated force components on an atom.<ul>
+<li>By adding three 0s following the carbon position we ensure it will be
+  fixed at 0,0,0.</li>
+<li>We only allow the first H atom to move along the z-axis.</li>
+<li>And we only allow the second H atom to move within the x-z plane.</li>
+</ul>
+</li>
+<li>Run <code>pw.x</code> with this input file and check the result.</li>
+<li>Has the C-H bond been lengthened or shortened?</li>
+<li>How much lower is the total energy compared to the starting configuration?</li>
+<li>Perform this calculation for energy cut-offs of 10 and 50 Ry, and see how
+  this affects predicted C-H bond length.</li>
+<li>What do you think would happen if you did this calculation for carbon
+  diamond? What about graphite?</li>
+</ul>
+<h2 id="optimizing-unit-cells">Optimizing Unit Cells</h2>
+<p>In a similar way to using the calculated forces to optimize the ionic
+positions we can also use the calculated stresses to optimize the unit cell.
+In doing this you should keep in mind that it can take a higher energy-cut off
+to converge the stress as we saw at the start of this lab. Also, if you recall
+the number of planewaves depends on the cell volume, so if during the course
+of the calculation we change the volume we may also change the number of plane
+waves, or if we fix the number of plane waves we are changing the effective
+energy cut-off (the latter for Quantum Espresso, but different codes will
+handle this differently). So you need to be quite careful about this when
+optimizing lattice vectors.</p>
+<p>In Quantum Espresso we can do this variable-cell relaxation by setting
+<code>calculation = 'vc-relax'</code> in the <code>CONTROL</code> section. We must additionally
+specify both an <code>IONS</code> section as previously, along with a <code>CELL</code> section.</p>
+<p>An example <a href="../02_structure/03_silicon/Si.in">input file</a> for silicon is given in the
+directory <a href="02_forces/03_silicon"><code>02_structure/03_silicon</code></a>. Take a look at this
+now. You'll notice in addition to the inputs mentioned, there's also a fairly
+high energy cut-off, and we've lowered the SCF convergence threshold from
+the default. Try running this now and let's look at the output.</p>
+<p>The output is a little different in this case, since at the end of the
+optimization, an <code>scf</code> calculation is automatically performed starting from the
+optimized structure. This is because Quantum Espresso fixes the basis set as
+that for the original input structure during the calculation, so if the
+structure has changed a lot, you may calculate a different stress when
+starting from the relaxed structure. You will be able to see from the final
+stress or pressure whether you should rerun your calculation.</p>
+<p>Additionally, the cell output will likely be in Quantum Espresso's
+representation where the cell vectors are given explicitly in Bohr along with
+a scaling factor <code>alat</code> which is fixed. (In our case here <code>alat</code> will be <code>A</code>
+converted from Angstrom to Bohr). If you want to rerun your calculation you
+could either input the cell using these directly, or calculate appropriate
+values for the input. You may need to do the latter if you want to find the
+new lattice length anyway.</p>
+<h3 id="task_4"><em>Task</em></h3>
+<ul>
+<li>So for the silicon case, you'll see the components of the lattice vectors
+  have changed from 0.5 to 0.497277 or something close to that. What is our
+  predicted silicon lattice constant?</li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>In this lab we have seen</p>
+<ul>
+<li>How to output forces and stresses in our calculation, and how to check
+  these quantities have converged.</li>
+<li>How to use these forces in a calculation to optimize the atomic positions,
+  where they are moved until the forces on the atoms are less then some
+  threshold value.</li>
+<li>How the stresses can be used to optimize the structure, where the lattice
+  constant is changed until the stress on the system is less than some
+  threshold value.</li>
+</ul>
+<hr />
+<h3 id="extra-optimizing-graphene">Extra: Optimizing Graphene</h3>
+<p>The folder <a href="02_structure/04_graphene"><code>02_structure/04_graphene</code></a> contains an
+<a href="../02_structure/04_graphene/C_graphene.in">input file</a> for graphene. The thing
+to note in this case is the additional use of <code>cell_dofree = '2Dxy'</code> in the
+<code>CELL</code> section. We have used this to say that we only want to optimize the
+cell in the xy plane. The spacing between periodic images in the z-direction
+should be large enough such that the interaction is small, but we otherwise
+don't care about the stresses in this direction.</p>
+<h3 id="task_5"><em>Task</em></h3>
+<ul>
+<li>Starting from the provided graphene input file, find the length of the C-C
+  bond in graphene to 3 significant figures.<ul>
+<li>Be sure to test your result is converged with respect to plane wave
+  energy cut-off and k-point sampling, along with the internal tolerances
+  being sufficiently small.</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

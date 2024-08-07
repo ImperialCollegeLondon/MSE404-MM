@@ -1,0 +1,2140 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MSE404.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../lab03/readme/">
+      
+      
+        <link rel="next" href="../../lab05/readme/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>Lab 4 - Crystals and Electronic Band Structures - MSE404</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#crystals-and-electronic-band-structures" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MSE404" class="md-header__button md-logo" aria-label="MSE404" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MSE404
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 4 - Crystals and Electronic Band Structures
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MSE404" class="md-nav__button md-logo" aria-label="MSE404" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    MSE404
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Labs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Labs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 - Getting Started in Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 3 - Convergence and Importance Parameters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab 4 - Crystals and Electronic Band Structures
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab 4 - Crystals and Electronic Band Structures
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structure-and-basic-input-for-diamond" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure and Basic input for Diamond
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#periodic-boundary-conditions-and-atomic-positions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Periodic Boundary Conditions and Atomic Positions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convergence-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convergence Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-electronic-band-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Electronic Band Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Electronic Band Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-scf-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - SCF Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-nscfbands-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - NSCF(bands) Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-extracting-band-energies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - Extracting Band Energies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-plotting-the-band-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 - Plotting the Band Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#density-of-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Density of States
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Density of States">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-scf-calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - SCF Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-nscf-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - NSCF Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-density-of-states-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - Density of States Calculation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab05/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 5 - Forces, Stresses and Structures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab06/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 6 - Vibrational Frequencies and Normal Modes
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 7 - Finite Temperature Properties
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 8 - Metals, Spin Polarization and Magnetic Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 9 - Charged system and excited states
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Extra labs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Extra labs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/using_total_energies/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/visualising_output/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/hydrogen_atom/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/tetrahedron_method/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/tddft/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/high_symmetry_points/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 6
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Extra resources
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Extra resources
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/vmsetup/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Virtual machines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/linuxcommands/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux commands
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/gnuplot/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gnuplot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/shellscripting/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bash scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/running_in_parallel/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parallel computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Admin
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Admin
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../admin/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../admin/server_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Server config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#structure-and-basic-input-for-diamond" class="md-nav__link">
+    <span class="md-ellipsis">
+      Structure and Basic input for Diamond
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#periodic-boundary-conditions-and-atomic-positions" class="md-nav__link">
+    <span class="md-ellipsis">
+      Periodic Boundary Conditions and Atomic Positions
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convergence-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Convergence Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#the-electronic-band-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      The Electronic Band Structure
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Electronic Band Structure">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-scf-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - SCF Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-nscfbands-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - NSCF(bands) Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-extracting-band-energies" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - Extracting Band Energies
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-plotting-the-band-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 4 - Plotting the Band Structure
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#density-of-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      Density of States
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Density of States">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-scf-calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 1 - SCF Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-nscf-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 2 - NSCF Calculation
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-density-of-states-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      Step 3 - Density of States Calculation
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="crystals-and-electronic-band-structures">Crystals and Electronic Band Structures</h1>
+<p>This week we are going to start doing some calculations on solids, i.e.,
+periodic crystals. Many of the principles will be the same, but as you will see
+there are a few things that need to be done differently.</p>
+<hr />
+<h2 id="structure-and-basic-input-for-diamond">Structure and Basic input for Diamond <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 2H6L2 8l10 14L22 8l-4-6M4.43 8l2.64-4h9.86l2.64 4L12 18.56 4.43 8Z"/></svg></span></h2>
+<p>As our first example of a solid we're going to look at diamond. You can find an
+annotated input file at <a href="../01_carbon_diamond/C_diamond_detailed.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />
+C_diamond_detailed.in</a>, here I'll give
+a brief overview of the input file:</p>
+<div class="admonition tip annotate">
+<p class="admonition-title">Tip: In-code annotations</p>
+<p>Click (1) to see notes on the input tags.</p>
+</div>
+<ol>
+<li>This is an annotation.</li>
+</ol>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><span class="o">&amp;</span><span class="n">CONTROL</span>
+</span><span id="__span-0-2">   <span class="n">pseudo_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span> 
+</span><span id="__span-0-3">   <span class="n">disk_io</span> <span class="o">=</span> <span class="s1">&#39;none&#39;</span> 
+</span><span id="__span-0-4"><span class="o">/</span>
+</span><span id="__span-0-5">
+</span><span id="__span-0-6"><span class="o">&amp;</span><span class="n">SYSTEM</span>
+</span><span id="__span-0-7">   <span class="n">ibrav</span> <span class="o">=</span> <span class="mi">2</span> <span class="c1">#(1)!</span>
+</span><span id="__span-0-8">   <span class="n">A</span> <span class="o">=</span> <span class="mf">3.567</span>
+</span><span id="__span-0-9">   <span class="n">nat</span> <span class="o">=</span> <span class="mi">2</span>
+</span><span id="__span-0-10">   <span class="n">ntyp</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="__span-0-11">   <span class="n">ecutwfc</span> <span class="o">=</span> <span class="mf">20.0</span>
+</span><span id="__span-0-12"><span class="o">/</span>
+</span><span id="__span-0-13">
+</span><span id="__span-0-14"><span class="o">&amp;</span><span class="n">ELECTRONS</span>
+</span><span id="__span-0-15">   <span class="n">conv_thr</span> <span class="o">=</span> <span class="mf">1.0E-6</span>
+</span><span id="__span-0-16"><span class="o">/</span>
+</span><span id="__span-0-17">
+</span><span id="__span-0-18"><span class="n">ATOMIC_SPECIES</span>
+</span><span id="__span-0-19"> <span class="n">C</span>  <span class="mf">12.011</span>  <span class="n">C</span><span class="o">.</span><span class="n">pz</span><span class="o">-</span><span class="n">vbc</span><span class="o">.</span><span class="n">UPF</span>
+</span><span id="__span-0-20">
+</span><span id="__span-0-21"><span class="n">ATOMIC_POSITIONS</span> <span class="n">crystal</span> <span class="c1">#(2)!</span>
+</span><span id="__span-0-22"> <span class="n">C</span> <span class="mf">0.00</span> <span class="mf">0.00</span> <span class="mf">0.00</span>
+</span><span id="__span-0-23"> <span class="n">C</span> <span class="mf">0.25</span> <span class="mf">0.25</span> <span class="mf">0.25</span>
+</span><span id="__span-0-24">
+</span><span id="__span-0-25"><span class="n">K_POINTS</span> <span class="n">automatic</span> <span class="c1">#(3)!</span>
+</span><span id="__span-0-26">  <span class="mi">4</span> <span class="mi">4</span> <span class="mi">4</span> <span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li><code>ibrav=2</code> specifies a FCC unit cell (for a complete list of <code>ibrav</code>, see
+    <a href="https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm226"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />input
+    descriptions</a>).</li>
+<li><code>crystal</code> specifies that the atomic positions are given in fractional
+    coordinates of the unit cell vectors (defined by <code>ibrav</code> and
+    <a href="https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm260"><code>A</code></a>).</li>
+<li>We are using automically generated k-point grid with a 4<span class="arithmatex">\(\times\)</span>4<span class="arithmatex">\(\times\)</span>4
+    grid size (<code>1 1 1</code> means to shift the grid by 1 grid point in each
+    direction).</li>
+</ol>
+<h2 id="periodic-boundary-conditions-and-atomic-positions">Periodic Boundary Conditions and Atomic Positions</h2>
+<p>Now we are going to look at how the atomic positions in the input file are
+specified. </p>
+<p>Absolute Cartesian coordinates <span class="arithmatex">\(\mathbf{r}=[x,y,z]\)</span> and fractional coordinates 
+<span class="arithmatex">\(\mathbf{r}_f=(x_f,y_f,z_f)\)</span> are related by the three lattce vectors
+<span class="arithmatex">\(\mathbf{a},\mathbf{b},\mathbf{c}\)</span> as follows:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\mathbf{r}_f &amp;= \mathbf{r} \cdot [\mathbf{a},\mathbf{b},\mathbf{c}]\\
+&amp;=x\mathbf{a} + y\mathbf{b} + z\mathbf{c} 
+\end{align*}
+\]</div>
+<p>For diamond, which has the same atomic structure as Zinc Blende, the primitive
+cell of diamond looks like the following:</p>
+<figure>
+  <img alt="Diamond primitive cell" src="../assets/Diamond_structure.png" width="200" />
+</figure>
+<p>To specify the primitive cell shape, we first set <code>ibrav=2</code>, i.e. face-centred
+cubic (fcc) Bravais lattice. Internally, with <code>ibrav=2</code>, Quantum ESPRESSO sets
+the the fcc lattice vectors as:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\mathbf{v}_1 &amp;= \frac{A}{2}(-1,0,1)\\
+\mathbf{v}_2 &amp;= \frac{A}{2}(0,1,1)\\
+\mathbf{v}_3 &amp;= \frac{A}{2}(-1,1,0)
+\end{align*}
+\]</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Note that we've just used the measured lattice constant <code>A</code>.
+In later labs (or in production runs) we'll see how to find the lattice 
+constant predicted by DFT.</p>
+</div>
+<p>Under this basis, the fractional coordinates of the two carbon atoms are:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\mathbf{r}_f^{C1} &amp;= (0,0,0) \\
+\mathbf{r}_f^{C2} &amp;= (\frac{1}{4},\frac{1}{4},\frac{1}{4})
+\end{align*}
+\]</div>
+<p>Hence, the <strong>absolute</strong> Cartesian coordinates for the two carbon atoms are given
+by:</p>
+<div class="arithmatex">\[
+\begin{align*}
+\mathbf{r}^{C1} &amp;= \frac{A}{2}(-1,0,1) \times 0 + \frac{A}{2}(0,1,1) \times 0 +
+\frac{A}{2}(-1,1,0) \times 0\\ 
+&amp;= (0,0,0)\\
+\mathbf{r}^{C2} &amp;= \frac{A}{2}(-1,0,1) \times \frac{1}{4} + \frac{A}{2}(0,1,1) 
+\times \frac{1}{4}+
+\frac{A}{2}(-1,1,0) \times \frac{1}{4} \\
+&amp;= (\frac{A}{4},\frac{A}{4},\frac{A}{4})
+\end{align*}
+\]</div>
+<div class="admonition example">
+<p class="admonition-title">Task 1 - Examining input &amp; output files</p>
+<p>Run the input file for diamond. There are a couple of extra things to notice
+in the output file:</p>
+<ul>
+<li>
+<p>The output lists the automatically generated k-points. How many k-points 
+  are there and why?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>We have 10 here since crystal symmetries have been taken into 
+account after generating the 64 points on the 4x4x4 grid we
+requested.</p>
+</details>
+</li>
+<li>
+<p>What are the eigenvalues and occupations?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>For periodic systems, we have a set of band energies for each 
+k-point. And these are given in the output file:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1">      k =-0.1250 0.1250 0.1250 (   116 PWs)   bands (ev):
+</span><span id="__span-1-2">
+</span><span id="__span-1-3">-7.3461  11.5621  13.5410  13.5410
+</span><span id="__span-1-4">
+</span><span id="__span-1-5">      k =-0.3750 0.3750-0.1250 (   116 PWs)   bands (ev):
+</span><span id="__span-1-6">
+</span><span id="__span-1-7">-5.1246   6.0725   9.6342  12.3836
+</span><span id="__span-1-8">
+</span><span id="__span-1-9">      k = 0.3750-0.3750 0.6250 (   117 PWs)   bands (ev):
+</span><span id="__span-1-10">
+</span><span id="__span-1-11">-2.0454   1.1023   9.9094  10.6497
+</span><span id="__span-1-12">
+</span><span id="__span-1-13">      k = 0.1250-0.1250 0.3750 (   120 PWs)   bands (ev):
+</span><span id="__span-1-14">
+</span><span id="__span-1-15">-6.2574   8.8031  11.2205  12.0763
+</span><span id="__span-1-16">
+</span><span id="__span-1-17">      k =-0.1250 0.6250 0.1250 (   118 PWs)   bands (ev):
+</span><span id="__span-1-18">
+</span><span id="__span-1-19">-4.0419   6.4510   8.7237   9.1414
+</span><span id="__span-1-20">
+</span><span id="__span-1-21">      k = 0.6250-0.1250 0.8750 (   111 PWs)   bands (ev):
+</span><span id="__span-1-22">
+</span><span id="__span-1-23"> 0.0174   2.6697   5.4037   7.5509
+</span><span id="__span-1-24">
+</span><span id="__span-1-25">      k = 0.3750 0.1250 0.6250 (   115 PWs)   bands (ev):
+</span><span id="__span-1-26">
+</span><span id="__span-1-27">-2.9709   4.0228   7.6281   9.9651
+</span><span id="__span-1-28">
+</span><span id="__span-1-29">      k =-0.1250-0.8750 0.1250 (   114 PWs)   bands (ev):
+</span><span id="__span-1-30">
+</span><span id="__span-1-31">-0.7739   3.2191   6.5088   8.0627
+</span><span id="__span-1-32">
+</span><span id="__span-1-33">      k =-0.3750 0.3750 0.3750 (   114 PWs)   bands (ev):
+</span><span id="__span-1-34">
+</span><span id="__span-1-35">-4.0297   3.1416  11.7036  11.7036
+</span><span id="__span-1-36">
+</span><span id="__span-1-37">      k = 0.3750-0.3750 1.1250 (   114 PWs)   bands (ev):
+</span><span id="__span-1-38">
+</span><span id="__span-1-39">-1.0562   2.2032   6.0516   9.9570
+</span></code></pre></div></td></tr></table></div></p>
+</details>
+</li>
+</ul>
+</div>
+<h2 id="convergence-tests">Convergence Tests</h2>
+<p>One important difference between periodic crystals and molecules is that, due to
+periodic boundary conditions, the electronic states are not localised and need
+to be expressed in a Bloch form: </p>
+<div class="arithmatex">\[
+\psi_{n\mathbf{k}}(\mathbf{r}) =
+e^{i\mathbf{k}\cdot\mathbf{r}}u_{n\mathbf{k}}(\mathbf{r}),
+\]</div>
+<p>where the electronic states are labelled by both the band index <span class="arithmatex">\(n\)</span> and the
+k-point <span class="arithmatex">\(\mathbf{k}\)</span>. <span class="arithmatex">\(\mathbf{k}\)</span> needs to be sampled over the entire Brillouin
+zone. <strong>Hence a convergence test with respect to the k-point sampling is also
+necessary for periodic systems.</strong></p>
+<p>To test the convergence with respect to the k-point sampling, we need to
+calculate the total energy for different k-point grid densities. The directory
+<code>02_convergence</code> contains input files and script <a href="../02_convergence/k_conv.sh"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />
+k_conv.sh</a> that
+does this.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 2 - Convergence with respect to k-point sampling and cut-off energy</p>
+<ul>
+<li>
+<p>Understand and run the script, and plot the convergence of total energy 
+  with respect to k-point sampling. </p>
+<details class="success">
+<summary>Result</summary>
+<p><figure markdown="span">
+  <img alt="Diamond primitive cell" src="../assets/convergence.png" width="500" />
+</figure></p>
+</details>
+</li>
+<li>
+<p>For every periodic system you simulate, you should converge <strong>both</strong> the
+  cut-off energy and k-points. Try adapting one of the scripts to also 
+  converge the energy of silicon with respect to the cut-off energy. How 
+  does the convergence behaviour of the two parameters compare?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>An example script to do this is given below:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-2-2">
+</span><span id="__span-2-3"><span class="nv">template</span><span class="o">=</span><span class="s2">&quot;C_diamond_base_kE.in&quot;</span>
+</span><span id="__span-2-4"><span class="nv">repstr_k</span><span class="o">=</span><span class="s2">&quot;xxxx&quot;</span>
+</span><span id="__span-2-5"><span class="nv">repstr_E</span><span class="o">=</span><span class="s2">&quot;eeee&quot;</span>
+</span><span id="__span-2-6">
+</span><span id="__span-2-7"><span class="k">for</span><span class="w"> </span>val_k<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">02</span>..10..2<span class="o">}</span><span class="w"> </span><span class="c1">#(1)!</span>
+</span><span id="__span-2-8"><span class="k">do</span>
+</span><span id="__span-2-9"><span class="k">for</span><span class="w"> </span>val_E<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">20</span>..100..20<span class="o">}</span><span class="w"> </span><span class="c1">#(2)!</span>
+</span><span id="__span-2-10"><span class="k">do</span>
+</span><span id="__span-2-11"><span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Running for k = </span><span class="nv">$val_k</span><span class="s2"> and E = </span><span class="nv">$val_E</span><span class="s2">&quot;</span>
+</span><span id="__span-2-12"><span class="w">  </span><span class="nv">inp</span><span class="o">=</span><span class="s2">&quot;C_diamond_</span><span class="si">${</span><span class="nv">val_k</span><span class="si">}</span><span class="s2">_</span><span class="si">${</span><span class="nv">val_E</span><span class="si">}</span><span class="s2">.in&quot;</span>
+</span><span id="__span-2-13"><span class="w">  </span>sed<span class="w"> </span><span class="s2">&quot;s/</span><span class="nv">$repstr_k</span><span class="s2">/</span><span class="nv">$val_k</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="nv">$template</span><span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$inp</span><span class="w"> </span><span class="c1">#(3)!</span>
+</span><span id="__span-2-14"><span class="w">  </span>sed<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;s/</span><span class="nv">$repstr_E</span><span class="s2">/</span><span class="nv">$val_E</span><span class="s2">/g&quot;</span><span class="w"> </span><span class="nv">$inp</span>
+</span><span id="__span-2-15"><span class="w">  </span>pw.x<span class="w"> </span>&lt;<span class="w"> </span><span class="nv">$inp</span><span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">inp</span><span class="p">%.*</span><span class="si">}</span>.out_conv_kE
+</span><span id="__span-2-16"><span class="k">done</span>
+</span><span id="__span-2-17"><span class="k">done</span>
+</span><span id="__span-2-18">
+</span><span id="__span-2-19">awk<span class="w"> </span><span class="s1">&#39;/number of k points/{nkpt=$5}/kinetic-energy cutoff/{ekin=$4}</span>
+</span><span id="__span-2-20"><span class="s1">     /^!.*total/{print nkpt, ekin, $5}&#39;</span><span class="w"> </span>*out_conv_kE<span class="w"> </span>&gt;<span class="w"> </span>etot_v_nkpt_ekin.dat
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li>This loop will run for k-points from 2 to 10 in steps of 2.</li>
+<li>This loop will run for cut-off energies from 20 to 100 in steps
+    of 20.</li>
+<li><code>g</code> here means to replace every entry on the line (global).</li>
+</ol>
+<p>You can change the range of k-points and cut-off energies yourself.</p>
+</details>
+</li>
+</ul>
+</div>
+<h2 id="the-electronic-band-structure">The Electronic Band Structure</h2>
+<p>While the electronic density obtained from DFT is meaningful, the Kohn-Sham
+states are not strictly the electronic states of the system. Nonetheless, they
+are in practice often a good first approximation of the electronic states of a
+system, so can be useful in understanding the properties of a system.</p>
+<p>We have now seen how to converge our calculations with respect to the
+sampled k-point grid density. And you'll have seen in the calculations you
+have done that the calculated eigenvalues are a bit different at each
+calculated k-point. </p>
+<p>Examining how the state energies change from one k-point to the next can tell us
+useful things such as if a material is likely to have a direct or indirect
+optical gap for example. For this we need to visualize how the energies of the
+states vary with k-point. The usual way this is done is to plot the band
+energies along lines between the various high-symmetry k-points in the Brillouin
+zone. The details of how this can be done is beyond the scope of this course,
+but an outline is given <a href="../../extras/labs/high_symmetry_points/readme/"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />
+here</a>.</p>
+<p>The directory <code>03_bandstructure</code> contains input files to calculate and plot the
+band structure of diamond. This a four-step process:</p>
+<h3 id="step-1-scf-calculation">Step 1 - SCF Calculation</h3>
+<p>Calculate a converged density with a standard  self-consistent field (SCF)
+calculation. In this step, the charge density is optimized in order to
+minimize the total energy of the system. The input file can be found at
+<a href="../03_bandstructure/01_C_diamond_scf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />01_C_diamond_scf.in</a>. </p>
+<div class="admonition example">
+<p class="admonition-title">Task 3.1 - SCF Calculation</p>
+<p>Run the input file
+<a href="../03_bandstructure/01_C_diamond_scf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />01_C_diamond_scf.in</a>
+for diamond.</p>
+</div>
+<h3 id="step-2-nscfbands-calculation">Step 2 - NSCF(bands) Calculation</h3>
+<p>Use that density to perform a non self-consistent (NSCF) calculation for
+k-points along chosen high-symmetry lines. In an NSCF calculation, the energy
+is not minimised as the charge density is read-in and kept fixed. Instead 
+the Kohn-Sham energies and states for a particular k-point are calculated by
+diagonalizing the Hamiltonian generated by the charge density. </p>
+<p>For this to work, we need to choose a set of high symmetry k-points for
+carbon diamond. Since diamond has a face-centred cubic (FCC) lattice, we have
+chosen the path <code>Γ-K-X-Γ'-L-X-W-L</code> where <code>Γ'</code> indicates the gamma point in a
+different Brillouin zone.</p>
+<p>A brief overview of the 
+<a href="../03_bandstructure/02_C_diamond_nscf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" /> input file</a> is 
+given below:</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="o">&amp;</span><span class="n">CONTROL</span>
+</span><span id="__span-3-2"> <span class="n">pseudo_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+</span><span id="__span-3-3"> <span class="n">calculation</span> <span class="o">=</span> <span class="s1">&#39;bands&#39;</span> <span class="c1">#(1)!</span>
+</span><span id="__span-3-4"><span class="o">/</span>
+</span><span id="__span-3-5">
+</span><span id="__span-3-6"><span class="o">&amp;</span><span class="n">SYSTEM</span>
+</span><span id="__span-3-7">   <span class="n">ibrav</span> <span class="o">=</span>  <span class="mi">2</span>
+</span><span id="__span-3-8">   <span class="n">A</span> <span class="o">=</span> <span class="mf">3.567</span>
+</span><span id="__span-3-9">   <span class="n">nat</span> <span class="o">=</span>  <span class="mi">2</span>
+</span><span id="__span-3-10">   <span class="n">ntyp</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="__span-3-11">   <span class="n">ecutwfc</span> <span class="o">=</span> <span class="mf">30.0</span>
+</span><span id="__span-3-12">   <span class="c1"># Add 4 conduction bands also</span>
+</span><span id="__span-3-13">   <span class="n">nbnd</span> <span class="o">=</span> <span class="mi">8</span> <span class="c1">#(2)!</span>
+</span><span id="__span-3-14"><span class="o">/</span>
+</span><span id="__span-3-15">
+</span><span id="__span-3-16"><span class="o">&amp;</span><span class="n">ELECTRONS</span>
+</span><span id="__span-3-17"><span class="o">/</span>
+</span><span id="__span-3-18">
+</span><span id="__span-3-19"><span class="n">ATOMIC_SPECIES</span>
+</span><span id="__span-3-20"> <span class="n">C</span>  <span class="mf">12.011</span>  <span class="n">C</span><span class="o">.</span><span class="n">pz</span><span class="o">-</span><span class="n">vbc</span><span class="o">.</span><span class="n">UPF</span>
+</span><span id="__span-3-21">
+</span><span id="__span-3-22"><span class="n">ATOMIC_POSITIONS</span> <span class="n">crystal</span>
+</span><span id="__span-3-23"> <span class="n">C</span> <span class="mf">0.00</span> <span class="mf">0.00</span> <span class="mf">0.00</span>
+</span><span id="__span-3-24"> <span class="n">C</span> <span class="mf">0.25</span> <span class="mf">0.25</span> <span class="mf">0.25</span>
+</span><span id="__span-3-25">
+</span><span id="__span-3-26"><span class="c1"># Path here goes: G K X G&#39; L X W L</span>
+</span><span id="__span-3-27"><span class="n">K_POINTS</span> <span class="n">crystal_b</span> <span class="c1">#(3)!</span>
+</span><span id="__span-3-28">  <span class="mi">8</span>
+</span><span id="__span-3-29">  <span class="mf">0.000</span> <span class="mf">0.000</span> <span class="mf">0.000</span> <span class="mi">30</span>
+</span><span id="__span-3-30">  <span class="mf">0.375</span> <span class="mf">0.375</span> <span class="mf">0.750</span> <span class="mi">10</span>
+</span><span id="__span-3-31">  <span class="mf">0.500</span> <span class="mf">0.500</span> <span class="mf">1.000</span> <span class="mi">30</span>
+</span><span id="__span-3-32">  <span class="mf">1.000</span> <span class="mf">1.000</span> <span class="mf">1.000</span> <span class="mi">30</span>
+</span><span id="__span-3-33">  <span class="mf">0.500</span> <span class="mf">0.500</span> <span class="mf">0.500</span> <span class="mi">30</span>
+</span><span id="__span-3-34">  <span class="mf">0.000</span> <span class="mf">0.500</span> <span class="mf">0.500</span> <span class="mi">30</span>
+</span><span id="__span-3-35">  <span class="mf">0.250</span> <span class="mf">0.500</span> <span class="mf">0.750</span> <span class="mi">30</span>
+</span><span id="__span-3-36">  <span class="mf">0.500</span> <span class="mf">0.500</span> <span class="mf">0.500</span> <span class="mi">0</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li><code>calculation = 'bands'</code> specifies that we are calculating the band
+    structure.</li>
+<li><code>nbnd = 8</code> specifies that we want to calculate 8 bands. 4 more bands than
+    the default value of 4.</li>
+<li><code>K_POINTS crystal_b</code> specifies that we are using the high symmetry k-points
+    in the reciprocal lattice coordinates. The number of high symmetry points
+    is given as 8, followed by the coordinates of each point and the number of
+    points to generate between it and the next point.</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Task 3.2 - NSCF Calculation</p>
+<p>Run the input file
+<a href="../03_bandstructure/02_C_diamond_nscf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />02_C_diamond_nscf.in</a>
+for diamond.</p>
+</div>
+<h3 id="step-3-extracting-band-energies">Step 3 - Extracting Band Energies</h3>
+<p>Extract the energies from this calculation and convert it to a dataset we can 
+plot.</p>
+<p>To do this, we use the <code>bands.x</code> tool from the Quantum Espresso package.
+The <a href="../03_bandstructure/03_C_diamond_bands.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" /> input file</a>
+for this contains only a <code>BANDS</code> section. For more fine-grained control
+please refer to 
+<a href="https://www.quantum-espresso.org/Doc/INPUT_BANDS.html"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" /> bands.x input description</a>.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 3.3 - Extracting band energies</p>
+<p>Run the input file
+<a href="../03_bandstructure/03_C_diamond_bands.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />03_C_diamond_bands.in</a>
+for diamond.</p>
+</div>
+<h3 id="step-4-plotting-the-band-structure">Step 4 - Plotting the Band Structure</h3>
+<p>Plot the band structure. The band structure is usually plotted with the energy
+on the y-axis and the high symmetry points on the x-axis. The energy is usually
+shifted so that the valence band maximum is at 0 eV. The directory
+<code>03_bandstructure</code> contains a gnuplot script
+<a href="../03_bandstructure/plotbands_shifted.gplt"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />plotbands.gplt</a> that
+can be used to plot the band structure:</p>
+<div class="language-gnuplot highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="k">set</span><span class="w"> </span><span class="nb">encoding</span><span class="w"> </span><span class="n">utf8</span><span class="w"> </span><span class="c"># This lets us use the Gamma symbol directly</span>
+</span><span id="__span-4-2">
+</span><span id="__span-4-3"><span class="c"># The locations of the tics are given in the output of the bands.x calculation</span>
+</span><span id="__span-4-4"><span class="k">set</span><span class="w"> </span><span class="nb">xtics</span><span class="w"> </span><span class="p">(</span><span class="s">&quot;Γ&quot;</span><span class="w"> </span><span class="mf">0.0000</span><span class="o">,</span><span class="w"> </span><span class="s">&quot;K&quot;</span><span class="w"> </span><span class="mf">1.0607</span><span class="o">,</span><span class="s">&quot;X&quot;</span><span class="w"> </span><span class="mf">1.4142</span><span class="o">,</span><span class="w"> </span><span class="s">&quot;Γ&quot;</span><span class="w"> </span><span class="mf">2.4142</span><span class="o">,</span><span class="w"> </span><span class="s">&quot;L&quot;</span><span class="w"> </span><span class="mf">3.2802</span><span class="o">,</span><span class="w"> </span><span class="s">&quot;X&quot;</span><span class="w"> </span><span class="mf">4.1463</span><span class="o">,</span><span class="w"> </span><span class="s">&quot;W&quot;</span><span class="w"> </span><span class="mf">4.6463</span><span class="o">,</span><span class="w"> </span><span class="s">&quot;L&quot;</span><span class="w"> </span><span class="mf">5.3534</span><span class="p">)</span>
+</span><span id="__span-4-5">
+</span><span id="__span-4-6"><span class="c"># This gives us a full vertical line</span>
+</span><span id="__span-4-7"><span class="k">set</span><span class="w"> </span><span class="nb">grid</span><span class="w"> </span><span class="n">xtics</span><span class="w"> </span><span class="n">lt</span><span class="w"> </span><span class="mi">-1</span><span class="w"> </span><span class="n">lw</span><span class="w"> </span><span class="mf">1.0</span>
+</span><span id="__span-4-8">
+</span><span id="__span-4-9"><span class="c"># We don&#39;t need a legend</span>
+</span><span id="__span-4-10"><span class="k">unset</span><span class="w"> </span><span class="nb">key</span>
+</span><span id="__span-4-11">
+</span><span id="__span-4-12"><span class="c"># set a label and a title</span>
+</span><span id="__span-4-13"><span class="k">set</span><span class="w"> </span><span class="nb">ylabel</span><span class="w"> </span><span class="s">&quot;Energy (eV)&quot;</span>
+</span><span id="__span-4-14"><span class="k">set</span><span class="w"> </span><span class="nb">title</span><span class="w"> </span><span class="s">&quot;Carbon Diamond Electronic Band Structure&quot;</span>
+</span><span id="__span-4-15">
+</span><span id="__span-4-16"><span class="c"># This tells gnuplot to plot all the points from this file connected with lines</span>
+</span><span id="__span-4-17"><span class="c"># We modify the y values to shift the valence band max at gamma to 0.</span>
+</span><span id="__span-4-18"><span class="k">plot</span><span class="w"> </span><span class="s">&quot;bands.out.gnu&quot;</span><span class="w"> </span><span class="nb">using</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="p">(</span><span class="err">$</span><span class="mi">2-13</span><span class="mf">.993</span><span class="p">)</span><span class="w"> </span><span class="nb">with</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="o">!</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="__span-4-19">
+</span><span id="__span-4-20"><span class="c"># And if you run this script directly as an argument to gnuplot, rather than</span>
+</span><span id="__span-4-21"><span class="c"># by loading it within gnuplot, you can uncomment the following to keep the</span>
+</span><span id="__span-4-22"><span class="c"># plot window open until clicked. You can save to a file from here.</span>
+</span><span id="__span-4-23"><span class="c"># pause mouse</span>
+</span><span id="__span-4-24">
+</span><span id="__span-4-25"><span class="k">set</span><span class="w"> </span><span class="nb">term</span><span class="w"> </span><span class="n">pdf</span>
+</span><span id="__span-4-26"><span class="k">set</span><span class="w"> </span><span class="nb">output</span><span class="w"> </span><span class="s">&quot;C_diamond_bands.pdf&quot;</span>
+</span><span id="__span-4-27"><span class="k">replot</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The valence band max was at gamma (the first point on our path), we could read
+the value of the energy at this point from one of the other output files,
+<code>bands.out</code>. And here we shift the entire spectrum so that this point is at 0 eV
+using <code>($2-13.993)</code>.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 3.4 - Plotting the band structure</p>
+<p>Run the gnuplot script
+<a href="../03_bandstructure/plotbands.gplt"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />plotbands.gplt</a>
+to plot the band structure of diamond.</p>
+<details class="success">
+<summary>Final result</summary>
+<p><figure markdown="span">
+  <img alt="Diamond primitive cell" src="../assets/band_structure.png" width="500" />
+</figure></p>
+</details>
+</div>
+<h2 id="density-of-states">Density of States</h2>
+<p>Now let's analyse the electronic states by computing the density of states
+(DOS). This is a little easier to visualise and shows how many electronic states
+(in fact Kohn-Sham states for our DFT calculation) are at a given energy. More
+precisely, the DOS tells us how many electronic states, for a system of volume
+V, can be occupied in a small (infinitesimal) energy range near a specific
+energy. </p>
+<p>The DOS is directly related to the band structure as:</p>
+<div class="arithmatex">\[
+\mathrm{DOS}(E) = \sum_{n} \int  \delta(E - \epsilon_{n\mathbf{k}}) d\mathbf{k}
+\]</div>
+<p>where <span class="arithmatex">\(\epsilon_{n\mathbf{k}}\)</span> are the Kohn-Sham eigenvalues for band <span class="arithmatex">\(n\)</span> and
+k-point <span class="arithmatex">\(\mathbf{k}\)</span>.</p>
+<p>Hence, bands with large energy dispersion in the Brillouin zone result
+in low DOS, whereas less dispersive (more flat) bands result in high DOS. In
+insulators and semiconductors the DOS is zero inside the band gap, as there are
+no available states in that energy range. </p>
+<p>However, since we can only have a finite sampling of the Brillouin zone we
+need to interpolate the results in some sensible way if we turn this into a
+count of the total number of states at an arbitrary energy.</p>
+<p>The most common way this is done is to use some energy broadening scheme, i.e.,
+boradening the delta function. Doing this, we can include some contributions
+from k-points that we missed. In practice this is quite fast and
+straight-forward, although you'll need to tune the broadening energy so that
+your calculated density of states is smooth in the correct way: </p>
+<ul>
+<li>If you use too large a broadening, you may smear out important
+  features.</li>
+<li>If you use too small a broadening you may introduce spurious features
+  and your density of states plot will look very bumpy.</li>
+<li>In principle you would want the smearing to be comparable to the
+  typical change in energy of a state from a k-point to its neighbours.
+  In practice though it's easiest to just try different values until it
+  looks right.</li>
+</ul>
+<details class="note">
+<summary>Tetrahedron Method</summary>
+<p>The other way to interpolate is to use the so-called tetrahedron method.
+Essentially this corresponds to doing a three dimensional linear
+interpolation from a regular grid of values. This calculation can be
+noticeably slower than using a broadening but there is no need to to worry
+about using the correct smearing. The density of states will simply become
+more finely featured as you increase the density of the k-point grid in the
+non-self-consistent calculation.</p>
+<p>It's important to note that in a real measurement of the density of
+states of a system the there is an implicit broadening that comes from</p>
+<ol>
+<li>
+<p>Electron-phonon coupling: the states are not simply at a fixed
+  energy, but will have some distribution as the atoms vibrate.</p>
+</li>
+<li>
+<p>Any measurement probe will have a finite energy width associated
+  with it, which will limit how finely it can resolve density of states
+  features.</p>
+</li>
+</ol>
+<p>So while tetrahedron may seem the more accurate approach, you shouldn't
+necessarily think of it as a more correct representation of a real
+system.</p>
+</details>
+<p>In a similar way to the electronic band structure, we produce the density of 
+states plot in three steps.</p>
+<h3 id="step-1-scf-calculation_1">Step 1 - SCF Calculation</h3>
+<p>Perform a self consistent calculation as before, producing a converged
+charge density.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4.1 - SCF Calculation</p>
+<p>Run the input file
+<a href="../04_densityofstates/01_C_diamond_scf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />01_C_diamond_scf.in</a>
+for diamond.</p>
+</div>
+<h3 id="step-2-nscf-calculation">Step 2 - NSCF Calculation</h3>
+<p>Take the density calculated in the previous step and use it to
+perform a non-self-consistent calculation on a more dense grid of k-points.
+We want a good representation of how the state energies vary as we move
+around the Brillouin zone so we use a much denser grid here than we need
+to obtain a converged density in the previous step.</p>
+<p>The difference between this and the band structure calculation is that here
+we use a uniform sampling of the Brillouin zone, rather than a path between
+k-points. The input file for this calculation can be found at
+<a href="../04_densityofstates/02_C_diamond_nscf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />02_C_diamond_nscf.in</a>:</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"> <span class="o">&amp;</span><span class="n">CONTROL</span>
+</span><span id="__span-5-2">    <span class="n">pseudo_dir</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span>
+</span><span id="__span-5-3">    <span class="n">calculation</span> <span class="o">=</span> <span class="s1">&#39;nscf&#39;</span> <span class="c1">#(1)!</span>
+</span><span id="__span-5-4"> <span class="o">/</span>
+</span><span id="__span-5-5">
+</span><span id="__span-5-6"> <span class="o">&amp;</span><span class="n">SYSTEM</span>
+</span><span id="__span-5-7">    <span class="n">ibrav</span> <span class="o">=</span>  <span class="mi">2</span>
+</span><span id="__span-5-8">    <span class="n">A</span> <span class="o">=</span> <span class="mf">3.567</span>
+</span><span id="__span-5-9">    <span class="n">nat</span> <span class="o">=</span>  <span class="mi">2</span>
+</span><span id="__span-5-10">    <span class="n">ntyp</span> <span class="o">=</span> <span class="mi">1</span>
+</span><span id="__span-5-11">    <span class="n">ecutwfc</span> <span class="o">=</span> <span class="mf">60.0</span>
+</span><span id="__span-5-12">    <span class="c1"># Add 4 conduction bands also</span>
+</span><span id="__span-5-13">    <span class="n">nbnd</span> <span class="o">=</span> <span class="mi">8</span> <span class="c1">#(2)!</span>
+</span><span id="__span-5-14"> <span class="o">/</span>
+</span><span id="__span-5-15">
+</span><span id="__span-5-16"> <span class="o">&amp;</span><span class="n">ELECTRONS</span>
+</span><span id="__span-5-17"> <span class="o">/</span>
+</span><span id="__span-5-18">
+</span><span id="__span-5-19"><span class="n">ATOMIC_SPECIES</span>
+</span><span id="__span-5-20"> <span class="n">C</span>  <span class="mf">12.011</span>  <span class="n">C</span><span class="o">.</span><span class="n">pz</span><span class="o">-</span><span class="n">vbc</span><span class="o">.</span><span class="n">UPF</span>
+</span><span id="__span-5-21">
+</span><span id="__span-5-22"><span class="n">ATOMIC_POSITIONS</span> <span class="n">crystal</span>
+</span><span id="__span-5-23"> <span class="n">C</span> <span class="mf">0.00</span> <span class="mf">0.00</span> <span class="mf">0.00</span>
+</span><span id="__span-5-24"> <span class="n">C</span> <span class="mf">0.25</span> <span class="mf">0.25</span> <span class="mf">0.25</span>
+</span><span id="__span-5-25">
+</span><span id="__span-5-26"><span class="n">K_POINTS</span> <span class="n">automatic</span> <span class="c1">#(3)!</span>
+</span><span id="__span-5-27">  <span class="mi">20</span> <span class="mi">20</span> <span class="mi">20</span>  <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li><code>calculation = nscf</code> specifies that we are calculating the 
+    non-self-consistent calculation.</li>
+<li><code>nbnd = 8</code> specifies that we want to calculate 8 bands.</li>
+<li><code>K_POINTS automatic</code> specifies that we are using an automatically generated
+    k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and 
+    we have removed the shift. Many systems have a valence band maximum or
+    conduction band minimum at the gamma point, so it is good to ensure it's
+    explicitly included in the grid.</li>
+</ol>
+<div class="admonition example">
+<p class="admonition-title">Task 4.2 - NSCF Calculation</p>
+<p>Run the input file
+<a href="../04_densityofstates/02_C_diamond_nscf.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />01_C_diamond_scf.in</a>
+for diamond.</p>
+</div>
+<h3 id="step-3-density-of-states-calculation">Step 3 - Density of States Calculation</h3>
+<p>Convert the state energies calculated on this dense k-point grid to a
+density of states using <code>dos.x</code>. 
+<a href="../04_densityofstates/03_C_diamond_dos.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />03_C_diamond_dos.in</a>
+is the input file for <code>dos.x</code>. This code input file requires just a <code>DOS</code>
+section:</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"> <span class="o">&amp;</span><span class="n">DOS</span>
+</span><span id="__span-6-2">  <span class="n">degauss</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c1">#!(1)!</span>
+</span><span id="__span-6-3">  <span class="n">DeltaE</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="c1">#(2)!</span>
+</span><span id="__span-6-4"> <span class="o">/</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li><code>degauss</code> specifies the Gaussian broadening to use in the density of states
+    calculation. This is in Rydberg.</li>
+<li><code>DeltaE</code> specifies the spacing between points in the output file, in eV.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>we've picked values for these of similar magnitude despite their different 
+units. In fact if <code>degauss</code> is not specified, and no broadening scheme is 
+used in the DFT calculation, <code>degauss</code> will take the value of <code>DeltaE</code> by 
+default. You can check the documentation file <code>INPUT_DOS.txt</code> for more 
+details.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Task 4.3 - Density of States Calculation</p>
+<p>Run the input file
+<a href="../04_densityofstates/03_C_diamond_dos.in"><img alt="🔗" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@15.0.3/assets/svg/1f517.svg" title=":link:" />03_C_diamond_dos.in</a>
+for diamond.</p>
+</div>
+<!-- Now we need to run all three inputs, the first two with `pw.x` and the third -->
+<!-- with `dos.x`. There's a simple script to do these three steps explicitly -->
+<!-- in [`run_all.sh`](04_densityofstates/run_all.sh). -->
+
+<p>The final step produces a file named <code>pwscf.dos</code> by default. This is a
+simple text file you can plot in whatever software you like. It has three
+columns:</p>
+<ol>
+<li>Energy (eV)</li>
+<li>Density of States (states/eV)</li>
+<li>Integrated Density of States (states)</li>
+</ol>
+<p>It is customary to shift the x-axis in the plot such that the Fermi energy
+or valence band max is at 0. While a value for the Fermi level is given in
+the file header of the generated <code>pwscf.dos</code>, this is determined in a simple
+way from the integrated density of states. It may be worth obtaining this from
+a separate calculation using a relatively small broadening if you're looking a
+metallic system, while for semiconductors and insulators you could find the
+maximum valence band state energy manually. </p>
+<p>If you're plotting in gnuplot you can shift the x-axis origin within the plot
+command:</p>
+<p><div class="language-gnuplot highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><span class="k">plot</span><span class="w"> </span><span class="s">&quot;pwscf.dos&quot;</span><span class="w"> </span><span class="nb">using</span><span class="w"> </span><span class="p">(</span><span class="err">$</span><span class="mi">1-13</span><span class="mf">.180</span><span class="p">)</span><span class="o">:</span><span class="mi">2</span><span class="w"> </span><span class="nb">with</span><span class="w"> </span><span class="n">lines</span>
+</span></code></pre></div></td></tr></table></div>
+Where we have used <code>13.180</code> as the value of the Fermi energy. If you want to
+plot the integrated DOS using the right hand axis you can do the following:
+<div class="language-gnuplot highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><span class="k">set</span><span class="w"> </span><span class="nb">ytics</span><span class="w"> </span><span class="n">nomirror</span>
+</span><span id="__span-8-2"><span class="k">set</span><span class="w"> </span><span class="nb">y2tics</span>
+</span><span id="__span-8-3"><span class="k">set</span><span class="w"> </span><span class="nb">xlabel</span><span class="w"> </span><span class="s">&quot;Energy (eV)&quot;</span>
+</span><span id="__span-8-4"><span class="k">set</span><span class="w"> </span><span class="nb">ylabel</span><span class="w"> </span><span class="s">&quot;Density of states&quot;</span>
+</span><span id="__span-8-5"><span class="k">set</span><span class="w"> </span><span class="nb">y2label</span><span class="w"> </span><span class="s">&quot;Integrated density of states&quot;</span>
+</span><span id="__span-8-6"><span class="k">set</span><span class="w"> </span><span class="nb">key</span><span class="w"> </span><span class="n">top</span><span class="w"> </span><span class="n">left</span>
+</span><span id="__span-8-7"><span class="k">plot</span><span class="w"> </span><span class="s">&quot;pwscf.dos&quot;</span><span class="w"> </span><span class="nb">using</span><span class="w"> </span><span class="p">(</span><span class="err">$</span><span class="mi">1-13</span><span class="mf">.180</span><span class="p">)</span><span class="o">:</span><span class="mi">2</span><span class="w"> </span><span class="nb">with</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="nb">title</span><span class="w"> </span><span class="s">&quot;Density of States&quot;</span><span class="o">,</span><span class="w"> </span>\
+</span><span id="__span-8-8"><span class="w">     </span><span class="s">&quot;pwscf.dos&quot;</span><span class="w"> </span><span class="nb">using</span><span class="w"> </span><span class="p">(</span><span class="err">$</span><span class="mi">1-13</span><span class="mf">.180</span><span class="p">)</span><span class="o">:</span><span class="mi">3</span><span class="w"> </span><span class="nb">axes</span><span class="w"> </span><span class="n">x1y2</span><span class="w"> </span><span class="nb">with</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="nb">title</span><span class="w"> </span>\
+</span><span id="__span-8-9"><span class="w">     </span><span class="s">&quot;Integrated density of states&quot;</span>
+</span></code></pre></div></td></tr></table></div></p>
+<div class="admonition example">
+<p class="admonition-title">Task 4.4 - Density of States Calculation</p>
+<p>Plot the density of states using the script provided.</p>
+<details class="success">
+<summary>Final result</summary>
+<p><figure markdown="span">
+  <img alt="Diamond primitive cell" src="../assets/dos.png" width="500" />
+</figure></p>
+</details>
+</div>
+<hr />
+<h2 id="summary">Summary</h2>
+<ul>
+<li>In this lab we looked at how to calculate:<ul>
+<li>k-point convergence in solids.</li>
+<li>the electronic band structure of a solid.</li>
+<li>the electronic density of states of a solid.</li>
+</ul>
+</li>
+<li>We have seen how several calculations may be chained together where the
+  output of one is used as an input for a subsequent calculation.</li>
+<li>We have used the <code>bands.x</code> and <code>dos.x</code> codes from the Quantum Espresso
+  package.</li>
+<li>We have done some more plotting in gnuplot.</li>
+<li>We should always keep in mind that the Kohn-Sham eigenvalues as obtained
+  from a DFT calculation do not correspond to the real interacting electron
+  energy levels, but are often useful as a first approximation.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

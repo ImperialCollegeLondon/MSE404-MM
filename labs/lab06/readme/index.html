@@ -1,0 +1,1847 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MSE404.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../lab05/readme/">
+      
+      
+        <link rel="next" href="../../lab07/readme/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.0, mkdocs-material-9.5.31">
+    
+    
+      
+        <title>Lab 6 - Vibrational Frequencies and Normal Modes - MSE404</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.3cba04c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vibrational-frequencies-and-normal-modes" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="MSE404" class="md-header__button md-logo" aria-label="MSE404" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            MSE404
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 6 - Vibrational Frequencies and Normal Modes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3 3.19.09m3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95 2.06.05m-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31Z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5c-.84 0-1.65.15-2.39.42L12 2M3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29L3.34 7m.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14L3.36 17M20.65 7l-1.77 3.79a7.023 7.023 0 0 0-2.38-4.15l4.15.36m-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29L20.64 17M12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44L12 22Z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="MSE404" class="md-nav__button md-logo" aria-label="MSE404" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    MSE404
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Labs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Labs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 1 - Getting Started in Linux
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 3 - Convergence and Importance Parameters
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab04/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 4 - Crystals and Electronic Band Structures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab05/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 5 - Forces, Stresses and Structures
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Lab 6 - Vibrational Frequencies and Normal Modes
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Lab 6 - Vibrational Frequencies and Normal Modes
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vibrational-modes-of-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vibrational Modes of Methane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrational Modes of Methane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrational-modes-of-cfc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vibrational Modes of CFC
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrational Modes of CFC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phonon-bandstructure-of-carbon-diamond" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phonon Bandstructure of Carbon Diamond
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phonon Bandstructure of Carbon Diamond">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extra-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extra: Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 7 - Finite Temperature Properties
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 8 - Metals, Spin Polarization and Magnetic Systems
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Lab 9 - Charged system and excited states
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Extra labs
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Extra labs
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/using_total_energies/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 1
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/visualising_output/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/hydrogen_atom/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/tetrahedron_method/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 4
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/tddft/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 5
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/labs/high_symmetry_points/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ex Lab 6
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Extra resources
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            Extra resources
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/vmsetup/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Virtual machines
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/linuxcommands/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux commands
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/gnuplot/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Gnuplot
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/shellscripting/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Bash scripting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../extras/misc/running_in_parallel/readme/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Parallel computing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  <span class="md-ellipsis">
+    Admin
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Admin
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../admin/contributing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Contributing
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../admin/server_config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Server config
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vibrational-modes-of-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vibrational Modes of Methane
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrational Modes of Methane">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrational-modes-of-cfc" class="md-nav__link">
+    <span class="md-ellipsis">
+      Vibrational Modes of CFC
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrational Modes of CFC">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#phonon-bandstructure-of-carbon-diamond" class="md-nav__link">
+    <span class="md-ellipsis">
+      Phonon Bandstructure of Carbon Diamond
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phonon Bandstructure of Carbon Diamond">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      Summary
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Summary">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#extra-task" class="md-nav__link">
+    <span class="md-ellipsis">
+      Extra: Task
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="vibrational-frequencies-and-normal-modes">Vibrational Frequencies and Normal Modes</h1>
+<p>As we saw in the previous lab, we get easy access to the first derivatives of
+the total energy with respect to various parameters in a basic self-consistent
+calculation of the density of a system via the Hellmann-Feynman theorem.
+However, if we want to access second derivatives, so that we can calculate, for
+example, vibrational frequencies, we need to do a little more. This is linked 
+to the <strong>2n+1 theorem</strong>, which states that the 2n-th or 2n+1-th order 
+derivative of energies would require the n-the order derivative of electronic
+wave functions.</p>
+<h2 id="vibrational-modes-of-methane">Vibrational Modes of Methane</h2>
+<p>We'll start by calculating the vibrational modes of a molecule. This
+calculation is set up in 2 parts:</p>
+<ol>
+<li>A self consistent calculation of the density and wavefunction. You might
+   notice this is often the first step in many of the calculations we do.</li>
+<li>A Density Functional Perturbation Theory (DFPT) calculation of the dynamical
+matrix and normal modes. As we have a molecule, we only need look at the gamma
+point here.</li>
+</ol>
+<p>This calculation is set up in the <a href="01_CH4"><code>01_CH4</code></a> directory.</p>
+<ul>
+<li>
+<p>First take a look at the <a href="../01_CH4/01_CH4_scf.in">input file for the scf
+  calculation</a>. This doesn't have any inputs you haven't
+  seen before. There are three things you should take note of though:</p>
+</li>
+<li>
+<p>We've specified the gamma point only by asking for a 1x1x1 unshifted grid,
+   whereas previously we've usually explicitly asked for the gamma point. This
+   latter option uses optimizations that can make the calculation a bit faster
+   if we only use the gamma point, however it does not generate output that is
+   compatible with the subsequent DFPT calculation of the frequencies, so we
+   instead specify the gamma point in the manner done in the file.</p>
+</li>
+<li>
+<p>We've re-oriented the molecule relative to what you've seen previously, and
+   the atomic positions have also been optimized. By specifying the atoms in
+   this manner, where the components of the hydrogens along each direction
+   have the same magnitude but different signs, the code is much better able
+   to detect the symmetry of the molecule. This is very important for
+   calculations of the vibrations. If the code understands that all the
+   hydrogen atoms are equivalent by symmetry, it only needs to calculate the
+   derivatives of the energy with respect to one of the hydrogen positions, and
+   then it can populate the full dynamical matrix based on the symmetry of the
+   system.</p>
+</li>
+<li>
+<p>We've increased the default value of <code>ecutrho</code> which is usually four times
+   the value of <code>ecutwfc</code>. This can help alleviate some issues with acoustic
+   mode frequencies at gamma mentioned below.</p>
+</li>
+</ul>
+<h3 id="task"><em>Task</em></h3>
+<ul>
+<li>Use this input file to run a calculation with <code>pw.x</code>, and save the output
+  to a file. Check it worked as expected.</li>
+</ul>
+<p>Now take a look at the <a href="../01_CH4/02_CH4_ph.in">input file for the DFPT
+  calculation</a>. This is as follows:</p>
+<p><div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1">phonons of CH4 (gamma only)
+</span><span id="__span-0-2"> &amp;inputph
+</span><span id="__span-0-3">  tr2_ph = 1.0d-15
+</span><span id="__span-0-4">  asr = .true.
+</span><span id="__span-0-5"> /
+</span><span id="__span-0-6">0.0 0.0 0.0
+</span></code></pre></div></td></tr></table></div>
+- This input file is for the <code>ph.x</code> code which uses the output of a SCF
+  calculation with <code>pw.x</code> to do a DFPT calculation of the dynamical matrix.
+  Many more input options are available than we've used here. These are
+  described in the <code>INPUT_PH.txt</code> file of the quantum espresso documentation.
+  Alternatively, you can look up
+  <a href="https://www.quantum-espresso.org/Doc/INPUT_PH.html">Phonon</a></p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span></pre></div></td><td class="code"><div><pre><span></span><code>- Here the first line is a comment. This can be whatever description you
+  like of your input file
+- This is followed by a single section: `INPUTPH`. We&#39;ve specified two
+  variables here.
+    - `tr2_ph` which defines the threshold for self-consistency, with a
+      default of 1.0d-12.
+    - `asr` which turns on the use of the acoustic sum rule which sets the
+      three translational modes at gamma to zero (or at least near zero).
+      If you take a crystal (or any material) and translate the whole
+      system by some amount in real space, the total energy of the system
+      remains unchanged. If you have a material in three dimensions, you
+      should have three directions where similar translations are possible.
+      Therefore, the phonon polarization vectors and frequencies should
+      reflect such translational invariance. A material in three dimensions
+      should have three phonon modes with zero energy at gamma (as you can
+      translate the material along the x, y, and z directions and it does not cost
+  any energy). These phonon modes are referred to as acoustic phonon
+      modes. In practice, however, the phonon frequencies are never zero-energy as we
+  use a Fast-Fourier-Transform (FFT) grid in our PW calculations. Other
+  factors, such as the tr2_ph parameter can contribute to acoustic
+  phonon frequencies being non-zero. A simple solution to obtain
+  acoustic phonon modes with zero energy is to impose the acoustic sum
+  rule. The sum rule can be imposed on the gamma point dynamical matrix
+  or on the Force-constant matrix (Force constants are obtained using a
+  Fourier Transform of the Dynamical matrix).  For uniform
+  displacements of all the atoms along x/y/z the net forces acting on
+      the atoms are set to zero.
+
+- Following this section, and depending on what input variables have been
+  defined, we can give a list of wavevectors at which we want to calculate
+  the vibrational frequencies. As with the electronic problem, we are
+  modelling a molecule, so only the gamma point makes sense.
+</code></pre></div></td></tr></table></div>
+<h3 id="task_1"><em>Task</em></h3>
+<ul>
+<li>Use <code>ph.x</code> to run the calculation using the input file <code>02_CH4_ph.in</code> and save
+  the output to a file.</li>
+<li>
+<p>You'll see along with the output file, several files and folders have been
+  generated:</p>
+<ul>
+<li>
+<p><code>matdyn</code> (the name of this file can be changed in the input file) - this
+  stores the dynamical matrix, which can then be passed to several other
+  codes for further analysis. Take a look at it now.</p>
+<ul>
+<li>The top of the file has the atoms, their masses (in internal units)
+  and positions.</li>
+<li>This is followed by the dynamical matrix (3x3 complex numbers for
+  each possible pair of atoms - all the imaginary parts are zero at
+  gamma).</li>
+<li>Finally the frequencies of each calculated vibrational mode, both in
+  THz and cm-1 are given along with the corresponding wavevector. A
+  molecule with 5 atoms will have 15 possible vibrational modes. This
+  is how you count vibrational modes/phonons in your system. The 
+  same is valid for crystals at any momentum. If you have N atoms 
+  within the unit-cell of a crystal, you expect d*N phonon modes
+  for every momentum. In all our simulations, d is 3. In a conventional
+  material, 3 of these vibrational modes are acoustic i.e. 
+  the energy cost associated with the gamma point is zero. On the other
+  hand, the rest of the modes (3N-3 of them) cost energy at the gamma point.
+  These modes are referred to as optical modes. These modes denote
+  relative displacements of the atoms within the unit cell. Both
+  acoustic and optical phonon modes can be probed in experiments.
+  For example, Raman spectroscopy probes the optical modes and
+  is routinely used in studying materials.  </li>
+</ul>
+</li>
+<li>
+<p><code>_ph0</code> -  contains intermediate and restart data for the <code>ph.x</code>
+  calculation.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Now let's look through the output of the <code>ph.x</code> calculation.</p>
+<ul>
+<li>
+<p>Near the top you'll see an analysis of the number of calculations that 
+  need to be done given the symmetry of the system. You'll note that first
+  3 of the 15 total representations (see below) are computed using the acoustic sum
+  rule, the next 3 modes are explicitly computed.  This is why it's so
+  important to have the code detect the symmetry of your system correctly.
+  Potentially the calculation could have been 5 times slower. Beyond the
+  undeniable computational speed up, these representations are quite useful in
+  analyzing the phonon modes, such as during phase transitions in materials, and
+  Raman activity. They are derived from the so-called <strong>theory of irreducible
+  representation of symmetry groups</strong>. Each phonon polarization vector/eigenvector
+  denotes a pattern on the crystal lattice. Any arbitrary mode will not obey the
+  full symmetry of the crystal (A symmetry of a crystal is an operation that
+  leaves the crystal unchanged). The purpose is to group different vibrational
+  modes associated with their irreducible representations. One often performs all
+  the symmetry operations of the crystal on the phonon polarization vectors and
+  categorizes the modes based on the changes caused by the symmetry operations.
+  Discussion beyond this is out of the scope of this course.  </p>
+</li>
+<li>
+<p>This is followed by a self consistent calculation for each of the
+  representations that need to be calculated.</p>
+</li>
+<li>Then we have the frequencies obtained by diagonalizing the dynamical
+  matrix.</li>
+<li>Finally we have a symmetry analysis of the resulting modes, giving
+  the mode symmetry and whether they should be detectable by Raman or
+  infrared spectroscropy or both.</li>
+<li>You'll likely have noticed we have 3 quite negative frequencies. These are
+  the rotational modes of the molecule. It's difficult to get these to come
+  out to be zero in the DPFT calculation. In principle this could be enforced
+  by a suitable constraint in the code, but this is not available in <code>ph.x</code>.
+  It's possible in some other codes however.</li>
+<li>The subsequent three modes near zero are the three translational modes, and
+  these have been enforced to be close to zero by the <code>asr</code> setting in the
+  input file.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Note</strong> as the frequency is calculated using the square root of the
+curvature of the energy, a negative frequency is in fact a convention used
+to indicate that the frequency is imaginary, and the energy curvature is
+negative. This can indicate some instability in the system, so it is good
+to ensure you are starting from an optimized structure as you learned how
+to do last week.</p>
+<h3 id="task_2"><em>Task</em></h3>
+<ul>
+<li>Try running the calculation with a higher energy cut-off to see how well
+  converged the vibrational frequencies are. Are the vibrational frequencies
+  more or less sensitive to cut-off energy than the total energy?</li>
+</ul>
+<h2 id="vibrational-modes-of-cfc">Vibrational Modes of CFC</h2>
+<p>Trichlorofluoromethane, also known as CFC-11 or Freon-11, was formerly used as
+a refrigerant. It has accumulated in the atmosphere and is a minor contributor
+to the greenhouse effect. This is because, like methane it absorbs radiation
+in the thermal IR range where the Earth emits.</p>
+<h3 id="task_3"><em>Task</em></h3>
+<ul>
+<li>Run the input files in the folder <code>02_CFC</code> using pw.x and ph.x, following the same
+  process as for methane. Since we need new pseudopotentials (for Cl and F), you will
+  need to copy them from <code>/opt/Courses/MSE404/pseudo</code> to your own <code>pseudo</code> folder.</li>
+<li>CFC-11 has a similar (quasi-tetrahedral) structure to methane, however the ph.x
+  calculation takes a lot longer. Why is this? Hint: think about symmetry.</li>
+<li>How do the vibrational frequencies compare to methane? Are they consistent with
+  the fact that CFC-11 is a greenhouse gas?</li>
+<li>The cut-off energy is set to be relatively small to speed up the calculation, so 
+  that the final results are not well converged. (You may also notice warnings in
+  the output file about negative density (rho)). It would take too much time to 
+  systematically converge the vibrational frequencies with respect to cut-off, but
+  you could try increasing the cut-off slightly. How does the change in vibrational
+  frequencies compare to methane?</li>
+</ul>
+<h2 id="phonon-bandstructure-of-carbon-diamond">Phonon Bandstructure of Carbon Diamond</h2>
+<p>Now that you've seen how to calculate the frequencies at a single wavevector,
+the next step is to calculate the phonon band dispersion of a crystal. You will
+learn how to generalize the theory of phonons in molecules to crystals in one
+of the homework.  The directory <a href="03_CarbonDiamond"><code>03_CarbonDiamond</code></a> contains
+a set of input files for carbon diamond.</p>
+<p>This calculation has five steps:</p>
+<ol>
+<li>Perform self-consistent calculation of the density and wavefunction.</li>
+<li>Calculate the dynamical matrix on a set of wavevectors. We'll call these
+   <strong>q-points</strong> from here on, and use <strong>k-points</strong> to refer to electronic
+   wavevectors.</li>
+<li>Fourier transform our grid of dynamical matrices to obtain a set of
+   real space force constants.</li>
+<li>Perform an inverse Fourier transform of the real space force constants to
+   obtain the dynamical matrix at an arbitrary q-point. This allows us
+   calculate mode frequencies for a fairly dense set of points along lines
+   between high-symmetry points in the same manner as for the electronic
+   band structure.</li>
+<li>
+<p>Generate the plot.</p>
+</li>
+<li>
+<p>First examine the scf input file in
+  <a href="../03_CarbonDiamond/01_CD_scf.in"><code>01_CD_scf.in</code></a>. This is similar to those
+  we've seen before. This time we've specified <code>prefix</code>. This can be useful if
+  you've got different calculations in the same directory. Again, we've
+  increased <code>ecutrho</code> from its default. The rest is as before.</p>
+</li>
+</ol>
+<h3 id="task_4"><em>Task</em></h3>
+<ul>
+<li>
+<p>Run <code>pw.x</code> using this input file and save the output.</p>
+<ul>
+<li>The other output files generated will be in <code>CD.save</code> since we set the
+  prefix.</li>
+<li>Check the output to make sure it completed all right.</li>
+</ul>
+</li>
+<li>
+<p>Now examine the <code>ph.x</code> input file in
+  <a href="../03_CarbonDiamond/02_CD_ph.in"><code>02_CD_ph.in</code></a>.</p>
+</li>
+<li>This is structured as before, but now:<ul>
+<li>We have specified the same prefix as in the scf input file</li>
+<li>We've set <code>ldisp = .true.</code> which says we're going to calculate a
+   grid of q-points.</li>
+<li><code>nq1</code>, <code>nq2</code> and <code>nq3</code> define our q-point grid then.</li>
+</ul>
+</li>
+</ul>
+<h3 id="task_5"><em>Task</em></h3>
+<ul>
+<li>Run <code>ph.x</code> using this input file and save the output. This will take maybe 5
+  or 6 minutes to complete, so feel free to read ahead while it's running.</li>
+<li>Once complete you'll see several files have been generated in the
+  calculation directory.<ul>
+<li><code>matdyn0</code> has the q-point grid used followed by a list of the q-points
+  at which the dynamical matrix has been calculated.</li>
+<li><code>matdyn1</code>, <code>matdyn2</code>, etc is the dynamical matrix at each calculated
+  q-point as before.</li>
+</ul>
+</li>
+<li>
+<p>Now take a look through the main output file.</p>
+<ul>
+<li>You'll see it's quite similar to the methane case, but now contains
+  a section for each calculated q-point where it figured how how
+  many represenations need to be calculated based on the symmetry,
+  an scf cycle for each, and the frequencies and mode symmetries
+  obtained by diagonalizing the dynamical matrix at that q-point.</li>
+<li>It's good to look through this file and ensure you're getting
+  reasonable numbers for the frequencies before proceeding.</li>
+</ul>
+</li>
+<li>
+<p>Next we'll be generating the real space force constants from our grid of
+  dynamical matrices using the <code>q2r.x</code> code.</p>
+</li>
+<li><code>q2r.x</code> doesn't have a help file like the other codes. You need to inspect
+  the source file in <code>PHonon/PH/q2r.f90</code> if you download a copy of the
+  quantum espresso source code. The inputs are all described in a comment
+  at the top of this file. On the mt-student server you can see this file at
+  <code>/opt/build/quantum-espresso/q-e-qe-6.3/PHonon/PH/q2r.f90</code>.</li>
+<li>Take a look at the <code>q2r.x</code> input file
+  <a href="../03_CarbonDiamond/03_CD_q2r.in">`03_CD_q2r.in</a>. The contents are as follows:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"> &amp;input
+</span><span id="__span-1-2">   fildyn = &#39;matdyn&#39;
+</span><span id="__span-1-3">   zasr = &#39;simple&#39;
+</span><span id="__span-1-4">   flfrc = &#39;CD444.fc&#39;
+</span><span id="__span-1-5"> /
+</span></code></pre></div></td></tr></table></div></li>
+<li>Here we've specified:<ul>
+<li><code>fildyn</code>, which is the name of the dynamical matrix files from <code>ph.x</code>,
+  where we left it at the default value of <code>matdyn</code>.</li>
+<li><code>zasr</code>, which is the approach used to enforce the acoustic sum rule and
+   make the acoustic modes go to zero at the gamma point.</li>
+<li><code>filefrc</code> is the name of the file in which to output the force constants
+   in real space.</li>
+</ul>
+</li>
+</ul>
+<h3 id="task_6"><em>Task</em></h3>
+<ul>
+<li>Run <code>q2r.x</code> with this input file now and save the output. This will run
+  almost instantly.</li>
+<li>
+<p>The output isn't particularly interesting. The <code>CD444.fc</code> file has the
+  force constants for each pair of atoms in each direction for each of the
+  4x4x4 unit cells in real space.</p>
+</li>
+<li>
+<p>Finally we want to use this to generate our normal mode dispersion. We'll be
+  doing this with the <code>matdyn.x</code> code. As with <code>q2r.x</code> this doesn't have a doc
+  file describing its input variables. But you can check the comments at the
+  top of its source file to get their details. On the mt-student server this
+  is at <code>/opt/build/quantum-espresso/q-e-qe-6.3/PHonon/PH/matdyn.f90</code>.</p>
+</li>
+<li>Take a look at our input file
+  <a href="../03_CarbonDiamond/04_CD_matdyn-bands.in"><code>04_CD_matdyn-bands.in</code></a>. The
+  content is as follows:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"> &amp;input
+</span><span id="__span-2-2">    asr = &#39;simple&#39;
+</span><span id="__span-2-3">    flfrc = &#39;CD444.fc&#39;
+</span><span id="__span-2-4">    flfrq = &#39;CD-bands.freq&#39;
+</span><span id="__span-2-5">    dos=.false.
+</span><span id="__span-2-6">    q_in_band_form=.true.
+</span><span id="__span-2-7"> /
+</span><span id="__span-2-8">8
+</span><span id="__span-2-9"> 0.000 0.000 0.000 30
+</span><span id="__span-2-10"> 0.375 0.375 0.750 10
+</span><span id="__span-2-11"> 0.500 0.500 1.000 30
+</span><span id="__span-2-12"> 1.000 1.000 1.000 30
+</span><span id="__span-2-13"> 0.500 0.500 0.500 30
+</span><span id="__span-2-14"> 0.000 0.500 0.500 30
+</span><span id="__span-2-15"> 0.250 0.500 0.750 30
+</span><span id="__span-2-16"> 0.500 0.500 0.500 0
+</span></code></pre></div></td></tr></table></div></li>
+<li>Here we're setting:<ul>
+<li><code>asr</code> to again tell it to try to force the acoustic modes at gamma to go
+  to zero.</li>
+<li><code>flfrc</code> to  give it the name of the file with the real space force
+  constants from the <code>q2r.x</code> calculation.</li>
+<li><code>flfrq</code> to give it the name of the output file to store its calculated
+  frequencies.</li>
+<li><code>dos=.false.</code> to tell it we're not calculating a density of states</li>
+<li><code>q_in_band_form=.true.</code> to tell it we want to calculate bands between high
+  symmetry points.</li>
+<li>We finally give it a number and list of high symmetry points with the
+  number of points to calculate along each line, in the same way as we did
+  for the electronic band structure.</li>
+</ul>
+</li>
+</ul>
+<h3 id="task_7"><em>Task</em></h3>
+<ul>
+<li>Run <code>matdyn.x</code> using this input file now and save the output. Again this
+  is very fast.</li>
+<li>There's very little actual output from the code itself, but it will generate
+  the files <code>CD-bands.freq</code> and <code>CD-bands.freq.gp</code>. Both of which contain
+  the frequencies along the lines we requested.</li>
+<li>Finally we want to generate a plot of these frequencies. We could do that
+  directly with the previous output: <code>CD-bands.freq.gp</code> is a multicolumn
+  space separated list of the frequencies in cm-1.<ul>
+<li>It can be easier to use the <code>plotband.x</code> tool to help generate a plot.</li>
+<li>Call this with <code>plotband.x CD-bands.freq</code>. This will then ask you for
+  an Emin and Emax value - you should pick values equal to or below and
+  above the numbers it suggests. Then it will ask you for an output file
+  name. Pick "CD-bands-gpl.dat" here. You can then cancel further running
+  of this code with <code>ctrl+c</code>. Note it has output the location of the
+  high-symmetry points along its x-axis.</li>
+</ul>
+</li>
+<li>Once you've done this, a gnuplot script <code>plotbands.gplt</code> has been provided
+  that you can use to generate the band structure plot. This is very similar
+  to the one used for the electronic band structure, but the location of
+  the high-symmetry points along the x-axis has changed as has the name of
+  the data file we're plotting. Run this with <code>gnuplot plotbands.gplt</code>.</li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>In this lab we have seen</p>
+<ul>
+<li>For a molecule:<ul>
+<li>How to use the <code>pw.x</code> code to calculate a converged density and
+  wavefunction and then use these with the <code>ph.x</code> code to calculate the
+  vibrational modes using DFPT.</li>
+</ul>
+</li>
+<li>For a crystal:<ul>
+<li>How to use the <code>pw.x</code> code to calculate a converged density and
+  wavefunction.</li>
+<li>How to use these with the <code>ph.x</code> code to calculate the phonon modes on
+  a grid of wavevectors.</li>
+<li>How to transform these to obtain real-space force constants using the
+  <code>q2r.x</code> code.</li>
+<li>How to use the real-space force constants to obtain a phonon mode
+  bandstructure along lines between high-symmetry points in the
+  Brillouin zone.</li>
+<li>How to plot the bandstructure with gnuplot in a similar way to how we
+  plot the electronic bandstructure in a previous lab.</li>
+</ul>
+</li>
+</ul>
+<hr />
+<h3 id="extra-task">Extra: <em>Task</em></h3>
+<ul>
+<li>Calculate the phonon band structure of silicon.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.fe8b6f2b.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
