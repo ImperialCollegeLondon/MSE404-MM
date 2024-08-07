@@ -5,7 +5,7 @@ Getting Started in Linux
 is use `rm` but ensure you don't have a trailing slash following the link
 name: `rm tmpdir`. **NB** if you use `rm -r tmpdir/`, this will delete the
 contents of the directory you have linked to which is likely not what you
-want to do, so be careful.
+want to do, so be careful. blabla
 
 ## Introduction
 
