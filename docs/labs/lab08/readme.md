@@ -5,6 +5,10 @@ This week we'll cover two topics: metallic systems and spin. For metals,
 there are a couple of complications which mean we have to treat them
 differently from systems with a non-zero band gap.
 
+<div markdown="span" style="margin: 0 auto; text-align: center">
+[Download the input files for this tutorial](./assets/lab08_input.zip){ .md-button .md-button--primary }
+</div>
+
 ------------------------------------------------------------------------------
 
 ## Metals
@@ -478,8 +482,7 @@ value. This is done by setting the `starting_magnetization` input variable.
 
         ??? success "Answer"
             You can find the relevant input file in the directory 
-            `03_Fe/extra_bandstructure`. Give the `run_all.sh` file a read and
-            try to run the calculation. The band structure should look like The
+            `03_Fe/extra_bandstructure`. The band structure should look like The
             following:
             <figure markdown="span">
               ![Diamond primitive cell](assets/Iron_bands.png){ width="500" }
