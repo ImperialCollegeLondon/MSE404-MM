@@ -12,7 +12,7 @@ pw.x < 02_C_diamond_nscf.in &> 02_C_diamond_nscf.out
 dos.x < 03_C_diamond_dos.in &> 03_C_diamond_dos.out
 ```
 
-3. plot
+2. plot
 ```
 gnuplot plotdos_shifted.gplt
 ```
@@ -31,7 +31,7 @@ pw.x < 02_C_diamond_nscf.in &> 02_C_diamond_nscf.out
 dos.x < 03_C_diamond_dos.in &> 03_C_diamond_dos.out
 ```
 
-3. plot
+2. plot
 ```
 python plotdoss_shifted.py
 ```

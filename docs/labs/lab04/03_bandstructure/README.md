@@ -12,7 +12,7 @@ pw.x < 02_C_diamond_nscf.in &> 02_C_diamond_nscf.out
 bands.x < 03_C_diamond_bands.in &> 03_C_diamond_bands.out
 ```
 
-3. plot
+2. plot
 ```
 gnuplot plotbands_shifted.gplt
 ```
@@ -31,7 +31,7 @@ pw.x < 02_C_diamond_nscf.in &> 02_C_diamond_nscf.out
 bands.x < 03_C_diamond_bands.in &> 03_C_diamond_bands.out
 ```
 
-3. plot
+2. plot
 ```
 python plotbands_shifted.py
 ```
