@@ -77,18 +77,16 @@ echo "Hello World"
 which are meant to be run in the terminal. And you can click the 
 :material-content-copy: icon on the right to copy the code to your clipboard.
 
-There will also be inline annotations (:material-plus-circle:) like the one 
+There will also be inline annotations (⊕) like the one 
 below:
 
 ```fortran
-program hello
-    print *, "Hello World" !(1)
+program
+    print *, "Hello World" ⊕
 end program hello
 ```
-
-1. Print the string "Hello World" to the terminal.
-
-You can click on the annotation to see the explanation.
+If you click the ⊕ button, a pop up window will show up (this only works in the 
+web page).
 
 There will also be admonitions like the one below:
 
