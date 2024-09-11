@@ -110,5 +110,5 @@ marked as admonitions like the one below:
 
 ## Acknowledgements
 - Original materials provided by Éamonn Murray (https://gitlab.com/eamonnmurray/MaterialsModelling)
-- Contributors: Simao Joao, Christopher Chung, Jordan Edwards, Chengcheng Xiao, Indrajit Maity, Valerio Vitale, Laura Ratcliff and Johannes Lischner.
+- Contributors: Simao Joao, Christopher Cheung, Jordan Edwards, Chengcheng Xiao, Indrajit Maity, Valerio Vitale, Laura Ratcliff and Johannes Lischner.
 - Webpage refreshed by Chengcheng Xiao, 2024.
