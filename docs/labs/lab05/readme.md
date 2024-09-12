@@ -1,6 +1,69 @@
 Forces, Stresses and Structures
 ===============================
 
+The contributor to this tutorial is currently getting used to mkdocs. So the following are the tentative structure of the updated tutorial and serve as practices for the contributor. 
+
+## Force 
+
+A very helpful reminder of forces in electronic structure 
+
+!!! warning 
+    I think it will be helpful to remind readers to be careful of the use of different units, fractional coordinates, etc. in Quantum Espresso
+
+!!! danger 
+    I am currently figuring out the best way to modify the workflows of each task. 
+
+!!! warning 
+    mkdocs is amazing. Thanks Chengcheng.  
+
+## Convergence Tests 
+
+### Step 1 
+
+### Step 2 
+
+### Step N 
+
+
+!!! example "Task 1 - Examining convergence"
+    The details of the task are to be modified  
+
+    This is the second line of the task 
+
+    - Will we make some sort of plot of total force against KE? 
+
+        ??? success "Answer"
+            Yes, I think we really should.  
+
+    - Will a new python script replace the bash script for energy convergence? 
+        
+        ??? success "Answer"
+            Yes. I will make that asap.
+
+!!! note 
+    For job submission, I think it is the easiest to use auto.sh. 
+
+    For data analysis or output file reading/input file modifications, it is the easiest to use Python. 
+
+    
+
+## Atomic Relaxation 
+
+## Constrained Atomic Relaxation 
+
+## Stress
+A very helpful reminder of stresses in electronic structure 
+
+## Optimising Unit Cells 
+
+------------------------- Tentative actual text ---------------------
+
+For this week and the next, we will focus on predicting the structural properties of materials. These include the stablest geometry of molecules and the energy of phonons in crystals. You will find that the potential energy surface (PES) is indeed very important for these tasks. 
+
+
+
+------------------------- old content below -------------------------
+
 **Reminder** Don't forget to copy the `lab05` folder from `/opt/Courses/MSE404/lab05`
 
 To find the minimum energy position of an atom, we could manually move it,
