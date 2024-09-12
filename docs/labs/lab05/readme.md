@@ -3,10 +3,6 @@ Forces, Stresses and Structures
 
 The contributor to this tutorial is currently getting used to mkdocs. So the following are the tentative structure of the updated tutorial and serve as practices for the contributor. 
 
-## Force 
-
-A very helpful reminder of forces in electronic structure 
-
 !!! warning 
     I think it will be helpful to remind readers to be careful of the use of different units, fractional coordinates, etc. in Quantum Espresso
 
@@ -15,14 +11,6 @@ A very helpful reminder of forces in electronic structure
 
 !!! warning 
     mkdocs is amazing. Thanks Chengcheng.  
-
-## Convergence Tests 
-
-### Step 1 
-
-### Step 2 
-
-### Step N 
 
 
 !!! example "Task 1 - Examining convergence"
@@ -45,21 +33,38 @@ A very helpful reminder of forces in electronic structure
 
     For data analysis or output file reading/input file modifications, it is the easiest to use Python. 
 
-    
-
-## Atomic Relaxation 
-
-## Constrained Atomic Relaxation 
-
-## Stress
-A very helpful reminder of stresses in electronic structure 
-
-## Optimising Unit Cells 
 
 ------------------------- Tentative actual text ---------------------
 
 For this week and the next, we will focus on predicting the structural properties of materials. These include the stablest geometry of molecules and the energy of phonons in crystals. You will find that the potential energy surface (PES) is indeed very important for these tasks. 
 
+The potential energy surface
+----------------------------
+
+
+Forces and stress in molecules
+-------------------
+
+Optimisation of molecular geometry 
+-------------------
+
+Constrained relaxation 
+-------------------
+
+!!! Quiz 
+    
+    - What are the advantages of constraining the motion of some atoms?
+        
+        ??? success "Answer"
+            
+            The advantages includes reducing the number of relaxation steps required for reaching the equilibrium structure. 
+
+
+Pressure and bulk modulus of crystals 
+-------------------
+
+Optimisation of the unit cell of crystals 
+-------------------
 
 
 ------------------------- old content below -------------------------
