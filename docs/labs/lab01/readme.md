@@ -9,7 +9,6 @@ want to do, so be careful. blabla
 
 ## Introduction
 
-
 In this course, you will use a dedicated Linux server to run your calculations, which can be accessed remotely. In this first Lab, you will learn how to:
 
 1. access this server remotely with your college credentials
@@ -17,7 +16,7 @@ In this course, you will use a dedicated Linux server to run your calculations, 
 3. set up your work environment in the terminal
 4. run your first DFT calculation!
 
-These steps closely resemble what you would need to do in a real-world scenario. When you’re researching more advanced topics, you will require powerful computers to run your simulations. At Imperial, you could get access to CX1, the local High Performance Computing (HPC) facility containing hundreds of machines. On a national level, you could get access to ARCHER2, the UK national supercomputing service. All these facilities use the Linux operating system, so it is important to get comfortable with the Linux command line because in many situations this will be your only option to interact with those machines. The server you will use in this course is called ??? and it will be your first step into the world of material simulation.
+These steps closely resemble what you would need to do in a real-world scenario. When you’re researching more advanced topics, you will require powerful computers to run your simulations. At Imperial, you could get access to CX1, the local High Performance Computing (HPC) facility containing hundreds of machines. On a national level, you could get access to ARCHER2, the UK national supercomputing service. All these facilities use the Linux operating system, so it is important to get comfortable with the Linux command line because in many situations this will be your only option to interact with those machines. The server you will use in this course is called `matmod` and it will be your first step into the world of material simulation.
 
 
 ## Accessing the server remotely
@@ -36,7 +35,7 @@ The server can be accessed by using PuTTY and XMing, which can be run from the [
     **Note 1:** while I try to ensure students registered for the course have access before the first class, I may not have the most up-to-date information. If it doesn't accept your login details please let me know and I can give you access.
     **Note 2:** If it is your first time connecting, it may ask you whether you want to accept the host key (or something to that effect), to which you should write `yes`, and then press enter.
 
-    Congratulations! You are now connected to ??? and have complete access to its ***powerful*** Linux command line.
+    Congratulations! You are now connected to ??? and have complete access to its powerful Linux command line.
 
 
 
@@ -44,6 +43,7 @@ The server can be accessed by using PuTTY and XMing, which can be run from the [
 ## Using the command line
 
 While using a computer for day-to-day activities, you most likely have become familiar with a Graphical User Interface (GUI), which is a graphical way to interact with the computer. Most Operating Systems (OS) also provide a non-graphical way to interact with the computer through the command line (also usually denoted as the terminal). In this course we will deal exclusively with the Linux command line. The command line offers a completely equivalent way to the GUI to perform tasks, but has several advantages:
+
 - It uses very few system resources. This is especially useful if there are dozens of users using the same machines simultaneously, as in this Lab
 - It is extremely flexible. With knowledge of just a few basic operations, it is possible to chain them together to perform complex tasks, or to automate tasks altogether
 
@@ -51,19 +51,20 @@ In this section, you will learn how to use the command line to perform simple ta
 
 If you successfully connected to the remote server using PuTTY, you should have a Linux command line in front of you right now.
 
-Once you open the terminal, you will have access to a prompt that can be used to interact with the computer. The prompt contains three sections: username @ machine : current working directory \$. The tilde ~ stands for the home directory, which is a shorthand for “/home/username/” . The commands you write will always be in front of the \\$ symbol.
+Once you open the terminal, you will have access to a prompt that can be used to interact with the computer. The prompt contains three sections: `username @ machine : current working directory` `$`. The tilde `~` stands for the home directory, which is a shorthand for `/home/username/` . The commands you write will always be in front of the `$` symbol.
 
 !!! example "Task 1: launching your first program"
 
-    Write the command “gedit” then press Enter. This will open a graphical text editor. The prompt will be unresponsive until this program finishes. This will be the case for most Linux commands. In this case, the program will finish once you close the "gedit" window. Until the command completes its assigned task, you cannot use the prompt, but once the task is finished, the prompt can be used again.
+    Write the command `gedit` then press Enter. This will open a graphical text editor. The prompt will be unresponsive until this program finishes. This will be the case for most Linux commands. In this case, the program will finish once you close the `gedit` window. Until the command completes its assigned task, you cannot use the prompt, but once the task is finished, the prompt can be used again.
 
-    **Important** Remember to close the "gedit" window
+    **Important** Remember to close the `gedit` window
 
 !!! example "Task 2: command line programs"
 
     Not all commands open up graphical interactive windows. Let's now take a look at commands which provide output exclusively in the command line. 
-    1. Run the program “date”, which will print out to the terminal the current date and time. 
-    2. You can also provide additional parameters to certain commands to make them do specific tasks. For example, the command “echo” prints out to the terminal the text that’s written after it. Run the program echo with DFT as a parameter - “echo DFT”, and check that it prints out the word “DFT” to the terminal. 
+
+    1. Run the program `date`, which will print out to the terminal the current date and time. 
+    2. You can also provide additional parameters to certain commands to make them do specific tasks. For example, the command `echo` prints out to the terminal the text that’s written after it. Run the program echo with `DFT` as a parameter - `echo DFT`, and check that it prints out the word `DFT` to the terminal. 
 
 
 In sum, commands in the Linux command line have the following structure

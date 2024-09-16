@@ -1,115 +1,24 @@
-Finite Temperature Properties
-=============================
+# Finite Temperature Properties
 
-Everything we've done so far has in fact been for systems at effectively zero
-temperature. And even at zero temperature, we haven't taken into account the
-zero-point motion of the atoms and have treated them as purely classical
-objects residing at fixed positions.
+Everything we've done so far has in fact been for systems at effectively zero temperature. And even at zero temperature, we haven't taken into account the zero-point motion of the atoms and have treated them as purely classical objects residing at fixed positions.
 
-In actuality, there will be an effect from the zero-point motion of the
-atoms, and as temperature increases the atoms will vibrate with larger
-amplitude and this can lead to changes in many properties of a material with
-temperature. You will learn how the thermodynamic properties of a material
-can be computed from first principles.
+In actuality, there will be an effect from the zero-point motion of the atoms, and as temperature increases the atoms will vibrate with larger amplitude and this can lead to changes in many properties of a material with temperature. You will learn how the thermodynamic properties of a material can be computed from first principles and be able to predict properties such as the total energy, heat capacity, Helmholtz free energy and Entropy.
 
-Our approach will be to use the type of density functional theory (DFT) and
-density functional perturbation theory (DFPT) calculations you've already seen
-, and spend more time analysing the output to produce materials properties.
+Our approach will be to use the type of density functional theory (DFT) and density functional perturbation theory (DFPT) calculations you've already seen, and spend more time analysing the output to produce materials properties. To get the finite temperature properties, we need to get a list of the phonon modes available to the system. The more phonon modes we include in this list, the more accurate the calculation will be, but this comes at the cost of increased computational time. Once the phonon mode list has been obtained, we sum the individual contribution of each phonon mode to get the thermodynamical quantity of interest. This will be done using [python](https://www.python.org/).
 
 
-This will involve some reasonably serious numerical calculations, of the kind
-that would be quite difficult to do without using some form of mathematical
-software. We will use [python](https://www.python.org/) to compute the
-thermodynamic properties.
+## Example: Total energy for specific temperature in diamond
+The total energy due to phonons can be written as
 
+$$E(T) = \sum_{\mathbf{q}\nu}\hbar\omega(\mathbf{q}\nu)\left[\frac{1}{2} + \frac{1}{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1}\right]$$
 
-We'll be mainly relying on the following libraries:
+where the factor $n_{BE}(T) = \frac{1}{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1}$ is recognized as the Bose-Einstein occupation factor.
 
-- [numpy](https://www.numpy.org/)
-    - This allows us to easily work with arrays of data.
-- [scipy](https://www.scipy.org/)
-    - This gives us many numerical analysis tools.
-- [matplotlib](https://matplotlib.org/)
-    - This allows us to easily generate plots.
+Notice how the energy requires summing over every single mode $\nu$ and wave-vector $\mathbf{q}$. The amount of wave-vectors that we need to sum over depends on the choice of $\mathbf{q}$-point grid used to run the DFT calculation. For example, in a $10\times10\times10$ grid, you would need to sum over $1000$ vectors. In general terms, finer grids provide better results, but their computation will also take much longer. To do this calculation, we first need to obtain the list of phonon modes
 
+### Step 1. Phonon calculations on a fine-grid
 
-We expect many of you may not be familiar with python, but if you've used
-Matlab or Mathematica, you should find the process here somewhat similar, but
-with slightly different syntaxes. Python is a very powerful language that you
-are most likely to use in future. We will also introduce you to *functions* and
-*classes*. Functions do specific tasks that you wish to perform. For example, 
-you provide some input, a function does some calculations and returns you an
-output. Therefore, with a *function*, you primarily interact (through input  and
-output). On the other hand, a *class* allows you to not only create your own
-data type but also interact with it. You will find out that *class* is
-significantly more re-usable.
-
-
-Let's introduce you to a very simple *class*. It has two aspects:
-implementation, and interaction/usage. Let's look at implementation
-of the position of an atom [position](./class/):
-```
-# Indentation has to be consistent
-# We are using two spaces as indentation.
-
-# Creating a position class
-class Position(object):
-  # Special method __init__ to initialize your data
-  # attributes
-  # Note as opposed to normal function, __init__ contains
-  # self;
-  # self: parameter to refer to an instance of a class
-  # x,y: what you provide while creating this class/calling it
-  def __init__(self, x, y):
-    # self.x or self.y: Look for x/y that belong to this class
-    self.x = x
-    self.y = y
-
-  # Methods that you can use to compute things
-  # Following method computes distance of (x,y) from origin
-  def get_dist_from_origin(self):
-    # Note how the x/y values are called (with self.)
-    dist = (self.x**2.0 + self.y**2.0)**0.5
-    return dist
-
-  # You can add as-many methods as you want
-```
-This is the content of `position.py`. Now, let's see how you can
-use it. This class can be called to compute the distance of a
-point from origin. To do this, run the code `run.py` using :
-`python run.py` . Now, take a look inside `run.py` and try to
-understand how the calls are made. 
-
-```
-# Import the class Position
-from position import Position
-
-pos = Position(2,3)
-# Access data from class
-print("x=%.6f"%(pos.x))
-print("y=%.6f"%(pos.y))
-# Compute distance by calling the function from class
-distance = pos.get_dist_from_origin()
-print("distance from origin(0,0)=",distance)
-```
-
-Thermodynamic properties of the material involve understanding the
-phonon occupation number (or, Bose-Einstein distribution), total
-energy within the harmonic approximation, specific heat at constant
-volume, Helmholtz free energy, Entropy, etc. In this lab, you will
-try to learn to code some of these properties by building on some
-existing code for Diamond.
-
-
-Phonon calculations on a fine-grid
-==================================
-As you might have noticed, we've already done most of the work
-needed to also calculate phonons on a fine-grid in our previous lab
-([Lab06/Diamond](../lab06/03_CarbonDiamond)). This can be done
-following the `q2r.x` calculation by choosing some different input
-options for `matdyn.x`.  Take a look at the input file
-[`05_CD_matdyn-fine.in`](CarbonDiamond/05_CD_matdyn-fine.in). The
-contents are as follows:
+We've already done most of the work needed to also calculate phonons on a fine-grid in our previous lab ([Lab06/Diamond](../lab06/03_CarbonDiamond)). This can be done following the `q2r.x` calculation by choosing some different input options for `matdyn.x`.  Take a look at the input file [`05_CD_matdyn-fine.in`](CarbonDiamond/05_CD_matdyn-fine.in). The contents are as follows:
 
 ```
  &input
@@ -122,18 +31,38 @@ contents are as follows:
  /
 ```
 
-This is quite similar to the band plot, but now we're setting
-`nosym` to true, choosing a dense q-point grid on which to
-recalculate our frequencies. 
+This is quite similar to the band plot, but now we're setting `nosym` to true, choosing a dense q-point grid on which to recalculate our frequencies. Run `matdyn.x` now with this input file. Please do not forget to copy all the things you did in your previous lab on the same material (Copy the files from ([Lab06/Diamond](../lab06/03_CarbonDiamond))
+directory into [Lab07/CarbonDiamond](lab07/CarbonDiamond). It'll take a bit longer than the band calculation as it is explicitly computing without invoking the symmetry. After it finishes, it will generate the following file: `CD-fine.freq`. Take a look at the contents of this file. It is organized as such
 
-Run `matdyn.x` now with this input file. Please do not forget to
-copy all the things you did in your previous lab on the same
-material (Copy the files from ([Lab06/Diamond](../lab06/03_CarbonDiamond))
-directory into [Lab07/CarbonDiamond](lab07/CarbonDiamond). It'll take a bit
-longer than the band calculation as it is explicitly computing without invoking
-the symmetry. The file it generates: `CD-fine.freq`. We will utilize this file
-to compute several thermodynamic properties using python.
+```
+freq1
+freq2
+freq3
+```
 
+We will utilize this file to compute several thermodynamic properties using python in the next step.
+
+### Step 2. Summing over modes in python
+To calculate the total energy due to phonons using python, we will create a simple script that reads in the temperature and a file with the list of frequencies and prints out the energy.
+
+```python
+import sys
+frequencies = sys.argv[1]
+temperature = sys.argv[2]
+energy = 0
+for frequency in frequencies:
+
+  if abs(frequency) < 1e-5:
+    continue
+
+  x = frequency/temperature
+  bose = 1.0/(exp(x) - 1)
+  energy += x*(0.5 + bose)
+
+print(energy)
+```
+
+Note that this program ignores very small frequencies due to the possibility of dividing by zero.
 
 Thermodynamic properties
 =======================
@@ -247,38 +176,3 @@ the thermal expansion of a material. This approximation assumes
 that the harmonic approximation holds for every value of the
 lattice constant, viewed as an adjustable parameter. 
 
-
-Thermal Expansion of a Solid
-----------------------------
-$$ \alpha = (\frac{1}{V} \frac{\partial V}{\partial T})$$ at a constant
-pressure. Note that the volume, $V$ is obtained by minimizing Gibbs
-free energy, $G=H+PV$. Assuming a zero-external pressure, we can
-minimize H at every temperature and obtain the thermal expansion
-coefficient. You will find this in the [Si_TEC](Si_TEC). 
-
-### _Task_
-The calculations has three steps:
-1. Run the total energy and phonon calculations for several volumes.
-2. Compute the Helmohtz free energy for any temperature for these volumes.
-3. Obtain the minimum for for each temperature and compute V vs. T.
-4. Write a small python code to compute $\alpha$ using the scripts
-provided in [TEC](Si_TEC/TEC) folder.
-
-The first-step can be established using running several
-calculations`bash EvsV.sh`. After this step, go to
-[TEC](Si_TEC/TEC) directory and run `compute.py`.If you recall, it
-took around 5 minutes to calculate the phonon band-structure for a
-single volume last time. Doing this 6 times would take half an
-hour. For this reason, we've included the dos files that would be
-generated. **You don't need to run the calculation here and can
-proceed to the analysis** [TEC](Si_TEC/TEC)
-
-------------------------------------------------------------------------------
-
-Summary
--------
-
-In this lab you have seen:
-
-- For a solid we used
-  - python code to compute several thermodynamic properties computed using DFT+DFPT calculations.
