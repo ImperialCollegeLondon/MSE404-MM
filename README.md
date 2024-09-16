@@ -2,16 +2,14 @@ Modelling Materials with Density Functional Theory
 ==================================================
 
 ## Introduction
-This is the lab material for the Imperial College London, Department of
-Materials course "MSE404: Modelling Materials with Density Functional
-Theory".
+This is the computer lab material for the course "Modelling Materials with Density Functional
+Theory" taught in the Department of Materials at Imperial College London.
 
-This course is intended to introduce students to the modelling of materials
+This course will introduce students to the modelling of materials
 with density-functional theory (DFT). In the labs we will use the free,
-open-source DFT code [Quantum Espresso](http://www.quantum-espresso.org/), but
-while the format of the input files may change in other DFT codes, the general
-principles will be the same. The labs will also briefly introduce student to
-the use of the Linux OS and how it enables the effective use of computational
+open-source DFT code [Quantum Espresso](http://www.quantum-espresso.org/). While the format of the input files may be differeint in other DFT codes, the general
+principles will be the same. The labs will also briefly introduce students to
+the use of the Linux operating system and how it enables the effective use of computational
 resources, as well as showing students some simple scripting, analysis, and
 visualization tools.
 
