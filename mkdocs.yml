@@ -117,8 +117,9 @@ nav:
     - Lab 5 - Forces, Stresses and Structures: labs/lab05/readme.md
     - Lab 6 - Vibrational Frequencies and Normal Modes: labs/lab06/readme.md
     - Lab 7 - Finite Temperature Properties: labs/lab07/readme.md
-    - Lab 8 - Metals, Spin Polarization and Magnetic Systems: labs/lab08/readme.md
+    - Lab 8 - Spin Polarization and Magnetic Systems: labs/lab08/readme.md
     - Lab 9 - Charged system and excited states: labs/lab09/readme.md
+    - Lab 10 - Metals and Density of States: labs/lab10/readme.md
   - Extra labs:
     - Ex Lab 1: labs/extras/labs/using_total_energies/readme.md
     - Ex Lab 2: labs/extras/labs/visualising_output/readme.md
