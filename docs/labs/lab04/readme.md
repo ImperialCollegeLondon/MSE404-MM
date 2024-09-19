@@ -401,205 +401,205 @@ eV.
           ![Diamond primitive cell](assets/band_structure.png){ width="500" }
         </figure>
 
-## Density of States
-
-Now let's analyse the electronic states by computing the density of states
-(DOS). This is a little easier to visualise and shows how many electronic states
-(in fact Kohn-Sham states for our DFT calculation) are at a given energy. More
-precisely, the DOS tells us how many electronic states, for a system of volume
-V, can be occupied in a small (infinitesimal) energy range near a specific
-energy. 
-
-The DOS should be directly related to the band structure as:
-
-$$
-\mathrm{DOS}(E) = \sum_{n} \int  \delta(E - \epsilon_{n\mathbf{k}}) d\mathbf{k}
-$$
-
-where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
-k-point $\mathbf{k}$. The only thing to note here is that an accurate density of
-states calculation requires a dense-sampled Brillouin zone.
-
-Intuitively, bands with large energy dispersion in the Brillouin zone result
-in low DOS, whereas less dispersive (more flat) bands result in high DOS. In
-insulators and semiconductors the DOS is zero inside the band gap, as there are
-no available states in that energy range. 
-
-### Smearing
-However, since we can only have a finite sampling of the Brillouin zone we
-need to interpolate the results in some sensible way if we turn this into a
-count of the total number of states at an arbitrary energy.
-
-The most common way this is done is to use some energy broadening scheme, i.e.,
-boradening the delta function. Doing this, we can include some contributions
-from k-points that we missed. In practice this is quite fast and
-straight-forward, although you'll need to tune the broadening energy so that
-your calculated density of states is smooth in the correct way: 
-
-- If you use too large a broadening, you may smear out important
-  features.
-- If you use too small a broadening you may introduce spurious features
-  and your density of states plot will look very bumpy/spikey.
-- In principle you would want the smearing to be comparable to the
-  typical change in energy of a state from a k-point to its neighbours.
-  In practice though it's easiest to just try different values until it
-  looks right.
-
-
-??? note "Tetrahedron Method"
-    The other way to interpolate is to use the so-called tetrahedron method.
-    Essentially this corresponds to doing a three dimensional linear
-    interpolation from a regular grid of values. This calculation can be
-    noticeably slower than using a broadening but there is no need to to worry
-    about using the correct smearing. The density of states will simply become
-    more finely featured as you increase the density of the k-point grid in the
-    non-self-consistent calculation.
-
-    It's important to note that in a real measurement of the density of
-    states of a system, there is an implicit broadening that comes from
-
-      1. Electron-phonon coupling: the states are not simply at a fixed
-      energy, but will have some distribution as the atoms vibrate.
-
-      2. Any measurement probe will have a finite energy width associated
-      with it, which will limit how finely it can resolve density of states
-      features.
-
-    So while tetrahedron may seem the more accurate approach, you shouldn't
-    necessarily think of it as a more correct representation of a real
-    system.
-
-### Steps to Calculate the DOS
-In a similar way to the electronic band structure, we produce the density of 
-states plot in three steps.
-
-#### Step 1 - SCF Calculation
-Perform a self consistent calculation as before, producing a converged
-charge density.
-
-!!! example "Task 4.1 - SCF Calculation"
-    Run the input file
-    [:link:01_C_diamond_scf.in](04_densityofstates/01_C_diamond_scf.in)
-    for diamond.
-
-#### Step 2 - NSCF Calculation
-Take the density calculated in the previous step and use it to
-perform a non-self-consistent calculation on a more dense grid of k-points.
-We want a good representation of how the state energies vary as we move
-around the Brillouin zone so we use a much denser grid here than we need
-to obtain a converged density in the previous step.
-
-The difference between this and the band structure calculation is that here
-we use a uniform sampling of the Brillouin zone, rather than a path between
-k-points. The input file for this calculation can be found at
-[:link:02_C_diamond_nscf.in](04_densityofstates/02_C_diamond_nscf.in):
-
-```python
- &CONTROL
-    pseudo_dir = '.'
-    calculation = 'nscf' #(1)!
- /
-
- &SYSTEM
-    ibrav =  2
-    A = 3.567
-    nat =  2
-    ntyp = 1
-    ecutwfc = 60.0
-    # Add 4 conduction bands also
-    nbnd = 8 #(2)!
- /
-
- &ELECTRONS
- /
-
-ATOMIC_SPECIES
- C  12.011  C.pz-vbc.UPF
-
-ATOMIC_POSITIONS crystal
- C 0.00 0.00 0.00
- C 0.25 0.25 0.25
-
-K_POINTS automatic #(3)!
-  20 20 20  0 0 0
-```
-
-1.  `calculation = nscf` specifies that we are calculating the 
-    non-self-consistent calculation.
-2.  `nbnd = 8` specifies that we want to calculate 8 bands.
-3.  `K_POINTS automatic` specifies that we are using an automatically generated
-    k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and 
-    we have removed the shift. Many systems have a valence band maximum or
-    conduction band minimum at the gamma point, so it is good to ensure it's
-    explicitly included in the grid.
-
-!!! example "Task 4.2 - NSCF Calculation"
-    Run the input file
-    [:link:01_C_diamond_scf.in](04_densityofstates/02_C_diamond_nscf.in)
-    for diamond.
-
-#### Step 3 - Density of States Calculation
-Convert the state energies calculated on this dense k-point grid to a
-density of states using `dos.x`. 
-[:link:03_C_diamond_dos.in](04_densityofstates/03_C_diamond_dos.in)
-is the input file for `dos.x`. This code input file requires just a `DOS`
-section:
-
-```python
- &DOS
-  degauss = 0.03 #!(1)!
-  DeltaE = 0.1 #(2)!
- /
-```
-
-1.  `degauss` specifies the Gaussian broadening to use in the density of states
-    calculation. This is in Rydberg.
-2.  `DeltaE` specifies the spacing between points in the output file, in eV.
-
-!!! note
-    we've picked values for these of similar magnitude despite their different 
-    units. In fact if `degauss` is not specified, and no broadening scheme is 
-    used in the DFT calculation, `degauss` will take the value of `DeltaE` by 
-    default. You can check the documentation file `INPUT_DOS.txt` for more 
-    details.
-
-!!! example "Task 4.3 - Density of States Calculation"
-    Run the input file
-    [:link:03_C_diamond_dos.in](04_densityofstates/03_C_diamond_dos.in)
-    for diamond.
-
-<!-- Now we need to run all three inputs, the first two with `pw.x` and the third -->
-<!-- with `dos.x`. There's a simple script to do these three steps explicitly -->
-<!-- in [`run_all.sh`](04_densityofstates/run_all.sh). -->
-
-The final step produces a file named `pwscf.dos` by default. This is a
-simple text file you can plot in whatever software you like. It has three
-columns:
-
-1. Energy (eV)
-2. Density of States (states/eV)
-3. Integrated Density of States (states)
-
-It is customary to shift the x-axis in the plot such that the Fermi energy
-or valence band max is at 0. While a value for the Fermi level is given in
-the file header of the generated `pwscf.dos`, this is determined in a simple
-way from the integrated density of states. It may be worth obtaining this from
-a separate calculation using a relatively small broadening if you're looking a
-metallic system, while for semiconductors and insulators you could find the
-maximum valence band state energy manually. 
-
-The directory `04_densityofstates` contains a gnuplot and a python script that 
-can be used to plot the shifted DOS along with the integrated DOS:
-
-!!! example "Task 4.4 - Density of States Calculation"
-    Plot the density of states using the script provided.
-
-    ??? success "Final result"
-        <figure markdown="span">
-          ![Diamond primitive cell](assets/dos.png){ width="500" }
-        </figure>
-
-------------------------------------------------------------------------------
+<!-- ## Density of States -->
+<!--  -->
+<!-- Now let's analyse the electronic states by computing the density of states -->
+<!-- (DOS). This is a little easier to visualise and shows how many electronic states -->
+<!-- (in fact Kohn-Sham states for our DFT calculation) are at a given energy. More -->
+<!-- precisely, the DOS tells us how many electronic states, for a system of volume -->
+<!-- V, can be occupied in a small (infinitesimal) energy range near a specific -->
+<!-- energy.  -->
+<!--  -->
+<!-- The DOS should be directly related to the band structure as: -->
+<!--  -->
+<!-- $$ -->
+<!-- \mathrm{DOS}(E) = \sum_{n} \int  \delta(E - \epsilon_{n\mathbf{k}}) d\mathbf{k} -->
+<!-- $$ -->
+<!--  -->
+<!-- where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and -->
+<!-- k-point $\mathbf{k}$. The only thing to note here is that an accurate density of -->
+<!-- states calculation requires a dense-sampled Brillouin zone. -->
+<!--  -->
+<!-- Intuitively, bands with large energy dispersion in the Brillouin zone result -->
+<!-- in low DOS, whereas less dispersive (more flat) bands result in high DOS. In -->
+<!-- insulators and semiconductors the DOS is zero inside the band gap, as there are -->
+<!-- no available states in that energy range.  -->
+<!--  -->
+<!-- ### Smearing -->
+<!-- However, since we can only have a finite sampling of the Brillouin zone we -->
+<!-- need to interpolate the results in some sensible way if we turn this into a -->
+<!-- count of the total number of states at an arbitrary energy. -->
+<!--  -->
+<!-- The most common way this is done is to use some energy broadening scheme, i.e., -->
+<!-- boradening the delta function. Doing this, we can include some contributions -->
+<!-- from k-points that we missed. In practice this is quite fast and -->
+<!-- straight-forward, although you'll need to tune the broadening energy so that -->
+<!-- your calculated density of states is smooth in the correct way:  -->
+<!--  -->
+<!-- - If you use too large a broadening, you may smear out important -->
+<!--   features. -->
+<!-- - If you use too small a broadening you may introduce spurious features -->
+<!--   and your density of states plot will look very bumpy/spikey. -->
+<!-- - In principle you would want the smearing to be comparable to the -->
+<!--   typical change in energy of a state from a k-point to its neighbours. -->
+<!--   In practice though it's easiest to just try different values until it -->
+<!--   looks right. -->
+<!--  -->
+<!--  -->
+<!-- ??? note "Tetrahedron Method" -->
+<!--     The other way to interpolate is to use the so-called tetrahedron method. -->
+<!--     Essentially this corresponds to doing a three dimensional linear -->
+<!--     interpolation from a regular grid of values. This calculation can be -->
+<!--     noticeably slower than using a broadening but there is no need to to worry -->
+<!--     about using the correct smearing. The density of states will simply become -->
+<!--     more finely featured as you increase the density of the k-point grid in the -->
+<!--     non-self-consistent calculation. -->
+<!--  -->
+<!--     It's important to note that in a real measurement of the density of -->
+<!--     states of a system, there is an implicit broadening that comes from -->
+<!--  -->
+<!--       1. Electron-phonon coupling: the states are not simply at a fixed -->
+<!--       energy, but will have some distribution as the atoms vibrate. -->
+<!--  -->
+<!--       2. Any measurement probe will have a finite energy width associated -->
+<!--       with it, which will limit how finely it can resolve density of states -->
+<!--       features. -->
+<!--  -->
+<!--     So while tetrahedron may seem the more accurate approach, you shouldn't -->
+<!--     necessarily think of it as a more correct representation of a real -->
+<!--     system. -->
+<!--  -->
+<!-- ### Steps to Calculate the DOS -->
+<!-- In a similar way to the electronic band structure, we produce the density of  -->
+<!-- states plot in three steps. -->
+<!--  -->
+<!-- #### Step 1 - SCF Calculation -->
+<!-- Perform a self consistent calculation as before, producing a converged -->
+<!-- charge density. -->
+<!--  -->
+<!-- !!! example "Task 4.1 - SCF Calculation" -->
+<!--     Run the input file -->
+<!--     [:link:01_C_diamond_scf.in](04_densityofstates/01_C_diamond_scf.in) -->
+<!--     for diamond. -->
+<!--  -->
+<!-- #### Step 2 - NSCF Calculation -->
+<!-- Take the density calculated in the previous step and use it to -->
+<!-- perform a non-self-consistent calculation on a more dense grid of k-points. -->
+<!-- We want a good representation of how the state energies vary as we move -->
+<!-- around the Brillouin zone so we use a much denser grid here than we need -->
+<!-- to obtain a converged density in the previous step. -->
+<!--  -->
+<!-- The difference between this and the band structure calculation is that here -->
+<!-- we use a uniform sampling of the Brillouin zone, rather than a path between -->
+<!-- k-points. The input file for this calculation can be found at -->
+<!-- [:link:02_C_diamond_nscf.in](04_densityofstates/02_C_diamond_nscf.in): -->
+<!--  -->
+<!-- ```python -->
+<!--  &CONTROL -->
+<!--     pseudo_dir = '.' -->
+<!--     calculation = 'nscf' #(1)! -->
+<!--  / -->
+<!--  -->
+<!--  &SYSTEM -->
+<!--     ibrav =  2 -->
+<!--     A = 3.567 -->
+<!--     nat =  2 -->
+<!--     ntyp = 1 -->
+<!--     ecutwfc = 60.0 -->
+<!--     # Add 4 conduction bands also -->
+<!--     nbnd = 8 #(2)! -->
+<!--  / -->
+<!--  -->
+<!--  &ELECTRONS -->
+<!--  / -->
+<!--  -->
+<!-- ATOMIC_SPECIES -->
+<!--  C  12.011  C.pz-vbc.UPF -->
+<!--  -->
+<!-- ATOMIC_POSITIONS crystal -->
+<!--  C 0.00 0.00 0.00 -->
+<!--  C 0.25 0.25 0.25 -->
+<!--  -->
+<!-- K_POINTS automatic #(3)! -->
+<!--   20 20 20  0 0 0 -->
+<!-- ``` -->
+<!--  -->
+<!-- 1.  `calculation = nscf` specifies that we are calculating the  -->
+<!--     non-self-consistent calculation. -->
+<!-- 2.  `nbnd = 8` specifies that we want to calculate 8 bands. -->
+<!-- 3.  `K_POINTS automatic` specifies that we are using an automatically generated -->
+<!--     k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and  -->
+<!--     we have removed the shift. Many systems have a valence band maximum or -->
+<!--     conduction band minimum at the gamma point, so it is good to ensure it's -->
+<!--     explicitly included in the grid. -->
+<!--  -->
+<!-- !!! example "Task 4.2 - NSCF Calculation" -->
+<!--     Run the input file -->
+<!--     [:link:01_C_diamond_scf.in](04_densityofstates/02_C_diamond_nscf.in) -->
+<!--     for diamond. -->
+<!--  -->
+<!-- #### Step 3 - Density of States Calculation -->
+<!-- Convert the state energies calculated on this dense k-point grid to a -->
+<!-- density of states using `dos.x`.  -->
+<!-- [:link:03_C_diamond_dos.in](04_densityofstates/03_C_diamond_dos.in) -->
+<!-- is the input file for `dos.x`. This code input file requires just a `DOS` -->
+<!-- section: -->
+<!--  -->
+<!-- ```python -->
+<!--  &DOS -->
+<!--   degauss = 0.03 #!(1)! -->
+<!--   DeltaE = 0.1 #(2)! -->
+<!--  / -->
+<!-- ``` -->
+<!--  -->
+<!-- 1.  `degauss` specifies the Gaussian broadening to use in the density of states -->
+<!--     calculation. This is in Rydberg. -->
+<!-- 2.  `DeltaE` specifies the spacing between points in the output file, in eV. -->
+<!--  -->
+<!-- !!! note -->
+<!--     we've picked values for these of similar magnitude despite their different  -->
+<!--     units. In fact if `degauss` is not specified, and no broadening scheme is  -->
+<!--     used in the DFT calculation, `degauss` will take the value of `DeltaE` by  -->
+<!--     default. You can check the documentation file `INPUT_DOS.txt` for more  -->
+<!--     details. -->
+<!--  -->
+<!-- !!! example "Task 4.3 - Density of States Calculation" -->
+<!--     Run the input file -->
+<!--     [:link:03_C_diamond_dos.in](04_densityofstates/03_C_diamond_dos.in) -->
+<!--     for diamond. -->
+<!--  -->
+<!-- [> Now we need to run all three inputs, the first two with `pw.x` and the third <] -->
+<!-- [> with `dos.x`. There's a simple script to do these three steps explicitly <] -->
+<!-- [> in [`run_all.sh`](04_densityofstates/run_all.sh). <] -->
+<!--  -->
+<!-- The final step produces a file named `pwscf.dos` by default. This is a -->
+<!-- simple text file you can plot in whatever software you like. It has three -->
+<!-- columns: -->
+<!--  -->
+<!-- 1. Energy (eV) -->
+<!-- 2. Density of States (states/eV) -->
+<!-- 3. Integrated Density of States (states) -->
+<!--  -->
+<!-- It is customary to shift the x-axis in the plot such that the Fermi energy -->
+<!-- or valence band max is at 0. While a value for the Fermi level is given in -->
+<!-- the file header of the generated `pwscf.dos`, this is determined in a simple -->
+<!-- way from the integrated density of states. It may be worth obtaining this from -->
+<!-- a separate calculation using a relatively small broadening if you're looking a -->
+<!-- metallic system, while for semiconductors and insulators you could find the -->
+<!-- maximum valence band state energy manually.  -->
+<!--  -->
+<!-- The directory `04_densityofstates` contains a gnuplot and a python script that  -->
+<!-- can be used to plot the shifted DOS along with the integrated DOS: -->
+<!--  -->
+<!-- !!! example "Task 4.4 - Density of States Calculation" -->
+<!--     Plot the density of states using the script provided. -->
+<!--  -->
+<!--     ??? success "Final result" -->
+<!--         <figure markdown="span"> -->
+<!--           ![Diamond primitive cell](assets/dos.png){ width="500" } -->
+<!--         </figure> -->
+<!--  -->
+<!-- ------------------------------------------------------------------------------ -->
 
 Summary
 -------
@@ -607,12 +607,12 @@ Summary
 - In this lab we looked at how to calculate:
     - k-point convergence in solids.
     - the electronic band structure of a solid.
-    - the electronic density of states of a solid.
+    <!-- - the electronic density of states of a solid. -->
 - We have seen how several calculations may be chained together where the
   output of one is used as an input for a subsequent calculation.
-- We have used the `bands.x` and `dos.x` codes from the Quantum Espresso
-  package.
-- We have done some more plotting in gnuplot.
+<!-- - We have used the `bands.x` and `dos.x` codes from the Quantum Espresso -->
+<!--   package. -->
+<!-- - We have done some more plotting in gnuplot. -->
 - We should always keep in mind that the Kohn-Sham eigenvalues as obtained
   from a DFT calculation do not correspond to the real interacting electron
   energy levels, but are often useful as a first approximation.
