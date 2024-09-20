@@ -150,12 +150,11 @@ systems with a non-zero band gap.
 Spin Polarization
 -----------------
 
-Up till now we have been assuming that we always had some set of bands which
-could each fit two identical electrons. Essentially we have been ignoring
-the electron spin. If you want to examine, for example, a magnetic system
-then the spin of the electrons is important. It can also be important
-in modelling atomic or molecular systems. We'll cover different examples
-of this in this lab. 
+Up untill now we have been assuming that we always had some set of bands which
+could each fit two electrons. Essentially we have been ignoring the electron
+spin. If you want to examine, for example, a magnetic system then the spin of
+the electrons is important. It can also be important in modelling atomic or
+molecular systems. We'll cover different examples of this in this lab.
 
 
 The Oxygen Molecule

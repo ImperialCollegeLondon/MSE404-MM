@@ -18,10 +18,10 @@ annotated input file at [:link:
 C_diamond_detailed.in](01_carbon_diamond/C_diamond_detailed.in), here I'll give
 a brief overview of the input file:
 
-!!! tip annotate "Tip: In-code annotations" 
-    Click (1) to see notes on the input tags.
-
-1.  This is an annotation.
+<!-- !!! tip annotate "Tip: In-code annotations"  -->
+<!--     Click (1) to see notes on the input tags. -->
+<!--  -->
+<!-- 1.  This is an annotation. -->
 
 ```python
 &CONTROL

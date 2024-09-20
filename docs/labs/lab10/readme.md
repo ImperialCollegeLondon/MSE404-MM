@@ -27,23 +27,22 @@ $k$-point $\mathbf{k}$.
 
 For a molecular system, the DOS looks exactly the same to the eigenenergy
 spectrum and is discrete (with a constant hight of one), since we only have one
-set of molecular states. However, for a periodic system, due to the introduction
-of k-points (hence many sets of eigenenergies), the DOS should be continuous.
+set of molecular states. However, for periodic systems, each k-point has a set
+of eigenenergies and the DOS should become continuous.
 
 <figure markdown="span">
-  ![DOS_m_c](./assets/dos_mol_crystal.svg)
-</figure>
+  ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
 
 
 Since the DOS and the band structure are both related the Kohn-Sham eigenvalues,
 intuitively, the DOS is also related to the band structures: bands with large
-energy dispersion in the Brillouin zone result in low DOS, whereas less
-dispersive (more flat) bands result in high DOS. In insulators and
-semiconductors the DOS is zero inside the band gap, as there are no available
-states in that energy range. Hence, the DOS is a useful quantity to calculate as
-it can give us a more accurate estimation of the band gap (because unlike the
-band structure plot which only goes along a certain path, DOS reflects
-eigenvalues of all k-points in the Brillouin zone). 
+energy dispersion in the Brillouin zone result in low DOS spread across a large
+interval, whereas less dispersive (more flat) bands result in high DOS near a
+small energy interval. In insulators and semiconductors the DOS is zero inside
+the band gap, as there are no available states in that energy range. Hence, the
+DOS can give us an accurate estimation of the band gap (unlike the band
+structure plot which only goes along a certain path in the Brillouin zone, DOS
+reflects eigenvalues of all k-points in the Brillouin zone).
 
 ### Smearing
 
@@ -56,8 +55,8 @@ $$
 $$
 
 However, since we can only have a finite sampling of the Brillouin zone, in
-pratice, we interpolate the $\delta$ function to artifically include some
-contributions from k-points that we missed. 
+pratice, interpolation of the $\delta$ function (or, smearing) is used to
+artifically include some contributions from k-points that we missed.
 
 <figure markdown="span">
   ![Delta](./assets/delta.svg)
@@ -103,7 +102,7 @@ In a similar way to the electronic band structure, we produce the density of
 states plot in three steps.
 
 #### Step 1 - SCF Calculation
-Perform a self consistent calculation as before, producing a converged
+Perform a self-consistent calculation as before, producing a converged
 charge density.
 
 !!! example "Task 10.1 - SCF Calculation"
@@ -168,11 +167,11 @@ K_POINTS automatic #(3)!
     for diamond.
 
 #### Step 3 - Density of States Calculation
-Convert the state energies calculated on this dense k-point grid to a
-density of states using `dos.x`. 
-[:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in)
-is the input file for `dos.x`. This code input file requires just a `DOS`
-section:
+
+Then, we need to convert the state energies calculated on this dense k-point
+grid to a density of states using `dos.x`.
+[:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in) is the input
+file for `dos.x` and contains just a `DOS` section:
 
 ```python
  &DOS
@@ -181,8 +180,8 @@ section:
  /
 ```
 
-1.  `degauss` specifies the Gaussian broadening to use in the density of states
-    calculation. This is in Rydberg.
+1.  `degauss` specifies the Gaussian broadening (in Rydberg) to use in the
+    density of states calculation.
 2.  `DeltaE` specifies the spacing between points in the output file, in eV.
 
 !!! note
@@ -198,9 +197,8 @@ section:
     [:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in)
     for diamond.
 
-The final step produces a file named `pwscf.dos` by default. This is a
-simple text file you can plot in whatever software you like. It has three
-columns:
+The final step produces a file named `pwscf.dos` by default. This is a simple
+text file you can plot. It has three columns:
 
 1. Energy (eV)
 2. Density of States (states/eV)
@@ -235,32 +233,37 @@ same number of **occupied** states, **in a metal the number of occupied states
 can vary from k-point to k-point**. Remembering that DFT is a gound state theory
 , a rapidly varying occupation number will makes it more difficult to converge. 
 
-Generally, there are two things that we typically do:
+
+### Tackling Discontinuities
+
+Generally, there are two things that we typically do for metals:
 
 1.  Use a denser k-point grid than you would need for a semiconductor or
     insulator. This is to help sampling the rapid change in the Fermi surface at
     different k-points.
 
-2.  Use some smearing scheme. This is in relation to the smearing used in the
-    calculation of the [:link: density of states](#density-of-states). The
-    difference is that here the occupation is also smeared (i.e., can no longer
-    be intergers of 0 and 1). To determine the occupation number at each SCF
-    step, we first need to obtain the Fermi energy of the system. This is
-    usually achieved by using the finite temperature Fermi-Dirac distrubtion and
-    a smeared DOS by:
+2.  Use some smearing scheme for the calculation of occupation number of bands
+    at each k-point. This is in relation to the smearing used in the calculation
+    of the [:link: density of states](#density-of-states). The difference is
+    that here the occupation is also smeared (i.e., can no longer be intergers
+    of 0 and 1).
+
+    To determine the occupation number at each SCF step, we first need to obtain
+    the Fermi energy of the system. This is usually achieved by using the finite
+    temperature Fermi-Dirac distrubtion and a smeared DOS by:
     $$
     N_e = \int_{-\infty}^{E_F} \mathrm{DOS}(\varepsilon) f_T(E) dE
     $$
     where $N_e$ is the number of electrons in the system and $f$ represents the
     Fermi-Dirac distribution function at temperature $T$. As we already know,
     the Fermi-Dirac function at 0K is a step function which would spoil the
-    convergence of metals (again, due to discontinuities). Here, we simply raise
-    the temperature to a small number (using the tag `degauss` for `pw.x`) so
-    that the Fermi-Dirac function is smeared out and the convergence can be
-    achieved more easily. It is worth noting that other smearing methods such as
-    gaussian smearing can also be used. Once the Fermi energy is found, the
-    occupation function is determined and the occupation number at each k-point
-    and band $n$ can be easily calculated:
+    convergence of metals (due to discontinuities). Here, we simply raise the
+    temperature to a small number (using the tag `degauss` for `pw.x`) so that
+    the Fermi-Dirac function is smeared out and the convergence can be achieved
+    more easily. It is worth noting that other smearing methods such as gaussian
+    smearing can also be used. Once the Fermi energy is found, the occupation
+    function is determined and the occupation number at each k-point and band
+    $n$ can be easily calculated:
     $$
     f_{n\mathbf{k}} = f_T(\varepsilon_{n\mathbf{k}} - E_F).
     $$
@@ -369,7 +372,6 @@ K_POINTS automatic
 Summary
 -------
 
-- We have used the `bands.x` and `dos.x` codes from the Quantum Espresso
-  package.
-- We have done some more plotting in gnuplot.
+In this tutorial, we have learned:
+- How to use the `dos.x` code from the Quantum Espresso package.
 - How to treat a metallic system.
