@@ -2,7 +2,6 @@ Convergence Tests
 =====================================
 This week we are going to continue looking at isolated molecules. Specifically, we will be focusing on finding out how well converged our results are. This is a necessary step to have any confidence in your results and should always be done before running calculations on new systems.
 
-***Need to change the link below to assest for lab 3***
 <div markdown="span" style="margin: 0 auto; text-align: center">
 [Download the input files for this tutorial](./assets/lab03_input.zip){ .md-button .md-button--primary }
 </div>

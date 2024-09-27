@@ -1,97 +1,100 @@
 Quantum Espresso Input and Output for Molecules
 ===============================================
 
-Quantum Espresso
-----------------
+This week you will run some DFT calculating using Quantum Espresso for molecular systems. We are going to be focusing on understanding and constructing input files that you will need for the rest of the course.
 
-[Quantum Espresso](http://www.quantum-espresso.org) is a freely available
-package of open-source codes for electronic-structure calculations and
-materials modelling at the nanoscale. It is based on density-functional
-theory, plane waves, and pseudopotentials, which you will be learning about in
-the theoretical part of the course.
+<div markdown="span" style="margin: 0 auto; text-align: center">
+[Download the input files for this tutorial](./assets/lab02_input.zip){ .md-button .md-button--primary }
+</div>
 
-Quantum Espresso is used via the command line. There is no graphical interface
-by default. This is typical of most electronic structure codes, where you are
-often interacting with a remote HPC system solely via ssh, and submitting
-calculations and text-file scripts to a queueing system which takes your
-calculation and executes it on some set of compute server nodes when they
-become available.
+Before starting, if you can't remember how to do something from the command line, you can always refer back to [lab 1](../lab01/readme.md).
 
-To run a calculation you first need to make an input file, describing the
-various calculation parameters along with giving the location of any other
-input files that will be used. Then you run the code giving it your input file
-(redirected from stdin in the case of Quantum Espresso - see [lab
-1](../lab01/readme.md)), and it will create one or more files with the result of
-your calculation and potentially intermediate data also.
+------------------------------------------------------------------------------
 
-First you'll need to copy the material for this Lab to your home directory.
-You should already have a directory named `MSE404` in your home directory; you
-can confirm this by going to your home directory and checking the contents
-with the following two commands:
+## Quantum Espresso
 
-```bash
-cd ~
-ls
-```
+[Quantum Espresso](http://www.quantum-espresso.org) is a freely available package of open-source codes for electronic-structure calculations and materials modelling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials, which you will be learning about in lectures.
 
-If you don't see an `MSE404` folder listed, you can create it with
+Quantum Espresso is used via the command line. There is no graphical interface by default, which is typical of most electronic structure codes. Throughout this course we will be interacting with Quantum Espresso through the command line via ssh (through PuTTY that you used in [lab 1](../lab01/readme.md)).
+
+
+!!! example "Task 1 - Copy Input Files"
+
+    In lab 1 you should have created a directory named `MSE404` in your home directory.
+
+    - Check this by issuing the command `cd ~` followed by `ls`.
+    - Copy the input files from `opt/Courses/MSE404/lab02` to your `MSE404` folder. Remember you need to pass an additional flag to `cp` to copy a directory. If you are struggling with this, revisit [lab 1](../lab01/readme.md).
+    - Copy the directory containing the pseudopotentials that you will be using during this course to your `MSE404` directory. These are stored in `/opt/Courses/MSE404/pseudo`
+
+You should now have a directory `lab02` and `pseudo` within your `MSE404` directory. This contains a set of basic input files for a variety of systems and the pseudopotentials for the input files.
+
+## Input Files
+
+Before running a calculation we need to write input files. These give instructions to Quantum Espresso to tell it what we want to calculate, and what parameters to use to do the calculation. The first example we will be looking at is in the [01_methane](01_methane) directory. This is an input file for the `pw.x` module of Quantum Espresso which calculates the total energy of your system.
+
+Let's take a look at our first input file [CH4.in](01_methane/CH$.in).
 
 ```bash
-mkdir MSE404
+&CONTROL #(1)!
+    pseudo_dir = '.' #(2)!
+/
+
+&SYSTEM
+    ibrav = 1 #(3)!
+    A = 15.0 #(4)!
+    nat = 5 #(5)!
+    ntyp = 2 #(6)!
+    ecutwfc = 18.0 #(7)!
+/
+
+&ELECTRONS
+/
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF #(8)!
+ H   1.008  H.pz-vbc.UPF
+
+ATOMIC_POSITIONS angstrom #(9)!
+ C  0.0       0.0       0.0
+ H  0.0       0.0       1.089
+ H  1.026719  0.000000 -0.363000
+ H -0.513360 -0.889165 -0.363000
+ H -0.513360  0.889165 -0.363000
+
+K_POINTS gamma #(10)!
 ```
 
-The above command requests the creation of a directory named `MSE404` within
-whatever directory you are currently. If you weren't in your home directory
-you could still create a directory there, by giving the absolute path: `mkdir
-~/MSE404`. Once you've confirmed you have the directory as expected, you can
-make a copy of the lab material there so that you can run the calculations for
-this lab, with `cp -r /opt/Courses/MSE404/lab02 ~/MSE404`.
+1. Quantum Espresso input files are ordered with 'tags'. These 'tags' start with a `&` and end with a `/`. They are blocks of input parameters.
+2. Directory containing your pseudopotentials defined later in the input file. The directory `.` means the current directory. 
+3. Bravais lattice type e.g. simple cubic, face centered cubic etc. These are documented on the [Quantum Espresso input description page](https://www.quantum-espresso.org/documentation/input-data-description/). You will get familiar with this throughout the course. ibrav = 1 is a simple cubic lattice.
+4. Crystalographic constant i.e. cell vector length. Simple cubic with A=15 means a 15x15x15 Å box. 
+5. Number of atoms.
+6. Number of species.
+7. Energy cutoff for wavefunction expansion. You will learn more about this in your lectures and [lab03](../lab03/readme.md)
+8. Atomic species, atomic mass and the name of the pseudopotential file.
+9. The atomic positions of your atoms. The `angstrom` after `ATOMIC_POSITIONS` means these are cartesian coordinated in units of Å.
+10. K-Points for the calculation. We have chosen to do this calculation at the Gamma point.
 
-A set of basic input files for a variety of systems have been set up in the
-different directories here. In the material that follows you'll need to run
-the calculations in your own copy of this directory. You'll get an error if
-you try to run calculations anywhere under the `/opt` directory as you don't
-have the permissions needed to create files here.
+!!! example "Task 2 - Alternative Input File Style"
+    Take a look at the input file in the `01a_methane` directory.
 
-You should also ensure you have a copy of the directory with the
-pseudopotentials used for the labs:
+    - How is this different from the input file discussed above?
 
-```bash
-cd ~/MSE404
-cp -r /opt/Courses/MSE404/pseudo .
-```
+    ??? success "Answer"
+        The parameter defining the cell vector length is not present. There is also a section called `CELL_PARAMETERS`.
 
-A basic input file
-------------------
+    - Will this input file do the exact same thing as the one in `01_methane`?
 
-A simple example that will use the `pw.x` code from Quantum Espresso to
-calculate the total energy of methane is given in the
-directory `01_methane`. This is the same calculation you ran last week.
-Quantum Espresso uses periodic boundary conditions, so for molecules we just
-put the entire system in a large box, that we hope (we check) is big enough
-that periodic images don't interact, or interact weakly compared to the
-other interactions we're interested in.
+    ??? success "Answer"
+        Yes! Instead of specifying the cell vector length we have just specified the length of each cell vector in the `CELL_PARAMETERS` section. 
 
-Let's first open the input file
-[`CH4.in`](01_methane/CH4.in) and read through it.
-In this case we are relying on many default values that would normally be
-specified, but let's focus on the most important things to begin. There
-is an annotated version of this file called
-[`CH4_detailed.in`](01_methane/CH4_detailed.in)
-which will let us go through the input in more detail. Take a look at this now.
 
-Sometimes we want to find out more information about a specific variable, for
-example `ibrav`. Take a look at the `pw.x` documentation file for more details
-on this variable: `less ~/MSE404/qe-doc/INPUT_PW.txt`. You should have made a
-link to the documentation across last week, but in case this gives you an error,
-then you can link using `ln -s /opt/share/quantum-espresso/doc-6.3 ~/MSE404/qe-doc`.
-You can search the documentation for `ibrav` by typing `/ibrav` and pressing
-enter. You can press `n` to go to the next match if you don't go straight to the
-main entry. (The input description is also viewable
-[online](http://www.quantum-espresso.org/Doc/INPUT_PW.html).)
+!!! warning "Warning - Periodic Boundary Conditions and Molecules"
+    Quantum Espresso is a periodic DFT code due to it using a plane wave basis. This is something you will learn about later in the theoretical part of this course. We therefore need to be smart in order to model isolated molecules, since by definition these are not periodic. One way of doing this is to put the molecule in the center of a large box. This minimises any interaction with its periodic neighbour.
 
-Running the calculation
------------------------
+
+## Running the calculation
+
 
 The Quantum Espresso package has been compiled as a module on the mt-student
 server. As discussed in the previous lab, modules are often used on HPC
