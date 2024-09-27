@@ -190,8 +190,29 @@ we can look at the output file. Output files are generally structured as such:
 
     - Run the same calculation as in Task 4 and confirm that you get the same results.
 
-Methane, ethane and ethene
----------------------------
+## Visualising Structures - VESTA
+
+Interactive visualisation software are highly important in computational physics. Not only are they a way of checking the structure defined in your input file, but they are also very useful when checking output structures of relaxation calculation. You will learn more about this in [Lab 5](../lab05/readme.md). The visualisation software we are going to use through this course is called `VESTA`.
+
+Vesta, like Quantum Espresso, has been loaded into a module. To use it you will need to issue the command:
+
+```bash
+module load vesta
+```
+
+You have now loaded VESTA to your environment. By default, VESTA cannot read Quantum Espresso input files. Therefore, we will need to convert to a format that VESTA can read.
+
+***I don't yet know how we are going to convert the QE to VESTA file.***
+
+After converting your file, you will be able to visualise it with the command:
+
+```bash
+vesta filename.whatgoeshere???
+```
+
+During this lab we will be working with different molecules. It will be a good exercise to visualise them as we go along.
+
+## Methane, ethane and ethene
 
 Now we understand the basics of the Quantum Espresso input file, let's try
 some other molecules, in this case ethane and ethene. The only things that we
