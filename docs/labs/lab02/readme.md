@@ -81,7 +81,7 @@ K_POINTS gamma #(10)!
     - How is this different from the input file discussed above?
 
     ??? success "Answer"
-        The parameter defining the cell vector length is not present. There is also a section called `CELL_PARAMETERS`.
+        ibrav is now set to 0. This means 'free cell' meaning the user needs to specify the cell parameters manually. The parameter defining the cell vector length is not present. There is also a section called `CELL_PARAMETERS`.
 
     - Will this input file do the exact same thing as the one in `01_methane`?
 
@@ -93,81 +93,102 @@ K_POINTS gamma #(10)!
     Quantum Espresso is a periodic DFT code due to it using a plane wave basis. This is something you will learn about later in the theoretical part of this course. We therefore need to be smart in order to model isolated molecules, since by definition these are not periodic. One way of doing this is to put the molecule in the center of a large box. This minimises any interaction with its periodic neighbour.
 
 
-## Running the calculation
+## Running and examining the calculation
 
-
-The Quantum Espresso package has been compiled as a module on the mt-student
-server. As discussed in the previous lab, modules are often used on HPC
-systems to make different versions of various packages as compiled with
-different compilers available to users. To add Quantum Espresso to your
-environment, along with its dependencies type the following in a terminal:
+The Quantum Espresso package has been compiled as a module on the server as discussed in [Lab 1](../lab01/readme.md). Modules are often used on HPC systems to make different versions of packages available to users.
+In order to be able to run any Quantum Espresso calculation, it must first be loaded to your environment. This can be done by issuing the command
 
 ```bash
-module load gcc mkl espresso
+module load quantum-espresso
 ```
 
-Now to run the code: make sure you are in the `01_methane` directory
-then do:
+This will load Quantum Espresso and any module dependencies.
 
+!!! example "Task 3 - Running a calculation"
+    To run the first calculation of the day, make sure you have loaded Quantum Espresso to your environment as discussed above.
+
+    - Navigate to the `01_methane` directory.
+
+    - Issue the command 
+    ```bash
+    pw.x < CH4.in > CH4.out
+    ```
+    
+After the calculation has finished take a look at the files created in your directory. You should have a file named `pwscf.xml` and a new directory named `pwscf.save`.
+
+- `pwscf.xml` has the results of the pw.x calculation in machine readable format (not so readable for humans!)
+- `pwscf.save` is a directory which contains: 
+	- A copy of `pwscf.xml`.
+	- A copy of the pseudopotential files used in the calculation.
+	- A file with the charge density stored. This is mostly used for post-processing to obtain observables.
+	- Wavefunction files which are stored in binary (and thus are not readable). These can be used as inputs to other calculations.
+
+Now that we have run the calculation for methane, we should examine the output file `CH4.out`, which is where we instructed Quantum Espresso to pipe the output of the pw.x calculation.
+Using the command
 ```bash
-pw.x < CH4.in
+more CH4.out
 ```
+we can look at the output file. Output files are generally structured as such:
+- Begining - Important information about the system including parameters used in the calculation.
+- Middle - Self-consistent cycle starting from randomised atomic wavefunctions.
+- End - Final results like total energy, band energies etc.
 
-Here we redirected our input file to the stdin of `pw.x`, as described in the
-[IO Redirection section of lab 1](../lab01/readme.md#io-redirection). (We could
-also have used the `-i` flag to specify an input file as `pw.x -i CH4.in`.)
-You'll see a lot of output has been generated in your terminal, but a simple
-calculation like this will finish quite quickly. It's better to explicitly save
-the output (and any error information) to a file. To do this, we can instead run
-the calculation a redirect the output to a file with
+!!! example "Task 4 - Examining an output file"
+    Using the `more` command specified above
 
-```bash
-pw.x < CH4.in &> CH4.out
-```
+    - How many electrons were in your calculation?
 
-The output files
-----------------
+    ??? success "Answer"
+        8.00. This is found at the top of your output file.
+        ```bash
+        number of electrons       =         8.00
+        ```
 
-Take a look in the directory with `ls`. You'll see some additional files have
-been generated. We have `pwscf.xml`, which has all the details of the system
-and results of the calculation in an xml format. If you skip to the end of
-this file (if you have opened it with `less`, then pressing `G` will go
-straight to the end, while `g` will go back to the start) you will see the
-eigenvalues and other details. _Note, that while the band energies listed in the
-output file are in eV, those in the xml file are in Hartree units_. And we have
-a folder called `pwscf.save`. This has some other files such as the charge
-density, another copy of the xml file we saw above, a copy of the pseudoptential
-that was used, and files with the calculated wavefunction stored in a binary
-format that can be used as input to other calculations.
+    - How many scf cycles (iterations) did your calculation go through?
 
-Now let's take a quick look through the output that we generated. (e.g.
-`less CH4.out`).
+    ??? success "Answer"
+        9 scf cycles. This is found on the line:
+        ```bash
+        convergence has been achieved in   9 iterations
+        ```
 
-- First we have details of the code, version and date of the calculation.
-- There's some info about the calculation details, including some numbers
-  where we had just accepted the defaults.
-- Then we go into our self-consistent calculation, starting from randomized
-  atomic wavefunctions. At the end of each step it outputs the total energy.
-- After seven steps we have converged to the default level, i.e. 
-  `estimated scf accuracy` is below 1.0E-6.
-- The eigenvalues are output in eV. Note although we have
-  8 electrons, we have treated them as 4 doubly occupied states, so only four
-  numbers are output.
-- The total energy is listed, as well as its decomposition into several terms.
-- And finally some timing information. If calculations are taking a long time
-  this can be helpful in seeing where it is spent.
+    - What is the total energy of the Methane molecule?
 
-Note there are a number of equivalent ways of defining the unit cell vectors
-within Quantum Espresso. Instead of relying on choosing the correct `ibrav`
-value, we can set `ibrav = 0` and give the unit cell lattice vectors
-explicitly in a `CELL_PARAMETERS` section. This is shown in
-[`01a_methane/CH4.in`](01a_methane/CH4.in).
+    ??? success "Answer"
+        $E_{\text{Tot}} = -15.49834173 \, \text{Ry}$. This is found on the line:
+        ```bash
+        !    total energy              =     -15.49834173 Ry
+        ```
+        Notice the converged total enegry will always have a `!` at the beginning of the line.
 
-### _Task_
+    - What accuracy is your calculation converged to?
 
-- Try running `pw.x` on the second methane input file and confirm you get the
-  same total energy as before.
+    ??? success "Answer"
+        0.00000066 Ry. This is found on the line:
+        ```bash
+        estimated scf accuracy    <       0.00000066 Ry
+        ```
+        We did not specify this in the input file. The default value of below 1E-6 was therefore used.
 
+    - How many band energies were calculated?
+
+    ??? success "Answer"
+        4 band energies were calculated. This is found in the lines:
+        ```bash
+        End of self-consistent calculation
+
+        k = 0.0000 0.0000 0.0000 ( 14712 PWs)   bands (ev):
+
+        -17.3307  -9.3182  -9.3176  -9.3173
+        ```
+
+??? note "Electrons and Energy Eigenvalues"
+    Note that in this calculation we had 8 electrons but only 4 energy eigenvalues were calculated. This is because we have treated the 8 electrons as 4 doubly occupoed states, and therefore only 4 energy eigenvalues are outputted.
+
+!!! example "Task 5 - Alternative Input File"
+    Navigate to the directory `01a_methane`. 
+
+    - Run the same calculation as in Task 4 and confirm that you get the same results.
 
 Methane, ethane and ethene
 ---------------------------
