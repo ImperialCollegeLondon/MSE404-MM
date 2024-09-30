@@ -176,7 +176,7 @@ In the following tasks, we will look at the poly(para-phenylene) (PPP) polymer. 
 
 If you take a closer look at the PPP molecule again, you will notice a torsion angle, $\theta$, between two neighoburing rings in the unit cell. Our next task is to optimise this torsion angle.  
 
-Optimisation of the unit cell of crystals 
+Optimisation of atomic positions within the unit cell 
 -------------------
 The first method of finding the optimal torsion angle is to find the minimum in the PES, plotted against the torsion angle $\theta$. This is what we will do in the following task. 
 
@@ -204,7 +204,7 @@ The second method is to just run a "relax" calculation with Quantum Espresso.
     - Use the `dihedral angle` option in xcrysden to find the torsion angle of the relaxed   structure. How does this compare to what you previously predicted?
 
 
-Optimizing Unit Cells
+Optimizing lattice parameters of unit cells 
 ---------------------
 
 
