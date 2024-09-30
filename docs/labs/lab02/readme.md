@@ -129,6 +129,7 @@ Using the command
 more CH4.out
 ```
 we can look at the output file. Output files are generally structured as such:
+
 - Begining - Important information about the system including parameters used in the calculation.
 - Middle - Self-consistent cycle starting from randomised atomic wavefunctions.
 - End - Final results like total energy, band energies etc.
@@ -202,107 +203,109 @@ module load vesta
 
 You have now loaded VESTA to your environment. By default, VESTA cannot read Quantum Espresso input files. Therefore, we will need to convert to a format that VESTA can read.
 
+We are going to use the simple script `convert_qe_to_vesta.py` to do this conversion. To use this code you need to ...........................................................
+............................................................................................................................................
+............................................................................................................................................
+............................................................................................................................................
+
+
 ***I don't yet know how we are going to convert the QE to VESTA file.***
 
 After converting your file, you will be able to visualise it with the command:
 
 ```bash
-vesta filename.whatgoeshere???
+vesta POSCAR
 ```
+............................................................................................................................................
+............................................................................................................................................
+............................................................................................................................................
 
 During this lab we will be working with different molecules. It will be a good exercise to visualise them as we go along.
 
 ## Methane, ethane and ethene
 
-Now we understand the basics of the Quantum Espresso input file, let's try
-some other molecules, in this case ethane and ethene. The only things that we
-need to change are the number of atoms and the atomic positions. The input 
-files are in [C2H6.in](02_ethane/C2H6.in) and [C2H4.in](03_ethene/C2H4.in). If
-you want to see what we've changed in the [ethane input file](02_ethane/C2H6.in)
-relative to the [methane input file](01_methane/CH4.in) a useful tool is
-[`diff`](../extras/misc/linuxcommands/readme.md#diff). If you're in the `lab02`
-directory you can type `diff 01_methane/CH4.in 02_ethane/C2H6.in`. You'll be
-able to see that we've only changed a few lines in our input file and everything
-else is the same.
+Now we have understood the basics of the Quantum Espresso input file, let's try some other molecules. We have been looking at Methane (CH4), so we can go up one step and look at ethane (C2H6) and then ethene (C2H4).
+The only thing that is going to change in our input files are the number of atoms and the atomic positions. The input files [C2H6.in](02_ethane/C2H6.in) and [C2H4.in](03_ethene/C2H4.in) have been made for you in the directories `02_ethane` and `03_ethene` respectively.
 
-### _Task_
+Recall that we can use the `diff` command to check for differences between two files, as we learned in [Lab 1](../lab01/readme.md). To see the changes made in the ethane input file relative to the one for methane that we have been working on, use the diff command. If you are in the `lab02` directory then this can be done using the command:
 
-- Run `pw.x` for ethane and ethene and save the outputs.
-- How do the eigenvalues compare between molecules?
+```bash
+diff 01_methane/CH4.in 02_ethane/C2H6.in
+```
 
-Note that, unlike for methane, we specified the atomic units in bohr for both 
-ethane and ethene. One common mistake is using the wrong units. What happens if
-you get the units wrong?
+!!! example "Task 6 - Visualising and Running"
+    We want to visualise all three molecules; methane, ethane and ethene to see the structural differences. We then want to run a total energy calculation
 
-### _Task_
+    - Using the `convert_qe_to_vesta.py` script, visualise the structures for Methane, Ethane and Ethene. How do they compare?
 
-- Change the units of the atomic positions for ethene and run
-  `pw.x` again. What happens?
+    ??? success "Result"
+        I WANT TO PUT PICTURES OF EACH HERE AND EXPLAIN THE DIFFERENCES.
 
+    - Run a total energy calculation for ethane and ethene using `pw.x` as you did for methane. How do the eigenvalues compare between the molecules?
 
-C<sub>20</sub> isomers
-----------------------
+    ??? success "Answer"
+        RUN THESE CALCULATIONS NOWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
 
-While the total energy of a molecule isn't that useful by itself, the _relative_
-energies between, say, different isomers of a given molecule are much more useful.
-In general (ignoring e.g. temperature effects), a lower energy indicates a more
-stable isomer. As an example, let's consider three different isomers of
-C<sub>20</sub> - a bowl, ring and cage structure
-(see <https://pubs.acs.org/doi/abs/10.1021/acs.jpca.5b10266>).
+    - A common mistake in calculations is the wrong units. For ethene, change the units in ATOMIC_SPECIES to bohr from angstrom. Rerun pw.x. What is the difference?
 
-### _Task_
+    ??? success "Answer"
+        need to run
 
-- Run the inputs for the different isomers, found in
-  [`C20_bowl.in`](04_c20_bowl/C20_bowl.in), [`C20_ring.in`](05_c20_ring/C20_ring.in)
-  and [`C20_cage.in`](06_c20_cage/C20_cage.in). Which one has the lowest total energy?
+## C$_{20}$ isomers
 
-- The three isomers are close in energy, so how can we tell if the difference is
-  significant? Let's try looking at an amorphous structure.
+The total energy of a molecule isn't that useful by itself ( ), the ***relative*** energies between, say, different isomers of a given molecule are much more useful.
 
-- Run the inputs for the amorphous structure, found in
-  [`C20_amorphous.in`](07_c20_amorphous/C20_amorphous.in). How does the energy
-  compare to the previous isomers? Is it what you expected?
+!!! note "Kohn-Sham Energies"
+    The energies calculated in DFT are the Kohn-Sham energies. These are the energies of the single-particle Kohn-Sham states. Since these single particle Kohn-Sham states are ficticious ( the real wavefucntions are NOT single-particle wavefunctions), then the Kohn-Sham energy is also ficticious. Therefore, the total energy of a structure is not meaningful by itself. What is meaningful is comparisons of totale energy! You will learn more about this in the theoretical part of the course.
 
-- Finally, let's see what happens if we try something less realistic. In 
-  [`C20_smile.in`](08_c20_smile/C20_smile.in) there is an input file for a structure
-  which resembles a smiley face. Run this calculation and compare the energies.
+In general (ignoring effects of things like temperature), a lower total energy indicates that an isomer is more stable.
+As an example, we are going to be looking at three different isomers of C$_{20}$.
 
-It turns out that the relative energies of the ring, cage and bowl structure are very
-sensitive to the details of the approach used, as seen in
-[this paper](https://pubs.acs.org/doi/abs/10.1021/acs.jpca.5b10266).
-For these systems, it is therefore hard to say with certainty which is the most
-stable isomer using DFT. However, by comparing with less realistic structures we can
-still see the difference in energy between structures which should be stable
-and those which should not.
+- C$_{20}$ in a bowl structure
 
-Finally, note that if you were to use a structure which more closely resembles a smiley
-face, Quantum Espresso is unable to reach convergence within 100 iterations, just like
-when you use the wrong units. So if you encounter convergence problems, the first thing
-to check should be whether or not your input structure is sensible.
+Would be nice to have images of each here. Should export as png from vesta.
 
-Visualizing Structures
-----------------------
+- C$_{20}$ in a ring structure
+- C$_{20}$ in a cage structure.
 
-There are many different tools that can be used to visualize atomic
-structures. `xcrysden` is installed as a module on the server you're using for
-this course, and conveniently can read Quantum Espresso input files. Try
-loading the module with `module load xcrysden`, running the command `xcrysden`
-and opening the input files for the various structures we've looked at in this
-lab. You can do this by selecting `Open PWscf` on the file menu. Note that
-since we are viewing a molecule, xcrysden will open a menu asking whether to
-reduce the dimensionality. Select `reduce dimension to 0D`. 
-There are many options to control how the structure looks, and you can
-grab and rotate the structure with your mouse.
+If you are wondering if this is really a cauculation people do, [here is an article doing this exact calculation](https://pubs.acs.org/doi/10.1021/acs.jpca.5b10266)
 
-### _Task_
+!!! example "Task 7 - Total Energy Of Isomers"
 
-- See if you can figure out how to save an image of each C<sub>20</sub> isomer
-  as a png file.
+    - Run the inputs for the three different isomers in `04_c20_bowl`, `05_c20_ring` and `06_c20_cage`
 
-We can also use `xcrysden` to visualize other quantities, such as the charge
-density. If you've got time left in this lab, check out the additional material
-on [`visualization`](../extras/labs/visualising_output/readme.md), which shows
-you how to visualize the charge density of methane.
+    - Which Isomer has the lowest total energy?
+
+    ??? success "Answer"
+        Run these.
+
+    - What does it mean to have the lowest total energy of the three isomers? What conclusions about stability can we draw from these calculations?
+
+    ??? success "Answer"
+        also need to run this.
+
+    You will notice that the three isomers are very close in total energy. How can we tell if this difference is significant? One way is to run a total energy calculation on an amorphous structure.
+
+    - Run the inputs for the amorphous structure found in `07_c20_amorphous`. How does the energy compare to the three isomers above? Is this what you expect?
+
+    ??? success "Answer"
+        no idea yet.
+
+    Finally we can run a calculation on something less relaistic.
+
+    - Navigate to `08_c20_smile` and visualise the structure. 
+
+    - Run a total energy calculation and compare the enrgies to previous runs. Is this what we expect?
+
+    ??? success "Answer"
+        probably
+
+In the paper linked above it was shown that the relative energies of the ring, cage and bowl structure are very sensitive to the details of the approach used. For these systems using just DFT it is hard to say with certainty which is the most stable isomer.
+However, comparing to less realistic structures we can see the difference in energy between structures which should be stable and which should not be stable, which is very valuable information.
+
+!!! warning "Convergence Issues"
+    If you were to use a structure which more closely resembled a smiley face, Quantum Espresso would be unable to reach convergence within 100 iterations, just as when we used the wrong units for ethene. 
+    If you encounter a problem with convergence, the first thing you should check is whether or not the input strucutre is sensible which shows the importance of visualising your structures before you run calculations!
 
 -------------------------------------------------------------------------------
 
@@ -314,31 +317,8 @@ Summary
   - Methane, ethane and ethene.
   - Different isomers of C<sub>20</sub>.
 - We've also looked at how to visualize the structures.
-- As an optional extra, try setting up inputs for some other molecules of your
   choice.
 
 
 -------------------------------------------------------------------------------
-
-Extra - Other molecules
------------------------
-
-In this course we give you the coordinates of the materials that you need to 
-simulate. But what if you want to try something different? For molecules,
-[Avogadro](https://avogadro.cc/) is a useful for progam for visualizing
-and generating structures for a range of molecules. The online documentation
-will show you how to build different molecules. Once you are happy, you can 
-save the coordinates as a `.xyz` file, which will write the atomic positions
-in Angstrom. You can then insert these coordinates into a Quantum Espresso
-input file.
-
-### _Optional Task_
-
-- Try building a (small) molecule of your choice in Avogadro. For now, just use
-  carbon and hydrogen - we'll look at what we need to do to use different elements
-  next week. Once you've built a molecule, use it to make a Quantum Espresso input
-  file and run the calculation.
-
-
-
 
