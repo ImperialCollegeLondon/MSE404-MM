@@ -1,88 +1,63 @@
 Forces, Stresses and Structures
 ===============================
-For this week and the next, we will focus on predicting the structural properties of materials. These include finding the stablest structure of molecules and calculating the energy of vibrations in crystals. We will begin by briefly reviewing the very important potential energy surface (PES). 
+
+The contributor to this tutorial is currently getting used to mkdocs. So the following are the tentative structure of the updated tutorial and serve as practices for the contributor. 
+
+!!! danger 
+    I am currently figuring out the best way to modify the workflows of each task. 
+
+!!! warning 
+    mkdocs is amazing. Thanks Chengcheng.  
+------------------------- Tentative actual text ---------------------
+
+For this week and the next, we will focus on predicting the structural properties of materials. These include the stablest geometry of molecules and the energy of phonons in crystals. We will begin by briefly reviewing how the potential energy surface (PES) is very useful for these tasks. 
 
 The potential energy surface
 ----------------------------
-The potential energy surface (PES) is the surface obtained by plotting the total energy of a molecule or crystal against different atomic positions. It is commonly written as $U(\{\mathbf{R}\})$, where $\mathbf{R}$ represents the set of atomic positions of all atoms. Many useful quantities, such as the atomic forces in a molecule in a particular structure can be calculated by evaluating the correct deivatives of the PES.  
-
-Ground state structure of molecules 
------------------------------------
-The ground state structure of a molecule simply refers to the structure with the lowest total energy. This structure is also called the optimal structure or stablest structure of the molecule. Mathematically, this structure is associated with the **global** minimum of the PES. Therefore, the atomic forces in this structure will all vanish.  
-
-Most DFT codes, like Quantum Espresso, moves the atoms around based on the atomic forces until the atomic forces "vanish", i.e. become lower than some cutoff. This process is called **relaxation** or **structural optimisation**. The resulting structure obtained from this procedure is called a relaxed structure. 
-
-In the first part of the lab, we will demonstrate how to calculate the atomic forces and find the optimal structure of a molecule in Quantum Espresso. 
-
-!!! Danger
-    When relaxing large molecules, there might be other **local** minima in the PES. These local minima are associated with structures which are higher in the total energy, but the atomic forces also vanish. These structures are called **metastable** structures.
-
-    When finding the stablest structures using DFT, there is always a possibility that your calculation is "trapped" in one of these metastable structures. Whereas this is less likely to happen for small molecules, this can happen with large molecules. You will have to be careful! 
-
-!!! Question
-    How can we reduce the risk of mistaking a metastable structure as the ground state structure? 
-    ??? success "Answer"
-        After obtaining a relaxed structure, distort that relaxed structure slightly and randomly, then redo the relaxation. This will likely bring your molecule to a stabler structure if there are any.  
 
 
-
-Forces in molecules
+Forces and stress in molecules
 -------------------
-The force acting on an atom, $\mathbf{F}$, is defined as the first derivative of the PES, $U$, with respect to the position of that atom, $\mathbf{R}$. Mathematically,
-$$
-\mathbf{F} = -\nabla_\mathbf{R} U.
-$$
-It is worth noting that, in order to calculate the atomic forces efficiently, the Hellmann-Feynman Theorem is often invoked in most DFT codes. 
 
-Quantum Espresso calculates the atomic forces in a `pw.x` calculation if you set `tprnfor = .true.` and `tstress = .true.` in the input file. Let's take a closer look at the atomic force calculations in the tasks below. 
 
-In following tasks, we are going to study the atomic forces in a distorted methane molecule, $\mathrm{CH_4}$, where one of the hydrogen atoms (the one sitting on the z-axis) is pushed closer to the carbon atom than others. 
+!!! example "Task 1 - Examining convergence"
+    The details of the task are to be modified  
 
-!!! example "Task 1 - Examining atomic forces in the output file"
-    - Read and run the input file `01_methane_force.in`. Note how the two settings `tprnfor` and `tstress` have been set to true. 
+    This is the second line of the task 
 
-    - When the output file is out, search for the line saying `Forces acting on atoms`. This should be written just before the timing information. 
+    - Will we make some sort of plot of total force against KE? 
 
-    - You should find a section that looks like the following: 
-    ```python
-       the output file will be filled in later when we have decided the best plane wave cutoff for calculating the forces - see convergence test section below. 
-    ```
+        ??? success "Answer"
+            Yes, I think we really should.  
 
-    - Why are these atomic forces expected for this distorted methane molecule? 
-    ??? success "Answer"
-        Yes, 
+    - Will a new python script replace the bash script for energy convergence? 
+        
+        ??? success "Answer"
+            Yes. I will make that asap.
 
-Just as we have to check the convergence of the total energy against the PW cutoff, we have to check the convergence of atomic forces against the PW cutoff too. Let's do this in the next task.  
+!!! warning 
+    I think it will be helpful to remind readers to be careful of the use of different units, fractional coordinates, etc. in Quantum Espresso
 
-!!! example "Task 2 - Examining convergence"
-    In this task, multiple input files of the same distorted methane molecule. Each input file is labelled by their PW cutoff. 
 
-    - Run the `whatever auto.sh` script to run single-point calculations for all input files. 
+!!! note 
+    For job submission, I think it is the easiest to use auto.sh. 
 
-    - Run the `whatever python or bash` to obtain the convergence curves. 
+    For data analysis or output file reading/input file modifications, it is the easiest to use Python. 
 
-    - Which quantities are being plotted by the script for determining the convergence? 
-
-    ??? success "Answer" 
-        The script plots the fractional difference of the total energy with respect to the best-converged total energy, $(E_{\mathrm{best}}-E_{i})/E_{\mathrm{best}}$, and analogously the fractional difference in the total force $(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{i})/F^{\mathrm{tot}}_{\mathrm{best}}$.   
 
 Optimisation of molecular geometry 
 -------------------
-In addition to calculating the atomic forces associated with a particular structure, another important functionality of Quantum Espresso is optimising the structure of molecules, which we will try out in this following task.
 
-In this task, we will look at the poly(para-phenylene) (PPP) molecule. 
-
-!!! example "Task 3 - "  
-
-
-
-Ground state structure of crystals 
------------------------------------
-We have seen how the stablest structures of molecules can be found by minimising the atomic forces in DFT. In principle, it is straightforward to apply the idea for the optimisation of the structures of crystals. However, an additional consideration arises from optimising the lattice constant of the crystal alongside the atomic positions within the unit cell. This leads to the need for a few more quantities 
-
-Stress in crystals
+Constrained relaxation 
 -------------------
-The stress, $\sigma$, is defined as the ratio between the $i$-th component of the induced force (e.g. this could be the $x$-component) due to a deformation along the $j$-th direction (e.g. in the $x$- or $z$-direction). We will see below how the deformation of a crystal along one direction induces forces along other directions too.  
+
+!!! Quiz 
+    
+    - What are the advantages of constraining the motion of some atoms?
+        
+        ??? success "Answer"
+            
+            The advantages includes reducing the number of relaxation steps required for reaching the equilibrium structure. 
 
 
 Pressure and bulk modulus of crystals 
