@@ -6,7 +6,7 @@ This week we are going to continue looking at isolated molecules. Specifically, 
 [Download the input files for this tutorial](./assets/lab03_input.zip){ .md-button .md-button--primary }
 </div>
 
-Before starting, if you can't remember how to do something from the command line, you can always refer back to [lab 1](../lab01/readme.md).
+Before starting, if you can't remember how to do something from the command line, you can always refer back to [Lab 1](../lab01/readme.md).
 
 -------------------------------------------------------------------------------------------
 
@@ -448,7 +448,7 @@ Actually, we typically converge the total energy ***per atom*** (meV/atom). This
 If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
 
 !!! Important "General Scripts"
-    The scripts you have been provided in [02_ecut/02_methane](02_ecut/02_methane) are general. You can use them through the course. There are more like these in the [convergence_scripts](../convergence_scripts) directory
+    The scripts you have been provided in [02_ecut/02_methane](02_ecut/02_methane) are general. You can use them through the course. There are more like these in the [useful_scripts](../useful_scripts) directory.
 
 ## Plotting
 
@@ -646,24 +646,24 @@ In [03_argon](03_argon) we are going to investigate the change in the binding en
 In this lab we have been dealing with isolated molecules. Quantum Espresso is a plane-wave DFT code, and thus deals with periodic unit cells. To model 'isolated' atoms, we make the unit cell very large compared to the size of the isolated molecule, effectively reducing any interaction with neighbouring periodic images. 
 However, this is a parameter we should converge. A larger unit cell (volume) increases the computational cost, as the number of plane waves sales with the unit cell volume, so we don't want the unit cell too large. We should also have converged the total enegry versus the unit cell size.
 
-Additionally, if we are dealing with crystals which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in [lab04](../lab04/readme.md). The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.
+Additionally, if we are dealing with crystals which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in [Lab 4](../lab04/readme.md). The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.
 
 ------------------------------------------------------------------------------------
 
 Summary
 -------
 
-- In this lab we looked at defining pseudopotentials, checking the convergence of
-  the total energy with respect to the plane-wave energy cutoff, and the effect
-  of exchange and correlation functional.
-    - Convergence of any parameter is done by systematically varying the
-      corresponding calculation parameter and looking at how the result changes.
-- We saw how we can use python and bash scripts to automate this process.
-    - We can use python scripts to generate multiple input files with systematically varied parameters.
-    - We can use a bash `for` loop to perform a calculation for a number of
-      input files.
-    - We can use `grep` or `awk` to parse results or parameters from our
-      output files.
+In this lab we looked at defining pseudopotentials, checking the convergence of the total energy with respect to the plane-wave energy cutoff, and the effect of exchange and correlation functional.
+
+- Convergence of any parameter is done by systematically varying the corresponding calculation parameter and looking at how the result changes.
+
+We saw how we can use python and bash scripts to automate this process.
+
+- We can use python scripts to generate multiple input files with systematically varied parameters.
+- We can use a bash `for` loop to perform a calculation for a number of
+  input files.
+- We can use `grep` or `awk` to parse results or parameters from our
+  output files.
 - We can quickly generate a plot of a data file with pythons matplotlib or using `gnuplot`.
 
 ------------------------------------------------------------------------------
