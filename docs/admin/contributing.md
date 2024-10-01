@@ -24,7 +24,7 @@ pip install mkdocs-macros-plugin
 
 Now you are ready to clone the repository:
 ```bash
-git clone git@gitlab.com:mse404/mse404.gitlab.io.git
+git clone git@github.com:ImperialCollegeLondon/MSE404-MM.git
 ```
 Note that you need to [:link:add your ssh-key to github](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account)
 before performing the clone.

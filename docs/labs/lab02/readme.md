@@ -1,299 +1,385 @@
 Quantum Espresso Input and Output for Molecules
 ===============================================
 
-Quantum Espresso
-----------------
+This week you will run some DFT calculating using Quantum Espresso for molecular systems. We are going to be focusing on understanding and constructing input files that you will need for the rest of the course.
 
-[Quantum Espresso](http://www.quantum-espresso.org) is a freely available
-package of open-source codes for electronic-structure calculations and
-materials modelling at the nanoscale. It is based on density-functional
-theory, plane waves, and pseudopotentials, which you will be learning about in
-the theoretical part of the course.
+<div markdown="span" style="margin: 0 auto; text-align: center">
+[Download the input files for this tutorial](./assets/lab02_input.zip){ .md-button .md-button--primary }
+</div>
 
-Quantum Espresso is used via the command line. There is no graphical interface
-by default. This is typical of most electronic structure codes, where you are
-often interacting with a remote HPC system solely via ssh, and submitting
-calculations and text-file scripts to a queueing system which takes your
-calculation and executes it on some set of compute server nodes when they
-become available.
+Before starting, if you can't remember how to do something from the command line, you can always refer back to [Lab 1](../lab01/readme.md).
 
-To run a calculation you first need to make an input file, describing the
-various calculation parameters along with giving the location of any other
-input files that will be used. Then you run the code giving it your input file
-(redirected from stdin in the case of Quantum Espresso - see [lab
-1](../lab01/readme.md)), and it will create one or more files with the result of
-your calculation and potentially intermediate data also.
+------------------------------------------------------------------------------
 
-First you'll need to copy the material for this Lab to your home directory.
-You should already have a directory named `MSE404` in your home directory; you
-can confirm this by going to your home directory and checking the contents
-with the following two commands:
+## Quantum Espresso
 
-```bash
-cd ~
-ls
-```
+[Quantum Espresso](http://www.quantum-espresso.org) is a freely available package of open-source codes for electronic-structure calculations and materials modelling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials, which you will be learning about in lectures.
 
-If you don't see an `MSE404` folder listed, you can create it with
+Quantum Espresso is used via the command line. There is no graphical interface by default, which is typical of most electronic structure codes. Throughout this course we will be interacting with Quantum Espresso through the command line via ssh (through PuTTY that you used in [Lab 1](../lab01/readme.md)).
+
+
+!!! example "Task 1 - Copy Input Files"
+
+    In lab 1 you should have created a directory named `MSE404` in your home directory.
+
+    - Check this by issuing the command `cd ~` followed by `ls`.
+    - Copy the input files from `opt/Courses/MSE404/lab02` to your `MSE404` folder. Remember you need to pass an additional flag to `cp` to copy a directory. If you are struggling with this, revisit [Lab 1](../lab01/readme.md).
+    - Copy the directory containing the pseudopotentials that you will be using during this course to your `MSE404` directory. These are stored in `/opt/Courses/MSE404/pseudo`
+
+You should now have a directory `lab02` and `pseudo` within your `MSE404` directory. This contains a set of basic input files for a variety of systems and the pseudopotentials for the input files.
+
+## Input Files
+
+Before running a calculation we need to write input files. These give instructions to Quantum Espresso to tell it what we want to calculate, and what parameters to use to do the calculation. The first example we will be looking at is in the `01_methane` directory. This is an input file for the `pw.x` module of Quantum Espresso which calculates the total energy of your system.
+
+Let's take a look at our first input file [CH4.in](01_methane/CH4.in).
 
 ```bash
-mkdir MSE404
+&CONTROL #(1)!
+    pseudo_dir = '.' #(2)!
+/
+
+&SYSTEM
+    ibrav = 1 #(3)!
+    A = 15.0 #(4)!
+    nat = 5 #(5)!
+    ntyp = 2 #(6)!
+    ecutwfc = 18.0 #(7)!
+/
+
+&ELECTRONS
+/
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF #(8)!
+ H   1.008  H.pz-vbc.UPF
+
+ATOMIC_POSITIONS angstrom #(9)!
+ C  0.0       0.0       0.0
+ H  0.0       0.0       1.089
+ H  1.026719  0.000000 -0.363000
+ H -0.513360 -0.889165 -0.363000
+ H -0.513360  0.889165 -0.363000
+
+K_POINTS gamma #(10)!
 ```
 
-The above command requests the creation of a directory named `MSE404` within
-whatever directory you are currently. If you weren't in your home directory
-you could still create a directory there, by giving the absolute path: `mkdir
-~/MSE404`. Once you've confirmed you have the directory as expected, you can
-make a copy of the lab material there so that you can run the calculations for
-this lab, with `cp -r /opt/Courses/MSE404/lab02 ~/MSE404`.
+1. Quantum Espresso input files are ordered with 'tags'. These 'tags' start with a `&` and end with a `/`. They are blocks of input parameters.
+2. Directory containing your pseudopotentials defined later in the input file. The directory `.` means the current directory. 
+3. Bravais lattice type e.g. simple cubic, face centered cubic etc. These are documented on the [Quantum Espresso input description page](https://www.quantum-espresso.org/documentation/input-data-description/). You will get familiar with this throughout the course. ibrav = 1 is a simple cubic lattice.
+4. Crystalographic constant i.e. cell vector length. Simple cubic with A=15 means a 15x15x15 Å box. 
+5. Number of atoms.
+6. Number of species.
+7. Energy cutoff for wavefunction expansion. You will learn more about this in your lectures and [Lab 3](../lab03/readme.md)
+8. Atomic species, atomic mass and the name of the pseudopotential file.
+9. Below this tag are the atomic positions of your atoms. The `angstrom` after `ATOMIC_POSITIONS` specifies these are in cartesian coordinates in units of Å.
+10. K-Points for the calculation. We have chosen to do this calculation at the Gamma point.
 
-A set of basic input files for a variety of systems have been set up in the
-different directories here. In the material that follows you'll need to run
-the calculations in your own copy of this directory. You'll get an error if
-you try to run calculations anywhere under the `/opt` directory as you don't
-have the permissions needed to create files here.
+!!! example "Task 2 - Alternative Input File Style"
+    Take a look at the input file in the `01a_methane` directory.
 
-You should also ensure you have a copy of the directory with the
-pseudopotentials used for the labs:
+    - How is this different from the input file discussed above?
+
+    ??? success "Answer"
+        ibrav is now set to 0. This means 'free cell' meaning the user needs to specify the cell parameters manually. The parameter defining the cell vector length is not present. There is also a section called `CELL_PARAMETERS`.
+
+    - Will this input file do the exact same thing as the one in `01_methane`?
+
+    ??? success "Answer"
+        Yes! Instead of specifying the cell vector length we have just specified the length of each cell vector in the `CELL_PARAMETERS` section. 
+
+
+!!! warning "Warning - Periodic Boundary Conditions and Molecules"
+    Quantum Espresso is a periodic DFT code due to it using a plane wave basis. This is something you will learn about later in the theoretical part of this course. We therefore need to be smart in order to model isolated molecules, since by definition these are not periodic. One way of doing this is to put the molecule in the center of a large box. This minimises any interaction with its periodic neighbour.
+
+As such, our methane molecule is in a large box. We will learn how to visualise the structure later, but for now here is our methane molecule in the box:
+
+<figure markdown="span">
+![methane](assets/methane.png){ width="900" }
+</figure>
+
+## Running and examining the calculation
+
+The Quantum Espresso package has been compiled as a module on the server as discussed in [Lab 1](../lab01/readme.md). Modules are often used on HPC systems to make different versions of packages available to users.
+In order to be able to run any Quantum Espresso calculation, it must first be loaded to your environment. This can be done by issuing the command
 
 ```bash
-cd ~/MSE404
-cp -r /opt/Courses/MSE404/pseudo .
+module load quantum-espresso
 ```
 
-A basic input file
-------------------
+This will load Quantum Espresso and any module dependencies.
 
-A simple example that will use the `pw.x` code from Quantum Espresso to
-calculate the total energy of methane is given in the
-directory `01_methane`. This is the same calculation you ran last week.
-Quantum Espresso uses periodic boundary conditions, so for molecules we just
-put the entire system in a large box, that we hope (we check) is big enough
-that periodic images don't interact, or interact weakly compared to the
-other interactions we're interested in.
+!!! example "Task 3 - Running a calculation"
+    To run the first calculation of the day, make sure you have loaded Quantum Espresso to your environment as discussed above.
 
-Let's first open the input file
-[`CH4.in`](01_methane/CH4.in) and read through it.
-In this case we are relying on many default values that would normally be
-specified, but let's focus on the most important things to begin. There
-is an annotated version of this file called
-[`CH4_detailed.in`](01_methane/CH4_detailed.in)
-which will let us go through the input in more detail. Take a look at this now.
+    - Navigate to the `01_methane` directory.
 
-Sometimes we want to find out more information about a specific variable, for
-example `ibrav`. Take a look at the `pw.x` documentation file for more details
-on this variable: `less ~/MSE404/qe-doc/INPUT_PW.txt`. You should have made a
-link to the documentation across last week, but in case this gives you an error,
-then you can link using `ln -s /opt/share/quantum-espresso/doc-6.3 ~/MSE404/qe-doc`.
-You can search the documentation for `ibrav` by typing `/ibrav` and pressing
-enter. You can press `n` to go to the next match if you don't go straight to the
-main entry. (The input description is also viewable
-[online](http://www.quantum-espresso.org/Doc/INPUT_PW.html).)
+    - Issue the command 
+    ```bash
+    pw.x < CH4.in > CH4.out
+    ```
+    
+After the calculation has finished take a look at the files created in your directory. You should have a file named `pwscf.xml` and a new directory named `pwscf.save`.
 
-Running the calculation
------------------------
+- `pwscf.xml` has the results of the pw.x calculation in machine readable format (not so readable for humans!)
+- `pwscf.save` is a directory which contains: 
+	- A copy of `pwscf.xml`.
+	- A copy of the pseudopotential files used in the calculation.
+	- A file with the charge density stored. This is mostly used for post-processing to obtain observables.
+	- Wavefunction files which are stored in binary (and thus are not readable). These can be used as inputs to other calculations.
 
-The Quantum Espresso package has been compiled as a module on the mt-student
-server. As discussed in the previous lab, modules are often used on HPC
-systems to make different versions of various packages as compiled with
-different compilers available to users. To add Quantum Espresso to your
-environment, along with its dependencies type the following in a terminal:
+Now that we have run the calculation for methane, we should examine the output file `CH4.out`, which is where we instructed Quantum Espresso to pipe the output of the pw.x calculation.
+Using the command
+```bash
+more CH4.out
+```
+we can look at the output file. Output files are generally structured as such:
+
+- Begining - Important information about the system including parameters used in the calculation.
+- Middle - Self-consistent cycle starting from randomised atomic wavefunctions.
+- End - Final results like total energy, band energies etc.
+
+!!! example "Task 4 - Examining an output file"
+    Using the `more` command specified above
+
+    - How many electrons were in your calculation?
+
+    ??? success "Answer"
+        8.00. This is found at the top of your output file.
+        ```bash
+        number of electrons       =         8.00
+        ```
+
+    - How many scf cycles (iterations) did your calculation go through?
+
+    ??? success "Answer"
+        9 scf cycles. This is found on the line:
+        ```bash
+        convergence has been achieved in   9 iterations
+        ```
+
+    - What is the total energy of the Methane molecule?
+
+    ??? success "Answer"
+        $E_{\text{Tot}} = -15.49834173 \, \text{Ry}$. This is found on the line:
+        ```bash
+        !    total energy              =     -15.49834173 Ry
+        ```
+        Notice the converged total enegry will always have a `!` at the beginning of the line.
+
+    - What accuracy is your calculation converged to?
+
+    ??? success "Answer"
+        0.00000066 Ry. This is found on the line:
+        ```bash
+        estimated scf accuracy    <       0.00000066 Ry
+        ```
+        We did not specify this in the input file. The default value of below 1E-6 was therefore used.
+
+    - How many band energies were calculated?
+
+    ??? success "Answer"
+        4 band energies were calculated. This is found in the lines:
+        ```bash
+        End of self-consistent calculation
+
+        k = 0.0000 0.0000 0.0000 ( 14712 PWs)   bands (ev):
+
+        -17.3307  -9.3182  -9.3176  -9.3173
+        ```
+
+!!! note "Electrons and Energy Eigenvalues"
+    Note that in this calculation we had 8 electrons but only 4 energy eigenvalues were calculated. This is because we have treated the 8 electrons as 4 doubly occupoed states, and therefore only 4 energy eigenvalues are outputted.
+
+!!! example "Task 5 - Alternative Input File"
+    Navigate to the directory `01a_methane`. 
+
+    - Run the same calculation as in Task 4 and confirm that you get the same results.
+
+## Visualising Structures - VESTA
+
+Interactive visualisation software are highly important in computational physics. Not only are they a way of checking the structure defined in your input file, but they are also very useful when checking output structures of relaxation calculation. You will learn more about this in [Lab 5](../lab05/readme.md). The visualisation software we are going to use through this course is called `VESTA`.
+
+Vesta, like Quantum Espresso, has been loaded into a module. To use it you will need to issue the command:
 
 ```bash
-module load gcc mkl espresso
+module load vesta
 ```
 
-Now to run the code: make sure you are in the `01_methane` directory
-then do:
+You have now loaded VESTA to your environment. By default, VESTA cannot read Quantum Espresso input files. Therefore, we will need to convert to a format that VESTA can read.
+
+We are going to use the simple script `convert_qe_to_vesta.py` to do this conversion. To use this code you need to issue the command 
 
 ```bash
-pw.x < CH4.in
+python3 convert_qe_to_vesta.py <filename.in>
 ```
 
-Here we redirected our input file to the stdin of `pw.x`, as described in the
-[IO Redirection section of lab 1](../lab01/readme.md#io-redirection). (We could
-also have used the `-i` flag to specify an input file as `pw.x -i CH4.in`.)
-You'll see a lot of output has been generated in your terminal, but a simple
-calculation like this will finish quite quickly. It's better to explicitly save
-the output (and any error information) to a file. To do this, we can instead run
-the calculation a redirect the output to a file with
+After converting your file, you will be able to visualise it with the command:
 
 ```bash
-pw.x < CH4.in &> CH4.out
+vesta POSCAR
 ```
 
-The output files
-----------------
+!!! warning "Input File Structure"
+    In order for `convert_qe_to_vesta.py` to work,
 
-Take a look in the directory with `ls`. You'll see some additional files have
-been generated. We have `pwscf.xml`, which has all the details of the system
-and results of the calculation in an xml format. If you skip to the end of
-this file (if you have opened it with `less`, then pressing `G` will go
-straight to the end, while `g` will go back to the start) you will see the
-eigenvalues and other details. _Note, that while the band energies listed in the
-output file are in eV, those in the xml file are in Hartree units_. And we have
-a folder called `pwscf.save`. This has some other files such as the charge
-density, another copy of the xml file we saw above, a copy of the pseudoptential
-that was used, and files with the calculated wavefunction stored in a binary
-format that can be used as input to other calculations.
-
-Now let's take a quick look through the output that we generated. (e.g.
-`less CH4.out`).
-
-- First we have details of the code, version and date of the calculation.
-- There's some info about the calculation details, including some numbers
-  where we had just accepted the defaults.
-- Then we go into our self-consistent calculation, starting from randomized
-  atomic wavefunctions. At the end of each step it outputs the total energy.
-- After seven steps we have converged to the default level, i.e. 
-  `estimated scf accuracy` is below 1.0E-6.
-- The eigenvalues are output in eV. Note although we have
-  8 electrons, we have treated them as 4 doubly occupied states, so only four
-  numbers are output.
-- The total energy is listed, as well as its decomposition into several terms.
-- And finally some timing information. If calculations are taking a long time
-  this can be helpful in seeing where it is spent.
-
-Note there are a number of equivalent ways of defining the unit cell vectors
-within Quantum Espresso. Instead of relying on choosing the correct `ibrav`
-value, we can set `ibrav = 0` and give the unit cell lattice vectors
-explicitly in a `CELL_PARAMETERS` section. This is shown in
-[`01a_methane/CH4.in`](01a_methane/CH4.in).
-
-### _Task_
-
-- Try running `pw.x` on the second methane input file and confirm you get the
-  same total energy as before.
+    - ibrav = 0
+    - You must have the `CELL_PARAMETERS` defined in the input file.
+    - Your `ATOMIC_POSITIONS` must be cartesian in units of (Å).
 
 
-Methane, ethane and ethene
----------------------------
+During this lab we will be working with different molecules. It will be a good exercise to visualise them as we go along.
 
-Now we understand the basics of the Quantum Espresso input file, let's try
-some other molecules, in this case ethane and ethene. The only things that we
-need to change are the number of atoms and the atomic positions. The input 
-files are in [C2H6.in](02_ethane/C2H6.in) and [C2H4.in](03_ethene/C2H4.in). If
-you want to see what we've changed in the [ethane input file](02_ethane/C2H6.in)
-relative to the [methane input file](01_methane/CH4.in) a useful tool is
-[`diff`](../extras/misc/linuxcommands/readme.md#diff). If you're in the `lab02`
-directory you can type `diff 01_methane/CH4.in 02_ethane/C2H6.in`. You'll be
-able to see that we've only changed a few lines in our input file and everything
-else is the same.
+## Methane, ethane and ethene
 
-### _Task_
+Now we have understood the basics of the Quantum Espresso input file, let's try some other molecules. We have been looking at Methane (CH4), so we can go up one step and look at ethane (C2H6)
 
-- Run `pw.x` for ethane and ethene and save the outputs.
-- How do the eigenvalues compare between molecules?
+<figure markdown="span">
+![ethane](assets/ethane.png){ width="900" }
+</figure>
 
-Note that, unlike for methane, we specified the atomic units in bohr for both 
-ethane and ethene. One common mistake is using the wrong units. What happens if
-you get the units wrong?
+and then ethene (C2H4).
 
-### _Task_
+<figure markdown="span">
+![ethene](assets/ethene.png){ width="900" }
+</figure>
 
-- Change the units of the atomic positions for ethene and run
-  `pw.x` again. What happens?
+The only thing that is going to change in our input files are the number of atoms and the atomic positions. The input files [C2H6.in](02_ethane/C2H6.in) and [C2H4.in](03_ethene/C2H4.in) have been made for you in the directories `02_ethane` and `03_ethene` respectively.
+
+Recall that we can use the `diff` command to check for differences between two files, as we learned in [Lab 1](../lab01/readme.md). To see the changes made in the ethane input file relative to the one for methane that we have been working on, use the diff command. If you are in the `lab02` directory then this can be done using the command:
+
+```bash
+diff 01_methane/CH4.in 02_ethane/C2H6.in
+```
+
+!!! example "Task 6 - Visualising and Running"
+    We want to visualise all three molecules; methane, ethane and ethene to see the structural differences. We then want to run a total energy calculation
+
+    - Using the `convert_qe_to_vesta.py` script, visualise the structures for Methane, Ethane and Ethene yourself.
+
+    - Run a total energy calculation for ethane and ethene using `pw.x` as you did for methane. How do the eigenvalues compare between the molecules?
+
+    ??? success "Answer"
+        The eigenvalues are printed in eV. Methane, ethane and ethene have a different number of eigenvalues as shown below.
+        Methane:    -17.3307  -9.3182  -9.3176  -9.3173
+        Ethane:    -18.9981 -15.1568 -10.4905 -10.4893  -9.0301  -7.7951  -7.7936
+        Ethene:    -19.2564 -14.3120 -11.4232  -9.9431  -8.1807  -6.8756
+
+        - Methane has 8 electrons in the calculation, therefore 4 doubly occupied states and 4 eigenvalues.
+        - Ethane has 14 electrons in the calculation, therefore 7 doubly occupied states and 7 eigenvalues.
+        - Ethene has 12 electrons in the calculation, therefore 6 doubly occupied states and 6 eigenvalues.
+
+    - A common mistake in calculations is the wrong units. In the example for ethene, the atomic species cartesian coordinates are defined in Bohr. Try changing the units in ATOMIC_SPECIES from bohr to angstrom. Rerun pw.x. What is the difference?
+
+    ??? success "Answer"
+        Convergence was not achieved in 100 iterations.
+
+## C$_{20}$ isomers
+
+The total energy of a molecule isn't that useful by itself ( ), the ***relative*** energies between, say, different isomers of a given molecule are much more useful.
+
+!!! note "Kohn-Sham Energies"
+    The energies calculated in DFT are the Kohn-Sham energies. These are the energies of the single-particle Kohn-Sham states. Since these single particle Kohn-Sham states are ficticious ( the real wavefucntions are NOT single-particle wavefunctions), then the Kohn-Sham energy is also ficticious. Therefore, the total energy of a structure is not meaningful by itself. What is meaningful is comparisons of totale energy! You will learn more about this in the theoretical part of the course.
+
+In general (ignoring effects of e.g. temperature), a lower total energy indicates that an isomer is more stable.
+As an example, we are going to be looking at three different isomers of 
+C$_{20}$.
+
+- C$_{20}$ in a bowl structure
+
+<figure markdown="span">
+![bowl](assets/c20_bowl.png){ width="900" }
+</figure>
+
+- C$_{20}$ in a ring structure
+
+<figure markdown="span">
+![ring](assets/c20_ring.png){ width="900" }
+</figure>
+
+- C$_{20}$ in a cage structure.
+
+<figure markdown="span">
+![cage](assets/c20_cage.png){ width="900" }
+</figure>
+
+If you are wondering if this is really a cauculation people do, [here is an article doing this exact calculation](https://pubs.acs.org/doi/10.1021/acs.jpca.5b10266)
+
+!!! example "Task 7 - Total Energy Of Isomers"
+
+    - Run the inputs for the three different isomers in `04_c20_bowl`, `05_c20_ring` and `06_c20_cage`
+
+    - Which Isomer has the lowest total energy?
+
+    ??? success "Answer"
+        $E_{\text{Tot}}^{\text{Bowl}} = -218.12242650 \,\text{Ry}$
+
+        $E_{\text{Tot}}^{\text{Ring}} = -217.76506479 \,\text{Ry}$
+
+        $E_{\text{Tot}}^{\text{Cage}} = -218.37740806 \,\text{Ry}$
+
+        Therefore the cage structure has the lowest energy.
+
+    - What does it mean to have the lowest total energy of the three isomers? What conclusions about stability can we draw from these calculations?
+
+    ??? success "Answer"
+        The lowest energy typically means that the structure is the most stable. However, these energies are very close, so it is hard to draw conclusions based on these calculations.
 
 
-C<sub>20</sub> isomers
-----------------------
 
-While the total energy of a molecule isn't that useful by itself, the _relative_
-energies between, say, different isomers of a given molecule are much more useful.
-In general (ignoring e.g. temperature effects), a lower energy indicates a more
-stable isomer. As an example, let's consider three different isomers of
-C<sub>20</sub> - a bowl, ring and cage structure
-(see <https://pubs.acs.org/doi/abs/10.1021/acs.jpca.5b10266>).
+You will notice that the three isomers are very close in total energy. We can draw some conclusions on stability by running a total energy calculation on an amorphous structure.
 
-### _Task_
 
-- Run the inputs for the different isomers, found in
-  [`C20_bowl.in`](04_c20_bowl/C20_bowl.in), [`C20_ring.in`](05_c20_ring/C20_ring.in)
-  and [`C20_cage.in`](06_c20_cage/C20_cage.in). Which one has the lowest total energy?
+<figure markdown="span">
+![amorphous](assets/c20_amorphous.png){ width="900" }
+</figure>
 
-- The three isomers are close in energy, so how can we tell if the difference is
-  significant? Let's try looking at an amorphous structure.
+Another way is to do a calculation on an unreasonable structure to be able to compare the total energy. Consider for example, a cicle with a "smiley" face in the centre :).
 
-- Run the inputs for the amorphous structure, found in
-  [`C20_amorphous.in`](07_c20_amorphous/C20_amorphous.in). How does the energy
-  compare to the previous isomers? Is it what you expected?
 
-- Finally, let's see what happens if we try something less realistic. In 
-  [`C20_smile.in`](08_c20_smile/C20_smile.in) there is an input file for a structure
-  which resembles a smiley face. Run this calculation and compare the energies.
+<figure markdown="span">
+![smile](assets/c20_smile.png){ width="900" }
+</figure>
 
-It turns out that the relative energies of the ring, cage and bowl structure are very
-sensitive to the details of the approach used, as seen in
-[this paper](https://pubs.acs.org/doi/abs/10.1021/acs.jpca.5b10266).
-For these systems, it is therefore hard to say with certainty which is the most
-stable isomer using DFT. However, by comparing with less realistic structures we can
-still see the difference in energy between structures which should be stable
-and those which should not.
+!!! example "Task 8 - Amorphous and Unrealistic Calculation"
 
-Finally, note that if you were to use a structure which more closely resembles a smiley
-face, Quantum Espresso is unable to reach convergence within 100 iterations, just like
-when you use the wrong units. So if you encounter convergence problems, the first thing
-to check should be whether or not your input structure is sensible.
+    - Run the inputs for the amorphous structure found in `07_c20_amorphous`. How does the energy compare to the three isomers above? Is this what you expect?
 
-Visualizing Structures
-----------------------
+    ??? success "Answer"
+        $E_{\text{Tot}}^{\text{Amorphous}} = -217.09833963 \,\text{Ry}$
 
-There are many different tools that can be used to visualize atomic
-structures. `xcrysden` is installed as a module on the server you're using for
-this course, and conveniently can read Quantum Espresso input files. Try
-loading the module with `module load xcrysden`, running the command `xcrysden`
-and opening the input files for the various structures we've looked at in this
-lab. You can do this by selecting `Open PWscf` on the file menu. Note that
-since we are viewing a molecule, xcrysden will open a menu asking whether to
-reduce the dimensionality. Select `reduce dimension to 0D`. 
-There are many options to control how the structure looks, and you can
-grab and rotate the structure with your mouse.
+        This energy is higher than all other structures. This is expected as amorphous structures are typically higher in energy due to their disorder.
 
-### _Task_
+    Finally we can run a calculation on something less relaistic.
 
-- See if you can figure out how to save an image of each C<sub>20</sub> isomer
-  as a png file.
+    - Navigate to `08_c20_smile` and visualise the structure. 
 
-We can also use `xcrysden` to visualize other quantities, such as the charge
-density. If you've got time left in this lab, check out the additional material
-on [`visualization`](../extras/labs/visualising_output/readme.md), which shows
-you how to visualize the charge density of methane.
+    - Run a total energy calculation and compare the enrgies to previous runs. Is this what we expect?
+
+    ??? success "Answer"
+        $E_{\text{Tot}}^{\text{Smile}} = -216.92844798 \,\text{Ry}$
+
+        This is even higher than that of the amorphous structure. This is as expected as this is a totally unrealistic structure and we do not expect it to be stable.
+
+In the paper linked above it was shown that the relative energies of the ring, cage and bowl structure are very sensitive to the details of the approach used. For these systems using just DFT it is hard to say with certainty which is the most stable isomer.
+However, comparing to less realistic structures we can see the difference in energy between structures which should be stable and which should not be stable, which is very valuable information.
+
+!!! warning "Convergence Issues"
+    If you were to use a structure which more closely resembled a smiley face, Quantum Espresso would be unable to reach convergence within 100 iterations, just as when we used the wrong units for ethene. 
+    If you encounter a problem with convergence, the first thing you should check is whether or not the input strucutre is sensible which shows the importance of visualising your structures before you run calculations!
 
 -------------------------------------------------------------------------------
 
-Summary
--------
+## Summary
 
-- In this lab we've looked at how to create an input file for some different
-  molecules:
-  - Methane, ethane and ethene.
-  - Different isomers of C<sub>20</sub>.
-- We've also looked at how to visualize the structures.
-- As an optional extra, try setting up inputs for some other molecules of your
-  choice.
+In this lab we have looked at how to create input files and examine the output files for some different molecules:
 
+- Methane
+- Ethane
+- Ethene
+- Different isomers of C$_{20}$
+
+We have also learned how to use VESTA to visualise our structures with the help of the `convert_qe_to_vesta.py` conversion script.
 
 -------------------------------------------------------------------------------
-
-Extra - Other molecules
------------------------
-
-In this course we give you the coordinates of the materials that you need to 
-simulate. But what if you want to try something different? For molecules,
-[Avogadro](https://avogadro.cc/) is a useful for progam for visualizing
-and generating structures for a range of molecules. The online documentation
-will show you how to build different molecules. Once you are happy, you can 
-save the coordinates as a `.xyz` file, which will write the atomic positions
-in Angstrom. You can then insert these coordinates into a Quantum Espresso
-input file.
-
-### _Optional Task_
-
-- Try building a (small) molecule of your choice in Avogadro. For now, just use
-  carbon and hydrogen - we'll look at what we need to do to use different elements
-  next week. Once you've built a molecule, use it to make a Quantum Espresso input
-  file and run the calculation.
-
-
-
 

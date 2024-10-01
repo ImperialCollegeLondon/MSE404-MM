@@ -1,290 +1,225 @@
 Forces, Stresses and Structures
 ===============================
+For this week and the next, we will focus on predicting the structural properties of materials. These include finding the stablest structure of molecules and calculating the energy of vibrations in crystals. We will begin by briefly reviewing the very important potential energy surface (PES). 
 
-**Reminder** Don't forget to copy the `lab05` folder from `/opt/Courses/MSE404/lab05`
+The potential energy surface
+----------------------------
+The potential energy surface (PES) is the surface obtained by plotting the total energy of a molecule or crystal against different atomic positions. It is commonly denoted as $U(\{\mathbf{R}\})$, where $\mathbf{R}$ represents the set of atomic positions of all atoms. Many useful quantities associated with a given structure, such as the atomic forces in a molecule, the stress and pressure in a crystal unit cell can be calculated by evaluating the relevant deivatives of the PES.  
 
-To find the minimum energy position of an atom, we could manually move it,
-calculating the total energy each time, effectively finding the position where
-the total force on it is zero. Some examples of how you can do this are given
-[here](../extras/labs/using_total_energies/readme.md), you can take a look
-through in your own time if you're interested. Instead, in this lab we'll be
-looking at how forces and stresses can be calculated within DFT at essentially
-no extra cost via the Hellman-Feynman theorem, and how these can be used.
+Ground state structure of molecules 
+-----------------------------------
+The ground state structure of a molecule simply refers to the structure with the lowest total energy. This structure is also called the optimal structure or stablest structure of the molecule. Mathematically, this structure is associated with the **global** minimum of the PES. Therefore, the atomic forces in this structure will all vanish.  
 
-In Quantum Espresso you can enable the calculation of forces and stresses by
-setting `tprnfor = .true.` and `tstress = .true.` respectively in the
-`CONTROL` section of the input file.
+Most DFT codes, like Quantum Espresso, moves the atoms around based on the atomic forces until the atomic forces "vanish", i.e. become lower than some cutoff. This process is called **relaxation** or **structural optimisation**. The resulting structure obtained from this procedure is called a relaxed structure. 
 
-Forces in Methane
------------------
+In the first part of the lab, we will demonstrate how to calculate the atomic forces and find the optimal structure of a molecule in Quantum Espresso. 
 
-As a first example, let's look at methane and calculate how the forces
-converge with planewave energy cut-off. We have set up a template input file
-as before in
-[`01_forces/01_methane/CH4_base.in`](01_forces/01_methane/CH4_base.in). Take a
-look at this now. The only new settings here are the two additional variables
-mentioned above.
+!!! Danger
+    When relaxing large molecules, there might be other **local** minima in the PES. These local minima are associated with structures which are higher in the total energy, but the atomic forces also vanish. These structures are called **metastable** structures.
 
-We also have a simple script to run this template file with energy cut-off
-values from 20 to 60 Ry as [`auto_run.sh`](01_forces/01_methane/auto_run.sh).
-Run this now and take a look at one of the output files. You'll see before the
-final timing information a section that looks like the following:
+    When finding the stablest structures using DFT, there is always a possibility that your calculation is "trapped" in one of these metastable structures. Whereas this is less likely to happen for small molecules, this can happen with large molecules. You will have to be careful! 
 
-```
-     Forces acting on atoms (cartesian axes, Ry/au):
+!!! Question
+    How can we reduce the risk of mistaking a metastable structure as the ground state structure? 
+    ??? success "Answer"
+        After obtaining a relaxed structure, add some small and random displacement to the atoms, then redo the relaxation. This will likely bring your molecule to a stabler structure if there is any.  
 
-     atom    1 type  1   force =     0.00000620    0.00000000    0.00002841
-     atom    2 type  2   force =     0.00000137    0.00000000    0.01218625
-     atom    3 type  2   force =     0.01151561    0.00000000   -0.00407450
-     atom    4 type  2   force =    -0.00576159   -0.00997884   -0.00407008
-     atom    5 type  2   force =    -0.00576159    0.00997884   -0.00407008
+Forces in molecules
+-------------------
+The force acting on an atom, $\mathbf{F}$, is defined as the first derivative of the PES, $U$, with respect to the position of that atom, $\mathbf{R}$. Mathematically,
+$$
+\mathbf{F} = -\nabla_\mathbf{R} U.
+$$
+It is worth noting that, in order to calculate the atomic forces efficiently, the Hellmann-Feynman Theorem is often invoked in most DFT codes. 
 
-     Total force =     0.024421     Total SCF correction =     0.000247
+Quantum Espresso calculates the atomic forces in a `pw.x` calculation if you set `tprnfor = .true.` and `tstress = .true.` in the input file. Let's take a closer look at the atomic force calculations in the tasks below. 
 
+In following tasks, we are going to study the atomic forces in a distorted methane molecule, $\mathrm{CH_4}$, where one of the hydrogen atoms (the one sitting on the z-axis above the $\mathrm{C}$ atom) is pushed closer to the carbon atom than others. 
 
-     Computing stress (Cartesian axis) and pressure
+!!! example "Task 1 - Examining atomic forces in the output file"
+    - Read and run the input file `01_methane_force.in`. Note how the two settings `tprnfor` and `tstress` have been set to true. 
 
-          total   stress  (Ry/bohr**3)                   (kbar)     P=   -0.06
-  -0.00000044   0.00000000   0.00000000         -0.06      0.00      0.00
-   0.00000000  -0.00000044   0.00000000          0.00     -0.06      0.00
-   0.00000000   0.00000000  -0.00000044          0.00      0.00     -0.06
-```
+    - When the output file is out, search for the line saying `Forces acting on atoms`. This should be written just before the timing information. 
 
-So we have a list of the components of the force acting on each atom along
-Cartesian axes, then a total force and total scf correction.
-**Note** the `Total force` listed here is the square root of the sum of _all_
-of the force components squared rather than the sum of the magnitudes of the
-individual forces on the atoms. I'm not sure why, but it's likely because the
-number is intended more as a guide to check overall accuracy. If the
-`Total SCF correction` is comparable to the `Total force` it usually means
-you need to try to better converge the SCF cycle (via `conv_thr`).
+    - You should find a section that looks like the following: 
+    ```python 
+         Forces acting on atoms (cartesian axes, Ry/au):
+    
+         atom    1 type  1   force =     0.00001266    0.00000665   -0.00024259
+         atom    2 type  1   force =     0.00066443    0.00046526    0.00036559
+         atom    3 type  1   force =    -0.00064066   -0.00045488    0.00039018
+         atom    4 type  1   force =     0.00066443    0.00046526   -0.00036559
+         ....
+         atom   17 type  2   force =     0.00017760    0.00095599   -0.00028356
+         atom   18 type  2   force =    -0.00020428   -0.00097249   -0.00028734
+         atom   19 type  2   force =     0.00017760    0.00095599    0.00028356
+         atom   20 type  2   force =    -0.00020428   -0.00097249    0.00028734
+    
+         Total force =     0.003777     Total SCF correction =     0.000132
+    
+         bfgs converged in   6 scf cycles and   5 bfgs steps
+         (criteria: energy <  1.0E-04 Ry, force <  1.0E-03 Ry/Bohr)
+    
+         End of BFGS Geometry Optimization
+    
+         Final energy   =    -144.7886351866 Ry
+    Begin final coordinates
+    
+    ATOMIC_POSITIONS (bohr)
+    C        6.140945672   6.140862654   1.381651769
+    C        6.169063980   3.869814143   2.732426642
+    C        6.112760385   8.411811375   2.732410276
+    C        6.169063980   3.869814143   5.337957358
+    ....
+    H        8.194183393   2.617484701   9.770830680
+    H        4.087214702   9.663976947   9.770881223
+    H        8.194183393   2.617484701  14.440322320
+    H        4.087214702   9.663976947  14.440271777
+    End final coordinates
+    ```
 
-Following this we can see the calculated stress and corresponding pressure
-on the unit cell. While this number doesn't mean much in principle for a
-calculation on a molecule in a box, if these numbers are not all close to
-zero it indicates your box size is likely not big enough.
+    - Why are these atomic forces expected for this distorted methane molecule? 
+    ??? success "Answer"
+        Since the $\mathrm{H}$ atom (atom 2) above the $\mathrm{C}$ atom (atom 1) is approaching the $\mathrm{C}$ atom and the other $\mathrm{H}$ atoms below the $\mathrm{C}$ atom (atoms 3 to 5), the upper $\mathrm{H}$ atom should be repelled by the rest of the atoms. Therefore, atom 2 should experience an upward force and the rest should experience a downward force. 
 
-### Convergence
+        This is indeed the case. The force on atom 2 is vertically upwards, and the forces on the rest of the atoms are vertically downwards (the atomic forces along the $x,y$-directions are negligible). You can also check that all the $z$-components of the downward forces acting on atoms 1 and 3 to 5 sum up to the same magnitude as the $z$-component of the upward force acting on atom 2.  
 
-Now let's look at the convergence of the forces. As we've been doing in
-previous labs, we can extract the total force as a function of the energy
-cut-off using [`awk`](../extras/misc/linuxcommands/readme.md#awk):
+    - What are the units of atomic forces in Quantum Espresso? 
+    ??? success "Answer"
+        Ry/Bohr. 1 Ry/Bohr is equivalent to ... eV/Å (check this yourself!). In this task, the $z$-component of the force acting on the $\mathrm{H}$ atom is 0.0522 Ry/Bohr. As a rough approximation, this means drifting the $\mathrm{H}$ atom in the positive $z$-direction by 1 Bohr should lead to a reduction in total energy of about 0.0522 Rydberg. This is equal to 0.710 eV, which is quite a lot.
 
-```bash
-awk '/kinetic-energy/{ecut=$4} /Total force/{print ecut, $4}' *out
-```
-This works by saving (space delimited) field number 4 as a variable `ecut` on
-a line containing the string `kinetic-energy`, and then on a line containing
-the text `Total force` it outputs the value of this variable along with the
-text in the fourth field.
-
-We could modify this to also output the total energy as
-```bash
-awk '/kinetic-energy/{ecut=$4}
-     /!.*total/{etot=$5}
-     /Total force/{print ecut, etot, $4}' *out
-```
-(You can add line breaks for clarity within an awk command if it gets long).
-
-And add in the total pressure also with
-```bash
-awk '/kinetic-energy/{ecut=$4}
-     /!.*total/{etot=$5}
-     /Total force/{totfor=$4}
-     /total.*stress/{print ecut, etot, totfor, $6}' *out
-```
-
-Try running this and saving the convergence to a file.
-
-### _Task_
-
-- Plot the fractional difference with respect to the most well converged
-  result, i.e. $|\frac{x_{conv} - x_i}{x_{conv}}|$, for each of total energy, 
-  total force and pressure as a function of energy cut-off.
-- What can you see about the rate of convergence of each of these parameters?
+!!! Note 
+    The `Total force` listed here is the square root of the sum of _all_ of the force components squared rather than the sum of the magnitudes of the individual forces on the atoms. I'm not sure why, but it's likely because the number is intended more as a guide to check overall accuracy. If the `Total SCF correction` is comparable to the `Total force` it usually means you need to try to better converge the SCF cycle (via `conv_thr`).
 
 
-Optimizing Ionic Positions - PPP
---------------------------------
+Just as we have to check the convergence of the total energy against the PW cutoff, we have to check the convergence of atomic forces against the PW cutoff too. Let's do this in the next task.  
 
-Now let's look at a polymer, in this case poly(para-phenylene) (PPP), which consists
-of a chain of benzene rings, with a torsion angle of $\theta$, which should be around
-$30^{\circ}$. If we wanted to predict the value of $\theta$, we could take structures
-with a few different angles and find the minimum of the energy by fitting a parabola. 
-In the directory `02_structure/01_ppp` there are some input files for different torsion
-angles, where e.g. [`02_structure/01_ppp/PPP_30.in`](02_structure/01_ppp/PPP_30.in) corresponds to
-$\theta=30^{\circ}$. Since the polymer is periodic in only 1 dimension (the z axis),
-we have added empty space in the other two directions. We have also added k-point sampling
-along the z-axis only.
+!!! example "Task 2 - Examining convergence"
+    In this task, multiple input files of the same distorted methane molecule are prepared. Each input file is labelled by their PW cutoff. 
 
-### _Task_
-- Run the input files for PPP for angles of 20, 25, 30, 35 and 40 degrees. Try writing a script
-  to automate the process. Your script should generate an output file called `e_v_theta.txt`
-  which has two columns - the first should be the torsion angle and the second should be the
-  calculated energy.
-- Use the file `plot_ppp.gp` to plot energy vs. $\theta$. This will generate a file called
-  `ppp.eps`, where a quadratic function has been fit to the data. Using this fit, work out
-  what the optimum torsion angle is.
+    - Run the `whatever auto.sh` script to run single-point calculations for all input files. 
 
-While the above approach gives us a good idea of the optimum torsion angle, it's a bit tedious
-to generate the input structures, and it doesn't tell us whether or not the benzenes remain
-rigid, or if there are some internal distortions. To tell us this, we can use the forces.
-In fact, given that we can readily calculate forces, wouldn't it be nice if the code could
-automatically use these forces and find the atomic positions where these forces are zero
-(or at least within some tolerance of zero)?
+    - Run the `whatever python or bash` to obtain the convergence curves. 
 
-In Quantum Espresso this type of calculation, where the atomic positions are
-relaxed to their minimum energy positions can be performed by selecting
-`calculation = 'relax'` in the `CONTROL` section. There are a number of
-additional variables that you can specify to control this process:
+    - Which quantities are being plotted by the script for determining the convergence? 
 
-- `tprnfor` is automatically set to `.true.` so that forces are computed.
-- You'll need to add an `IONS` section to the input. This is the only
-  mandatory addition. There are several variables that can be specified within
-  this section (it can be empty if you're happy with all defaults), which
-  control the algorithm used to find the optimal ionic positions. Consult the
-  PW documentation for details.
+    ??? success "Answer" 
+        The script plots the fractional difference of the total energy with respect to the best-converged total energy, $(E_{\mathrm{best}}-E_{i})/E_{\mathrm{best}}$, and analogously the fractional difference in the total force $(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{i})/F^{\mathrm{tot}}_{\mathrm{best}}$.   
 
-### _Task_
+Optimisation of molecular geometry 
+-------------------
+In addition to calculating the atomic forces associated with a particular structure, another important functionality of Quantum Espresso is optimising the structure of molecules, which we will try out in this following task.
 
-The directory `02_structure/01_ppp` also contains an input file
-[02_structure/01_ppp/PPP_opt.in](02_structure/01_ppp/PPP_opt.in) for relaxing the
-structure of PPP, where we start from the $\theta=30^{\circ}$ structure since this
-is close to the minimum. Run this and take a look at the output file once the 
-calculation finishes - it might take a couple of minutes. The interesting bit
-is right near the end, just before the timing output. It should look something
-like the following:
-```
-     Forces acting on atoms (cartesian axes, Ry/au):
-
-     atom    1 type  1   force =     0.00001266    0.00000665   -0.00024259
-     atom    2 type  1   force =     0.00066443    0.00046526    0.00036559
-     atom    3 type  1   force =    -0.00064066   -0.00045488    0.00039018
-     atom    4 type  1   force =     0.00066443    0.00046526   -0.00036559
-     ....
-     atom   17 type  2   force =     0.00017760    0.00095599   -0.00028356
-     atom   18 type  2   force =    -0.00020428   -0.00097249   -0.00028734
-     atom   19 type  2   force =     0.00017760    0.00095599    0.00028356
-     atom   20 type  2   force =    -0.00020428   -0.00097249    0.00028734
-
-     Total force =     0.003777     Total SCF correction =     0.000132
-
-     bfgs converged in   6 scf cycles and   5 bfgs steps
-     (criteria: energy <  1.0E-04 Ry, force <  1.0E-03 Ry/Bohr)
-
-     End of BFGS Geometry Optimization
-
-     Final energy   =    -144.7886351866 Ry
-Begin final coordinates
-
-ATOMIC_POSITIONS (bohr)
-C        6.140945672   6.140862654   1.381651769
-C        6.169063980   3.869814143   2.732426642
-C        6.112760385   8.411811375   2.732410276
-C        6.169063980   3.869814143   5.337957358
-....
-H        8.194183393   2.617484701   9.770830680
-H        4.087214702   9.663976947   9.770881223
-H        8.194183393   2.617484701  14.440322320
-H        4.087214702   9.663976947  14.440271777
-End final coordinates
-```
-
-- We have the force output. They should all be pretty close to zero now.
-- Then it should say that our relaxation converged (`bfgs` is the name of the
-  default algorithm used) and how many steps it took.
-- We have the final total energy output.
-- Finally we have the optimized atomic positions. 
-
-In order to be sure we have accurately relaxed the structure, we should converge
-the forces with respect to cut-off energy, k-points and x and y cell dimensions.
-There are also some variable which affect when the calculation stops. These include
-
-- `etot_conv_thr` and `forc_conv_thr`, which are used to determine when the optimization
-  finishes (listed following `criteria:` in the output above) and
-- `conv_thr`, which as we've already seen is the scf convergence criteria.
-
-### _Task_
-
-- Open the output file in `xcrysden`. As you will see, it's possible to just open the
-  final optimized structure, or load the optimization as an animation. Since we already
-  started quite close to the final structure, you won't see much of a change if you
-  watch an animation.
-- Use the `dihedral angle` option in xcrysden to find the torsion angle of the relaxed
-  structure. How does this compare to what you previously predicted?
+!!! example "Task 3 - Optimising the molecular structure"
+    - You'll need to add an `IONS` section to the input. This is the only mandatory addition. There are several variables that can be specified within this section (it can be empty if you're happy with all defaults), which control the algorithm used to find the optimal ionic positions. Consult the PW documentation for details.
 
 
-Fixing Some Atoms - Methane
----------------------------
-
-Finally, it's useful to know that we can also optimize the positions of selected atoms
-within a system, keeping some atoms fixed.  The input file
-[02_structure/02_methane/CH4.in](02_structure/02_methane/CH4.in) shows how this works
-for the example of methane.
-
-### _Optional Task_
-
-- Take a look at the input file.
-- We've added some 1s and 0s following the atomic positions. These define
-  multiplying factors for the various calculated force components on an atom.
-    - By adding three 0s following the carbon position we ensure it will be
-      fixed at 0,0,0.
-    - We only allow the first H atom to move along the z-axis.
-    - And we only allow the second H atom to move within the x-z plane.
-- Run `pw.x` with this input file and check the result.
-- Has the C-H bond been lengthened or shortened?
-- How much lower is the total energy compared to the starting configuration?
-- Perform this calculation for energy cut-offs of 10 and 50 Ry, and see how
-  this affects predicted C-H bond length.
-- What do you think would happen if you did this calculation for carbon
-  diamond? What about graphite?
+!!! note "Interlude"
+    A short break you should take, tired if you are. 
 
 
-Optimizing Unit Cells
+Ground state structure of crystals 
+-----------------------------------
+We have seen how the stablest structures of molecules can be found by minimising the atomic forces in DFT. In principle, it is straightforward to apply the idea for the optimisation of the structures of crystals. However, an additional consideration arises from optimising the lattice constant of the crystal alongside the atomic positions within the unit cell. This leads to the need for a few more quantities 
+
+Stress in crystals
+-------------------
+Stress, $\sigma_{ij}$, can be intuitively understood as the ratio between the $i$-th component of the induced force (e.g. this could be the $x$-component), $F_{i}$ , due to a deformation along the $j$-th direction (e.g. in the $x$- or $z$-direction), $\epsilon_{j}$. Therefore, mathematically, the stress is a tensor and is defined through the relation  
+
+$$
+F_{i} =  \sigma_{ij}\epsilon_{j}
+$$
+
+We will see later below how the deformation of a crystal along one direction induces forces along other directions. 
+
+Pressure and bulk modulus of crystals 
+-------------------
+Whereas stress describes the force induced on a crystal due to a distortion along a certain direction, the pressure and the bulk modulus of a crystal measures the changes in total energy due to contractions or expansions. Pressure, P, is defined as the negative of the first derivative of the PES against the volume, V. It measures the tendency of the crystal to expand or contract. Mathematically,  
+
+$$
+P = -\frac{dU}{dV}.
+$$
+
+If the pressure is negative, the crystal structure is unstable and will contract. If the pressure is positive, the crystal structure is also unstable but it will expand.   
+
+The bulk modulus per volume is defined as the negative of the second derivative of the PES against the volume. It measures the stability of the crystal against expansion or contraction. Mathematically,  
+
+$$
+B = -V\frac{d^2U}{dV^2}.
+$$
+
+If the bulk modulus is negative, the curvature of the PES against volume is positive. This means the structure is stable and it costs energy to compress or expand the crystal. Having introduced these useful quantities, we can take a look at these quantities in the output file of Quantum Espresso. 
+
+In the following tasks, we will look at the poly(para-phenylene) (PPP) polymer. It is a chain of benzene rings which extends essentially infinitely in one direction. It is therefore a one-dimensional crystal. The unit cell of this crystal contains two benzene rings. We will first run a singe-point calculation of this crystal.  
+
+
+!!! example "Task 4 - calculating stress and pressure of crystals"
+    
+    - Read the input file `04_PPP.in`. 
+        ```python 
+        
+        K-GRID LINE   #(1)! 
+        
+        ```
+    
+        1.   Note that here we have added the k-grid flag, which is required for a calculation of crystals. We have chosen the optimal k-grid for you.  
+        
+    - Look for the line saying "stress"
+
+    - What are the units for the stress tensor?
+    ??? success "Answer"
+        Ry/Bohr**3. The dimension of this unit is energy per volume, which is the same dimension as pressure. 
+
+    - What are the units for pressure? 
+    ??? success "Answer"
+        kPa. This is one of the common units for pressure. 
+
+If you take a closer look at the PPP molecule again, you will notice a torsion angle, $\theta$, between two neighoburing rings in the unit cell. Our next task is to optimise this torsion angle.  
+
+Optimisation of atomic positions within the unit cell 
+-------------------
+The first method of finding the optimal torsion angle is to find the minimum in the PES, plotted against the torsion angle $\theta$. This is what we will do in the following task. 
+
+!!! example "Task 5 - Optimising structure through PES"
+    - Multiple input files have been prepared for different torsion angles. A bash script called "auto_torsion.sh" have been prepared for you to run. This script automatically runs all the `pw.x` for all the input files. 
+
+    - Once all the input files have been run, run the Python script `theta.py`, which plots the total energy of the PPP molecule against the torsion angle. Read the Python script and make sure you understand what it is doing. 
+
+    ??? success "Result"
+        A plot will be uploaded very soon 
+
+The second method is to just run a "relax" calculation with Quantum Espresso. 
+!!! example "Task 6 - Optimising structure through DFT relaxation"
+    - Go to directory 06_PPP
+
+    - Open the input file named 06_PPP. The torsion angle of the initial structure in this input file is 20 degrees. Edit the relevant line so that this calculation is a relaxation calculation. 
+    ??? success "Result"
+        ` calculation = relax `
+        `&IONS
+        /`
+
+
+    - Open the output file in `xcrysden`. As you will see, it's possible to just open the final optimized structure, or load the optimization as an animation. Since we already started quite close to the final structure, you won't see much of a change if you watch an animation. 
+
+    - Use the `dihedral angle` option in xcrysden to find the torsion angle of the relaxed   structure. How does this compare to what you previously predicted?
+
+
+Optimizing lattice parameters of unit cells 
 ---------------------
 
-In a similar way to using the calculated forces to optimize the ionic
-positions we can also use the calculated stresses to optimize the unit cell.
-In doing this you should keep in mind that it can take a higher energy-cut off
-to converge the stress as we saw at the start of this lab. Also, if you recall
-the number of planewaves depends on the cell volume, so if during the course
-of the calculation we change the volume we may also change the number of plane
-waves, or if we fix the number of plane waves we are changing the effective
-energy cut-off (the latter for Quantum Espresso, but different codes will
-handle this differently). So you need to be quite careful about this when
-optimizing lattice vectors.
 
-In Quantum Espresso we can do this variable-cell relaxation by setting
-`calculation = 'vc-relax'` in the `CONTROL` section. We must additionally
-specify both an `IONS` section as previously, along with a `CELL` section.
+In doing this you should keep in mind that it can take a higher energy-cut off to converge the stress as we saw at the start of this lab. Also, if you recall the number of planewaves depends on the cell volume, so if during the course of the calculation we change the volume we may also change the number of plane waves, or if we fix the number of plane waves we are changing the effective energy cut-off (the latter for Quantum Espresso, but different codes will handle this differently). So you need to be quite careful about this when optimizing lattice vectors.
 
-An example [input file](02_structure/03_silicon/Si.in) for silicon is given in the
-directory [`02_structure/03_silicon`](02_forces/03_silicon). Take a look at this
-now. You'll notice in addition to the inputs mentioned, there's also a fairly
-high energy cut-off, and we've lowered the SCF convergence threshold from
-the default. Try running this now and let's look at the output.
+In Quantum Espresso we can do this variable-cell relaxation by setting `calculation = 'vc-relax'` in the `CONTROL` section. We must additionally specify both an `IONS` section as previously, along with a `CELL` section.
 
-The output is a little different in this case, since at the end of the
-optimization, an `scf` calculation is automatically performed starting from the
-optimized structure. This is because Quantum Espresso fixes the basis set as
-that for the original input structure during the calculation, so if the
-structure has changed a lot, you may calculate a different stress when
-starting from the relaxed structure. You will be able to see from the final
-stress or pressure whether you should rerun your calculation.
+!!! example "Task 7 - Optimising the unit cell"
+    - Read the input file 07_PPP. You'll notice in addition to the inputs mentioned, there's also a fairly high energy cut-off, and we've lowered the SCF convergence threshold from the default. Try running this now and let's look at the output.
 
-Additionally, the cell output will likely be in Quantum Espresso's
-representation where the cell vectors are given explicitly in Bohr along with
-a scaling factor `alat` which is fixed. (In our case here `alat` will be `A`
-converted from Angstrom to Bohr). If you want to rerun your calculation you
-could either input the cell using these directly, or calculate appropriate
-values for the input. You may need to do the latter if you want to find the
-new lattice length anyway.
+    !!! warning 
+        The output is a little different in this case, since at the end of the optimization, an `scf` calculation is automatically performed starting from the optimized structure. This is because Quantum Espresso fixes the basis set as that for the original input structure during the calculation, so if the structure has changed a lot, you may calculate a different stress when starting from the relaxed structure. You will be able to see from the final stress or pressure whether you should rerun your calculation.
 
-### _Task_
-
-- So for the silicon case, you'll see the components of the lattice vectors
-  have changed from 0.5 to 0.497277 or something close to that. What is our
-  predicted silicon lattice constant?
+!!! note 
+    Additionally, the cell output will likely be in Quantum Espresso's representation where the cell vectors are given explicitly in Bohr along with a scaling factor `alat` which is fixed. (In our case here `alat` will be `A` converted from Angstrom to Bohr). If you want to rerun your calculation you could either input the cell using these directly, or calculate appropriate values for the input. You may need to do the latter if you want to find the new lattice length anyway.
 
 ------------------------------------------------------------------------------
 
@@ -301,25 +236,4 @@ In this lab we have seen
 - How the stresses can be used to optimize the structure, where the lattice
   constant is changed until the stress on the system is less than some
   threshold value.
-
-------------------------------------------------------------------------------
-
-
-### Extra: Optimizing Graphene
-
-The folder [`02_structure/04_graphene`](02_structure/04_graphene) contains an
-[input file](02_structure/04_graphene/C_graphene.in) for graphene. The thing
-to note in this case is the additional use of `cell_dofree = '2Dxy'` in the
-`CELL` section. We have used this to say that we only want to optimize the
-cell in the xy plane. The spacing between periodic images in the z-direction
-should be large enough such that the interaction is small, but we otherwise
-don't care about the stresses in this direction.
-
-### _Task_
-
-- Starting from the provided graphene input file, find the length of the C-C
-  bond in graphene to 3 significant figures.
-    - Be sure to test your result is converged with respect to plane wave
-      energy cut-off and k-point sampling, along with the internal tolerances
-      being sufficiently small.
 

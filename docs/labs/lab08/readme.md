@@ -1,157 +1,160 @@
-Metals, Spin Polarization and Magnetic Systems
-==============================================
+Spin Polarization and Magnetic Systems 
+======================================
 
-This week we'll cover two topics: metallic systems and spin. For metals,
-there are a couple of complications which mean we have to treat them
-differently from systems with a non-zero band gap.
+This week we'll cover the topic of spin-polarized systems. For metals, there are
+a couple of complications which mean we have to treat them differently from
+systems with a non-zero band gap.
 
-------------------------------------------------------------------------------
-
-## Metals
-
-Metals have a Fermi surface that can be quite complex in k-space. This means
-that in contrast to an insulator or semiconductor where every k-point has the
-same number of occupied states, **in a metal the number of occupied states can
-vary from k-point to k-point**. This makes them more difficult to converge than
-other systems. 
-
-In short, there are generally two things you need to do:
-
-1.  Use a denser k-point grid than you would need for a semiconductor or
-    insulator. This is to help sampling the rapid change in the Fermi surface at
-    different k-points.
-
-2.  Use some smearing scheme. This is in relation to the smearing used in the
-    calculation of the [:link: density of
-    states](../lab04/readme.md#density-of-states). The difference is that here
-    the occupation is also smeared (i.e., can no longer be intergers of 0 and
-    1.) Visually, the smeared DOS would look like the following:
-
-    where the occupation function (Fermi-Dirac function) is plotted in red. The
-    Fermi energy is obtaeind by solving the following equaion:
-    $$ 
-    \int_{-\infty}^{\varepsilon_F} \mathrm{DOS}(\varepsilon) f_T(\varepsilon)
-    d\varepsilon = N_e 
-    $$
-    where $N_e$ is the number of electrons in the system and $f$ represents the
-    Fermi-Dirac distribution function at temperature $T$. As we already know, 
-    the Fermi-Dirac function at 0K is a step function which would spoil the
-    convergence of metals. Here, we simply raise the temperature to a small
-    number (`degauss`) so that the Fermi-Dirac function is smeared out and the
-    Convergence can be more easily achieved. It is worth noting that other
-    smearing methods such as gaussian smearing can also be used.
-
-    Adding a smearing helps significantly in achieving a smooth
-    SCF convergence, as otherwise a small change in a state energy from once
-    cycle to the next could lead to a very large change in its occupation and to
-    the total energy in turn (this is called 'ill-conditioning'). 
-    We set the smearing scheme and width with the `occupations` and `degauss` 
-    variables in the input file.
-
-Example: Aluminium
-------------------
-
-Aluminium forms in a standard fcc structure with one atom per cell, which we
-know how to deal with at this point. The thing about Aluminium that makes it
-more complicated within DFT is that it is a metal.
-
-Here is an example input file for a calculation of Aluminium:
-
-```python
- &CONTROL
-    pseudo_dir = '.'
- /
-
- &SYSTEM
-    ibrav =  2
-    A = 2.863
-    nat =  1
-    ntyp = 1
-    ecutwfc = 18.0
-    occupations = 'smearing' #(1)!
-    smearing = 'fermi-dirac' #(2)!
-    degauss = 0.1d0 #(3)!
- /
-
- &ELECTRONS
- /
-
-ATOMIC_SPECIES
- Al  26.982  Al.pz-vbc.UPF
-
-ATOMIC_POSITIONS crystal
- Al 0.00 0.00 0.00
-
-K_POINTS automatic
-  8 8 8 1 1 1
-```
-
-1.    The `occupations` variable is set to `smearing` to tell Quantum Espresso
-      to use a smearing scheme [:link:input 
-      description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm362).
-2.    The `smearing` variable is set to `fermi-dirac` to tell Quantum Espresso
-      to use a Fermi-Dirac smearing scheme. [:link:input
-      description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm404). 
-3.    The `degauss` variable is set to 0.1d0 to set the width of the smearing.
-      see [:link:input
-      description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401).
-
-
-!!! example "Task 1 - Smearing"
-
-    First, run the `pw.x` calculation with the supplied input file in
-    [:link:01_aluminium/Al.in](01_aluminium/Al.in).
-    
-    Then, look in the `pwscf.xml` file and find the various `ks_energies`
-    entries towards the end. These give the various k-points used in the
-    calculation and the energies and occupations of each state for this k-point.
-    Note, for a metal the default number of bands is at least four more than are
-    needed for the number of electrons per cell. The pseudopotential we have
-    used has 3 valence electrons, which could be represented with two
-    potentially doubly occupied bands, so we have four more bands in the
-    calculation for a total of 6.
-
-    ??? success "Example" 
-        ```
-              <ks_energies>
-                <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point>
-                <npw>59</npw>
-                <eigenvalues size="6">
-          1.315972343567215E-001  1.505697520824042E+000  1.607697079464305E+000
-          1.607697714947740E+000  1.834366371282428E+000
-          1.952726961146777E+000
-                </eigenvalues>
-                <occupations size="6">
-          9.999990177787399E-001  1.181697427742303E-006  1.536561074875367E-007
-          1.536541545820267E-007  1.650917762173208E-009
-          1.547598926179030E-010
-                </occupations>
-              </ks_energies>
-         ... 
-        ```
-    
-    Now, try removing the `occupations` and `degauss` variables from the input
-    file and see what happens when you try to run the calculation.
-
-    ??? success "Example" 
-        ```
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-             Error in routine electrons (1):
-             charge is wrong: smearing is needed
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        ```
+<div markdown="span" style="margin: 0 auto; text-align: center">
+[Download the input files for this tutorial](./assets/lab08_input.zip){ .md-button .md-button--primary }
+</div>
 
 ------------------------------------------------------------------------------
+
+<!-- ## Metals -->
+<!--  -->
+<!-- Metals have a Fermi surface that can be quite complex in k-space. This means -->
+<!-- that in contrast to an insulator or semiconductor where every k-point has the -->
+<!-- same number of occupied states, **in a metal the number of occupied states can -->
+<!-- vary from k-point to k-point**. This makes them more difficult to converge than -->
+<!-- other systems.  -->
+<!--  -->
+<!-- In short, there are generally two things you need to do: -->
+<!--  -->
+<!-- 1.  Use a denser k-point grid than you would need for a semiconductor or -->
+<!--     insulator. This is to help sampling the rapid change in the Fermi surface at -->
+<!--     different k-points. -->
+<!--  -->
+<!-- 2.  Use some smearing scheme. This is in relation to the smearing used in the -->
+<!--     calculation of the [:link: density of -->
+<!--     states](../lab04/readme.md#density-of-states). The difference is that here -->
+<!--     the occupation is also smeared (i.e., can no longer be intergers of 0 and -->
+<!--     1.) Visually, the smeared DOS would look like the following: -->
+<!--  -->
+<!--     where the occupation function (Fermi-Dirac function) is plotted in red. The -->
+<!--     Fermi energy is obtaeind by solving the following equaion: -->
+<!--     $$  -->
+<!--     \int_{-\infty}^{\varepsilon_F} \mathrm{DOS}(\varepsilon) f_T(\varepsilon) -->
+<!--     d\varepsilon = N_e  -->
+<!--     $$ -->
+<!--     where $N_e$ is the number of electrons in the system and $f$ represents the -->
+<!--     Fermi-Dirac distribution function at temperature $T$. As we already know,  -->
+<!--     the Fermi-Dirac function at 0K is a step function which would spoil the -->
+<!--     convergence of metals. Here, we simply raise the temperature to a small -->
+<!--     number (`degauss`) so that the Fermi-Dirac function is smeared out and the -->
+<!--     Convergence can be more easily achieved. It is worth noting that other -->
+<!--     smearing methods such as gaussian smearing can also be used. -->
+<!--  -->
+<!--     Adding a smearing helps significantly in achieving a smooth -->
+<!--     SCF convergence, as otherwise a small change in a state energy from once -->
+<!--     cycle to the next could lead to a very large change in its occupation and to -->
+<!--     the total energy in turn (this is called 'ill-conditioning').  -->
+<!--     We set the smearing scheme and width with the `occupations` and `degauss`  -->
+<!--     variables in the input file. -->
+<!--  -->
+<!-- Example: Aluminium -->
+<!-- ------------------ -->
+<!--  -->
+<!-- Aluminium forms in a standard fcc structure with one atom per cell, which we -->
+<!-- know how to deal with at this point. The thing about Aluminium that makes it -->
+<!-- more complicated within DFT is that it is a metal. -->
+<!--  -->
+<!-- Here is an example input file for a calculation of Aluminium: -->
+<!--  -->
+<!-- ```python -->
+<!--  &CONTROL -->
+<!--     pseudo_dir = '.' -->
+<!--  / -->
+<!--  -->
+<!--  &SYSTEM -->
+<!--     ibrav =  2 -->
+<!--     A = 2.863 -->
+<!--     nat =  1 -->
+<!--     ntyp = 1 -->
+<!--     ecutwfc = 18.0 -->
+<!--     occupations = 'smearing' #(1)! -->
+<!--     smearing = 'fermi-dirac' #(2)! -->
+<!--     degauss = 0.1d0 #(3)! -->
+<!--  / -->
+<!--  -->
+<!--  &ELECTRONS -->
+<!--  / -->
+<!--  -->
+<!-- ATOMIC_SPECIES -->
+<!--  Al  26.982  Al.pz-vbc.UPF -->
+<!--  -->
+<!-- ATOMIC_POSITIONS crystal -->
+<!--  Al 0.00 0.00 0.00 -->
+<!--  -->
+<!-- K_POINTS automatic -->
+<!--   8 8 8 1 1 1 -->
+<!-- ``` -->
+<!--  -->
+<!-- 1.    The `occupations` variable is set to `smearing` to tell Quantum Espresso -->
+<!--       to use a smearing scheme [:link:input  -->
+<!--       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm362). -->
+<!-- 2.    The `smearing` variable is set to `fermi-dirac` to tell Quantum Espresso -->
+<!--       to use a Fermi-Dirac smearing scheme. [:link:input -->
+<!--       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm404).  -->
+<!-- 3.    The `degauss` variable is set to 0.1d0 to set the width of the smearing. -->
+<!--       see [:link:input -->
+<!--       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401). -->
+<!--  -->
+<!--  -->
+<!-- !!! example "Task 1 - Smearing" -->
+<!--  -->
+<!--     First, run the `pw.x` calculation with the supplied input file in -->
+<!--     [:link:01_aluminium/Al.in](01_aluminium/Al.in). -->
+<!--      -->
+<!--     Then, look in the `pwscf.xml` file and find the various `ks_energies` -->
+<!--     entries towards the end. These give the various k-points used in the -->
+<!--     calculation and the energies and occupations of each state for this k-point. -->
+<!--     Note, for a metal the default number of bands is at least four more than are -->
+<!--     needed for the number of electrons per cell. The pseudopotential we have -->
+<!--     used has 3 valence electrons, which could be represented with two -->
+<!--     potentially doubly occupied bands, so we have four more bands in the -->
+<!--     calculation for a total of 6. -->
+<!--  -->
+<!--     ??? success "Example"  -->
+<!--         ``` -->
+<!--               <ks_energies> -->
+<!--                 <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point> -->
+<!--                 <npw>59</npw> -->
+<!--                 <eigenvalues size="6"> -->
+<!--           1.315972343567215E-001  1.505697520824042E+000  1.607697079464305E+000 -->
+<!--           1.607697714947740E+000  1.834366371282428E+000 -->
+<!--           1.952726961146777E+000 -->
+<!--                 </eigenvalues> -->
+<!--                 <occupations size="6"> -->
+<!--           9.999990177787399E-001  1.181697427742303E-006  1.536561074875367E-007 -->
+<!--           1.536541545820267E-007  1.650917762173208E-009 -->
+<!--           1.547598926179030E-010 -->
+<!--                 </occupations> -->
+<!--               </ks_energies> -->
+<!--          ...  -->
+<!--         ``` -->
+<!--      -->
+<!--     Now, try removing the `occupations` and `degauss` variables from the input -->
+<!--     file and see what happens when you try to run the calculation. -->
+<!--  -->
+<!--     ??? success "Example"  -->
+<!--         ``` -->
+<!--         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<!--              Error in routine electrons (1): -->
+<!--              charge is wrong: smearing is needed -->
+<!--         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+<!--         ``` -->
+<!--  -->
+<!-- ------------------------------------------------------------------------------ -->
 
 Spin Polarization
 -----------------
 
-Up till now we have been assuming that we always had some set of bands which
-could each fit two identical electrons. Essentially we have been ignoring
-the electron spin. If you want to examine, for example, a magnetic system
-then the spin of the electrons is important. It can also be important
-in modelling atomic or molecular systems. We'll cover different examples
-of this in this lab. 
+Up untill now we have been assuming that we always had some set of bands which
+could each fit two electrons. Essentially we have been ignoring the electron
+spin. If you want to examine, for example, a magnetic system then the spin of
+the electrons is important. It can also be important in modelling atomic or
+molecular systems. We'll cover different examples of this in this lab.
 
 
 The Oxygen Molecule
@@ -260,7 +263,7 @@ K_POINTS gamma
 
 !!! example "Task 2.2 - Assuming Spin Degenerate Metal"
 
-    Create a copy of the `02_O2` directory called `02_O2_metal`. Modify the
+    Create a copy of the `01_O2` directory called `01_O2_metal`. Modify the
     input file in it to use a metallic occupation scheme with a small smearing
     width and run the calculation (as above). 
 
@@ -453,7 +456,7 @@ value. This is done by setting the `starting_magnetization` input variable.
 
 !!! example "Task 3.2 - Relaxed magnetization"
 
-    1. Make another copy of the `03_Fe` directory, and this time set `nspin = 2`,
+    1. Make another copy of the `02_Fe` directory, and this time set `nspin = 2`,
        and `starting_magnetization = 1.0` (do not include the
        `tot_magnetization` variable as this fixes a value). Run the calculation
        and see what the final total magnetization per cell is. See if you can
@@ -478,8 +481,7 @@ value. This is done by setting the `starting_magnetization` input variable.
 
         ??? success "Answer"
             You can find the relevant input file in the directory 
-            `03_Fe/extra_bandstructure`. Give the `run_all.sh` file a read and
-            try to run the calculation. The band structure should look like The
+            `03_Fe/extra_bandstructure`. The band structure should look like The
             following:
             <figure markdown="span">
               ![Diamond primitive cell](assets/Iron_bands.png){ width="500" }
@@ -492,7 +494,7 @@ Summary
 
 In this lab you have seen:
 
-- How to treat a metallic system.
+<!-- - How to treat a metallic system. -->
 - How to do a DFT calculation including spin polarization.
 - How some systems need to be done with spin polarization to converge to the
   correct ground state.

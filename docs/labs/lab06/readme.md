@@ -1,5 +1,56 @@
-Vibrational Frequencies and Normal Modes
+Normal Modes and Vibrational Frequencies
 ========================================
+
+------------------------------ tentative actual text ---------------------------------
+
+This week we continue studying the structural properties of molecules and crystals. In particular, we calculate the vibrational properties of molecules and solids. These properties can be computed using the potential energy surface (PES).  
+
+
+Normal modes of molecules
+-------------------------
+
+### Step 1 
+
+
+### Step 2 
+
+
+### Step 3 
+
+!!! example "Task 1: normal modes of methane"
+
+## How quantum espsresso calculates the normal modes of molecules
+1. DFPT 
+2. Note on choosing the $\Gamma$ point for molecules 
+3. Symmetry detection 
+4. Stricter ecutrho 
+
+
+
+Phonons in crystals 
+-------------------------
+
+Force constant matrix
+-----------------------
+
+Dynamical matrix 
+------------------
+
+
+## Quantities produced by Quantum espresso 
+1. matdyn - how to read 
+
+
+## How QE calculates the dynamical matrix 
+
+
+Phonon band structure 
+---------------------
+
+## How QE calculates the phonon band structure
+
+
+------------------------------ old content below ------------------------------------
 
 As we saw in the previous lab, we get easy access to the first derivatives of
 the total energy with respect to various parameters in a basic self-consistent

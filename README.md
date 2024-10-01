@@ -2,16 +2,14 @@ Modelling Materials with Density Functional Theory
 ==================================================
 
 ## Introduction
-This is the lab material for the Imperial College London, Department of
-Materials course "MSE404: Modelling Materials with Density Functional
-Theory".
+This is the computer lab material for the course "Modelling Materials with Density Functional
+Theory" taught in the Department of Materials at Imperial College London.
 
-This course is intended to introduce students to the modelling of materials
+This course will introduce students to the modelling of materials
 with density-functional theory (DFT). In the labs we will use the free,
-open-source DFT code [Quantum Espresso](http://www.quantum-espresso.org/), but
-while the format of the input files may change in other DFT codes, the general
-principles will be the same. The labs will also briefly introduce student to
-the use of the Linux OS and how it enables the effective use of computational
+open-source DFT code [Quantum Espresso](http://www.quantum-espresso.org/). While the format of the input files may be differeint in other DFT codes, the general
+principles will be the same. The labs will also briefly introduce students to
+the use of the Linux operating system and how it enables the effective use of computational
 resources, as well as showing students some simple scripting, analysis, and
 visualization tools.
 
@@ -77,18 +75,16 @@ echo "Hello World"
 which are meant to be run in the terminal. And you can click the 
 :material-content-copy: icon on the right to copy the code to your clipboard.
 
-There will also be inline annotations (:material-plus-circle:) like the one 
+There will also be inline annotations (⊕) like the one 
 below:
 
 ```fortran
-program hello
-    print *, "Hello World" !(1)
+program
+    print *, "Hello World" ⊕
 end program hello
 ```
-
-1. Print the string "Hello World" to the terminal.
-
-You can click on the annotation to see the explanation.
+If you click the ⊕ button, a pop up window will show up (this only works in the 
+web page).
 
 There will also be admonitions like the one below:
 
@@ -108,6 +104,6 @@ marked as admonitions like the one below:
 
 ## Acknowledgements
 - Original materials provided by Éamonn Murray (https://gitlab.com/eamonnmurray/MaterialsModelling)
-- Contributors: Simao Joao, Christopher Chung, Jordan Edwards, Chengcheng Xiao, Indrajit Maity, Valerio Vitale, Laura Ratcliff and Johannes Lischner.
+- Contributors: Simão João, Christopher Cheung, Jordan Edwards, Chengcheng Xiao, Indrajit Maity, Valerio Vitale, Laura Ratcliff and Johannes Lischner.
 - Webpage refreshed by Chengcheng Xiao, 2024.
 

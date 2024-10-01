@@ -1,439 +1,669 @@
-Convergence and Importance Parameters
+Convergence Tests
 =====================================
+This week we are going to continue looking at isolated molecules. Specifically, we will be focusing on finding out how well converged our results are. This is a necessary step to have any confidence in your results and should always be done before running calculations on new systems.
 
-In this lab we'll continue looking at molecules, and we'll also be going
-through how to define various input parameters and how to check how well
-converged your calculations are.
+<div markdown="span" style="margin: 0 auto; text-align: center">
+[Download the input files for this tutorial](./assets/lab03_input.zip){ .md-button .md-button--primary }
+</div>
 
-**Reminder** Don't forget to copy the `lab03` folder from `/opt/Courses/MSE404/lab03`
-to your home directory.
+Before starting, if you can't remember how to do something from the command line, you can always refer back to [Lab 1](../lab01/readme.md).
 
-Linux Recap
------------
+-------------------------------------------------------------------------------------------
 
-Before you start, if you can't remember how to do something from the command
-line, this [cheat
-sheet](https://www.slideshare.net/NoFernndezPozo/unix-command-sheet2014) may
-come in useful. Or you can always refer back to [lab 1](../lab01/readme.md).
+## Pseudopotentials
+As discussed in lectures, we use pseudopotentials to approximate the core potential. For each atomic species in your calculations, we need a pseudopotential file describing the approximation you want the DFT code to use for that species.
 
-Although it's not essential, at some point you may wish to transfer files between
-different computers. You can do this using the `scp` command. This
-[website](https://linuxize.com/post/how-to-use-scp-command-to-securely-transfer-files/)
-explains how to use it. There are also some other useful commands which we
-haven't discussed [`here`](../extras/misc/linuxcommands/readme.md).
+Let's look at a brief view of an input file for CO2:
+
+!!! tip annotate "Tip: In-code annotations"
+    Click (1) to see notes on the input tags.
+
+1. This is an annotation
+
+```python
+ &CONTROL
+    pseudo_dir = '.' #(1)!
+ /
+
+ &SYSTEM
+   ibrav = 1
+   A = 10.0
+   nat = 3
+   ntyp = 2
+   ecutwfc = 18.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF #(2)!
+ O  15.9999  O.pz-rrkjus.UPF #(3)!
+
+ATOMIC_POSITIONS angstrom
+ C  0.0000  0.0000  0.0000
+ O  0.0000  0.0000  1.1615
+ O  0.0000  0.0000 -1.1615
+
+K_POINTS gamma
+```
+
+1. We have specified to look for the pseudopotentials in the current directory
+2. The pseudopotential we want to use to describe the core of Carbon
+3. The pseudopotential we want to use to describe the core of Oxygen
 
 
-Pseudopotentials
-----------------
+!!! tip annotate "Tip: Pseudopotential Directory"
+    It is useful to have a directory that stores all of your pseudopotentials as to not make many copies in our working directories. We can make a central pseudopotential directory and alter pseudo_dir to the correct file path (1).
+1. Specified by `pseudo_dir = 'path/to/pseudo/directory'`
 
-As discussed in lectures, pseudopotentials are used to approximate the core
-potential. For each atomic species, you need a file which describes
-the approximation you want the DFT code to use for that species. As
-you've seen we set the input files to look in the current directory for the
-required pseudopotential file. This is done by setting `pseudo_dir = '.'` in the
-`CONTROL` section of the input, where `.` represents the current directory.
-We then use a link to this file from some central directory rather than making
-multiple copies of the pseudopotential for different calculations. This week
-we'll be doing some different molecules. As always we need to make sure each
-of the atomic species have a pseudopotential listed in the input file.
+Open the input file for CO2 stored in `01_carbon_dioxide/CO2.in`.
 
-An alternative way to do this would be to specify the central pseudopotential
-directory directly in the input file. We've set this in the input file in
-[`01_carbon_dioxide/CO2.in`](01_carbon_dioxide/CO2.in).
+As we can see, we have told the DFT code to look in a directory called `pseudo`. If we do `ls ..` we should see that directory.
 
-- Take a look at the directory contents and you'll see there's only an
-  input file there.
-- Compare this to one of the input files from [lab 2](../lab02/readme.md) and
-  run the calculation to check it works. Note that you do not need to edit the
-  file.
-- Take a look at the pseudopotential file we've used for oxygen. The header
-  has some useful information regarding how the pseudopotential was generated,
-  such as what states are included, and what approximations are used for
-  exchange and correlation.
+The header of pseudopotential files contain valuable information about how the pseudopotential was generated, such as what states are included, and what approximations are used for exchange and correlation.
 
+!!! example "Task 1 - Pseudopotential File"
 
-Plane-wave energy cut-off
--------------------------
+    Run the input file for CO2. Take a look at the pseudopotential file we are using for Oxygen:
+
+    - What level of approximation are we using?
+
+        ??? success "Answer"
+            LDA
+
+    - What were the 'core' and 'valence' states used to generate the pseudopotential file??
+
+        ??? success "Answer"
+            The states listed in the PP file are the valence states, and thus these are:
+            ```
+            nl pn  l   occ               Rcut            Rcut US             E pseuo
+            2S  0  0  2.00      0.00000000000      0.00000000000      0.00000000000
+            2P  0  1  2.00      0.00000000000      0.00000000000      0.00000000000
+            ```
+            The core states are therefore 1S.
+    - What is the valence charge on the oxygen after the core has been approximated?
+
+        ??? success "Answer"
+            The valence charge is 4. Found by identifying the line `4.00000000000 Z valence` in the information below:
+            ```
+            <PP_HEADER>
+            0                      Version Number
+            C                      Element
+            NC                     Norm - Conserving pseudopotential
+            F                      Nonlinear Core Correction
+            SLA PZ NOGX NOGC PZ    Exchange-Correlation functional
+            4.00000000000          Z valence
+            0.00000000000          Total energy
+            0.0000000  0.0000000   Suggested cutoff for wfc and rho
+            0                      Max angular momentum component
+            269                    Number of points in mesh
+            2    1                 Number of Wavefunctions, Number of Projectors
+            Wavefunctions          nl  l   occ
+                                   2S  0  2.00
+                                   2P  1  2.00
+            </PP_HEADER>
+            ```
+
+## Plane-wave energy cut-off
 
 Regardless of the type of system you're looking at, you'll need to check how
 well converged your result is (whatever it is your calculating) with respect
 to the plane-wave energy cut-off. This governs how many plane-waves are
 used in the calculation.
 
-- In Quantum Espresso this is controlled with the parameter `ecutwfc`.
-- Different systems will converge differently - for example you shouldn't
-  expect diamond and silicon to be converged to the same accuracy with the same
-  energy cut-off despite having the same structure and same number of
-  valence electrons.
-- Different pseudopotentials for the same atomic species will also converge
-  differently. Often pseudopotential files will suggest an energy cut-off.
-- Different calculated parameters will converge differently.
-    - You should be particularly careful when calculating parameters that
-      depend on volume, as the number of plane-waves for a given energy
-      cut-off is directly proportional to the volume so this can introduce
-      an additional variation. We'll see more about this later.
+Let's again look at our CO2 input file:
 
-An example showing the total energy convergence with respect to energy cut-off
-is in the [02_ecut/01_carbon_dioxide](02_ecut/01_carbon_dioxide) directory. We
-have already set up a series of input files which are all identical except we
-systematically increase the value of `ecutwfc`.
+```python
+ &CONTROL
+    pseudo_dir = '.' 
+ /
 
-Examine one of these input files. You'll notice we've specified some
-additional variables:
+ &SYSTEM
+   ibrav = 1
+   A = 10.0
+   nat = 3
+   ntyp = 2
+   ecutwfc = 18.0 #(1)!
+ /
 
-- In the `CONTROL` section we've added the setting `disk_io = 'none'`. This
-  suppresses the generation of the wavefunction file and the folder with the
-  charge density etc. If we only care about the total energy we don't need to
-  generate these files, and the calculation will run a little faster if it's
-  not trying to write unnecessary files as disk I/O can often be a bottleneck
-  in calculations.
-- In the `ELECTRONS` section we have added the `conv_thr` setting, though it
-  is set to its default value. This variable controls when the self
-  consistency cycle finishes. You should be aware of this variable, as there
-  is little point in trying to converge to greater accuracy than we are
-  converging self-consistently.
+ &ELECTRONS
+ /
 
-So now we want to run `pw.x` for each of these input files. **Don't forget
-you'll need to load the espresso module and its dependencies before the
-`pw.x` command will work.**
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+ O  15.9999  O.pz-rrkjus.UPF
 
-It's a little tedious to type out the `pw.x` command for each input file in
-turn manually. Instead we can automate this with a small script.
+ATOMIC_POSITIONS angstrom
+ C  0.0000  0.0000  0.0000
+ O  0.0000  0.0000  1.1615
+ O  0.0000  0.0000 -1.1615
 
-Shell scripting
----------------
+K_POINTS gamma
+```
 
-A shell script is a collection of Linux shell commands in a file, and when
-that file is executed (in the same way as any Linux command is executed) then
-those commands are executed. We could make a script that explicitly runs each
-input file with `pw.x` in turn as follows:
+1. Plane-wave energy cutoff (Ry)
+
+Note that:
+
+- Different systems converge differently. You souldn't expect diamond and silicon to be converged to the same accuracy with the same energy cutoff despite having the same structure and same number of valence electrons.
+
+- Different pseudopotentials for the same atomic species will also converge differently. Often pseudopotential files will suggest an energy cutoff as mentioned previously.
+
+- Different calculated parameters will converge differently. 
+	- If we want to calculate the lattice parameter of a material, don't expect it to be converged to the same accuracy as another parameter e.g. the bulk modulus.
+
+!!! warning
+    You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation. We'll see more about this later.
+
+An example demonstrating the total energy convergence with respect to energy cutoff is shown in the [02_ecut/01_carbon_dioxide](02_ecut/01_carbon_dioxide) directory.
+We have already set up a series of input files which are all identical except we systematically increase ***only*** the value of `ecutwfc`.
+
+Examining [CO2_25.in](02_ecut/01_carbon_dioxide/CO2_25.in) we see some new parameters that should be explained.
+
+```python
+ &CONTROL
+    pseudo_dir = '../../../pseudo' #(1)!
+    disk_io = 'none' #(2)!
+ /
+
+ &SYSTEM
+   ibrav = 1
+   A = 10.0
+   nat = 3
+   ntyp = 2
+   ecutwfc = 25.0 #(3)!
+ /
+
+ &ELECTRONS
+    conv_thr = 1.0E-6 #(4)!
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+ O  15.9999  O.pz-rrkjus.UPF
+
+ATOMIC_POSITIONS angstrom
+ C  0.0000  0.0000  0.0000
+ O  0.0000  0.0000  1.1615
+ O  0.0000  0.0000 -1.1615
+
+K_POINTS gamma
+```
+
+1. Central pseudopotential direcotry.
+2. This supresses the generation of the wavefunction file and the folder with the charge density. At this point, we don't need to worry about these and it saves disk space :).
+3. Plane-wave cutoff of 25 Ry.
+4. This variable controls when the self consistency cycle finishes. When the `estimated energy error < conv_thr` the self consistency cycle (scf) stops. You should be aware of this variable, as there is little point in trying to converge to greater accuracy than we are converging self-consistently.
+
+!!! tip annotate "Tip: Running Quantum Espressso"
+    Make sure to have loaded the quantum espresso module and its dependencies using the command:
+
+    `module load quantum-espresso`
+    ***might need to change this depending on what the module is called***.
+
+Now we want to run `pw.x` for each of these input files. It would be very tedious to do this manually, especially if we had more input files. This is where ***bash scripting*** comes in handy. We won't go too much into bash scripting, but if you are interested you are encouraged to spend some time understanding the bash scripts provided. Let's examine the simple script below:
 
 ```bash
 #!/bin/bash
 
 # Run pw.x for each input file sequentially
-pw.x < CO2_10.in &> CO2_10.out
-pw.x < CO2_15.in &> CO2_15.out
-pw.x < CO2_20.in &> CO2_20.out
-pw.x < CO2_25.in &> CO2_25.out
-pw.x < CO2_30.in &> CO2_30.out
-pw.x < CO2_35.in &> CO2_35.out
-pw.x < CO2_40.in &> CO2_40.out
-```
-
-If we save this in a file called say `run_set.sh` (e.g. by copying the above 
-to whichever text editor you prefer such as `gedit`), the simplest way to run the
-script is using `bash run_set.sh`, where bash is the default shell on the system 
-we're using. This means that the same commands you type in a terminal can be used
-in a bash script. In other words this script does the same thing as if we typed
-each line directly. It is also possible to execute the script directly using
-`./run_set.sh`, which would rquire you to set the file to executable, using
-[`chmod`](../extras/misc/linuxcommands/readme.md#chmod).
-
-There are also a number of features available in `bash` to make scripts more
-general than an explicit set of commands. For example, let's say we want to
-instead find whatever input files are in the current directory, and run
-`pw.x` with them, saving the output in an appropriate file, we could make our
-script as follows:
-
-```bash
-#!/bin/bash
-
-# Loop over files in the current directory with extension .in
-for input_file in $(ls *.in)
-   # For each file run pw.x and save output in file with same 
-   # root name as input file but with .out extension
-   do
-      pw.x < "$input_file" &> "${input_file%.*}.out"
-done
-```
-
-In this script, we save the output of an `ls` command listing all the input
-files with `.in` extension as a variable. Then we loop over those input files, 
-running `pw.x` with each, and saving the output in a file that has the same name as the input
-file but with the extension `.out` instead of `.in`. The part
-`${input_file%.*}` returns the value stored in the `$input_file` variable
-but with the extension stripped away. This lets us make our script much more
-general: if we add additional input files, they'll automatically be picked
-up and run without us needing to modify our script.
-
-### _Task_
-
- - Save this second script as `run_all.sh` and run it within the directory
-   with the carbon dioxide input files using `bash run_all.sh`.
- - Check one of your output files to make sure Quantum Espresso ran
-   as expected. If your file contains only an error message, you likely forgot
-   to load the modules required to use Quantum Espresso on our server.
-
-Once the calculations have run, we want to see how the total energy changes
-with the input plane-wave energy cut-off. We could go through each output
-file and find the resulting total energy and gather them in a file, but again
-that would be tedious so we can write a script to do it for us (or extend
-our earlier script to also do this).
-
-There are two different commands we could use to extract the resulting total
-energy from file. The first is often simpler to use and is called
-[`grep`](../extras/misc/linuxcommands/readme.md#grep). For example we could use
-the following to print the line containing the final total energy from each
-output file using the fact that `pw.x` helpfully starts this line with a `!`:
-`grep '^!.*total energy' *out`. In particular, we are searching for a line which
-has the symbol `!` at the beginning `^` and that also contains the string `total
-energy` in all files whose names end with `out`. Try running this now in the
-directory containing your output files.
-
-The other command we could use is
-[`awk`](../extras/misc/linuxcommands/readme.md#awk), which is more powerful, but
-also more complicate to use, and lets us pick out both the total energy value
-and the energy cut-off that was used with a single command. We could use this in
-a simple script as follows:
-
-```bash
-#!/bin/bash
-
-# In all files ending with 'out', find line with 'kinetic-energy' 
-# and save the fourth column/word into variable 'ecut'. 
-# Then in the same file also find a line beginning with '!' and that contains
-# the string 'total' and print the value stored in 'ecut' and the
-# fifth column/word from this line.
-awk '/kinetic-energy/{ecut=$4} /^!.*total/{print ecut, $5}' *out
-```
-
-Here we use the `awk` command to find the line with `kinetic-energy` and save
-the fourth word (`$4`) to a variable called `ecut`. Then when it finds a line
-that starts with a `!` and has the word `total`, it will output the value
-stored in the `ecut` variable, followed by the fifth word (`$5`) on that line.
-
-### _Task_
-
- - Save this as a script called `etot_v_ecut.sh`, run it in the directory with
-   the output files and save the output as `etot_v_ecut.dat`. You can do this
-   by typing `bash etot_v_ecut.sh > etot_v_ecut.dat`.
- - Look at the output (e.g. using `gedit`) and you can see to how many significant
-   figures the total energy is converged for a given energy cut-off.
-
-We can make things even easier if rather than manually generating all the input
-files, we modify the script to take a base input file and modify it for each
-calculation, run it, and finally parse the output to a data file.
-
-This is in the `02_ecut/02_methane` directory.
-
-The script is as follows:
-```bash
-#!/bin/bash
-
-# Original filename
-template="CH4_base.in"
-# String to be replaced
-repstr="xxxx"
-
-# Loop from 10 to 50 in steps of 5. These are the values of the energy cut-off
-for val in {10..50..5}
+for i in {10..40..5}; #(1)!
 do
-  # Define input file name. Assign at each file a specific name
-  inp="CH4_${val}.in"
-  # Substitute "xxxx" string in original file with the current energy cut-off value
-  # and paste the result into new input file
-  sed "s/$repstr/$val/" $template > $inp
-  # Run pw.x on the current input file
-  pw.x < $inp &> ${inp%.*}.out
+	pw.x < CO2_$i.in &> CO2_$i.out #(2)!
 done
-
-# Extract for each output file the values of the energy cut-off
-# and the final total energy
-# Paste results in etot_v_ecut.dat file
-awk '/kinetic-energy/{ecut=$4}
-     /^!.*total/{print ecut, $5}' *out > etot_v_ecut.dat
 ```
 
-Here we've combined the two scripts we created above, and also automated the
-generation of input files using the
-[`sed`](../extras/misc/linuxcommands/readme.md#sed) command. This can be used to
-search for and replace some text in a file. We have set up a template input file
-[`CH4_base.in`](02_ecut/02_methane/CH4_base.in) where we have used the
-placeholder text `xxxx` as the text we'll search for and replace with energy
-cut-off we want for our input file. The bash construction `for val in
-{10..50..5}` will create a loop where the value stored in the variable `$val`
-runs from 10 to 50 in steps of 5.
+1. For loop going from i=10 to i=40 in steps of 5.
+2. Runs the command `pw.x < CO2_$i.in > CO2_$i.out` from i=10 to i=40.
+
+We shouldn't need to do anything to these scripts. However, feel free to play around with them as you get better with the linux command line!
+
+To run the bash file, we use the command `./run.sh`. After some time, the output files should be in your directory.
 
 
-### _Task_
+!!! example "Task 2 - Running Convergence Tests"
 
-- Run this script and see what input and output files are generated.
+    Run the bash file using the command `./run.sh`. After some time, examine the output files in your directory.
 
+    - Check the output file `CO2_10.out`. What is the converged total energy?
 
+        ??? success "Answer"
+            `!    total energy              =     -71.18353288 Ry`
 
-Plotting with Gnuplot
----------------------
+    - Check the output file `CO2_20.out`. What is the converged total energy? Is this lower than `CO2_10.out`?
 
-It's often useful to be able to generate a quick plot when testing the
-relation between variables. `gnuplot` is a useful tool for generating plots,
-particularly as it is also scriptable, so we could extend our earlier script
-to automatically generate a plot from from the extracted data. There is a more
-detailed overview in the [gnuplot section](../extras/misc/gnuplot/readme.md).
+        ??? success "Answer"
+            `!    total energy              =     -74.57951430 Ry`.
+            This is lower than the total energy in `CO2_10.out`.
 
-We can launch gnuplot by typing `gnuplot` in a terminal. Once it opens, we
-can, for example, plot a data file by typing `plot "etot_v_ecut.dat"`
-(provided we are in the directory containing that file). This will only plot
-the points by default. If we want to join these up with lines we can type
-`plot "etot_v_ecut.dat" with linespoints`, or `p "etot_v_ecut.dat" w lp`.
-If you want to specify different columns of data, you can do for example
-`p "etot_v_ecut.dat" u 2:1 w lp` to plot column 2 vs. 1 instead of 1 vs. 2
-(which is the default).
+As you should see, the total energy decreases as we increase the plane-wave energy cutoff `ecutwfc`.
+We could go through each of these input files and look for the final energy. However, this would be tedious and time consuming. We have provided another bash script `run_with_data_collect.sh` that collects the results for you and deposits them into a file called data.txt.
 
-### _Task_
+A quick look at the bash file:
 
-- Generate plots of the difference between the total energy and its most
-  converged value versus plane wave energy cut-off for both methane and
-  carbon dioxide.
-    - Instead of working out energy differences yourself, you can plot the
-      difference in energies directly in gnuplot, for example
-      by doing `eref=-100; p "etot_v_ecut.dat" u 1:($2-eref) w lp`, where 
-      in this case we are calculating the energy relative to -100.
-      You should change the value of `eref` from -100 to the energy of
-      the calculation with the highest plane-wave cut-off.
-    - It can also be useful to plot convergence on a logscale, which you can do
-      in gnuplot by typing `set logscale y` before you type the above command.
-- How does the behaviour compare between the two molecules?
-
-
-Exchange & Correlation Functional
----------------------------------
-
-The exchange and correlation is a key part of DFT. The functional we use
-determines how we approximate all the many body interactions. By default,
-within Quantum Espresso, the exchange and correlation functionals that are
-used are taken from the header of the pseudopotential file as mentioned above.
-It's possible to override this using the `input_dft` variable in the system
-section, but it's best to use the same approximation as was used in the
-pseudopotential generation.
-
-The exchange correlation can have a big impact on a number of parameters.
-In this example we consider the example of an argon dimer.  By varying the bond
-length between two argon atoms we can plot binding energy curves. This is 
-another example where shell scripting can be very useful, since we want to run
-several similar calculations. We can modify the script we used for the cut-off
-energy convergence to do this. We again define a template input file, found in
-[`Ar2_base.in`](03_argon/01_lda/Ar2_base.in) and then use the following script,
-which can be found in the `03_argon/01_lda` directory. In this case we want more
-data points in some places than others, so we directly specify each distance we
-want to calculate. There are also some other differences from the previous script -
-in this case we take the value of _r_ that we set and directly print it using the
-command `echo`, rather than extracting it from the Quantum Espresso output, but
-otherwise the same principles apply.
-
-The script for LDA is as follows:
 ```bash
 #!/bin/bash
 
-# Original filename
-template="Ar2_base.in"
-# String to be replaced
-repstr="xxxx"
-
-# delete the file if it exists already (-f)
-rm -f etot_v_r.dat
-
-# Loop over bond lengths
-for val in 3.0 3.1 3.2 3.3 3.4 3.5 3.6 3.7 3.8 4.0 4.2 4.5 5.0
+# Run pw.x for each input file sequentially
+for i in {10..40..5};
 do
-  # Print message to output
-  echo "Calculating Ar dimer with r=${val}"
-  # Define input file with specific name
-  inp="Ar2_r${val}.in"
-  # Substitue 'xxxx' string with current bondlength value
-  # and paste result in new input file
-  sed "s/$repstr/$val/" $template > $inp
-  # Run pw.x on the new input file and save results in 
-  # output file with same rootname as input file
-  pw.x < $inp &> ${inp%.*}.out
-  # Save current bondlength value in etot_v_r.dat file
-  echo -en "${val}\t" >> etot_v_r.dat
-  # Extract cut-off and total energy and append to etot_v_r.dat file
-  awk '/^!.*total/{print ecut, $5}' ${inp%.*}.out >> etot_v_r.dat
+        pw.x < CO2_$i.in &> CO2_$i.out
+done
+
+# Loop through files
+for i in {10..40..5}; do
+    # Extract 'ecutwfc' value from input molecule files
+    ecutwfc_value=$(grep 'ecutwfc' CO2_$i.in | awk '{print $3}' | tr -d ', =') # Plane wave cutoff (Ry)
+
+    # Extract 'Total Energy' value from input molecule files
+    final_energy_value=$(grep '!' CO2_$i.out | awk '{print $5}') # Total energy (Ry) #(1)!
+
+    # Multiply 'final_energy_value' by 13.6
+    final_energy_value=$(echo "$final_energy_value * 13.6" | bc) # Converting final energy to eV
+
+    # Append values to output file.
+    echo -e "$ecutwfc_value $final_energy_value" >> data.txt
+done
+
+```
+
+1. The line with the converged total energy on starts with a '!', allowing for easy access using `grep`.
+
+
+!!! example "Task 3 - Running Convergence Tests"
+
+    Run the next bash file using the command `./run_with_data_collect.sh`. After some time the bash file will have run. Examine the file data.txt.
+    
+    - What is the structure of the data.txt file?
+
+        ??? success "Answer"
+            The first column is ecutwfc (Ry) and the second column is Total Energy (eV)
+
+Through this course you will need to do many convergence tests. You have been provided with scripts that generate the input files for you, as well as helping to plot your results. In the direcory for methane, [02_ecut/02_methane](02_ecut/02_methane), we will go through how to use these scripts.
+
+The first script we will use is named `file_builder.py`. This is a python file that will generate all of our input files.
+
+```python
+##############################################################################################################################################
+##############################################################################################################################################
+##############################################################################################################################################
+#                           This is a python file that will generate multiple input files for a convergence test.                            #
+#                                                                                                                                            #
+#                   How to use: Copy and paste the text from your input file to common_content_template as shown below.                      #
+#                               Make sure you are putting a space both sides of = sign when pasting.                                         #
+#                                                                                                                                            #
+#                                                   How to run: python3 ecut_build.py                                                        #
+##############################################################################################################################################
+##############################################################################################################################################
+##############################################################################################################################################
+
+
+# Directory where you want to create the files
+output_directory = "./"
+
+# Number of files to create
+num_files = 10 #(1)!
+
+# Common content template with a placeholder for the number
+common_content_template = """
+
+""" #(2)!
+
+# Loop to create the files
+for i in range(1, num_files + 1):
+    # Define the content for each file with the number replaced
+    calc = round(5+5*i) #(3)!
+    content = common_content_template.format(calc)
+
+    # Generate the file name
+    file_name = f"{output_directory}/scf.mol.{str(i).zfill(3)}.in" #(4)!
+
+    # Open and write to the file directly
+    with open(file_name, 'w') as file:
+        file.write(content)
+```
+
+1. Number of files you want to create. This can control the maximum cutoff that you are testing.
+2. A blank template. Here you will paste the contents of your desired input file, but with `ecutwfc = {}`. Make sure to leave a space either side of the = sign here. If this is unclear, check the file file_builder_model.py.
+3. Incrementing the cutoff from 10 Ry to the desired amount. Can also alter this for larger spacings.
+4. Output files will be named scf.mol.001.in, scf.mol.002.in etc. 
+
+To run this file, issue the command `python3 file_builder.py`. You should now have many input files generated. Examine them to make sure everything has been generated correctly.
+
+Next, examine the `run.sh` file:
+
+```bash
+#!/bin/bash
+
+# Run scf calculations.
+for i in {001..010}; #(1)!
+do
+mpiexec pw.x < scf.mol.$i.in > scf.mol.$i.out #(2)!
+done
+
+# Loop through files
+for i in {001..010}; do #(3)!
+    # Extract 'ecutwfc' value from input molecule files
+    ecutwfc_value=$(grep 'ecutwfc' scf.mol.$i.in | awk '{print $3}' | tr -d ', =')
+
+    # Extract 'Total Energy' value from input molecule files
+    final_energy_value=$(grep '!' scf.mol.$i.out | awk '{print $5}')
+
+    # Multiply 'final_energy_value' by 13.6
+    final_energy_value=$(echo "$final_energy_value * 13.6" | bc)
+
+    echo -e "$ecutwfc_value $final_energy_value" >> data.txt
 done
 ```
 
-### _Task_
+1. Looping from 001 to 010 in steps of 001.
+2. Name of the files scf.mol.001.in, scf.mol.002.in etc.
+3. Looping again from 001 to 010 in steps of 001.
 
-- Run this script and see what input and output files are generated.
-    - In order to save computer time the box size and cut-off have been
-      chosen for speed rather than accuracy. If you have time, try converging
-      these values properly. On the other hand, if the calculations take too
-      long then reduce the number of data points by removing some distances.
-- See how the total energy varies with the distance between atoms.
+!!! example "Task 4 - Running Convergence Tests With Scripts"
 
-Now we want to try a different functional.  In the directory `03_argon/02_pbe`
-an input file is present that is identical to the previous calculation, except
-we specify a different pseudopotential here: `Ar.pbe-n-rrkjus_psl.1.0.0.UPF`.
+    In `convergence_processing.py` change `num_files` to  20. In `run.sh` change the for loop to go from 001 to 020. Generate the input files as described above. Run the bash file as before, using the command `./run.sh`. After some time the bash file will have run. Examine the file data.txt.
+    
+    - At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate run?
 
-### _Task_
+        ??? success "Result"
+            ecutwfc = 75 Ry.
 
-- Look at this file, and compare the header section to the pseudopotential you
-  used previously. You'll notice a line mentioning "PBE Exchange-Correlation
-  functional" in the pseudopotential we're using here, where it said "PZ
-  Exchange-Correlation functional previously".
-    - Here PZ refers to a particular parametrisation of the Local Density
-      Approximation (LDA) - the simplest approximation for the exchange and
-      correlation, while PBE is more advanced approximation (though not
-      necessarily better performing), which is classed as a Generalized
-      Gradient Approximation (GGA). The letters PZ and PBE are the initials of
-      the authors of the papers in which the particular approximations were
-      published.
-- Run the script for PBE.
-- Plot distance vs. length for both PBE and LDA using the gnuplot script
-  `plot_ar.gp` in the `03_argon` directory, by typing `gnuplot plot_ar.gp`. This
-  will generate a file called `ar_dimer.eps`. You can view this file for example
-  using the program `evince` if you type `evince ar_dimer.eps`. How do the two
-  functionals compare?
+            $E_{T}^{\text{best}} = -218.23332303 \,\text{eV}$
 
-------------------------------------------------------------------------------
+            $E_{T}^{75} = -218.15563956 \,\text{eV}$
+
+            $E_{T}^{\text{diff}} = -0.07768347000001086 \,\text{eV}$
+
+Again, this is quite tedious to find by hand. You have been provided with another script `convergence_processing.py` which analyses the results stored in data.txt and shows where the calculation has converged to within a specified tolerance.
+Let's take a quick look at this script:
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+##############################################################################################################################################
+##############################################################################################################################################
+##############################################################################################################################################
+#                               This script checks for converged results. Change the convergence parameter if needed.                        #
+#                                                                                                                                            #
+#                                               How to run: python3 convergence_processing.py                                                #
+##############################################################################################################################################
+##############################################################################################################################################
+##############################################################################################################################################
+
+def main():
+    filename = "data.txt" #(1)!
+
+    edata = np.loadtxt(filename, delimiter=' ') #(2)!
+    ecut, etot = edata[:, 0], edata[:, 1]
+
+    convergence_parameter = 0.01 #in eV #(3)!
+    print(f"Convergence defined as within {convergence_parameter} meV of the most accurate result")
+    flag = 0 # Flag for arrow
+
+    print("ecut (Ry)", " ", "∆_last (meV)")
+    print("-----------------------------------------------")
+    for row in edata:
+        diff = abs(abs(row[1])-abs(etot[-1]))*1000
+        if (diff  <= convergence_parameter*1000 and flag==0):
+            print(row[0],"  ", diff, "      <-------------")
+            flag = 1
+        else:
+            print(row[0],"  ", diff)
+
+    for i in range(0, len(ecut)):
+        if abs(etot[i] - etot[-1]) <= convergence_parameter:
+            value = ecut[i]
+            print("")
+            print(f"Accuracy of {convergence_parameter*1000} meV")
+            print(f"Convergence at ecutwfc = {value} Ry")
+            break
+        else:
+            continue
+	...
+```
+
+1. Name of file that we have our data stored in.
+2. Loading in the contents of the file.
+3. Defining our convergence threshold. This value is in eV. Here, we define convergence as within 10 meV of our most accurate calculation.
+
+!!! example "Task 5 - Running Convergence Tests With Scripts"
+
+    Alter the convergence threshold in `convergence_processing.py` to be 0.1 eV and run the convergence script with the command:
+    `python3 convergence_processing.py`
+
+    - What is output on your terminal? What plane-wave cutoff gives us a result converged to within 0.1 eV of the most accurate calculation?
+
+        ??? success "Result"
+            ecutwfc = 75 Ry.
+            <figure markdown="span">
+            ![Diamond primitive cell](assets/methane_convergence_results.png){ width="500" }
+            </figure>
+
+
+#### System Size Considerations
+Actually, we typically converge the total energy ***per atom*** (meV/atom). This is due to the scaling of the total energy with system size. 
+
+If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
+
+!!! Important "General Scripts"
+    The scripts you have been provided in [02_ecut/02_methane](02_ecut/02_methane) are general. You can use them through the course. There are more like these in the [useful_scripts](../useful_scripts) directory.
+
+## Plotting
+
+### Python
+
+Most of the plotting in this course can be done with Python. Scripts will be provided for you, but you are encouraged to play around with them to fit your needs if you want to test things out.
+
+You will have noticed that at the end of the `convergence_processing.py` there is more python code. This uses matplotlib to plot the results stored in data.txt to visualise the convergence as ecutwfc is increased.
+Later on in the course you will have python scripts to plot band structures and density of states.
+
+For now, we will have a brief overview of the final few lines of `convergence_processing.py`.
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+##############################################################################################################################################
+##############################################################################################################################################
+##############################################################################################################################################
+#                               This script checks for converged results. Change the convergence parameter if needed.                        #
+#                                                                                                                                            #
+#                                               How to run: python3 convergence_processing.py                                                #
+##############################################################################################################################################
+##############################################################################################################################################
+##############################################################################################################################################
+
+def main():
+    filename = "data.txt"
+
+    edata = np.loadtxt(filename, delimiter=' ')
+    ecut, etot = edata[:, 0], edata[:, 1]
+
+    convergence_parameter = 0.1 #in eV
+    print(f"Convergence defined as within {convergence_parameter} meV/atom of the most accurate result")
+    flag = 0 # Flag for arrow
+
+    print("ecut (Ry)", " ", "∆_last (meV/atom)")
+    print("-----------------------------------------------")
+    for row in edata:
+        diff = abs(abs(row[1])-abs(etot[-1]))*1000
+        if (diff  <= convergence_parameter*1000 and flag==0):
+            print(row[0],"  ", diff, "      <-------------")
+            flag = 1
+        else:
+            print(row[0],"  ", diff)
+
+    for i in range(0, len(ecut)):
+        if abs(etot[i] - etot[-1]) <= convergence_parameter:
+            value = ecut[i]
+            print("")
+            print(f"Accuracy of {convergence_parameter*1000} meV")
+            print(f"Convergence at ecutwfc = {value} Ry")
+            break
+        else:
+            continue
+
+    plt.figure(figsize=(8, 6)) #(1)!
+    plt.scatter(ecut , etot, color='black', marker='o') #(2)!
+
+    plt.ylabel("Total Energy (eV)")
+    plt.xlabel("Energy Cutoff (Ry)")
+    plt.title("Convergence Testing")
+    plt.show() #(3)!
+
+if __name__ == "__main__":
+    main()
+```
+
+1. Initialising the size of our figure. Changing these will change the aspect ratio of the plot.
+2. Scatter plot of ecut vs etot.
+3. After giving python all of the plotting information, we tell it to plot.
+
+!!! example "Task 6 - Convergence Plot"
+
+    Uncomment the final few lines of the `convergence_processing.py` and run it again.
+
+    - What do you expect the plot to look like?
+
+    ??? success "Result"
+        <figure markdown="span">
+        ![ecutwfc_plot](assets/ecutwfc-conv-plot.png){ width="500" }
+        </figure>
+
+
+### Gnuplot
+`Gnuplot` is another very useful plotting tool that you can opt to use to plot the relation between variables.
+
+We can launch gnuplot by typing `gnuplot` in the terminal. Once it opens, we can plot our data file. For example, the code below:
+
+```bash
+gnuplot #(1)!
+plot "data.txt" u 1:2 wlp #(2)! 
+```
+
+1. Launches gnuplot
+2. "data.txt" is the name of the file we want to plot. This file should be in column format.
+u 1:2 is telling gnuplot to plot column 1 vs column 2. Try switching these around and see what you get!
+wlp means 'with lines points' i.e. we are telling gnuplot to join our data points with a line.
+
+A more detailed overview of how to use gnuplot is found in the [gnuplot section](../extras/misc/gnuplot/readme.md).
+
+!!! example "Task 7 - Convergence of CO2 vs Methane"
+
+    We have now done a convergence test using the scripts `file_builder.py` and `convergence_processing.py` for methane. Re-do your convergence for CO2 using these convergence scripts.
+
+    - Which molecule has the lower plane-wave cutoff?
+
+    ??? success "Answer"
+        $E_{\text{cut}}^{\text{CO2}} = 65 \,\text{Ry}$
+
+        $E_{\text{cut}}^{\text{Methane}} = 75 \,\text{Ry}$
+
+        CO2 Has the lower plane-wave energy cutoff.
+
+    - What do the convergence plots look like?
+
+    ??? success "Result"
+        <figure markdown="span">
+        ![ecutwfc_plot](assets/ecutwfc-conv-plot-CO2.png){ width="500" }
+        </figure>
+        <figure markdown="span">
+        ![ecutwfc_plot](assets/ecutwfc-conv-plot-Methane.png){ width="500" }
+        </figure>
+
+    - Is this a fair comparison?
+
+    ??? success "Answer"
+        No. If we want to compare the two we should have convegred the total energy per atom.
+
+
+
+## Exchange & Correlation Functional
+
+How we approximate the exchange and correlation between elections is a key part of DFT. The functional that we use determines how we approximate these many-body interactions.
+
+By default, Quantum Espresso the exchange correlation functional are taken from the header of the pseudopotential file, as we saw earlier in Task 1.
+It is possible to override this by using the `input_dft` variable in the &system section.
+
+!!! Warning "Mixing Approximations"
+    It is generally not a good idea to mix approximations. It is best to use the same approximation for the exchange correlation functional as was used to construct the pseudopotential.
+
+As you might expect, the exchange correlation functional chosen can have a big impact on a number of parameters. When we change the exchange correlation functional, we are changing the level of theory our calculations are running at.
+
+??? note "Levels of approximation"
+    - Lowest level of approximation is the local density approximation (LDA)
+    - Next highest level of approximation is the generalised gradient approximation (GGA)
+    - More complicated functionals like 'meta-GGA', 'hybrid' etc.
+
+    This is usually depicted in 'Jacob's ladder' of approximations, where the higher on the ladder you are, the more accurate the more accurate the description of exchange and correlation between the electrons are.
+    <figure markdown="span">
+    ![Jacobs-ladder](assets/Jacobs-ladder.png){ width="500" }
+    </figure>
+
+In [03_argon](03_argon) we are going to investigate the change in the binding energy as we vary the bond length between an argon dimer using two different levels of theory.
+
+!!! example "Task 8 - Argon Dimer"
+    Examine and run the scripts `file_builder.py` and `run.sh` in [03_argon/01_lda](03_argon/01_lda).
+
+    - What level theory is this at?
+
+    ??? success "Answer"
+        This is at the local density approximation (lda) level.
+
+    - What are these script doing?
+
+    ??? success "Answer"
+        The script is generating multiple input files of varying bond length for the argon dimer and running a total energy calculation on them. The end of `run.sh` is collecting the relevant data for us and outputting it into a file called data.txt.
+    
+    Now examine and run the script `analysis.py`.
+
+    - What is this script doing?
+
+    ??? success "Answer"
+        The script is looking through data.txt and finding the lowest energy. This is the 'optimal' distance between the two argon atoms.
+
+    - At what distance does the argon dimer have the lowest energy?
+
+    ??? success "Result"
+        a = 3.4 Å gives the minimum energy of -1172.70049957 eV
+        <figure markdown="span">
+        ![lda-dimer](assets/lda-dimer.png){ width="500" }
+        </figure>
+
+    Do the same for [03_argon/02_pbe](03_argon/02_pbe). This is at the GGA level, specifically using the pbe functional.
+
+    - At what distance does the argon dimer have the lowest energy?
+
+    ??? success "Result"
+        a = 4.0 Å gives the minimum energy of -1173.06622887 eV
+        <figure markdown="span">
+        ![pbe-dimer](assets/pbe-dimer.png){ width="500" }
+        </figure>
+
+## More Convergence Parameters
+
+In this lab we have been dealing with isolated molecules. Quantum Espresso is a plane-wave DFT code, and thus deals with periodic unit cells. To model 'isolated' atoms, we make the unit cell very large compared to the size of the isolated molecule, effectively reducing any interaction with neighbouring periodic images. 
+However, this is a parameter we should converge. A larger unit cell (volume) increases the computational cost, as the number of plane waves sales with the unit cell volume, so we don't want the unit cell too large. We should also have converged the total enegry versus the unit cell size.
+
+Additionally, if we are dealing with crystals which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in [Lab 4](../lab04/readme.md). The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.
+
+------------------------------------------------------------------------------------
 
 Summary
 -------
 
-- In this lab we looked at defining pseudopotentials, checking the convergence of
-  the total energy with respect to the plane-wave energy cut-off, and the effect
-  of exchange and correlation functional.
-    - Convergence of any parameter is done by systematically varying the
-      corresponding calculation parameter and looking at how the result changes.
-- We saw how we can use bash scripts to automate this process.
-    - This means we don't need to manually create a number of almost identical
-      input files, and manually go through each one to find the values we
-      want.
-    - We can use a bash `for` loop to perform a calculation for a number of
-      input files.
-    - We can use `grep` or `awk` to parse results or parameters from our
-      output files.
-    - We can use `sed` to replace values in a template input file.
-- We can quickly generate a plot of a data file with `gnuplot`.
+In this lab we looked at defining pseudopotentials, checking the convergence of the total energy with respect to the plane-wave energy cutoff, and the effect of exchange and correlation functional.
+
+- Convergence of any parameter is done by systematically varying the corresponding calculation parameter and looking at how the result changes.
+
+We saw how we can use python and bash scripts to automate this process.
+
+- We can use python scripts to generate multiple input files with systematically varied parameters.
+- We can use a bash `for` loop to perform a calculation for a number of
+  input files.
+- We can use `grep` or `awk` to parse results or parameters from our
+  output files.
+- We can quickly generate a plot of a data file with pythons matplotlib or using `gnuplot`.
 
 ------------------------------------------------------------------------------
-
-Extra 
-------
-
-### _Box-Size_
-
-For systems which are not periodic in three dimensions, such as molecules which 
-we are calculating within a box, we also need to test the convergence with respect
-to the box size. In other words, we need to check that the spurious interaction
-between periodic images is sufficiently small for the accuracy we desire. We would
-also have to do something similar with for example 2D systems, where we would have
-empty space in one direction.
-
-### _Optional Task_
-
-- Create a folder called `04_spacing/01_methane_20` and test the convergence
-  of total energy versus box dimension for an energy cut-off of 20 Ry. And
-  then create a folder called `04_spacing/01_methane_60` and test the
-  convergence of total energy versus box dimension for an energy cut-off of 60
-  Ry.
-    - How do these compare?
-
-
-### _Advanced Shell scripting_
-
-If you're interested in reading more about scripting, you can take a look at the
-[shellscripting section](../extras/misc/shellscripting/readme.md). We'll provide
-plenty of examples and keep things relatively simple in the course, but you may
-find some of the more advanced functionality useful in your own work.

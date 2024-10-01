@@ -1,0 +1,9 @@
+set ytics nomirror
+set y2tics
+set xlabel "Energy (eV)"
+set ylabel "Density of states"
+set y2label "Integrated density of states"
+set key top left
+plot "pwscf.dos" using ($1-13.180):2 with lines title "Density of States", \
+     "pwscf.dos" using ($1-13.180):3 axes x1y2 with lines title \
+     "Integrated density of states"
