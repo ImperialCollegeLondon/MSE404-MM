@@ -264,76 +264,47 @@ Throughout the course, when running on the server you'll need to remember to loa
 
 ## Running your first DFT calculation!
 
-The various files associated with the labs for this course are all available
-in `/opt/Courses/MSE404`.The documentation files for the version of Quantum Espresso we will be using
-are all collected in `/opt/share/quantum-espresso/doc-6.3`. 
+
+Now that you know the basics of the Linux operating system, it's time to run your first DFT calculation. First, we need to setup a few files and directories. The various files associated with the labs for this course are all available
+in `/opt/MSE404-MM/docs/labs`.
 
 !!! example "Task 4.5"
-    Try changing to each of these directories now and taking a look at files that are contained in each of them. Change back to the home directory once you're done.
+    Try changing directories to `/opt/MSE404-MM/docs/labs` and exploring the folders and taking a look at files that are contained in there. Change back to the home directory once you're done.
 
-Now that you know the basics of the Linux operating system, it's time to run your first DFT calculation. First, we need to setup a few files and directories
 
 !!! example "Task"
 
-    - In your home directory create the directory `MSE404`.
-    - Copy the directory with the input files for this course
-      `/opt/Courses/MSE404/lab01` to the directory you just created `~/MSE404`.
-      Remember you need to pass an additional flag to `cp` to copy a directory.
-    - List the contents of directory `~/MSE404/lab01/methane` with `ls -l`
+    - In your home directory create the directory `MSE404-MM`.
+    - Copy the directory with the input files for this course `/opt/MSE404-MM/docs/labs/lab01` to the directory you just created `~/MSE404-MM`. Remember you need to pass an additional flag to `cp` to copy a directory.
+    - List the contents of directory `~/MSE404-MM/lab01/methane` with `ls`
         - You'll see there are three files in the directory you copied.
           1. `CH4.in` - an input file for the DFT code you'll be using.
-          2. `C.pz-vbc.UPF` - a pseudopotential file for carbon, which tells the DFT code
-          what approximation to use in your calculation.
-          3. `H.pz-vbc.UPF` - a pseudopotential file for hydrogen, which tells the DFT code
-          what approximation to use in your calculation.
+          2. `C.pz-vbc.UPF` - a pseudopotential file for carbon, which tells the DFT code what approximation to use in your calculation.
+          3. `H.pz-vbc.UPF` - a pseudopotential file for hydrogen, which tells the DFT code what approximation to use in your calculation.
         - You'll learn more about these types of files in later classes.
-        - If you've followed the steps as given here, and have colour highlighting
-          in the terminal application you're using, you'll see the pseudopotential files are
-          highlighted in red when you did `ls -l`. This is because they are links
-          and currently don't point to valid files. It's looking for files at
-          `../../pseudo/C.pz-vbc.UPF` and `../../pseudo/H.pz-vbc.UPF` 
-          where `../..` means go up two directories
-          from the current directory. In other words this is looking for the files
-          at `~/MSE404/pseudo/C.pz-vbc.UPF` and `~/MSE404/pseudo/H.pz-vbc.UPF`.
-          You'll correct this in the next step.
-    - Go to the `~/MSE404` directory and make a copy there of the directory
-      holding various pseudopotentials used in the course:
-      `/opt/Courses/MSE404/pseudo`. You should now see that the file in
-      `~/MSE404/lab01/methane` is blue when you do `ls` in this directory
-      indicating it can now find a file in the location specified by the link.
-    - Within your `MSE404` directory also create a symbolic link to the Quantum
-      Espresso documentation folder `/opt/share/quantum-espresso/doc-6.3` called
-      `qe-doc`.
+
+    ![text](images/19MSE.PNG){: width="600" }
 
 
 Now you are finally ready to run the DFT calculation
 
 !!! example "Task"
 
-    - First we need to load the Quantum Espresso module. Type the following in your terminal to load
-      the three modules you need in one go `module load gcc mkl espresso`.
-    - Now you'll be able to use the various Quantum Espresso package executables
-      directly. Go to the methane folder you copied earlier
-      (`~/MSE404/lab01/methane`) and look at what files are in that directory.
-    - The input file there is for the `pw.x` code. You can pass this file to
-      `pw.x` with input redirection and save the output to a file with output
-      redirection (otherwise the output will just be in the terminal). To do this
-      type `pw.x < CH4.in > CH4.out`.
-    - See what files are present in the directory now. As well as the output file
-      we saved, some others were generated.
-    - Take a look through the output file using `less`. We'll discuss the
-      contents of this in next week's lab, but for now skip to the section
-      immediately following the line that reads
-      `End of self-consistent calculation`:
-        - This lists the calculated eigenvalues.
-        - We have four doubly-occupied bands in our calculation, so you'll see
-          four numbers.
-        - Following this, you can see in the output, the value of the highest occupied
-          energy level in eV, and the total energy in Rydberg.
-    - Congratulate yourself on running your first DFT calculation.
+    - First we need to load the Quantum Espresso module. If you haven't done this already, run `module load quantum-espresso`.
+    - Now you'll be able to use the various Quantum Espresso package executables directly. Use `cd` to go to the methane folder you copied earlier (`~/MSE404-MM/lab01/methane`)
+    - The input file there is for the `pw.x` code. You can pass this file to `pw.x` with input redirection and save the output to a file with output redirection (otherwise the output will just be in the terminal). To do this type `pw.x < CH4.in > CH4.out`.
+    - See what files are present in the directory now. As well as the output file we saved, some others were generated.<br>
+    ![text](images/20dft.PNG){: width="600" }<br>
+    - Take a look through the output file `CH4.out` using `less`. You can usse the arrow keys to scroll, `g` to go to the beginning of the file, `G` to go to the end of the file and `q` to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads `End of self-consistent calculation`:
+          - This lists the calculated eigenvalues.
+          - We have four doubly-occupied levels in our calculation, so you'll see four numbers.
+          - Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg.
+          - Congratulate yourself on running your first DFT calculation.
+
+    ![text](images/21DFT.PNG){: width="600" }
 
 
-
+Once you're done, exit the session by closing the terminal.
 
 ## Summary
 
@@ -341,34 +312,19 @@ There are a lot of commands to remember from this week's lab. You can always
 refer back to this week, but to make things easier in future weeks you might
 find a cheatsheet useful. If you don't want to make your own, a quick Google
 search of `Linux cheat sheet` brings up a number of options.
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-***youtube video?***
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-If you're interested in seeing some more command line tools, some of these are
-listed in [linuxcommands](../extras/misc/linuxcommands/readme.md). If you have
-time, I encourage you to at least skim through them, as it's very useful to know
-what kinds of things are possible. We'll refer back to some of these commands
-throughout the course.
-
-**Once you're finished with everything, be sure to log out of the remote
-desktop session. You can see this option if you click on your name on the
-top right.**
 
 To run the DFT example in this lab you will need to do the following:
 
 - Make a directory that will hold the material for the MSE404 labs:
-  `mkdir ~/MSE404`.
+  `mkdir ~/MSE404-MM`.
 - Copy the directory with the inputs for this lab to this directory:
-  `cp -r /opt/Courses/MSE404/lab01 ~/MSE404`.
-- Copy the directory with the various pseudopotential files to this directory
-  also: `cp -r /opt/Courses/MSE404/pseudo ~/MSE404`.
-- Make a link to the Quantum Espresso documentation directory in your home directory:
-  `cd ~/MSE404; ln -s /opt/share/quantum-espresso/doc-6.3 ./qe-doc`.
+  `cp -r /opt/MSE404-MM/docs/labs/lab01 ~/MSE404-MM`.
 - Load the modules needed to run Quantum Espresso:
-  `module load gcc mkl espresso`.
-- Go to the directory with the input files you copied and use these with
-  `pw.x` saving the output in a file:
-  `cd ~/MSE404/lab01/methane; pw.x < CH4.in > CH4.out`.
+  `module load quantum-espresso`.
+- Go to the directory with the input files you copied 
+  `cd ~/MSE404-MM/lab01/methane`.
+- Use `pw.x` to process the input file, saving the output to a file:
+  `pw.x < CH4.in > CH4.out`.
 - Take a look through the output file:
   `less CH4.out`.
 - Logout of the remote server once you're done.
