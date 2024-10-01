@@ -55,11 +55,11 @@ ATOMIC_SPECIES
  H   1.008  H.pz-vbc.UPF
 
 ATOMIC_POSITIONS angstrom #(9)!
- C  0.0       0.0       0.0
- H  0.0       0.0       1.089
- H  1.026719  0.000000 -0.363000
- H -0.513360 -0.889165 -0.363000
- H -0.513360  0.889165 -0.363000
+C 7.2433205 7.5 7.137
+H 7.2433205 7.5 8.225999999999999
+H 8.2700395 7.5 6.773999999999999
+H 6.729960500000001 6.610835 6.773999999999999
+H 6.729960500000001 8.389165 6.773999999999999
 
 K_POINTS gamma #(10)!
 ```
@@ -74,6 +74,12 @@ K_POINTS gamma #(10)!
 8. Atomic species, atomic mass and the name of the pseudopotential file.
 9. Below this tag are the atomic positions of your atoms. The `angstrom` after `ATOMIC_POSITIONS` specifies these are in cartesian coordinates in units of Å.
 10. K-Points for the calculation. We have chosen to do this calculation at the Gamma point.
+
+Later we will learn how to visualise the structure, but for now, here is our methane molecule:
+
+<figure markdown="span">
+![methane](assets/methane.png){ width="900" }
+</figure>
 
 !!! example "Task 2 - Alternative Input File Style"
     Take a look at the input file in the `01a_methane` directory.
@@ -92,16 +98,11 @@ K_POINTS gamma #(10)!
 !!! warning "Warning - Periodic Boundary Conditions and Molecules"
     Quantum Espresso is a periodic DFT code due to it using a plane wave basis. This is something you will learn about later in the theoretical part of this course. We therefore need to be smart in order to model isolated molecules, since by definition these are not periodic. One way of doing this is to put the molecule in the center of a large box. This minimises any interaction with its periodic neighbour.
 
-As such, our methane molecule is in a large box. We will learn how to visualise the structure later, but for now here is our methane molecule in the box:
-
-<figure markdown="span">
-![methane](assets/methane.png){ width="900" }
-</figure>
-
 ## Running and examining the calculation
 
 The Quantum Espresso package has been compiled as a module on the server as discussed in [Lab 1](../lab01/readme.md). Modules are often used on HPC systems to make different versions of packages available to users.
 In order to be able to run any Quantum Espresso calculation, it must first be loaded to your environment. This can be done by issuing the command
+
 
 ```bash
 module load quantum-espresso
@@ -131,7 +132,7 @@ After the calculation has finished take a look at the files created in your dire
 Now that we have run the calculation for methane, we should examine the output file `CH4.out`, which is where we instructed Quantum Espresso to pipe the output of the pw.x calculation.
 Using the command
 ```bash
-more CH4.out
+less CH4.out
 ```
 we can look at the output file. Output files are generally structured as such:
 
@@ -140,9 +141,9 @@ we can look at the output file. Output files are generally structured as such:
 - End - Final results like total energy, band energies etc.
 
 !!! example "Task 4 - Examining an output file"
-    Using the `more` command specified above
+    Using the `less` command specified above
 
-    - How many electrons were in your calculation?
+    - How many valence electrons were in your calculation?
 
     ??? success "Answer"
         8.00. This is found at the top of your output file.
@@ -176,10 +177,10 @@ we can look at the output file. Output files are generally structured as such:
         ```
         We did not specify this in the input file. The default value of below 1E-6 was therefore used.
 
-    - How many band energies were calculated?
+    - How many Kohn-Sham energies were calculated?
 
     ??? success "Answer"
-        4 band energies were calculated. This is found in the lines:
+        4 Kohn-Sham energies were calculated. This is found in the lines:
         ```bash
         End of self-consistent calculation
 
@@ -189,7 +190,7 @@ we can look at the output file. Output files are generally structured as such:
         ```
 
 !!! note "Electrons and Energy Eigenvalues"
-    Note that in this calculation we had 8 electrons but only 4 energy eigenvalues were calculated. This is because we have treated the 8 electrons as 4 doubly occupoed states, and therefore only 4 energy eigenvalues are outputted.
+    Note that in this calculation we had 8 valence electrons but only 4 energy eigenvalues were calculated. This is because we have treated the 8 electrons as 4 doubly occupoed states, and therefore only 4 energy eigenvalues are outputted.
 
 !!! example "Task 5 - Alternative Input File"
     Navigate to the directory `01a_methane`. 
@@ -198,7 +199,7 @@ we can look at the output file. Output files are generally structured as such:
 
 ## Visualising Structures - VESTA
 
-Interactive visualisation software are highly important in computational physics. Not only are they a way of checking the structure defined in your input file, but they are also very useful when checking output structures of relaxation calculation. You will learn more about this in [Lab 5](../lab05/readme.md). The visualisation software we are going to use through this course is called `VESTA`.
+Interactive visualisation software are crucial in computational physics. Not only are they a way of checking your input structure, but they are also very useful when checking output structures of relaxation calculation. You will learn more about this in [Lab 5](../lab05/readme.md). The visualisation software we are going to use through this course is called [VESTA](https://jp-minerals.org/vesta/en/).
 
 Vesta, like Quantum Espresso, has been loaded into a module. To use it you will need to issue the command:
 
@@ -206,29 +207,30 @@ Vesta, like Quantum Espresso, has been loaded into a module. To use it you will 
 module load vesta
 ```
 
-You have now loaded VESTA to your environment. By default, VESTA cannot read Quantum Espresso input files. Therefore, we will need to convert to a format that VESTA can read.
-
-We are going to use the simple script `convert_qe_to_vesta.py` to do this conversion. To use this code you need to issue the command 
+You have now loaded VESTA to your environment. By default, VESTA cannot read Quantum Espresso input files. Therefore, we will need to convert to a format that VESTA can read. To do this we are going to use another module `c2x`. To use it you will need to issue the command:
 
 ```bash
-python3 convert_qe_to_vesta.py <filename.in>
+module load c2x
 ```
 
-After converting your file, you will be able to visualise it with the command:
+We are going to convert the Quantum Espresso .in file into a .cif file that VESTA can read. To do this, issue the command:
 
 ```bash
-vesta POSCAR
+c2x --cif <filename.in> <filename.cif>
 ```
 
-!!! warning "Input File Structure"
-    In order for `convert_qe_to_vesta.py` to work,
+You will now see a .cif file in your directory. VESTA can visualise this file. You can do this with the command:
 
-    - ibrav = 0
-    - You must have the `CELL_PARAMETERS` defined in the input file.
-    - Your `ATOMIC_POSITIONS` must be cartesian in units of (Å).
+```bash
+vesta <filename.cif>
+```
 
+!!! note ".cif Files"
+    A .cif file is a Crystalographic Information File and is a standard text file format used to describe the structure of crystalline materials. The cif file usually contains atomic positions, symmetry operations, lattice vectors etc. They are very useful for materials modellers since it is a standardised format. Additionally, .cif files are commonly used to store experimental crystalographic data, so they can be used as a way of rapid visualisation between experiments and theory.
 
 During this lab we will be working with different molecules. It will be a good exercise to visualise them as we go along.
+
+It is also possible to visualise structures using `xcrysden`. More information on how to use this as a visualisation software can be found [here](http://www.xcrysden.org/doc/pwscf.html).
 
 ## Methane, ethane and ethene
 
@@ -255,14 +257,17 @@ diff 01_methane/CH4.in 02_ethane/C2H6.in
 !!! example "Task 6 - Visualising and Running"
     We want to visualise all three molecules; methane, ethane and ethene to see the structural differences. We then want to run a total energy calculation
 
-    - Using the `convert_qe_to_vesta.py` script, visualise the structures for Methane, Ethane and Ethene yourself.
+    - Using `c2x` and `vesta`, visualise the structures for Methane, Ethane and Ethene yourself.
 
     - Run a total energy calculation for ethane and ethene using `pw.x` as you did for methane. How do the eigenvalues compare between the molecules?
 
     ??? success "Answer"
         The eigenvalues are printed in eV. Methane, ethane and ethene have a different number of eigenvalues as shown below.
+
         Methane:    -17.3307  -9.3182  -9.3176  -9.3173
+
         Ethane:    -18.9981 -15.1568 -10.4905 -10.4893  -9.0301  -7.7951  -7.7936
+
         Ethene:    -19.2564 -14.3120 -11.4232  -9.9431  -8.1807  -6.8756
 
         - Methane has 8 electrons in the calculation, therefore 4 doubly occupied states and 4 eigenvalues.
@@ -276,10 +281,10 @@ diff 01_methane/CH4.in 02_ethane/C2H6.in
 
 ## C$_{20}$ isomers
 
-The total energy of a molecule isn't that useful by itself ( ), the ***relative*** energies between, say, different isomers of a given molecule are much more useful.
+The total energy of a molecule isn't that useful by itself. However, the ***relative*** energies between, say, different isomers of a given molecule are much more useful.
 
 !!! note "Kohn-Sham Energies"
-    The energies calculated in DFT are the Kohn-Sham energies. These are the energies of the single-particle Kohn-Sham states. Since these single particle Kohn-Sham states are ficticious ( the real wavefucntions are NOT single-particle wavefunctions), then the Kohn-Sham energy is also ficticious. Therefore, the total energy of a structure is not meaningful by itself. What is meaningful is comparisons of totale energy! You will learn more about this in the theoretical part of the course.
+    The energies calculated in DFT are the Kohn-Sham energies. These are the energies of the single-particle Kohn-Sham states. Since these single particle Kohn-Sham states are ficticious ( the real wavefucntions are NOT single-particle wavefunctions), then the Kohn-Sham energy is also ficticious. Therefore, the total energy of a structure is not meaningful by itself. What is meaningful is comparisons of totale energy!
 
 In general (ignoring effects of e.g. temperature), a lower total energy indicates that an isomer is more stable.
 As an example, we are going to be looking at three different isomers of 
@@ -379,7 +384,7 @@ In this lab we have looked at how to create input files and examine the output f
 - Ethene
 - Different isomers of C$_{20}$
 
-We have also learned how to use VESTA to visualise our structures with the help of the `convert_qe_to_vesta.py` conversion script.
+We have also learned how to use VESTA to visualise our structures with the help of the `c2x`.
 
 -------------------------------------------------------------------------------
 
