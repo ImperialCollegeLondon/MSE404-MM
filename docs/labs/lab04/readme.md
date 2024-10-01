@@ -82,7 +82,8 @@ For diamond, which has the same atomic structure as Zinc Blende, the primitive
 cell of diamond looks like the following:
 
 <figure markdown="span">
-  ![Diamond primitive cell](assets/Diamond_structure.png){ width="200" }
+  ![Diamond primitive cell](assets/C_diamond_light.png#only-light){ width="200" }
+  ![Diamond primitive cell](assets/C_diamond_dark.png#only-dark){ width="200" }
 </figure>
 
 
