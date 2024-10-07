@@ -254,10 +254,10 @@ done
 # Loop through files
 for i in {10..40..5}; do
     # Extract 'ecutwfc' value from input molecule files
-    ecutwfc_value=$(grep 'ecutwfc' CO2_$i.in | awk '{print $3}' | tr -d ', =') # Plane wave cutoff (Ry)
+    ecutwfc_value=$(grep 'ecutwfc' CO2_$i.in | awk '{print $3}' | tr -d ', =') #(1)!
 
     # Extract 'Total Energy' value from input molecule files
-    final_energy_value=$(grep '!' CO2_$i.out | awk '{print $5}') # Total energy (Ry) #(1)!
+    final_energy_value=$(grep '!' CO2_$i.out | awk '{print $5}') # Total energy (Ry) #(2)!
 
     # Multiply 'final_energy_value' by 13.6
     final_energy_value=$(echo "$final_energy_value * 13.6" | bc) # Converting final energy to eV
@@ -268,7 +268,8 @@ done
 
 ```
 
-1. The line with the converged total energy on starts with a '!', allowing for easy access using `grep`.
+1. This line uses the awk command. This essentially will print out a column of your choice after using the grep command. Additionally, it uses tr -d which is a method of removing puncuation to keep the script from breaking if punctuation is included where it shouldn't be. 
+2. The line with the converged total energy on starts with a '!', allowing for easy access using `grep`.
 
 
 !!! example "Task 3 - Running Convergence Tests"
@@ -532,23 +533,6 @@ if __name__ == "__main__":
         </figure>
 
 
-### Gnuplot
-`Gnuplot` is another very useful plotting tool that you can opt to use to plot the relation between variables.
-
-We can launch gnuplot by typing `gnuplot` in the terminal. Once it opens, we can plot our data file. For example, the code below:
-
-```bash
-gnuplot #(1)!
-plot "data.txt" u 1:2 wlp #(2)! 
-```
-
-1. Launches gnuplot
-2. "data.txt" is the name of the file we want to plot. This file should be in column format.
-u 1:2 is telling gnuplot to plot column 1 vs column 2. Try switching these around and see what you get!
-wlp means 'with lines points' i.e. we are telling gnuplot to join our data points with a line.
-
-A more detailed overview of how to use gnuplot is found in the [gnuplot section](../extras/misc/gnuplot/readme.md).
-
 !!! example "Task 7 - Convergence of CO2 vs Methane"
 
     We have now done a convergence test using the scripts `file_builder.py` and `convergence_processing.py` for methane. Re-do your convergence for CO2 using these convergence scripts.
@@ -664,6 +648,6 @@ We saw how we can use python and bash scripts to automate this process.
   input files.
 - We can use `grep` or `awk` to parse results or parameters from our
   output files.
-- We can quickly generate a plot of a data file with pythons matplotlib or using `gnuplot`.
+- We can quickly generate a plot of a data file with pythons matplotlib.
 
 ------------------------------------------------------------------------------

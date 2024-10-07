@@ -27,7 +27,7 @@ def main():
     plt.scatter(a , etot, color='black', marker='o')
 
     plt.ylabel("Total Energy (eV)")
-    plt.xlabel("Dimer Distancef (Å)")
+    plt.xlabel("Dimer Distance (Å)")
     plt.title("PBE Dimer Distance")
     plt.savefig('pbe-dimer.png', dpi=900)
     plt.show()

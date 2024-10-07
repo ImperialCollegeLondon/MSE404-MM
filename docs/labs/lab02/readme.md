@@ -284,7 +284,7 @@ diff 01_methane/CH4.in 02_ethane/C2H6.in
 The total energy of a molecule isn't that useful by itself. However, the ***relative*** energies between, say, different isomers of a given molecule are much more useful.
 
 !!! note "Kohn-Sham Energies"
-    The energies calculated in DFT are the Kohn-Sham energies. These are the energies of the single-particle Kohn-Sham states. Since these single particle Kohn-Sham states are ficticious ( the real wavefucntions are NOT single-particle wavefunctions), then the Kohn-Sham energy is also ficticious. Therefore, the total energy of a structure is not meaningful by itself. What is meaningful is comparisons of totale energy!
+    The energy eigenvalues calculated in DFT are the Kohn-Sham energies (eigenvalues). These are the energies of the single-particle Kohn-Sham states. Since these single particle Kohn-Sham states are ficticious ( the real wavefucntions are NOT single-particle wavefunctions), then the Kohn-Sham eigenvalues are also ficticious. The total energy is the internal energy of the structure, and therefore does have meaning. However, since we are using pseudopotentials, it loses some of its meaning as you will learn later. What is meaningful is comparisons of total energy!
 
 In general (ignoring effects of e.g. temperature), a lower total energy indicates that an isomer is more stable.
 As an example, we are going to be looking at three different isomers of 
@@ -323,7 +323,7 @@ If you are wondering if this is really a cauculation people do, [here is an arti
 
         $E_{\text{Tot}}^{\text{Cage}} = -218.37740806 \,\text{Ry}$
 
-        Therefore the cage structure has the lowest energy.
+        Therefore the cage structure has the lowest energy. ALSO MAYBE LOOK AT THE TOTAL ENERGY DIFFERENCE PER ATOM AND COMPARE TO KBT
 
     - What does it mean to have the lowest total energy of the three isomers? What conclusions about stability can we draw from these calculations?
 
