@@ -1,380 +1,377 @@
-Structural Optimisation
-===============================
-For this week and the next, we will focus on predicting the structural properties of materials. These include finding the stablest structure of molecules and crystals, and calculating the vibrational patterns in molecules and crystals.
+Metals and Density of States
+============================
 
-In this week, we will learn how to calculate the key quantities for describing the stability of structures of moleculs and crystals. You will have learnt them from the lectures, and we will give a brief review for them in this lab before the calculations to refresh your memory. We will begin by briefly reviewing the very important potential energy surface (PES). 
+This week we'll be discussing the metallic systems and the electronic density of
+states. For metals, there are a couple of complications which mean we have to
+treat them differently from systems with a non-zero band gap.
 
-## The potential energy surface
-The potential energy surface (PES) is the surface obtained by plotting the total energy of a molecule or crystal against different atomic positions. It is commonly denoted as $U(\{\mathbf{R}\})$, where $\mathbf{R}$ represents the set of atomic positions of all atoms. Many useful quantities associated with a given structure, such as the atomic forces in a molecule, the stress and pressure in a crystal unit cell can be calculated by evaluating the relevant deivatives of the PES.  
+<div markdown="span" style="margin: 0 auto; text-align: center">
+[Download the input files for this tutorial](./assets/lab10_input.zip){ .md-button .md-button--primary }
+</div>
 
-## Ground state structure of molecules 
-The ground state structure of a molecule simply refers to the structure with the lowest total energy. This structure is also called the optimal, equilibrium, or stablest structure of the molecule. Mathematically, this structure is associated with the **global** minimum of the PES. Therefore, the atomic forces in this structure will all vanish.  
+-------------------------------------------------------------------------------
 
-Most DFT codes, like Quantum Espresso, moves the atoms around based on the atomic forces until the atomic forces "vanish", i.e. become lower than some cutoff. This process is called **relaxation** or **structural optimisation**. The resulting structure obtained from this procedure is called a relaxed structure. 
+## Density of States
 
-In the first part of the lab, we will demonstrate how to calculate the atomic forces and find the optimal structure of a molecule in Quantum Espresso. 
+The electronic Density of states (DOS) describes the distribution of electronic
+states in a material with respect to their energy. More precisely, it tells us
+how many electronic states, for a system of volume V, can be occupied in a small
+(infinitesimal) energy range near a specific energy. The DOS is defined as:
 
-!!! danger "Danger: metastable structures"
-    When relaxing large molecules, there might be other **local** minima in the PES. These local minima are associated with structures which are higher in the total energy, but the atomic forces also vanish. These structures are called **metastable** structures.
-
-    When finding the stablest structures using DFT, there is always a possibility that your calculation is "trapped" in one of these metastable structures. Whereas this is less likely to happen for small molecules, this can happen with large molecules. You will have to be careful! 
-
-!!! Question
-    How can we reduce the risk of mistaking a metastable structure as the ground state structure? 
-    ??? success "Answer"
-        After obtaining a relaxed structure, add some small and random displacement to the atoms, then redo the relaxation. This will likely bring your molecule to a stabler structure if there is any.  
-
-### Forces in molecules
-The force acting on an atom, $\mathbf{F}$, is defined as the first derivative of the PES, $U$, with respect to the position of that atom, $\mathbf{R}$. Mathematically,
+$$ 
+\mathrm{DOS}(E) = \sum_{n} \int  \delta(E - \epsilon_{n\mathbf{k}}) d\mathbf{k},
 $$
-\mathbf{F} = -\nabla_\mathbf{R} U.
+
+where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
+$k$-point $\mathbf{k}$.
+
+For a molecular system, the DOS looks exactly the same to the eigenenergy
+spectrum and is discrete (with a constant hight of one), since we only have one
+set of molecular states. However, for periodic systems, each k-point has a set
+of eigenenergies and the DOS should become continuous.
+
+<figure markdown="span">
+  ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
+
+
+Since the DOS and the band structure are both related the Kohn-Sham eigenvalues,
+intuitively, the DOS is also related to the band structures: bands with large
+energy dispersion in the Brillouin zone result in low DOS spread across a large
+interval, whereas less dispersive (more flat) bands result in high DOS near a
+small energy interval. In insulators and semiconductors the DOS is zero inside
+the band gap, as there are no available states in that energy range. Hence, the
+DOS can give us an accurate estimation of the band gap (unlike the band
+structure plot which only goes along a certain path in the Brillouin zone, DOS
+reflects eigenvalues of all k-points in the Brillouin zone).
+
+### Smearing
+
+The definition of the DOS can also be represented as a sum over an infinite
+amount of k-points that sample the Brillouin zone:
+
 $$
-It is worth noting that, in order to calculate the atomic forces efficiently, the Hellmann-Feynman Theorem is often invoked in most DFT codes. 
+\mathrm{DOS}(E) = \sum_{n} \sum^\infty_{\mathbf{k}}  \delta(E -
+\epsilon_{n\mathbf{k}}) \Delta \mathbf{k}.
+$$
 
-In following tasks, we will go through how the atomic forces are can be calculated using Quantum Espresso. We have prepared a distorted methane molecule, $\mathrm{CH_4}$, where one of the hydrogen atoms (the one sitting on the z-axis above the $\mathrm{C}$ atom) is pushed closer to the carbon atom than others. 
+However, since we can only have a finite sampling of the Brillouin zone, in
+pratice, interpolation of the $\delta$ function (or, smearing) is used to
+artifically include some contributions from k-points that we missed.
 
-!!! example "Task 1 - Examining atomic forces in the output file"
-    - Read input file `CH4.in`. The most important section of the file is shown below. 
-    ``` python 
-     &CONTROL
-        pseudo_dir = '.'  
-        disk_io = 'none'  
-        tprnfor = .true.   #(1)!
-     /
-    ...
+<figure markdown="span">
+  ![Delta](./assets/delta.svg)
+</figure>
+
+While this scheme is quite fast and straight-forward, you'll need to tune the
+broadening energy so that your calculated density of states is smooth in the
+correct way: 
+
+- If you use too large a broadening, you may smear out important
+  features.
+- If you use too small a broadening you may introduce spurious features
+  and your density of states plot will look very bumpy/spikey.
+- In principle you would want the smearing to be comparable to the **typical
+  change in energy of a state from a k-point to its neighbours**. In practice
+  though it's easiest to just try different values until it looks right.
+
+??? note "Tetrahedron Method"
+    The other way to interpolate is to use the so-called tetrahedron method.
+    Essentially this corresponds to doing a three dimensional linear
+    interpolation from a regular grid of values. This calculation can be
+    noticeably slower than using a broadening but there is no need to to worry
+    about using the correct smearing. The density of states will simply become
+    more finely featured as you increase the density of the k-point grid in the
+    non-self-consistent calculation.
+
+    It's important to note that in a real measurement of the density of
+    states of a system, there is an implicit broadening that comes from
+
+      1. Electron-phonon coupling: the states are not simply at a fixed
+      energy, but will have some distribution as the atoms vibrate.
+
+      2. Any measurement probe will have a finite energy width associated
+      with it, which will limit how finely it can resolve density of states
+      features.
+
+    So while tetrahedron may seem the more accurate approach, you shouldn't
+    necessarily think of it as a more correct representation of a real
+    system.
+
+### Steps to Calculate the DOS
+In a similar way to the electronic band structure, we produce the density of 
+states plot in three steps.
+
+#### Step 1 - SCF Calculation
+Perform a self-consistent calculation as before, producing a converged
+charge density.
+
+!!! example "Task 10.1 - SCF Calculation"
+    Run `pw.x` using the input file
+    [:link:01_C_diamond_scf.in](01_densityofstates/01_C_diamond_scf.in)
+    for diamond.
+
+#### Step 2 - NSCF Calculation
+Take the density calculated in the previous step and use it to
+perform a non-self-consistent calculation on a more dense grid of k-points.
+We want a good representation of how the state energies vary as we move
+around the Brillouin zone so we use a much denser grid here than we need
+to obtain a converged density in the previous step.
+
+The difference between this and the band structure calculation is that here
+we use a uniform sampling of the Brillouin zone, rather than a path between
+k-points. The input file for this calculation can be found at
+[:link:02_C_diamond_nscf.in](01_densityofstates/02_C_diamond_nscf.in):
+
+```python
+ &CONTROL
+    pseudo_dir = '.'
+    calculation = 'nscf' #(1)!
+ /
+
+ &SYSTEM
+    ibrav =  2
+    A = 3.567
+    nat =  2
+    ntyp = 1
+    ecutwfc = 60.0
+    # Add 4 conduction bands also
+    nbnd = 8 #(2)!
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+
+ATOMIC_POSITIONS crystal
+ C 0.00 0.00 0.00
+ C 0.25 0.25 0.25
+
+K_POINTS automatic #(3)!
+  20 20 20  0 0 0
+```
+
+1.  `calculation = nscf` specifies that we are calculating the 
+    non-self-consistent calculation.
+2.  `nbnd = 8` specifies that we want to calculate 8 bands.
+3.  `K_POINTS automatic` specifies that we are using an automatically generated
+    k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and 
+    we have removed the shift. Many systems have a valence band maximum or
+    conduction band minimum at the gamma point, so it is good to ensure it's
+    explicitly included in the grid.
+
+!!! example "Task 10.2 - NSCF Calculation"
+    Run `pw.x` using the input file
+    [:link:02_C_diamond_scf.in](01_densityofstates/02_C_diamond_nscf.in)
+    for diamond.
+
+#### Step 3 - Density of States Calculation
+
+Then, we need to convert the state energies calculated on this dense k-point
+grid to a density of states using `dos.x`.
+[:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in) is the input
+file for `dos.x` and contains just a `DOS` section:
+
+```python
+ &DOS
+  degauss = 0.03 #!(1)!
+  DeltaE = 0.1 #(2)!
+ /
+```
+
+1.  `degauss` specifies the Gaussian broadening (in Rydberg) to use in the
+    density of states calculation.
+2.  `DeltaE` specifies the spacing between points in the output file, in eV.
+
+!!! note
+    we've picked values for these of similar magnitude despite their different 
+    units. In fact if `degauss` is not specified, and no broadening scheme is 
+    used in the DFT calculation, `degauss` will take the value of `DeltaE` by
+    default. You can check the documentation [:link:
+    INPUT_DOS](https://www.quantum-espresso.org/Doc/INPUT_DOS.html) for more
+    details.
+
+!!! example "Task 10.3 - Plotting Density of States"
+    Run `dos.x` using the input file
+    [:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in)
+    for diamond.
+
+The final step produces a file named `pwscf.dos` by default. This is a simple
+text file you can plot. It has three columns:
+
+1. Energy (eV)
+2. Density of States (states/eV)
+3. Integrated Density of States (states)
+
+It is customary to shift the x-axis in the plot such that the Fermi energy
+or valence band max is at 0. While a value for the Fermi level is given in
+the file header of the generated `pwscf.dos`, this is determined in a simple
+way from the integrated density of states. It may be worth obtaining this from
+a separate calculation using a relatively small broadening if you're looking a
+metallic system, while for semiconductors and insulators you could find the
+maximum valence band state energy manually. 
+
+The directory `03_densityofstates` contains a gnuplot and a python script that 
+can be used to plot the shifted DOS along with the integrated DOS:
+
+!!! example "Task 10.4 - Density of States Calculation"
+    Plot the density of states using the script provided.
+
+    ??? success "Final result"
+        <figure markdown="span">
+          ![Diamond primitive cell](assets/dos.png){ width="500" }
+        </figure>
+
+------------------------------------------------------------------------------
+
+## Metals
+
+Metals have a Fermi surface that can be quite complex in k-space. This means
+that in contrast to an insulator or semiconductor where every k-point has the
+same number of **occupied** states, **in a metal the number of occupied states
+can vary from k-point to k-point**. Remembering that DFT is a gound state theory
+, a rapidly varying occupation number will makes it more difficult to converge. 
+
+
+### Tackling Discontinuities
+
+Generally, there are two things that we typically do for metals:
+
+1.  Use a denser k-point grid than you would need for a semiconductor or
+    insulator. This is to help sampling the rapid change in the Fermi surface at
+    different k-points.
+
+2.  Use some smearing scheme for the calculation of occupation number of bands
+    at each k-point. This is in relation to the smearing used in the calculation
+    of the [:link: density of states](#density-of-states). The difference is
+    that here the occupation is also smeared (i.e., can no longer be intergers
+    of 0 and 1).
+
+    To determine the occupation number at each SCF step, we first need to obtain
+    the Fermi energy of the system. This is usually achieved by using the finite
+    temperature Fermi-Dirac distrubtion and a smeared DOS by:
+    $$
+    N_e = \int_{-\infty}^{E_F} \mathrm{DOS}(\varepsilon) f_T(E) dE
+    $$
+    where $N_e$ is the number of electrons in the system and $f$ represents the
+    Fermi-Dirac distribution function at temperature $T$. As we already know,
+    the Fermi-Dirac function at 0K is a step function which would spoil the
+    convergence of metals (due to discontinuities). Here, we simply raise the
+    temperature to a small number (using the tag `degauss` for `pw.x`) so that
+    the Fermi-Dirac function is smeared out and the convergence can be achieved
+    more easily. It is worth noting that other smearing methods such as gaussian
+    smearing can also be used. Once the Fermi energy is found, the occupation
+    function is determined and the occupation number at each k-point and band
+    $n$ can be easily calculated:
+    $$
+    f_{n\mathbf{k}} = f_T(\varepsilon_{n\mathbf{k}} - E_F).
+    $$
+    Adding a smearing to the occupation function helps significantly in
+    achieving a smooth SCF convergence, as otherwise a small change in a state
+    energy from once cycle to the next could lead to a very large change in its
+    occupation and to the total energy in turn (this is called
+    'ill-conditioning'). We set the smearing scheme (for both DOS and occupation
+    function) and width with the `occupations` and `degauss` variables in the
+    input file.
+
+### Example: Aluminium
+
+Aluminium forms in a standard FCC structure with one atom per unit cell, which
+we know how to deal with at this point. The thing about Aluminium that makes it
+more complicated within DFT is that it is a metal.
+
+Here is an example input file for a calculation of Aluminium:
+
+```python
+ &CONTROL
+    pseudo_dir = '.'
+ /
+
+ &SYSTEM
+    ibrav =  2
+    A = 2.863
+    nat =  1
+    ntyp = 1
+    ecutwfc = 18.0
+    occupations = 'smearing' #(1)!
+    smearing = 'fermi-dirac' #(2)!
+    degauss = 0.1d0 #(3)!
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ Al  26.982  Al.pz-vbc.UPF
+
+ATOMIC_POSITIONS crystal
+ Al 0.00 0.00 0.00
+
+K_POINTS automatic
+  8 8 8 1 1 1
+```
+
+1.    The `occupations` variable is set to `smearing` to tell Quantum Espresso
+      to use a smearing scheme [:link:input 
+      description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm362).
+2.    The `smearing` variable is set to `fermi-dirac` to tell Quantum Espresso
+      to use a Fermi-Dirac smearing scheme. [:link:input
+      description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm404). 
+3.    The `degauss` variable is set to 0.1d0 to set the width of the smearing.
+      see [:link:input
+      description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401).
+
+
+!!! example "Task 10.5 - Smearing"
+
+    First, run the `pw.x` calculation with the supplied input file in
+    [:link:02_aluminium/Al.in](02_aluminium/Al.in).
     
-    K_POINTS gamma         #(2)!
+    Then, look in the `pwscf.xml` file and find the various `ks_energies`
+    entries towards the end. These give the various k-points used in the
+    calculation and the energies and occupations of each state for this k-point.
+    Note, for a metal the default number of bands is at least four more than are
+    needed for the number of electrons per cell. The pseudopotential we have
+    used has 3 valence electrons, which could be represented with two
+    potentially doubly occupied bands, so we have four more bands in the
+    calculation for a total of 6.
 
-    ```
-        1. `tprnfor` asks Quantum Espresso to print the forces.
-        2.  We have to carry out $\Gamma$-point calculations for a molecule. 
-    - Run the command `pw.x < CH4.in > CH4.out`.
-    - When the output file is out, search for the line saying `Forces acting on atoms`. This should be written just before the timing information. 
-
-    - You should find a section that looks like the following: 
-    ```python 
-     Forces acting on atoms (cartesian axes, Ry/au):
-
-     atom    1 type  1   force =    -0.00000802    0.00000000   -0.05271243
-     atom    2 type  2   force =     0.00000254    0.00000000    0.05256575
-     atom    3 type  2   force =    -0.00352803    0.00000000    0.00004914
-     atom    4 type  2   force =     0.00176676    0.00306145    0.00004877
-     atom    5 type  2   force =     0.00176676   -0.00306145    0.00004877
-
-     Total force =     0.074694      Total SCF correction =     0.000393
-    ```
-
-    - Why are these atomic forces expected for this distorted methane molecule? 
-    ??? success "Answer"
-        Since the $\mathrm{H}$ atom (atom 2) above the $\mathrm{C}$ atom (atom 1) is approaching the $\mathrm{C}$ atom, the covalent $\mathrm{C}-\mathrm{H}$ bond between these two atoms is compressed. The two atoms will repel each other to uncompress the bond. Atom 2 should experience an upward force and atom 1 should experience a downward force. This is indeed the case in the output file.  
-
-
-    - What are the units of atomic forces in Quantum Espresso? 
-    ??? success "Answer"
-        Ry/Bohr. (1 Ry/Bohr is equivalent to 25.7 eV/Å, check this yourself!). In this task, the $z$-component of the force acting on the $\mathrm{H}$ atom is 0.0527 Ry/Bohr. As a rough approximation, this means drifting the $\mathrm{H}$ atom in the positive $z$-direction by 1 Bohr should lead to a reduction in total energy of about 0.0527 Rydberg. This is equal to 0.710 eV, which is quite a lot. This is because the covalent bond is quite compressed. 
-
-!!! Note 
-    The `Total force` listed here is the square root of the sum of _all_ of the force components squared rather than the sum of the magnitudes of the individual forces on the atoms. It is likely because the number is intended more as a guide to check overall accuracy. If the `Total SCF correction` is comparable to the `Total force` it usually means you need to try to better converge the SCF cycle (via `conv_thr`).
-
-### Convergence test 
-Just as we have to check the convergence of the total energy against the PW cutoff, we have to check the convergence of atomic forces against the PW cutoff too. Let's do this in the next task.  
-
-!!! example "Task 2 - Examining convergence"
-    In this task, multiple input files of the same distorted methane molecule are prepared. Each input file is labelled by their PW cutoff. 
-
-    - Run `python3 ecutwfc_file_build.py` script to produce a list of input files. This script is very similar to the one used in Lab 3. This will create input files with PW cutoffs from 10 to 100 Ry.  
-
-    - Run `bash ecutwfc_force.sh` to run all the `pw.x` calculations as in Lab 3. 
-
-    - Which quantities are being plotted by the script for determining the convergence? 
-
-    ??? success "Answer" 
-        The script plots the fractional difference of the total energy with respect to the best-converged total energy, $(E_{\mathrm{best}}-E_{i})/E_{\mathrm{best}}$, and analogously the fractional difference in the total force $(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{i})/F^{\mathrm{tot}}_{\mathrm{best}}$.   
-    
-    - How does the convergence curves look like? Which quantity converges faster with PW cutoff? 
-    ??? success "Answer"
-
-### Optimisation of molecular geometry 
-Now that we have seen how to calculate the atomic forces associated with a particular structure, we can use Quantum Espresso to optimise the structure of molecules.
-
-!!! example "Task 3 - Optimising the molecular structure"
-    - Read the input file `CH4_opt.in`, the important parts are shown below. 
-    ```python
-     &CONTROL
-        calculation = 'relax'   #(1)! 
-        pseudo_dir = '.'
-        disk_io = 'none'
-        tprnfor = .true.
-        forc_conv_thr = 1.0D-4    #(2)!
-     /
-    
-     &SYSTEM
-        ibrav =  1
-        A = 20.0
-        nat = 5
-        ntyp = 2
-        ecutwfc = 80
-     /
-    
-     &ELECTRONS
-     /
-    
-     &IONS        #(3)!
-     / 
-    ...
-    ```
-        1. Tells Quantum Espresso to carry out structure optimisation.   
-        2. Set convergence criterion for forces in units of Ry/Bohr.   
-        3. You'll need to add an `IONS` section to the input. This is the only mandatory addition.   
-    !!! note "Variables of IONS"
-        There are many other variables you can add for the IONS section. These include the algorithm of relaxation, adding constraints to the position of atoms, etc. If you are interested, you can look up the input description of `pw.x`.
-
-    - Run `pw.x < CH4_opt.in > CH4_opt.out`.  
-    - Let's look at the output file. The important sections are shown below. 
-
-    ```python
-        
-
-    ```
-    - Final atomic positions 
-    - Final total force 
-    - Final bond lengths are the same 
-
-
-
-
-!!! note "Interlude"
-    A short break you should take, tired if you are. 
-
-
-## Ground state structure of crystals 
-We have seen how the stablest structures of molecules can be found by minimising the atomic forces in DFT. In principle, it is straightforward to apply the idea for the optimisation of the structures of crystals. However, an additional consideration arises from optimising the lattice constant of the crystal alongside the atomic positions within the unit cell. This leads to the need for a few more quantities. 
-
-### Stress in crystals
-Mathematically, the stress is a rank-2 tensor, i.e. a matrix, $\sigma_{ij}$, defined through the relation  
-
-$$
-F_{i} =  \sigma_{ij}\epsilon_{j}
-$$
-
-??? tip "Tip: what does stress measure and why is it a rank-2 tensor (matrix)?"
-    Stress is the ratio between the $i$-th component of the induced force (e.g. this could be the $x$-component), $F_{i}$, due to a deformation along the $j$-th direction (e.g. in the $x$- or $z$-direction), $\epsilon_{j}$. So it measures how favourable or unfavourable it is to distort the crystal along a certain direction in terms of the induced force along different directions. 
-
-    This is also why it is a rank-2 tensor, you need to specify two pieces of information before reading the stress tensor. You need to decide which distortion direction, and which component of the induced force you would like to know from the stress tensor. 
-
-### Pressure and bulk modulus of crystals 
-Whereas stress describes the force induced on a crystal due to a distortion along a certain direction, the pressure and the bulk modulus of a crystal measures the changes in total energy due to contractions or expansions. Pressure, P, is defined as the negative of the first derivative of the PES against the volume, V. It measures the tendency of the crystal to expand or contract. Mathematically,  
-
-$$
-P = -\frac{dU}{dV}.
-$$
-
-??? tip "Tip: what does it mean to have a structure with a negative or positive pressure?"
-    If the pressure is negative, the crystal structure is unstable and will contract. If the pressure is positive, the crystal structure is also unstable but it will expand. The structure is only stable when the pressure is close to zero, as first derivatives of the PES vanish at the equilibrium structure.  
-
-The bulk modulus, $B$, per volume $V$, is defined as the negative of the second derivative of the PES against the volume. It measures the stability of the crystal against expansion or contraction. Mathematically,  
-
-$$
-B = -V\frac{d^2U}{dV^2}.
-$$
-
-??? tip "Tip: what does it mean to have a structure with a negative or positive bulk modulus?"
-    If the bulk modulus is negative, the curvature of the PES against volume is positive. This means the structure is stable and it costs energy to compress or expand the crystal. If the bulk modulus is positive, then the structure is unstable and the structure will spontaneously expand or compress. The structure expands if the pressure is positive, and contracts if the pressure is negative.  
-
-Having introduced these useful quantities, we can try to calculate these quantities using Quantum Espresso. In the following tasks, we will look at the poly(para-phenylene) (PPP) polymer. It is a chain of benzene rings which extends essentially infinitely in one direction. It is therefore a one-dimensional crystal. The unit cell of this crystal contains two benzene rings. We will first run a singe-point calculation of this crystal.  
-
-!!! example "Task 4 - calculating stress and pressure of crystals"
-    - Read the input file `PPP_strpr.in`. The important parts are shown below.  
-        ```python 
-         &CONTROL
-            pseudo_dir = '.'
-            disk_io = 'none'
-            tprnfor = .true.
-            tstress = .true.    #(1)!
-         /
-        
-         &SYSTEM
-            ibrav = 0
-            nat = 20
-            ntyp = 2
-            ecutwfc = 35.0
-         /
-        
-         &ELECTRONS
-         /
-        
-        ATOMIC_SPECIES
-         C  12.011  C.pz-vbc.UPF
-         H   1.008  H.pz-vbc.UPF
-        
-        CELL_PARAMETERS bohr          #(2)!
-        25.000000  0.000000  0.000000
-         0.000000 25.000000  0.000000
-         0.000000  0.000000 16.140768
-        
-        ...
-
-        K_POINTS automatic        #(3)!
-        1 1 3 1 1 1
-        
+    ??? success "Example" 
         ```
-        1. This tells Quantum Espresso to print the stress.  
-        2. The CELL_PARAMETERS are specified in Bohrs.    
-        3. The k-grid is specified now for a crystal calculation. We have chosen the optimal k-grid for you.   
-    !!! question "Quick quiz: why do we only sample the k-points along the $z$-direction?"
-        ??? success "Answer"
-            Because the crystal is one-dimensional and along the $z$-direction. 
-    !!! question "Quick quiz: what are the lengths of the vacuum box in the $x$ and $y$-directions?"
-        ??? success "Answer"
-            25 Bohrs. 
-
-    - Run `pw.x < PPP_strpr.in > PPP.out`. 
-    - Once the job has finished, look for the line saying "total   stress". You should see something like this:
-    ``` python 
+              <ks_energies>
+                <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point>
+                <npw>59</npw>
+                <eigenvalues size="6">
+          1.315972343567215E-001  1.505697520824042E+000  1.607697079464305E+000
+          1.607697714947740E+000  1.834366371282428E+000
+          1.952726961146777E+000
+                </eigenvalues>
+                <occupations size="6">
+          9.999990177787399E-001  1.181697427742303E-006  1.536561074875367E-007
+          1.536541545820267E-007  1.650917762173208E-009
+          1.547598926179030E-010
+                </occupations>
+              </ks_energies>
+         ... 
+        ```
     
-    Computing stress (Cartesian axis) and pressure
-    
-              total   stress  (Ry/bohr**3)                   (kbar)     P=      -25.73
-      -0.00019413  -0.00001068   0.00000000          -28.56       -1.57        0.00
-      -0.00001068  -0.00016867   0.00000000           -1.57      -24.81        0.00
-       0.00000000   0.00000000  -0.00016197            0.00        0.00      -23.83   
-    ```
+    Now, try removing the `occupations` and `degauss` variables from the input
+    file and see what happens when you try to run the calculation.
 
-    - What are the units for the stress tensor?
-    ??? success "Answer"
-        Ry/Bohr^3. The dimension of this unit is energy per volume, which is the same dimension as pressure. 
+    ??? success "Example" 
+        ```
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+             Error in routine electrons (1):
+             charge is wrong: smearing is needed
+        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        ```
 
-    - What is the total pressure? 
-    ??? success "Answer"
-        -25.73 kPa. Note that kPa is one of the common units for pressure.  
+------------------------------------------------------------------------------
 
-    - Is the lattice constant along the z-direction optimised? Why? If not, does it want to expand or contract? 
-    ??? success "Answer"
-        No. One evidence is that $\sigma_{zz}$ is -23.83 kPa, which is substantial. Since the sign is negative, it wants to contraact. 
+Summary
+-------
 
-    !!! note "Note"
-        The stresses along $x$ and $y$ are both substantially negative. This happens when we use a large vacuum in the simulation box. But since we only have a one-dimensional crystal in here, these stress components are meaningless.   
-
-Whereas Quantum Espresso prints the stress and pressure for you, it does not calculate the bulk modulus. You will need to distort the unit cell volume manually yourself and run multiple `pw.x` calculations to obtain the PES against the unit cell volume. Let's do this in the following task. 
-
-!!! example "Task 5 - calculating the bulk modulus using the PES"
-    - Run `python3  EXE_VOL_STRETCH.py` to generate a list of input files of different unit cell volumes. The script automatically does the generation for you so you should not need to edit anything. If you are interested, you can look at the comments in the script and see what they do 
-
-     - Run `python3 RUN_ALL.py` to run `pw.x` on all the structures. This script is quite different from the bash scripts you have used before. If you are interested, you can read the comments too.  
-
-    - After all the jobs are finished, run `python3  PLOT_BULK_MOD.py`. 
-
-    - The step above should produce a graph, with a parabola fitted to it and print out a line that says "The coefficient of the parabolic fit to the PES against volume is: ..."
-
-    - What does the PES look like? 
-
-        ??? success "Answer"
-            The graph will be uploaded soon 
-
-    - What is the bulk modulus of this structure? 
-
-        ??? success "Answer"
-            The second derivative of a parabola with the equation $ax^2+bx+c$ is simply $a$. Therefore, the bulk modulus per volume at this structure is simply $a/V_\mathrm{struct} = .../... = $ .   
-
-We are now on a position to carry out structural optimisation in crystals. We have seen just now that the PES plotted against unit cell volume is useful for calculating the bulk modulus. In fact, plotting the PES against different parameters of the structure is very useful for structure optimisation too.  
-
-If you take a closer look at the PPP molecule again, you will notice a torsion angle, $\theta$, between two neighoburing rings in the unit cell. Our next task is to optimise this torsion angle using the PES.  
-
-### Optimisation of atomic positions within the unit cell 
-We are going to find the optimal torsion angle by finding the minimum in the PES, plotted against the torsion angle $\theta$. This is what we will do in the following task. 
-
-!!! example "Task 5 - Optimising structure through PES"
-    - Multiple input files named `PPP_{theta}.in` have been prepared for different torsion angles. Take a look at the values of $\theta$s used in this task. 
-
-    - Run `bash theta_run.sh`. This script automatically runs all the `pw.x` for all the input files. It is written similar to the ones you have used for convergence tests. 
-
-    - Once all the input files have been run, run the Python script `PLOT_PES_THETA.py`, which plots the total energy of the PPP molecule against the torsion angle.  
-
-    - How does the PES look like and what is the optimal torsion angle? 
-    ??? success "Result"
-        A plot will be uploaded very soon. 
-
-Using the PES can allow us optimise specific parameters of the structure, such as the torsion angle in the PPP chain. This is useful when we want to obtain physical insight or intuition, such as how the benzene rings interact with their nearest neighbours to arrange themselves. However, if we want to optimise the structure fully, we will have to run a "relax" calculation with Quantum Espresso. 
-
-!!! example "Task 6 - Optimising structure through DFT relaxation"
-    - Go to directory 06_PPP
-
-    - Read the input file named `PPP_opt.in`. The torsion angle of the initial structure in this input file is 20 degrees. The input file is almost the same as the previous ones, but with the calculation type set to relax. See the snippet below: 
-    ```python 
-     &CONTROL
-        pseudo_dir = '.'
-        disk_io = 'none'
-        calculation = 'relax'    #(1)!
-     /
-     ...  
-     &IONS                  #(2)!
-     /
-    ```
-    1. Tells Quantum Espresso to carry out relaxation. 
-    2. IONS section is again required for relaxation calculation. 
-
-    - Run `pw.x < PPP_opt.in > PPP_opt.out`. 
-
-    - After the job finishes, open the output file in `VESTA`. As you will see, it's possible to just open the final optimized structure, or load the optimization as an animation. Since we already started quite close to the final structure, you won't see much of a change if you watch an animation. 
-
-    - Use the `dihedral angle` option in xcrysden to find the torsion angle of the relaxed   structure. How does this compare to what you previously predicted?
-    ??? success "Answer"
-        The figure will be uploaded once it is ready. 
-
-
-### Optimizing lattice parameters of unit cells 
-Finally, we now utilise both forces and stress for optimising the lattice constant of the unit cell. We are going to relax the lattice constant of the PPP chain along the $z$-direction.  
-    
-!!! note "Note on choice of plane-wave cutoff"
-    In doing this you should keep in mind that it can take a higher energy-cut off to converge the force or equivalently the stress as we saw at the start of this lab. Also, if you recall the number of planewaves depends on the cell volume, so if during the course of the calculation we change the volume we may also change the number of plane waves, or if we fix the number of plane waves we are changing the effective energy cut-off (the latter for Quantum Espresso, but different codes will handle this differently). So you need to be quite careful about this when optimizing lattice vectors.
-
-!!! example "Task 7 - Optimising the unit cell"
-    - Read the input file `PPP_cell.in`. You'll notice in addition to the inputs mentioned, there's also a fairly high energy cut-off, and we've lowered the SCF convergence threshold from the default. Try running this now and let's look at the output.
-    ```python 
-     &CONTROL
-        pseudo_dir = '.'
-        disk_io = 'none'
-        calculation = 'vc-relax'    #(1)!
-        forc_conv_thr = 1.0D-4     #(2)!
-     /
-     ...
-     &IONS              #(3)!
-     /
-    
-     &CELL 
-     cell_dofree = 'z'    #(4)!
-     /
-    ``` 
-        1. Tells Quantum Espresso to do a variable-cell (vc) relaxation. 
-        2. Specify force tolerance. 
-        3. The IONS section is needed for vc-relaxation too.  
-        4. This tells Quantum Espresso to relax the $z$-component of the third lattice vector only. 
-
-    ??? tip "Tip on constrained relaxations"
-        In the input file shown just now,we have constrained the relaxation to moving one specific component of a specified lattice vector. Constraints like this is very useful especially for low-dimensional systems. If you are interested in what Quantum Espresso can can constrain for you, you can read the input description of `pw.x`.  
-    - What is the final lattice constant? 
-
-    - How can you check if the third lattice vector is fully relaxed? 
-
-    - What is the final torsion angle? 
-
-!!! warning "A word on the final pressure and lattice constant in the output file" 
-    The final pressure at the end of the optimisation might appear large. This is because at the end of the optimization, an `scf` calculation is automatically performed starting from the optimized structure. This is needed Quantum Espresso fixes the basis set as that for the original input structure during the calculation, so if the structure has changed a lot, you may calculate a different stress when starting from the relaxed structure. You will be able to see from the final stress or pressure whether you should rerun your calculation.
-
-    Additionally, the cell output will likely be in Quantum Espresso's representation where the cell vectors are given explicitly in Bohr along with a scaling factor `alat` which is fixed. (In our case here `alat` will be `A` converted from Angstrom to Bohr). If you want to rerun your calculation you could either input the cell using these directly, or calculate appropriate values for the input. You may need to do the latter if you want to find the new lattice constant anyway.
-
-----------------------------------------------------------------------------------
-## Summary
-
-In this lab we have seen
-
-- How to output forces, stresses, and pressures in Quantum Espresso calculations.  
-
-- How to check if the forces have converged.
-
-- How the PES allows to estimate the bulk modulus and optimise specific structural parameters.
-
-- How to use these forces in a calculation to optimize the atomic positions, where they are moved until the forces on the atoms are less then some threshold value.
-
-- How the stresses can be used to optimize the structure, where the lattice constant is changed until the stress on the system is less than some threshold value.
-
+In this tutorial, we have learned:
+- How to use the `dos.x` code from the Quantum Espresso package.
+- How to treat a metallic system.

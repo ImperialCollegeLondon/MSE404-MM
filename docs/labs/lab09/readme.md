@@ -1,174 +1,178 @@
-Charged system and excited states
-=================================
+# Finite Temperature Properties
 
-**Reminder** Don't forget to copy the `lab09` folder from `/opt/Courses/MSE404/lab09`
-to your home directory.
+Everything we've done so far has in fact been for systems at effectively zero temperature. And even at zero temperature, we haven't taken into account the zero-point motion of the atoms and have treated them as purely classical objects residing at fixed positions.
 
-In this lab we're going to see how properties of charged systems can be obtained with DFT,
-and how to improve the description of excited states (remember DFT is formally a theory that
-allows us to compute ground state and excited states properties by knowing the ground
-state density only!).
+In actuality, there will be an effect from the zero-point motion of the atoms, and as temperature increases the atoms will vibrate with larger amplitude and this can lead to changes in many properties of a material with temperature. You will learn how the thermodynamic properties of a material can be computed from first principles and be able to predict properties such as the total energy, heat capacity, Helmholtz free energy and Entropy.
 
-Ionization potential and electron affinity
-------------------------------------------
+Our approach will be to use the type of density functional theory (DFT) and density functional perturbation theory (DFPT) calculations you've already seen, and spend more time analysing the output to produce materials properties. To get the finite temperature properties, we need to get a list of the phonon modes available to the system. The more phonon modes we include in this list, the more accurate the calculation will be, but this comes at the cost of increased computational time. Once the phonon mode list has been obtained, we sum the individual contribution of each phonon mode to get the thermodynamical quantity of interest. This will be done using [python](https://www.python.org/).
 
-As a first step, we will look at how to compute ionization energies
-and electron affinities in molecules, specifically
-carbon monoxide (CO). To do this, we will employ the $\Delta$SCF method, i.e. we will perform
-SCF calculations for the neutral molecule (with $N$ electrons) and the charged molecule ($N\pm 1$ electrons)
-at the geometry of the neutral molecule and compute the difference in the total energies ($E_{N} \pm E_{N+1}$).
-In doing so, we are neglecting the effect of geometry relaxation in the charged system, and therfore the difference in  
-nuclear-nuclear repulsion energies, that would be different in two different geometries. However, photoemission is
-a fast process and therefore the neglect of relaxations in the charged state is often justified when comparing to 
-experiments.
- 
-Due to the long-range nature of the Coulomb interaction, electrostatic sums on an infinite lattice, or equivalently, 
-in a system subject to periodic boundary conditions (PBC), are not always absolutely convergent and in fact 
-the sum is divergent if the system is charged, which makes the above-mentioned energy differences ill-defined. 
-When using PBC, one can simulate an isolated molecule using a supercell with enough vacuum space. However, the energy calculated for a finite 
-supercell differs from that of an infinite supercell, because of the spurious interactions 
-of the charged system and its periodic images (as we have seen already this is also true for 
-neutral system with no permanent dipole, but in this case the electrostatic sum is absolutely 
-convergent and one can get away with a relatively small supercell size).
 
-In DFT code with PBC, charged systems are usually addressed by introducing a compensating 
-uniform jellium background, such that the total charge of the supercell is zero. This is of course an approximation 
-and it's only justified in the $L\rightarrow\infty$ limit, where $L$ is the linear dimension 
-of the supercell. Hence, one way to study charged systems within DFT is to compute the total 
-energy for increasing values of the supercell size and extrapolating from these the 
-value at $L\rightarrow\infty$. 
+## Example: Total energy for specific temperature in diamond
+The total energy due to phonons can be written as
 
-More refined methods have been developed to treat charged
-systems within PBC and small supercells, such as the Makov-Payne method and Martyna-Tuckerman method, 
-which we will also use in this lab. The Makov-Payne method applies a cell size-dependent correction to the total energy
-based on an asymptotic analysis of the total energy of charged system with respect to the supercell size. This allows to
-get a faster convergence with respect to the supercell size. The Martyna-Tuckerman
-method, on the other hand, introduces a cut-off in real space beyond which interactions are set to zero. As a rule of thumb, the supercell 
-should be more than twice as large as the size of the molecule for this to be a good approximation.
+$$E(T) = \sum_{\mathbf{q}\nu}\hbar\omega(\mathbf{q}\nu)\left[\frac{1}{2} + \frac{1}{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1}\right]$$
 
-In Quantum ESPRESSO you can enable the calculation of charged systems by setting
-`tot_charge = +1`, if one electron is removed, or `tot_charge = -1`, if one electron
-is added, and so on, in the `SYSTEM` section of the input file. When having an odd number
-of electrons (e.g. an unpaired electron) we also need to perform a spin-polarised calculation, since
-we now have a different number of electrons in the two spin-channels. This can be done by
-setting `nspin=2`. Finally, we need to specify the occupation of the Kohn-Sham states. In molecules,
-with non-dengerate HOMO-LUMO, we want that each KS state is either fully occupied or empty. This can be
-achieved by setting `occupations=fixed`.
+where the factor $n_{BE}(T) = \frac{1}{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1}$ is recognized as the Bose-Einstein occupation factor.
 
-The molecular orbitals diagram for the CO molecule can be found at [this website](https://www.chemtube3d.com/orbitalsco/) 
+Notice how the energy requires summing over every single mode $\nu$ and wave-vector $\mathbf{q}$. The amount of wave-vectors that we need to sum over depends on the choice of $\mathbf{q}$-point grid used to run the DFT calculation. For example, in a $10\times10\times10$ grid, you would need to sum over $1000$ vectors. In general terms, finer grids provide better results, but their computation will also take much longer. To do this calculation, we first need to obtain the list of phonon modes
 
-### _Task_
+### Step 1. Phonon calculations on a fine-grid
 
-Compute the ionization energy of carbon monoxide. You can find input files and annotated scripts in the
-[`01_carbon_monoxide`](01_carbon_monoxide/) folder.
+We've already done most of the work needed to also calculate phonons on a fine-grid in our previous lab ([Lab06/Diamond](../lab06/03_CarbonDiamond)). This can be done following the `q2r.x` calculation by choosing some different input options for `matdyn.x`.  Take a look at the input file [`05_CD_matdyn-fine.in`](CarbonDiamond/05_CD_matdyn-fine.in). The contents are as follows:
 
-- Inspect the `CO_neutral.in` (neutral) and `CO_charged_p1.in` (positively charged, one electron removed) template files
-- Use the `run_cell.sh` bash script to run SCF calculations for increasingly large cell sizes. 
-  The script generates a text file `<template_name>_etot_v_box.dat` with two columns: first column is the linear 
-  dimension of the cubic cell in angstroms and second column is total energy in Rydberg.
-- The script can be used both for the neutral and the charged system. You will have to modify the `template` 
-  variable in the script accordingly. Run the script for both neutral and charged system.
-- Check it is converged for all cell sizes. 
-- After running the script for the neutral and charged molecule, create a text file with two columns, with first 
-  column being the linear dimension of the cell in angstroms and second column being the difference 
-  between total energies of charged and neutral molecule in Rydberg.
-- Use the `deltaE_v_box.gnu` gnuplot file to do a linear fit ($f(x) = a + bx$) of $E_{N-1}-E_{N}$ vs $1/L$. Modify the 
-  script such that it reads the file you have generated in the previous point. In the script you will have to substitute
-  `FILENAME` with the name of your file.
-  Run the script by typing `gnuplot deltaE_v_box.gnu`. 
-  This should generate a plot with and  you should get the resulting $a$ and $b$ parameters as well as the standard 
-  error from the fitting displayed in the terminal
-```bash
-Final set of parameters            Asymptotic Standard Error
-=======================            ==========================
-a               = 14.19            +/- 0.01085      (0.07643%)
-b               = -22.8611         +/- 0.1496       (0.6543%)
-
-correlation matrix of the fit parameters:
-                a      b      
-a               1.000 
-b              -0.972  1.000
 ```
-- Extract the value for $L\rightarrow\infty$, i.e. $1/L=0$. The experimental value is $14.01$ eV. How does it compare with
-  the DFT result?
+ &input
+    asr='simple'
+    flfrc='CD444.fc'
+    flfrq='CD-fine.freq'
+    nk1=20,nk2=20,nk3=20
+    nosym=.true.
+    dos=.true.
+ /
+```
 
-### _Task_
+This is quite similar to the band plot, but now we're setting `nosym` to true, choosing a dense q-point grid on which to recalculate our frequencies. Run `matdyn.x` now with this input file. Please do not forget to copy all the things you did in your previous lab on the same material (Copy the files from ([Lab06/Diamond](../lab06/03_CarbonDiamond))
+directory into [Lab07/CarbonDiamond](lab07/CarbonDiamond). It'll take a bit longer than the band calculation as it is explicitly computing without invoking the symmetry. After it finishes, it will generate the following file: `CD-fine.freq`. Take a look at the contents of this file. It is organized as such
 
-Compute the electron affinity of carbon monoxide. 
-- Re-do the same steps of previous task replacing `CO_charged_p1.in` with
-`CO_charged_m1.in`. 
-- For the calculation of the electron affinity we have changed the occupations from `fixed` to `smearing`. 
-From the diagram of molecular orbitals of CO, can you explain why?
-- The experimental value is $1.326$ eV. How does this compare with the DFT result?
+```
+freq1
+freq2
+freq3
+```
 
-### _Task_
-Compute the electron affinity and ionization energy using the Makov-Payne method and Martyna-Tuckerman method to treat 
-the charged system at a relatively small cell size. In [`02_carbon_monoxide`](02_carbon_monoxide/) folder copy the input files of the 
-charged systems and set the supercell size to 16 Angstroms. The cartesian coordinates for the C and O atoms are
-```bash
- C  8.000 8.000 7.436
- O  8.000 8.000 8.564
-``` 
-To use these methods, we need to add `assume_isolated='mp'` for Makov-Payne and `assume_isolated='mt'` for Martyna-Tuckerman
-in the `SYSTEM` section.
+We will utilize this file to compute several thermodynamic properties using python in the next step.
 
-Run `pw.x` with these input files and compare the ionization energy and electron affinity with that of 
-an infinite supercell from the extrapolation. 
+### Step 2. Summing over modes in python
+To calculate the total energy due to phonons using python, we will create a simple script that reads in the temperature and a file with the list of frequencies and prints out the energy.
 
-Excited states and band-gap problem - Titanium dioxide (Rutile)
----------------------------------------------------------------
-It is well known that in insulators and semiconductors the fundamental band gap is underestimated by DFT with
-local (LDA) and semilocal (GGA) exchange-correlation (XC) functionals. This can be related to local and semilocal
-XC functionals being unable to remove spurious self-interactions arising from the Hartree term. For instance, if 
-we consider a simple one-electron system like the hydrogen atom, one can easily see that the Hartree energy
-$E_{H}[n] = \frac{1}{2} \int \frac{n(\mathbf{r})n(\mathbf{r}')}{|\mathbf{r}-\mathbf{r'}|} d^3r d^3r'$ implies
-an unphysical self-interaction of the electron with itself. This contribution should be compensated by the
-XC term, but an exact cancellation is not possible with local and semilocal functionals. This means that a percentage
-of this spurious contribution remains and pushes up the energies of the occupied states. At the same time, unoccupied
-states do not contribute to the total density and therefore no self-interaction term arises from them. As a net result,
-the gap between occupied and unoccupied states is reduced.
+```python
+import sys
+frequencies = sys.argv[1]
+temperature = sys.argv[2]
+energy = 0
+for frequency in frequencies:
 
-To ameliorate this problem several so-called hybrid XC functionals have been proposed. These are non-local XC functionals
-based on the electron density and Kohn-Sham orbitals as well, i.e. $E_{XC}^{hyb} [n(\mathbf{r}),{\phi_{KS}(\mathbf{r})}]$.
-The main idea, is to add to the (semi)local XC functionals a percentage of the exact exchange term, which is a functional
-of the KS orbitals. In fact, from Hartree-Fock 
-theory it is well known that there is a perfect cancellation between the Hartree and the Exchange terms for the self-interaction.
+  if abs(frequency) < 1e-5:
+    continue
 
-In this part we are going to compute the band structure of titanium dioxide (rutile phase) with a semilocal XC functional (PBE) and 
-we will see how using the `B3LYP` hybrid XC functional improves the band gap compared to the experimental value. You are not going to
-explicitely run a DFT calculation with a hybrid functional as this is quite computationally demanding, particularly with a plane-wave
-basis set (can you think of why?)
+  x = frequency/temperature
+  bose = 1.0/(exp(x) - 1)
+  energy += x*(0.5 + bose)
 
-The B3LYP energy functional is a very popular hybrid functional and it is obtained by: $E_{XC}^{B3LYP} = (1-a)E_{X}^{LSDA} + a E_{X}^{HF} + b \Delta E_{X}^{B88} + (1-c)E_{C}^{LSDA} + c E_{C}^{LYP}$, where the subscrpits $X$ and $C$ mean exchange and correlation, respectively. The superscripts, on the other hand, identify the different functional forms, for instance $HF$ means Hartree-Fock, $LSDA$ means local spin-density approximation, $B88$ Becke88 functional and $LYP$ the Lee-Young-Parr functional. The three parameters in B3LYP have the following values $a=0.2$, $b=0.72$ and $c=0.81$. Finally $\Delta E$ means a gradient correction to the functional. You can see that in B3LYP one introduces a fraction (0.2) of the Hartree-Fock exchange, which is a non-local functional.
+print(energy)
+```
 
-The rutile phase of TiO2 is a direct wide-gap semiconductor, with an experimental bandgap of $3.3$ eV. The unit cell is tetragonal with 
-`a=4.58` Ang and `c=2.95` Ang and contains six atoms, two Ti atoms and four O atoms. You can visualise the structure using `xcrysden` as usual.
+Note that this program ignores very small frequencies due to the possibility of dividing by zero.
 
-### _Task_
+Thermodynamic properties
+=======================
+Some key quantities are (For reference, see
+[Wikipedia](https://en.wikipedia.org/wiki/Quasi-harmonic_approximation) and
+ and the reference therein):
 
-- Let's first calculate the rutile band structure with a semilocal XC functional (PBE). In [`03_rutile`](03_rutile/) folder you will
-find an input file `01_rutile_scf.in` for a SCF calculation and two pseudopotential files `Ti.pbe-sp-van_ak.UPF` and `O.pbe-van_ak.UPF`.
-Copy these two files into your `pseudo` folder and run `pw.x` to obtain the ground state density.
-- Next, let's compute the band structure on a high-symmetry path by running a non-scf calculation. You will have to use the `01_rutile_nscf.in`
-input file.
-- Finally, let's plot the bands with `bands.x` as you have done in [Lab 4](https://mse404.gitlab.io/labs/lab04/). You will have to use `01_rutile_bands.in` and plot the result with `gnuplot`. At which high-symmetry point is the direct band gap found?
-- Go back to the output of the non-scf calculation and compute the band gap from the lowest unoccupied state and highest occupied states at $\Gamma$.
-You should get a band gap of $1.9$ eV, which is $~1/3$ smaller than the experimental value.
-- Now look at the output file `02_rutile_scf.in`, which has been obtained with the B3LYP XC functional. At the end of the file you can check the 
-difference between the lowest unoccupied state and the highest occupied state. This calculation is not fully converged but you can see that the band gap is now much closer to the experimental value.
+Bose-Einstein distribution
+--------------------------
 
--------------------------------------------------------------------------------
+$n_{BE}(T) = \frac{1}{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1}$
 
-Summary
+Total Energy due to phonons
+---------------------------
+Total energy due to phonons within harmonic approximation can be 
+written as,
+
+$$E(T) = \sum_{\mathbf{q}\nu}\hbar\omega(\mathbf{q}\nu)\left[\frac{1}{2} + \frac{1}{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1}\right]$$
+
+Constant volume heat capacity
+-----------------------------
+Specific heat at constant volume can be obtained from the total 
+energy calculations:
+
+$$C_{V} = \left(\frac{\partial E}{\partial T} \right ) = \sum_{\mathbf{q}\nu} k_\mathrm{B} \left(\frac{\hbar\omega(\mathbf{q}\nu)}{k_\mathrm{B} T} \right)^2 \frac{\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)}{[\exp(\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)-1]^2}$$
+
+Helmholtz free energy
+---------------------
+To compute the Helmholtz free energy, we need the partition function,
+$Z$.
+
+$$Z = \exp(-\varphi/k_\mathrm{B} T) \prod_{\mathbf{q}\nu} \frac{\exp(-\hbar\omega(\mathbf{q}\nu)/2k_\mathrm{B}T)}{1-\exp(-\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T)}$$
+
+
+$$H(T) = -k_\mathrm{B} T \ln Z = \varphi + \frac{1}{2} \sum_{\mathbf{q}\nu} \hbar\omega(\mathbf{q}\nu) + k_\mathrm{B} T \sum_{\mathbf{q}\nu} \ln \bigl[1 -\exp(-\hbar\omega(\mathbf{q}\nu)/k_\mathrm{B} T) \bigr]$$
+
+Entropy
 -------
+Entropy, $S$ can also be computed:
+$$S = -\frac{\partial H}{\partial T} = \frac{1}{2T} \sum_{\mathbf{q}\nu} \hbar\omega(\mathbf{q}\nu) \coth(\hbar\omega(\mathbf{q}\nu)/2k_\mathrm{B}T)-k_\mathrm{B} \sum_{\mathbf{q}\nu} \ln \left[2\sinh(\hbar\omega(\mathbf{q}\nu)/2k_\mathrm{B}T)\right]$$
 
-- In this lab we've looked at how to treat charged molecules with DFT and periodic
-  boundary conditions. We have also looked at how ionization energies and electron
-  affinities can be computed with $\Delta$SCF.
-- We've also looked at how more refined methods can help with the convergence
-  of the total energy with respect to the cell size for charged molecules, e.g.
-  the Makov-Payne method and Martyna-Tuckerman method.
-- In the second part we have looked at hybrid exchange-correlation functionals and
-  how these can improve the description of excited states and ameliorate the 
-  band-bap problem in insulators and semiconductors.
+
+Note that the temperature dependence in all these quantities are
+determined by the Bose-Einstein distribution.
+
+
+We have implemented these codes using python. For example, you will
+find a folder [`Thermodynamics`](03_CarbonDiamond/Thermodynamics)
+containing a file `thermo.py` that has all these quantities you need. It reads
+the phonon bands calculations at a fine-grid and can compute several
+thermodynamic properties. For the implementation of total energy due to
+harmonic phonon, look up the function, *get_E_T* inside the `thermo.py` file:
+
+ ```
+  def get_E_T(self):
+    """
+    Computes total energy at a Temperature
+    @output
+      E_T, in units of meV
+      NOTE: E_T/nkp is returned
+    """
+    E_T = 0.0
+    # For every band n
+    for n in range(self.omega_nq.shape[0]):
+      # For every band q
+      for q in range(self.omega_nq.shape[1]):
+        omega = self.omega_nq[n][q]
+        E_T = E_T + \
+              (omega*\
+              (0.5 + self.befactor(omega)))
+    return E_T/self.omega_nq.shape[1]
+```
+
+You can compute the total energy at a given temperature by running
+the `compute.py`: `python compute.py`
+
+Try understanding how the calculations are performed and how are
+they implemented. Note that, all the calculations internaly
+converts temperature to meV (i.e. $T \to k_{B}T$) and phonon
+energies to meV (from cm$^{-1}$).
+
+### _Task_
+
+- Run the calculations at a temperature 20 K.
+- Compute the temperature dependence of $E, C_{V}, H, S$ for 
+  several temperatures, ranging from 10 K to 1000 K in steps
+  of 20 K. What happens to specific heat at low-temperature?
+  You will see a lot more details on your homework.
+  **Hint:** Write a *for* loop to do this.
+- Plot these data using matplotlib.
+- Try increasing the grid-size from $20\times20\times20$ to a larger number and
+  try reducing as well. What happens?
+
+
+**NOTE:**  An important contribution in the total energy,
+entropy, etc. are missing in the above calculations: the
+contribution without the phonons. For example, the total energy of
+a material at a given temperature is, $$ E(T)= E_{ph}(T) + E_{DFT}$$,
+where $E_{DFT}$ is the contribution without phonon (sometimes,
+referred to as lattice energy). Another important point to note is
+that they are all dependent on the volume of the material.
+Similarly, the Helmohltz free energy can be written as $H = E_{DFT}+ E_{ph} - TS$. A thermodynamic state is described by two
+independent parameters, let's take them as $T$ and $V$. The
+free-energy, $H(T,V)$. So, in principle, one should compute the
+free-energy for several volumes at any temperature or vice-versa,
+to represent the thermodynamic state correctly. This leads us to
+something called, **quasi-harmonic approximation**. This
+approximation is a harmonic-phonon-based model used
+to describe volume-dependent thermal effects, such as
+the thermal expansion of a material. This approximation assumes
+that the harmonic approximation holds for every value of the
+lattice constant, viewed as an adjustable parameter. 
 
