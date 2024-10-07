@@ -18,5 +18,5 @@ for i in {10..40}; do
     final_energy_value=$(echo "$final_energy_value * 13.6" | bc) # Converting final energy to eV
 
     # Append values to output file.
-    echo -e "$ecutwfc_value $final_energy_value" >> data.txt
+    echo "$ecutwfc_value $final_energy_value" >> data.txt
 done

@@ -17,5 +17,5 @@ for i in {001..010}; do
     # Multiply 'final_energy_value' by 13.6
     final_energy_value=$(echo "$final_energy_value * 13.6" | bc)
 
-    echo -e "$ecutwfc_value $final_energy_value" >> data.txt
+    echo "$ecutwfc_value $final_energy_value" >> data.txt
 done
