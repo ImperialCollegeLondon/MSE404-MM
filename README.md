@@ -31,11 +31,11 @@ The labs are organised as follows:
 - [Lab 2: Quantum Espresso Input and Output](docs/labs/lab02/readme.md)
 - [Lab 3: Converging your Calculations](docs/labs/lab03/readme.md)
 - [Lab 4: The Electronic Band Structure and Density of States](docs/labs/lab04/readme.md)
-- [Lab 5: Structural Optimisation](docs/labs/lab05/readme.md)
-- [Lab 6: Vibrational Normal Modes and Phonons](docs/labs/lab06/readme.md)
-- [Lab 7: Finite Temperature Properties](docs/labs/lab07/readme.md)
-- [Lab 8: Spin Polarization and Magnetic Systems](docs/labs/lab08/readme.md)
-- [Lab 9: Optical Properties and Time-Dependent Density Functional Theory](docs/labs/lab09/readme.md) 
+- [Lab 5: Metals and Density of States](docs/labs/lab05/readme.md)
+- [Lab 6: Spin Polarization and Magnetic Systems](docs/labs/lab06/readme.md)
+- [Lab 7: Structural Optimisation](docs/labs/lab07/readme.md)
+- [Lab 8: Vibrational Normal Modes and Phonons](docs/labs/lab08/readme.md)
+- [Lab 9: Finite Temperature Properties](docs/labs/lab09/readme.md)
 
 Additional Material:
 
@@ -45,6 +45,7 @@ Additional Material:
 - [The Hydrogen Atom and Electron Spin](docs/labs/extras/labs/hydrogen_atom/readme.md)
 - [The Tetrahedron Method for Densities of States](docs/labs/extras/labs/tetrahedron_method/readme.md)
 - [Optical Properties and Time-Dependent Density Functional Theory](docs/labs/extras/labs/tddft/readme.md)
+- [Charged system and excited states](docs/labs/extras/labs/charged_system/readme.md) 
 
 Extras:
 

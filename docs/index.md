@@ -33,6 +33,38 @@ The labs are organised as follows:
 - [Lab 2: Quantum Espresso Input and Output](labs/lab02/readme.md)
 - [Lab 3: Converging your Calculations](labs/lab03/readme.md)
 - [Lab 4: The Electronic Band Structure and Density of States](labs/lab04/readme.md)
+- [Lab 5: Metals and Density of States](labs/lab05/readme.md)
+- [Lab 6: Spin Polarization and Magnetic Systems](labs/lab06/readme.md)
+- [Lab 7: Structural Optimisation](labs/lab07/readme.md)
+- [Lab 8: Vibrational Normal Modes and Phonons](labs/lab08/readme.md)
+- [Lab 9: Finite Temperature Properties](labs/lab09/readme.md)
+
+Additional Material:
+
+- [Calculating Useful Properties from Total
+  Energies](labs/extras/labs/using_total_energies/readme.md)
+- [Examining the Charge Density and Wavefunction](labs/extras/labs/visualising_output/readme.md)
+- [The Hydrogen Atom and Electron Spin](labs/extras/labs/hydrogen_atom/readme.md)
+- [The Tetrahedron Method for Densities of States](labs/extras/labs/tetrahedron_method/readme.md)
+- [Optical Properties and Time-Dependent Density Functional Theory](labs/extras/labs/tddft/readme.md)
+- [Charged system and excited states](labs/extras/labs/charged_system/readme.md)
+
+Extras:
+
+- [Setting up a virtual machine](labs/extras/misc/vmsetup/readme.md)
+- [More Useful Linux Commands](labs/extras/misc/linuxcommands/readme.md)
+- [Plotting with Gnuplot](labs/extras/misc/gnuplot/readme.md)
+- [Bash and Shell Scripting](labs/extras/misc/shellscripting/readme.md)
+- [Running in Parallel](labs/extras/labs/running_in_parallel/readme.md)
+
+## Structure of the Labs
+
+The labs are organised as follows:
+
+- [Lab 1: Getting started in Linux](labs/lab01/readme.md)
+- [Lab 2: Quantum Espresso Input and Output](labs/lab02/readme.md)
+- [Lab 3: Converging your Calculations](labs/lab03/readme.md)
+- [Lab 4: The Electronic Band Structure and Density of States](labs/lab04/readme.md)
 - [Lab 5: Structural Optimisation](labs/lab05/readme.md)
 - [Lab 6: Vibrational Normal Modes and Phonons](labs/lab06/readme.md)
 - [Lab 7: Finite Temperature Properties](labs/lab07/readme.md)
