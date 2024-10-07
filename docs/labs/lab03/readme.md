@@ -268,7 +268,7 @@ done
 
 ```
 
-1. This line uses the awk command. This essentially will print out a column of your choice after using the grep command. Additionally, it uses tr -d which is a method of removing puncuation to keep the script from breaking if punctuation is included where it shouldn't be. 
+1. This line uses `awk`. Awk is a programming language that is designed for processing text-based data. We don't use most of its functionalities here. All we are using it for is printing out a column of the output of the grep command. Additionally, it uses tr -d which is a method of removing puncuation to keep the script from breaking if punctuation is included where it shouldn't be. 
 2. The line with the converged total energy on starts with a '!', allowing for easy access using `grep`.
 
 

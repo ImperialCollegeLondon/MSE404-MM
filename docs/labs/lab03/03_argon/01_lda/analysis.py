@@ -29,7 +29,6 @@ def main():
     plt.ylabel("Total Energy (eV)")
     plt.xlabel("Dimer Distance (Å)")
     plt.title("LDA Dimer Distance")
-    plt.savefig('lda-dimer.png', dpi=900)
     plt.show()
 
 if __name__ == "__main__":
