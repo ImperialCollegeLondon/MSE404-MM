@@ -213,7 +213,7 @@ calculate the total energy for different k-point grid densities. The directory
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
-    - Understand and run the script (choose either bash or python, for more
+    - Understand and run the script (for more
       information, read the [`README.md`](02_convergence/README.md)), and plot
       the convergence of total energy with respect to k-point sampling.
 
@@ -221,45 +221,53 @@ calculate the total energy for different k-point grid densities. The directory
             <figure markdown="span">
               ![Diamond primitive cell](assets/convergence.png){ width="500" }
             </figure>
-    
+
     - For every periodic system you simulate, you should converge **both** the
-      cut-off energy and k-points. Try adapting one of the scripts to also 
-      converge the energy of silicon with respect to the cut-off energy. How 
-      does the convergence behaviour of the two parameters compare?
+      cut-off energy and k-points. Usually people start with one parameter set
+      to very high and vary the other one, then switch and repeat. Try do this
+      yourself and find the best set of parameters for diamond.
+    
+        ??? success "Tips"
+            Start with E_cut of ~50.0 Ry and k-points of 4x4x4
 
-        ??? success "Answer"
-            An example Bash script to does this is given below:
+    <!-- - For every periodic system you simulate, you should converge **both** the -->
+    <!--   cut-off energy and k-points. Try adapting one of the scripts to also -->
+    <!--   converge the energy of silicon with respect to the cut-off energy. How -->  
+    <!--   does the convergence behaviour of the two parameters compare? -->
 
-            ```bash
-            #!/bin/bash
-            
-            template="C_diamond_base_kE.in"
-            repstr_k="xxxx"
-            repstr_E="eeee"
-            
-            for val_k in {02..10..2} #(1)!
-            do
-            for val_E in {20..100..20} #(2)!
-            do
-              echo "Running for k = $val_k and E = $val_E"
-              inp="C_diamond_${val_k}_${val_E}.in"
-              sed "s/$repstr_k/$val_k/g" $template > $inp #(3)!
-              sed -i "s/$repstr_E/$val_E/g" $inp
-              pw.x < $inp &> ${inp%.*}.out_conv_kE
-            done
-            done
-            
-            awk '/number of k points/{nkpt=$5}/kinetic-energy cutoff/{ekin=$4}
-                 /^!.*total/{print nkpt, ekin, $5}' *out_conv_kE > etot_v_nkpt_ekin.dat
-            ```
+    <!--     ??? success "Answer" -->
+    <!--         An example Bash script to does this is given below: -->
 
-            1.  This loop will run for k-points from 2 to 10 in steps of 2.
-            2.  This loop will run for cut-off energies from 20 to 100 in steps
-                of 20.
-            3.  `g` here means to replace every entry on the line (global).
+    <!--         ```bash -->
+    <!--         #!/bin/bash -->
+    <!--         
+    <!--         template="C_diamond_base_kE.in" -->
+    <!--         repstr_k="xxxx" -->
+    <!--         repstr_E="eeee" -->
+    <!--         
+    <!--         for val_k in {02..10..2} #(1)! -->
+    <!--         do -->
+    <!--         for val_E in {20..100..20} #(2)! -->
+    <!--         do -->
+    <!--           echo "Running for k = $val_k and E = $val_E" -->
+    <!--           inp="C_diamond_${val_k}_${val_E}.in" -->
+    <!--           sed "s/$repstr_k/$val_k/g" $template > $inp #(3)! -->
+    <!--           sed -i "s/$repstr_E/$val_E/g" $inp -->
+    <!--           pw.x < $inp &> ${inp%.*}.out_conv_kE -->
+    <!--         done -->
+    <!--         done -->
+    <!--         
+    <!--         awk '/number of k points/{nkpt=$5}/kinetic-energy cutoff/{ekin=$4} -->
+    <!--              /^!.*total/{print nkpt, ekin, $5}' *out_conv_kE > etot_v_nkpt_ekin.dat -->
+    <!--         ``` -->
 
-            You can change the range of k-points and cut-off energies yourself.
-            You can also try to adapt this script using Python.
+    <!--         1.  This loop will run for k-points from 2 to 10 in steps of 2. -->
+    <!--         2.  This loop will run for cut-off energies from 20 to 100 in steps -->
+    <!--             of 20. -->
+    <!--         3.  `g` here means to replace every entry on the line (global). -->
+
+    <!--         You can change the range of k-points and cut-off energies yourself. -->
+    <!--         You can also try to adapt this script using Python. -->
 
 ## The Electronic Band Structure
 
