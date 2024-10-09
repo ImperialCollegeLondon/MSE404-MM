@@ -218,6 +218,7 @@ calculate the total energy for different k-point grid densities. The directory
       the convergence of total energy with respect to k-point sampling.
 
         ??? success "Result"
+            The smallest converged (∆ ~10meV/atom) k-grid is 10x10x10.
             <figure markdown="span">
               ![Diamond primitive cell](assets/convergence.png){ width="500" }
             </figure>
@@ -228,7 +229,8 @@ calculate the total energy for different k-point grid densities. The directory
       yourself and find the best set of parameters for diamond.
     
         ??? success "Tips"
-            Start with E_cut of ~50.0 Ry and k-points of 4x4x4
+            Start with E_cut of ~60.0 Ry and converge the k-points. Or start
+            with k-points of 30x30x30 and converge the energy cutoff.
 
     <!-- - For every periodic system you simulate, you should converge **both** the -->
     <!--   cut-off energy and k-points. Try adapting one of the scripts to also -->
