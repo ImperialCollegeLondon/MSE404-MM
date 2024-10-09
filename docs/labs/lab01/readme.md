@@ -2,7 +2,7 @@ Getting Started in Linux
 ========================
 
 
-## Introduction
+## 1. Introduction
 
 In this course, you will use a dedicated Linux server to run your calculations, which can be accessed remotely. In this first Lab, you will learn how to:
 
@@ -14,22 +14,22 @@ In this course, you will use a dedicated Linux server to run your calculations, 
 These steps closely resemble what you would need to do in a real-world scenario. When you’re researching more advanced topics, you will require powerful computers to run your simulations. At Imperial, you could get access to CX1, the local High Performance Computing (HPC) facility containing hundreds of machines. On a national level, you could get access to ARCHER2, the UK national supercomputing service. All these facilities use the Linux operating system, so it is important to get comfortable with the Linux command line because in many situations this will be your only option to interact with those machines. The server you will use in this course is called `matmod` and it will be your first step into the world of material simulation.
 
 
-## Accessing the server remotely
+## 2. Accessing the server remotely
 
 The server can be accessed by using PuTTY and XMing, which can be run from the [Imperial Software Hub](https://softwarehub.imperial.ac.uk/). XMing runs in the background in your Windows machine and enables the remote server to display graphics when needed. For the most part, however, you will have to interact with the command line. PuTTY is the program used to establish the connection to the remote server.
 
 !!! example "Task 1 - Connecting to the remote server"
 
     1. Access the [Imperial Software Hub](https://softwarehub.imperial.ac.uk/) and first run Xming, then PuTTY.<br>
-    ![text](images/1softwarehub.PNG){: width="400" }<br>
+    ![text](images/1softwarehub.PNG){: width="600" }<br>
     2. In the PuTTY interface, inside the **Connection** tab, enable X11 forwarding. This will allow the server to communicate with Xming to show you graphical data when required.<br>
-    ![text](images/5puttyX11.PNG){: width="400" }
+    ![text](images/5puttyX11.PNG){: width="600" }
     3. In the **Session** tab, under **Host Name**, input the name of the server that you want to access, and save this session by giving it a name under **Saved Sessions** and clicking **Save**. Whenever you want to reconnect with PuTTY, you can simply load this session again. Finally, click **Open**:<br>
-    ![text](images/5putty.PNG){: width="400" }    
+    ![text](images/5putty.PNG){: width="600" }    
     4. If this is your first time connecting to this server, you might get a security alert asking whether you want to accept the host key. Press "Accept".<br>
-    ![text](images/sec_alert.PNG){: width="400" }
+    ![text](images/sec_alert.PNG){: width="600" }
     5. A terminal will be presented to you. In order to login, you will have to enter your College username, press **Enter**, enter your password and press **Enter** again.<br>
-    ![text](images/6terminal.PNG){: width="400" }
+    ![text](images/6terminal.PNG){: width="600" }
 
     **Note:** while we try to ensure students registered for the course have access before the first class, we may not have the most up-to-date information. If it doesn't accept your login details please let me know and we can give you access.<br>
 
@@ -38,7 +38,7 @@ The server can be accessed by using PuTTY and XMing, which can be run from the [
 
 
 
-## Using the command line
+## 3. Basic command line usage
 
 While using a computer for day-to-day activities, you most likely have become familiar with a Graphical User Interface (GUI), which is a graphical way to interact with the computer. Most Operating Systems (OS) also provide a non-graphical way to interact with the computer through the command line (also usually denoted as the terminal). In this course we will deal exclusively with the Linux command line. The command line offers a completely equivalent way to the GUI to perform tasks, but has several advantages:
 
@@ -51,14 +51,14 @@ If you successfully connected to the remote server using PuTTY, you should have 
 
 The terminal will give you access to a prompt that can be used to interact with the computer. The prompt contains three sections: `username @ machine : current working directory $`. The commands you write will always be in front of the `$` symbol.
 
-![text](images/7terminal.png){: width="400" }
+![text](images/7terminal.png){: width="600" }
 
 !!! example "Task 1: launching your first program"
 
     Write the command `gedit` then press Enter. This might take a few seconds, but then it will open a graphical text editor. The prompt will be unresponsive until this program finishes. This will be the case for most Linux commands. In this case, the program will finish once you close the `gedit` window. Until the command completes its assigned task, you cannot use the prompt, but once the task is finished, the prompt can be used again.
 
 
-    ![text](images/8gedit.PNG){: width="400" }
+    ![text](images/8gedit.PNG){: width="600" }
 
     **Important** Remember to close the `gedit` window
 
@@ -70,7 +70,7 @@ The terminal will give you access to a prompt that can be used to interact with 
     2. You can also provide additional parameters to certain commands to make them do specific tasks. For example, the command `echo` prints out to the terminal the text that’s written after it. Run the program echo with `DFT` as a parameter - `echo DFT`, and check that it prints out the word `DFT` to the terminal. 
 
 
-    ![text](images/9command_program.PNG){: width="400" }
+    ![text](images/9command_program.PNG){: width="600" }
 
 
 In sum, commands in the Linux command line have the following structure
@@ -98,7 +98,7 @@ in the command line will save the output that you got previously into the file c
     gedit file.txt
     ```
 
-    ![text](images/10opengedit2.PNG){: width="400" }
+    ![text](images/10opengedit2.PNG){: width="600" }
 
 While gedit provides all the means necessary to read and write files, it can be very slow when the connection to the server is not stable, or when many people are connected to the server simultaneously. A quicker way to read the contents of a file is by using the `cat` command. When you provide an argument to the `cat` command, it will assume that the argument is a file name and will output its contents.
 
@@ -109,7 +109,7 @@ While gedit provides all the means necessary to read and write files, it can be 
     cat file.txt
     ```
 
-    ![text](images/11cat.PNG){: width="400" }
+    ![text](images/11cat.PNG){: width="600" }
 
  
  If the file is very long, you can also use `head file.txt` if you just want to print out the first lines of the file, or `tail file.txt` if you just want to print out the last lines. Alternatively, you can use a more interactive command like `less file.txt` which will replace the terminal with a file reader that you can scroll through with your mouse wheel or the keyboard arrows. You can exit this file reader by pressing `q`. Reading the file directly from the command line is often the quickest and most convenient way to do so.
@@ -125,8 +125,8 @@ Some Linux commands can use instructions saved in files to perform their job. Fo
     3. Save the output of this command into another file **numbers_sorted.txt** using what you learned previously: `sort < numbers.txt > numbers_sorted.txt`
     4. Read the contents of this new file using `cat` and check that the numbers have been sorted
 
-    ![text](images/12numbersgedit.PNG){: width="400" }
-    ![text](images/12numberssorted.PNG){: width="400" }
+    ![text](images/12numbersgedit.PNG){: width="600" }
+    ![text](images/12numberssorted.PNG){: width="600" }
 
 
 ## 4. Navigating the system
@@ -135,7 +135,7 @@ So far, all the commands you have been running were executed inside of your **ho
 ### 4.1 Understanding the directory structure
 The directory (or folder) structure in Linux is defined through the use of the forward slash `/`. For example, `/file1.txt` means that `file1.txt` is inside the root directory, which is represented by a single forward slash `/`. `/directory1/file1.txt` means that `file1.txt` is inside `directory1` which is inside the root directory `/`. As a user of the **matmod** server, your files are located in the directory `/home/username`, which has a shorthand expression `~`. This is called the **home** directory.
 
-![text](images/13home.PNG){: width="400" }
+![text](images/13home.PNG){: width="600" }
 
 ### 4.2 Figuring out where you are
 If you want to check what is your current directory, run the command `pwd`, which stands for **print working directory**. This will print out something like “/home/sjoao”, which means that the directory “sjoao” is located inside the directory “home”. It also means that you are currently located inside the `/home/username` folder. This directory “/home/sjoao” is known as the home directory, and is equivalently represented by a tilde “~” as a shorthand.
@@ -143,14 +143,14 @@ If you want to check what is your current directory, run the command `pwd`, whic
 !!! example "Task 4.1"
     Run the command `pwd` in the command line. Check that this output corresponds to a directory structure as discussed above
 
-    ![text](images/14pwd.PNG){: width="400" }
+    ![text](images/14pwd.PNG){: width="600" }
 
 ### 4.3 List the contents of the directory
 If you want to list the contents of your current directory, run `ls`. This will print out to the terminal the list of folders and files that exist in the current directory. 
 
 !!! example "Task 4.3" 
     Run the command `ls` and check that the files that you created in the previous tasks are here.
-    ![text](images/15ls.PNG){: width="400" }
+    ![text](images/15ls.PNG){: width="600" }
 
 
 ### 4.4 Creating new directories and changing directories
@@ -161,7 +161,7 @@ These commands are all relative to the current directory, but you can also use t
 
 !!! example "Task 4.4" 
     Run the commands above and in each step run `ls` and `pwd` to better understand the directory structure.
-    ![text](images/16folders.PNG){: width="400" }
+    ![text](images/16folders.PNG){: width="600" }
 
 
 
@@ -182,7 +182,7 @@ cp ~/file.txt .
 The dot `.` in this last command represents **this directory**, so the command means: “copy the file ~/file.txt, which is located in the home directory into the current directory”. <br>
 **Note:** if the file already exists in the destination, it will be overwritten. 
 
-### 3.3 Copying folders
+### 5.2 Copying folders
 To copy folders, the only extra thing you need to do is to specify the additional “-r” argument to “cp”. For example, you can copy the directory dir2, which has the location “~/newDirectory/dir2” to the home directory as such:
 ```
 cp -r ~/newDirectory/dir2  ~
@@ -194,7 +194,7 @@ cp -r ~/newDirectory/dir2  ~
     Run the commands from the previous two sections and check with `ls` that the contents of each folder correspond to the expectation.
 
 
-### 3.4 Moving and renaming files
+### 5.3 Moving and renaming files
 The syntax to move files is exactly the same as the one for the “cp” command. To move a file “file.txt” from “~/newDirectory/dir2” to “~/newDirectory”, run the command
 ```
 mv ~/newDirectory/dir2/file.txt ~/newDirectory
@@ -215,7 +215,7 @@ To rename a file, you also use the “mv” command. You can think of renaming a
     Run the previous command and check that the file has the expected name.
 
 
-### 3.5 Deleting files
+### 5.4 Deleting files
 To delete a file, you use the “rm” command. For example, if you want to remove file “file.txt”, use
 `rm file.txt`. To delete directories, the argument “-r” has to be provided: `rm -r ~/newDirectory/dir2`<br>
 **Note:** If you run the “rm” command, the deleted file or directory will be deleted permanently, there is no way to undo it, so make sure you are running the correct command.
@@ -224,7 +224,7 @@ To delete a file, you use the “rm” command. For example, if you want to remo
     Run the previous command and check that file.txt and dir2 no longer exist.
 
 
-## Wildcards
+## 6. Wildcards
 
 In Linux many commands will accept wild cards as a way to perform their action on a set of files. `*` is used to represent zero or more characters. The `*` wildcard is very commonly used and worth remembering.
 
@@ -232,13 +232,13 @@ In Linux many commands will accept wild cards as a way to perform their action o
 - `rm *.o` would remove all files ending in `.o` in the current directory.
 
 
-## Job Control - terminating commands
+## 7. Job Control - terminating commands
 Sometimes, you will execute a command which does not seem to finish, so you may want to force it to terminate. You can do this by pressing the keys `Ctrl+C`
 
 !!! example "Task"
     Run `gedit` and terminate it with `Ctrl+C`. Make sure that you are pressing the keys `Ctrl+C` while the terminal window is selected, not the gedit window.
 
-## Tab completion
+## 8. Tab completion
 
 Typing commands in their entirety can be a time-consuming process while interacting with a terminal. Tab completion is a very useful feature of the Linux command line which tries to fill in the commands for you.
 
@@ -250,19 +250,19 @@ Typing commands in their entirety can be a time-consuming process while interact
 
 
 
-## Loading modules
+## 9. Loading modules
 
 Environment modules provied extra functionality to your session by giving you access to additional software packages. The reason why these additional softwares are often not available by default is because they may cause conflict with other softwares. Environment modules ensure that these softwares can be loaded safely without causing conflicts. They are almost always used on HPC systems to make various versions of common version of computational software packages available. The main command to know is `module`. This command allows you to load and unload different software packages. To load a package, use `module load` followed by the name of the packages. In this lab, you will need to load the **Quantum Espresso** package:
 
 ```bash
 module load quantum-espresso
 ```
-![text](images/18module.PNG){: width="400" }
+![text](images/18module.PNG){: width="600" }
 
 Throughout the course, when running on the server you'll need to remember to load the modules above before you'll be able to use the codes in the Quantum Espresso package. 
 
 
-## Running your first DFT calculation!
+## 10. Running your first DFT calculation!
 
 
 Now that you know the basics of the Linux operating system, it's time to run your first DFT calculation. First, we need to setup a few files and directories. The various files associated with the labs for this course are all available
@@ -306,7 +306,7 @@ Now you are finally ready to run the DFT calculation
 
 Once you're done, exit the session by closing the terminal.
 
-## Summary
+## 11. Summary
 
 There are a lot of commands to remember from this week's lab. You can always
 refer back to this week, but to make things easier in future weeks you might
