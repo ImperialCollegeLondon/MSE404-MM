@@ -276,11 +276,10 @@ in `/opt/MSE404-MM/docs/labs`.
 
     - In your home directory create the directory `MSE404-MM`.
     - Copy the directory with the input files for this course `/opt/MSE404-MM/docs/labs/lab01` to the directory you just created `~/MSE404-MM`. Remember you need to pass an additional flag to `cp` to copy a directory.
-    - List the contents of directory `~/MSE404-MM/lab01/methane` with `ls`
+    - List the contents of directory `~/MSE404-MM/lab01/helium` with `ls`
         - You'll see there are three files in the directory you copied.
-          1. `CH4.in` - an input file for the DFT code you'll be using.
-          2. `C.pz-vbc.UPF` - a pseudopotential file for carbon, which tells the DFT code what approximation to use in your calculation.
-          3. `H.pz-vbc.UPF` - a pseudopotential file for hydrogen, which tells the DFT code what approximation to use in your calculation.
+          1. `He.in` - an input file for the DFT code you'll be using.
+          2. `He.pbe-mt_fhi.UPF` - a pseudopotential file for carbon, which tells the DFT code what approximation to use in your calculation.
         - You'll learn more about these types of files in later classes.
 
     ![text](images/19MSE.PNG){: width="600" }
@@ -291,13 +290,13 @@ Now you are finally ready to run the DFT calculation
 !!! example "Task"
 
     - First we need to load the Quantum Espresso module. If you haven't done this already, run `module load quantum-espresso`.
-    - Now you'll be able to use the various Quantum Espresso package executables directly. Use `cd` to go to the methane folder you copied earlier (`~/MSE404-MM/lab01/methane`)
-    - The input file there is for the `pw.x` code. You can pass this file to `pw.x` with input redirection and save the output to a file with output redirection (otherwise the output will just be in the terminal). To do this type `pw.x < CH4.in > CH4.out`.
+    - Now you'll be able to use the various Quantum Espresso package executables directly. Use `cd` to go to the helium folder you copied earlier (`~/MSE404-MM/lab01/helium`)
+    - The input file there is for the `pw.x` code. You can pass this file to `pw.x` with input redirection and save the output to a file with output redirection (otherwise the output will just be in the terminal). To do this type `pw.x < He.in > He.out`.
     - See what files are present in the directory now. As well as the output file we saved, some others were generated.<br>
     ![text](images/20dft.PNG){: width="600" }<br>
-    - Take a look through the output file `CH4.out` using `less`. You can usse the arrow keys to scroll, `g` to go to the beginning of the file, `G` to go to the end of the file and `q` to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads `End of self-consistent calculation`:
+    - Take a look through the output file `He.out` using `less`. You can usse the arrow keys to scroll, `g` to go to the beginning of the file, `G` to go to the end of the file and `q` to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads `End of self-consistent calculation`:
           - This lists the calculated eigenvalues.
-          - We have four doubly-occupied levels in our calculation, so you'll see four numbers.
+          - We have one doubly-occupied level in our calculation, so you'll see one number.
           - Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg.
           - Congratulate yourself on running your first DFT calculation.
 
@@ -322,9 +321,9 @@ To run the DFT example in this lab you will need to do the following:
 - Load the modules needed to run Quantum Espresso:
   `module load quantum-espresso`.
 - Go to the directory with the input files you copied 
-  `cd ~/MSE404-MM/lab01/methane`.
+  `cd ~/MSE404-MM/lab01/helium`.
 - Use `pw.x` to process the input file, saving the output to a file:
-  `pw.x < CH4.in > CH4.out`.
+  `pw.x < He.in > He.out`.
 - Take a look through the output file:
-  `less CH4.out`.
+  `less He.out`.
 - Logout of the remote server once you're done.
