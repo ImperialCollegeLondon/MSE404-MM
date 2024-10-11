@@ -297,7 +297,7 @@ Now you are finally ready to run the DFT calculation
     - Take a look through the output file `He.out` using `less`. You can use the arrow keys to scroll, `g` to go to the beginning of the file, `G` to go to the end of the file and `q` to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads `End of self-consistent calculation`:
           - This lists the calculated energy eigenvalues: in helium only the 1s orbital is occupied by two electrons
           - Compare the value of the 1s orbital energy to the result you get from the Schroedinger equation when electron-electron interactions are neglected.
-          - Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg. How does the total energy compare to the experimental value of 79.02? How does it compare to the total energy obtained when electron-electron interactions are neglected?
+          - Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg. How does the total energy compare to the experimental value of -79.02 eV? How does it compare to the total energy obtained when electron-electron interactions are neglected?
           - Congratulate yourself on running your first DFT calculation.
 
     ![text](images/21DFT.PNG){: width="600" }
