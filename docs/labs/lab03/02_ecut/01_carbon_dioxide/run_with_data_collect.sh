@@ -7,7 +7,7 @@ do
 done
 
 # Loop through files
-for i in {10..40}; do
+for i in {10..40..5}; do
     # Extract 'ecutwfc' value from input molecule files
     ecutwfc_value=$(grep 'ecutwfc' CO2_$i.in | awk '{print $3}' | tr -d ', =') # Plane wave cutoff (Ry)
 

@@ -6,7 +6,7 @@
 #                   How to use: Copy and paste the text from your input file to common_content_template as shown below.                      #
 #                               Make sure you are putting a space both sides of = sign when pasting.                                         #
 #                                                                                                                                            #
-#                                                   How to run: python3 file_build_model.py                                                  #
+#                                                   How to run: python3 analysis.py                                                          #
 ##############################################################################################################################################
 ##############################################################################################################################################
 ##############################################################################################################################################
@@ -16,21 +16,21 @@
 output_directory = "./"
 
 # Number of files to create
-num_files = 10
+num_files = 20
 
 # Common content template with a placeholder for the number
-common_content_template = """
- &CONTROL
+common_content_template = """ &CONTROL
     pseudo_dir = '.'
     disk_io = 'none'
  /
 
  &SYSTEM
     ibrav = 1
-    A = 15.0
-    nat = 5
-    ntyp = 2
-    ecutwfc = {}
+    A = 12.0
+    nat = 2
+    ntyp = 1
+    ecutwfc = 30.0
+    vdw_corr = 'grimme-d3'
  /
 
  &ELECTRONS
@@ -39,15 +39,11 @@ common_content_template = """
  /
 
 ATOMIC_SPECIES
- C  12.011  C.pz-vbc.UPF
- H   1.008  H.pz-vbc.UPF
+ Ar  39.948  Ar.pbe-n-rrkjus_psl.1.0.0.UPF
 
 ATOMIC_POSITIONS angstrom
- C  0.0       0.0       0.0
- H  0.0       0.0       1.089
- H  1.026719  0.000000 -0.363000
- H -0.513360 -0.889165 -0.363000
- H -0.513360  0.889165 -0.363000
+ Ar  0.0       0.0       0.0
+ Ar  0.0       0.0       {}
 
 K_POINTS gamma
 """
@@ -55,7 +51,7 @@ K_POINTS gamma
 # Loop to create the files
 for i in range(1, num_files + 1):
     # Define the content for each file with the number replaced
-    calc = round(5+5*i)
+    calc = round(3+0.1*i, 3)
     content = common_content_template.format(calc)
 
     # Generate the file name

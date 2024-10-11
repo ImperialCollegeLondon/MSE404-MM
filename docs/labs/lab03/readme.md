@@ -1,6 +1,6 @@
 Convergence Tests
 =====================================
-This week we are going to continue looking at isolated molecules. Specifically, we will be focusing on finding out how well converged our results are. This is a necessary step to have any confidence in your results and should always be done before running calculations on new systems.
+This week we are going to continue looking at isolated molecules. Specifically, we will be focusing on determining how well converged our results are. This is a necessary step to have any confidence in your results, and to make sure the result is meaningful. This should always be done before running calculations on new systems.
 
 <div markdown="span" style="margin: 0 auto; text-align: center">
 [Download the input files for this tutorial](./assets/lab03_input.zip){ .md-button .md-button--primary }
@@ -10,10 +10,14 @@ Before starting, if you can't remember how to do something from the command line
 
 -------------------------------------------------------------------------------------------
 
-## Pseudopotentials
-As discussed in lectures, we use pseudopotentials to approximate the core potential. For each atomic species in your calculations, we need a pseudopotential file describing the approximation you want the DFT code to use for that species.
 
-Let's look at a brief view of an input file for CO2:
+
+## Pseudopotentials
+As will be discussed in lectures, pseudopotentialsare used to approximate the core potential. This reduces the computational load significantly as we only need to do self-consistent calculations for the remaining valence electrons. For each atomic species in your calculations, we need a pseudopotential file describing the approximation you want the DFT code to use for that species.
+
+To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` directory.
+
+Let's look at a brief view of an example of a CO2 input file.
 
 !!! tip annotate "Tip: In-code annotations"
     Click (1) to see notes on the input tags.
@@ -59,7 +63,7 @@ K_POINTS gamma
 
 Open the input file for CO2 stored in `01_carbon_dioxide/CO2.in`.
 
-As we can see, we have told the DFT code to look in a directory called `pseudo`. If we do `ls ..` we should see that directory.
+As we can see, we have told the DFT code to look in the directory `../../pseudo`. If we do `ls ../..` we should see that directory. If not, follow the tutorial to copy over the pseudopotential files from [Lab 2](../lab02/readme.md).
 
 The header of pseudopotential files contain valuable information about how the pseudopotential was generated, such as what states are included, and what approximations are used for exchange and correlation.
 
@@ -67,10 +71,14 @@ The header of pseudopotential files contain valuable information about how the p
 
     Run the input file for CO2. Take a look at the pseudopotential file we are using for Oxygen:
 
-    - What level of approximation are we using?
+    - What level of approximation are we using e.g. Local Density Approximation (LDA), PBE, etc..? Hint: This is usually stored at the top of pseudopotential files.
 
         ??? success "Answer"
-            LDA
+            LDA. This is found at the top of the pseudopotential file:
+
+            ```
+            Info:   O LDA 2s2 2p4 RRKJ3 US
+            ```
 
     - What were the 'core' and 'valence' states used to generate the pseudopotential file??
 
@@ -110,13 +118,13 @@ The header of pseudopotential files contain valuable information about how the p
 Regardless of the type of system you're looking at, you'll need to check how
 well converged your result is (whatever it is your calculating) with respect
 to the plane-wave energy cut-off. This governs how many plane-waves are
-used in the calculation.
+used in the expansion of the Kohn-Sham states (and thus how many are being calculated).
 
 Let's again look at our CO2 input file:
 
 ```python
  &CONTROL
-    pseudo_dir = '.' 
+   pseudo_dir = '../../pseudo'
  /
 
  &SYSTEM
@@ -156,7 +164,7 @@ Note that:
 !!! warning
     You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation. We'll see more about this later.
 
-An example demonstrating the total energy convergence with respect to energy cutoff is shown in the [02_ecut/01_carbon_dioxide](02_ecut/01_carbon_dioxide) directory.
+An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `02_ecut/01_carbon_dioxide` directory.
 We have already set up a series of input files which are all identical except we systematically increase ***only*** the value of `ecutwfc`.
 
 Examining [CO2_25.in](02_ecut/01_carbon_dioxide/CO2_25.in) we see some new parameters that should be explained.
@@ -217,7 +225,7 @@ done
 1. For loop going from i=10 to i=40 in steps of 5.
 2. Runs the command `pw.x < CO2_$i.in > CO2_$i.out` from i=10 to i=40.
 
-We shouldn't need to do anything to these scripts. However, feel free to play around with them as you get better with the linux command line!
+We shouldn't need to do much to these scripts, apart from changing the loop index. However, feel free to play around with them as you get better with the linux command line!
 
 To run the bash file, we use the command `./run.sh`. After some time, the output files should be in your directory.
 
@@ -281,9 +289,9 @@ done
         ??? success "Answer"
             The first column is ecutwfc (Ry) and the second column is Total Energy (eV)
 
-Through this course you will need to do many convergence tests. You have been provided with scripts that generate the input files for you, as well as helping to plot your results. In the direcory for methane, [02_ecut/02_methane](02_ecut/02_methane), we will go through how to use these scripts.
+Through this course you will need to do many convergence tests. You have been provided with scripts that generate the input files for you, as well as helping to plot your results. In the direcory for methane, `02_ecut/02_methane`, we will go through how to use these scripts.
 
-The first script we will use is named `file_builder.py`. This is a python file that will generate all of our input files.
+The first script we will use is named `file_build.py`. This is a python file that will generate all of our input files. Let's examine it:
 
 ```python
 ##############################################################################################################################################
@@ -294,7 +302,7 @@ The first script we will use is named `file_builder.py`. This is a python file t
 #                   How to use: Copy and paste the text from your input file to common_content_template as shown below.                      #
 #                               Make sure you are putting a space both sides of = sign when pasting.                                         #
 #                                                                                                                                            #
-#                                                   How to run: python3 ecut_build.py                                                        #
+#                                                   How to run: python3 file_build.py                                                        #
 ##############################################################################################################################################
 ##############################################################################################################################################
 ##############################################################################################################################################
@@ -330,7 +338,13 @@ for i in range(1, num_files + 1):
 3. Incrementing the cutoff from 10 Ry to the desired amount. Can also alter this for larger spacings.
 4. Output files will be named scf.mol.001.in, scf.mol.002.in etc. 
 
-To run this file, issue the command `python3 file_builder.py`. You should now have many input files generated. Examine them to make sure everything has been generated correctly.
+To run this file you will need to edit it and paste the input file that you want to generate multiple instances of. In our case, that is the information stored in `CH4_base.in`. The only thing we need to replace is `ecutwfc = xxxx` with `ecutwfc = {}`. If you are struggling with this, take a look at the file file_build_model.py for how the file should look. After this issue the command:
+
+```bash 
+python3 file_build.py
+```
+
+You should now have many input files generated. Examine them to make sure everything has been generated correctly.
 
 Next, examine the `run.sh` file:
 
@@ -340,7 +354,7 @@ Next, examine the `run.sh` file:
 # Run scf calculations.
 for i in {001..010}; #(1)!
 do
-mpiexec pw.x < scf.mol.$i.in > scf.mol.$i.out #(2)!
+    pw.x < scf.mol.$i.in > scf.mol.$i.out #(2)!
 done
 
 # Loop through files
@@ -359,23 +373,23 @@ done
 ```
 
 1. Looping from 001 to 010 in steps of 001.
-2. Name of the files scf.mol.001.in, scf.mol.002.in etc.
+2. Runs pw.x for the files scf.mol.001.in, scf.mol.002.in etc.
 3. Looping again from 001 to 010 in steps of 001.
 
 !!! example "Task 4 - Running Convergence Tests With Scripts"
 
-    In `convergence_processing.py` change `num_files` to  20. In `run.sh` change the for loop to go from 001 to 020. Generate the input files as described above. Run the bash file as before, using the command `./run.sh`. After some time the bash file will have run. Examine the file data.txt.
+    In `file_build.py` change `num_files` to  20. In `run.sh` change the for loop to go from 001 to 020. Generate the input files as described above. Run the bash file as before, using the command `./run.sh`. After some time the bash file will have run. Examine the file `data.txt`.
     
     - At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate run?
 
         ??? success "Result"
             ecutwfc = 75 Ry.
 
-            $E_{T}^{\text{best}} = -218.23332303 \,\text{eV}$
+            $E_{T}^{\text{best}} = -218.233323168 \,\text{eV}$
 
-            $E_{T}^{75} = -218.15563956 \,\text{eV}$
+            $E_{T}^{75} = -218.15564649599997 \,\text{eV}$
 
-            $E_{T}^{\text{diff}} = -0.07768347000001086 \,\text{eV}$
+            $E_{T}^{\text{diff}} = -0.07767667200002393 \,\text{eV}$
 
 Again, this is quite tedious to find by hand. You have been provided with another script `convergence_processing.py` which analyses the results stored in data.txt and shows where the calculation has converged to within a specified tolerance.
 Let's take a quick look at this script:
@@ -444,12 +458,12 @@ def main():
 
 
 #### System Size Considerations
-Actually, we typically converge the total energy ***per atom*** (meV/atom). This is due to the scaling of the total energy with system size. 
+Actually, we typically converge the total energy ***per atom*** (meV/atom). This is due to the scaling of the total energy with system size (number of atoms). 
 
 If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
 
 !!! Important "General Scripts"
-    The scripts you have been provided in [02_ecut/02_methane](02_ecut/02_methane) are general. You can use them through the course. There are more like these in the [useful_scripts](../useful_scripts) directory.
+    The scripts you have been provided in `02_ecut/02_methane` are quite general. You can use them through the course. There are more like these in the `/opt/MSE404-MM/docs/labs/useful_scripts` directory.
 
 ## Plotting
 
@@ -535,11 +549,13 @@ if __name__ == "__main__":
 
 !!! example "Task 7 - Convergence of CO2 vs Methane"
 
-    We have now done a convergence test using the scripts `file_builder.py` and `convergence_processing.py` for methane. Re-do your convergence for CO2 using these convergence scripts.
+    We have now done a convergence test using the scripts `file_builder.py` and `convergence_processing.py` for methane. Copy `convergence_processing.py` and `file_build.py` to `02_ecut/01/carbon_dioxide`. Redo the convergence for CO2 using the convergence scripts as we did above using the script `run_02.sh`. Before running anything, make sure to remove the `data.txt` that is already in this directory from our previous calculation.
 
     - Which molecule has the lower plane-wave cutoff?
 
     ??? success "Answer"
+        After running `convergence_processing.py` we can see that:
+
         $E_{\text{cut}}^{\text{CO2}} = 65 \,\text{Ry}$
 
         $E_{\text{cut}}^{\text{Methane}} = 75 \,\text{Ry}$
@@ -567,7 +583,7 @@ if __name__ == "__main__":
 
 How we approximate the exchange and correlation between elections is a key part of DFT. The functional that we use determines how we approximate these many-body interactions.
 
-By default, Quantum Espresso the exchange correlation functional are taken from the header of the pseudopotential file, as we saw earlier in Task 1.
+By default, Quantum Espresso reads what exchange correlation functional to use from the header of the pseudopotential file, as we saw earlier in Task 1.
 It is possible to override this by using the `input_dft` variable in the &system section.
 
 !!! Warning "Mixing Approximations"
@@ -585,10 +601,10 @@ As you might expect, the exchange correlation functional chosen can have a big i
     ![Jacobs-ladder](assets/Jacobs-ladder.png){ width="500" }
     </figure>
 
-In [03_argon](03_argon) we are going to investigate the change in the binding energy as we vary the bond length between an argon dimer using two different levels of theory.
+In `03_argon` we are going to investigate the change in the binding energy as we vary the bond length between an argon dimer using two different levels of theory.
 
 !!! example "Task 8 - Argon Dimer"
-    Examine and run the scripts `file_builder.py` and `run.sh` in [03_argon/01_lda](03_argon/01_lda).
+    Examine and run the scripts `file_builder.py` and `run.sh` in `03_argon/01_lda`.
 
     - What level theory is this at?
 
@@ -615,15 +631,34 @@ In [03_argon](03_argon) we are going to investigate the change in the binding en
         ![lda-dimer](assets/lda-dimer.png){ width="500" }
         </figure>
 
-    Do the same for [03_argon/02_pbe](03_argon/02_pbe). This is at the GGA level, specifically using the pbe functional.
+    Do the same for `03_argon/02_pbe`. This is at the GGA level, specifically using the pbe functional.
 
     - At what distance does the argon dimer have the lowest energy?
 
     ??? success "Result"
-        a = 4.0 Å gives the minimum energy of -1173.06622887 eV
+        a = 4.0 Å gives the minimum energy of -1173.066229 eV
+
+        However, the minimum is not very well defined.
         <figure markdown="span">
         ![pbe-dimer](assets/pbe-dimer.png){ width="500" }
         </figure>
+    
+    This is a known problem in DFT. LDA tends to 'overbind' and PBE tends to 'underbind'. In dimer situations like this Argon, one may think van der Waals is something important. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through the exchange-correlation potential.
+
+    Navigate to the `03_vdw`.
+
+    - Run `file_build.py`. Examine the input files. You will see a tag `vdw_corr = 'grimme-d3'`. This means that we are going to include van der Waals corrections (via a total energy correction term).
+
+    - At what distance does the argon dimer have the lowest energy?
+
+    ??? success "Result"
+        a = 3.8 Å gives the minimum energy of -1173.07559029 eV
+
+        <figure markdown="span">
+        ![pbe-dimer](assets/pbe-dimer-vdw.png){ width="500" }
+        </figure>
+
+
 
 ## More Convergence Parameters
 

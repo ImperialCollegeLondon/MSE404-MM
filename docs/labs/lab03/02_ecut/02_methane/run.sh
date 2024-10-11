@@ -3,7 +3,7 @@
 # Run scf calculations.
 for i in {001..010};
 do
-mpiexec pw.x < scf.mol.$i.in > scf.mol.$i.out
+    pw.x < scf.mol.$i.in > scf.mol.$i.out
 done
 
 # Loop through files
