@@ -643,7 +643,7 @@ In `03_argon` we are going to investigate the change in the binding energy as we
         ![pbe-dimer](assets/pbe-dimer.png){ width="500" }
         </figure>
     
-    This is a known problem in DFT. LDA tends to 'overbind' and PBE tends to 'underbind'. In dimer situations like this Argon, one may think van der Waals is something important. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through the exchange-correlation potential.
+    This is a known problem in DFT. LDA tends to 'overbind' and PBE tends to 'underbind'. In dimer situations like this Argon dimer, one may think van der Waals interactions are something important to consider. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through the exchange-correlation potential.
 
     Navigate to `03_vdw`.
 
