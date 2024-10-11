@@ -645,7 +645,7 @@ In `03_argon` we are going to investigate the change in the binding energy as we
     
     This is a known problem in DFT. LDA tends to 'overbind' and PBE tends to 'underbind'. In dimer situations like this Argon, one may think van der Waals is something important. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through the exchange-correlation potential.
 
-    Navigate to the `03_vdw`.
+    Navigate to `03_vdw`.
 
     - Run `file_build.py`. Examine the input files. You will see a tag `vdw_corr = 'grimme-d3'`. This means that we are going to include van der Waals corrections (via a total energy correction term).
 
