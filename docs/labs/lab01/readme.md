@@ -279,7 +279,7 @@ in `/opt/MSE404-MM/docs/labs`.
     - List the contents of directory `~/MSE404-MM/lab01/helium` with `ls`
         - You'll see there are three files in the directory you copied.
           1. `He.in` - an input file for the DFT code you'll be using.
-          2. `He.pbe-mt_fhi.UPF` - a pseudopotential file for carbon, which tells the DFT code what approximation to use in your calculation.
+          2. `He.pbe-mt_fhi.UPF` - a pseudopotential file for helium, which contains information about the interaction between the helium nucleus and the electrons.
         - You'll learn more about these types of files in later classes.
 
     ![text](images/19MSE.PNG){: width="600" }
@@ -294,10 +294,10 @@ Now you are finally ready to run the DFT calculation
     - The input file there is for the `pw.x` code. You can pass this file to `pw.x` with input redirection and save the output to a file with output redirection (otherwise the output will just be in the terminal). To do this type `pw.x < He.in > He.out`.
     - See what files are present in the directory now. As well as the output file we saved, some others were generated.<br>
     ![text](images/20dft.PNG){: width="600" }<br>
-    - Take a look through the output file `He.out` using `less`. You can usse the arrow keys to scroll, `g` to go to the beginning of the file, `G` to go to the end of the file and `q` to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads `End of self-consistent calculation`:
-          - This lists the calculated eigenvalues.
-          - We have one doubly-occupied level in our calculation, so you'll see one number.
-          - Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg.
+    - Take a look through the output file `He.out` using `less`. You can use the arrow keys to scroll, `g` to go to the beginning of the file, `G` to go to the end of the file and `q` to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads `End of self-consistent calculation`:
+          - This lists the calculated energy eigenvalues: in helium only the 1s orbital is occupied by two electrons
+          - Compare the value of the 1s orbital energy to the result you get from the Schroedinger equation when electron-electron interactions are neglected.
+          - Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg. How does the total energy compare to the experimental value of 79.02? How does it compare to the total energy obtained when electron-electron interactions are neglected?
           - Congratulate yourself on running your first DFT calculation.
 
     ![text](images/21DFT.PNG){: width="600" }
