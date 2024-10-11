@@ -302,10 +302,24 @@ Now you are finally ready to run the DFT calculation
 
     ![text](images/21DFT.PNG){: width="600" }
 
+## 11. Pipe operator and filtering output with grep
 
-Once you're done, exit the session by closing the terminal.
+Running commands may produce a lot of output, making it difficult to find the information you want. The Linux command line provides the option to filter output by using the `grep` command together with the `|` operator (pipe operator). The pipe operator passes the output of a command as input to the next command. For example, `cat He.out | grep highest` will read out the contents of the output file `He.out` and, instead of printing them to the terminal, will pass them to `grep`, which will filter it according to the keyword `highest`. Any line which contains this keyword will then be printed out to the terminal. If no line exists with the keyword, nothing will be printed out.
 
-## 11. Summary
+
+![text](images/20grep.PNG){: width="600" }
+
+!!! example "Task"
+
+    Modify the example above to print out all the lines containing the keyword `total`. Why do you get several outputs now?
+
+
+## 12. Logging out
+Once you're done, exit the session by closing the terminal and then pressing *OK*. This will close Putty. Finally, go back to the Cloudpaging Player, select Xming, Stop the application and press *Yes*.
+
+![text](images/22exit.PNG){: width="600" }
+
+## 13. Summary
 
 There are a lot of commands to remember from this week's lab. You can always
 refer back to this week, but to make things easier in future weeks you might
