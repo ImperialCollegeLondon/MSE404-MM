@@ -20,7 +20,7 @@ The server can be accessed by using PuTTY and XMing, which can be run from the [
 
 !!! example "Task 1 - Connecting to the remote server"
 
-    1. Access the [Imperial Software Hub](https://softwarehub.imperial.ac.uk/) and first run Xming, then PuTTY.<br>
+    1. Access the [Imperial Software Hub](https://softwarehub.imperial.ac.uk/) and first launch Xming, then PuTTY.<br>
     ![text](images/1softwarehub.PNG){: width="600" }<br>
     2. In the PuTTY interface, inside the **Connection** tab, enable X11 forwarding. This will allow the server to communicate with Xming to show you graphical data when required.<br>
     ![text](images/5puttyX11.PNG){: width="600" }
@@ -252,7 +252,7 @@ Typing commands in their entirety can be a time-consuming process while interact
 
 ## 9. Loading modules
 
-Environment modules provied extra functionality to your session by giving you access to additional software packages. The reason why these additional softwares are often not available by default is because they may cause conflict with other softwares. Environment modules ensure that these softwares can be loaded safely without causing conflicts. They are almost always used on HPC systems to make various versions of common version of computational software packages available. The main command to know is `module`. This command allows you to load and unload different software packages. To load a package, use `module load` followed by the name of the packages. In this lab, you will need to load the **Quantum Espresso** package:
+Environment modules provide extra functionality to your session by giving you access to additional software packages. The reason why these additional softwares are often not available by default is because they may cause conflict with other softwares. Environment modules ensure that these softwares can be loaded safely without causing conflicts. They are almost always used on HPC systems to make various versions of common version of computational software packages available. The main command to know is `module`. This command allows you to load and unload different software packages. To load a package, use `module load` followed by the name of the packages. In this lab, you will need to load the **Quantum Espresso** package:
 
 ```bash
 module load quantum-espresso
