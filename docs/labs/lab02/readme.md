@@ -34,6 +34,12 @@ Before running a calculation we need to write the input files. These input files
 
 Let's take a look at our first input file [CH4.in](01_methane/CH4.in).
 
+!!! tip annotate "Tip: In-code annotations"
+    Click (1) to see notes on the input tags.
+
+1. This is an annotation
+
+
 ```bash
 &CONTROL #(1)!
     pseudo_dir = '.' #(2)!
