@@ -213,9 +213,9 @@ calculate the total energy for different k-point grid densities. The directory
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
-    - Understand and run the script (for more
-      information, read the [`README.md`](02_convergence/README.md)), and plot
-      the convergence of total energy with respect to k-point sampling.
+    - Understand and run the scripts (see
+      [`README.md`](02_convergence/README.md)), and plot the convergence of
+      total energy with respect to k-point sampling.
 
         ??? success "Result"
             The smallest converged (∆ ~10meV/atom) k-grid is 10x10x10.
@@ -225,12 +225,12 @@ calculate the total energy for different k-point grid densities. The directory
 
     - For every periodic system you simulate, you should converge **both** the
       cut-off energy and k-points. Usually people start with one parameter set
-      to very high and vary the other one, then switch and repeat. Try do this
+      to very high and varys the other one, then switch and repeat. Try do this
       yourself and find the best set of parameters for diamond.
     
         ??? success "Tips"
-            Start with E_cut of ~60.0 Ry and converge the k-points. Or start
-            with k-points of 30x30x30 and converge the energy cutoff.
+            Try starting with E_cut of ~60.0 Ry and converge the k-points. 
+            Or start with k-points of 30x30x30 and converge the energy cutoff.
 
     <!-- - For every periodic system you simulate, you should converge **both** the -->
     <!--   cut-off energy and k-points. Try adapting one of the scripts to also -->
@@ -395,8 +395,8 @@ please refer to
 Plot the band structure. The band structure is usually plotted with the energy
 on the y-axis and the high symmetry points on the x-axis. The energy is usually
 shifted so that the valence band maximum is at 0 eV. The directory
-`03_bandstructure` contains a gnuplot and a python script that can be used to 
-plot the band structure:
+`03_bandstructure` contains python script that can be used to plot the band 
+structure:
 
 The valence band max was at gamma (the first point on our path), we could read
 the value of the energy at this point from one of the other output files,
@@ -404,7 +404,7 @@ the value of the energy at this point from one of the other output files,
 eV.
 
 !!! example "Task 3.4 - Plotting the band structure"
-    Run either the gnuplot or the python script to plot the band structure of 
+    Run either the python script to plot the band structure of 
     diamond.
 
     ??? success "Final result"
