@@ -1,32 +1,32 @@
 Quantum Espresso Input and Output for Molecules
 ===============================================
 
-This week you will run some DFT calculating using Quantum Espresso for molecular systems. We are going to be focusing on understanding and constructing input files that you will need for the rest of the course.
+This week you will run some DFT calculations for molecules using Quantum Espresso. We will focus on understanding and constructing input files that you will need for the rest of the course.
 
 <div markdown="span" style="margin: 0 auto; text-align: center">
 [Download the input files for this tutorial](./assets/lab02_input.zip){ .md-button .md-button--primary }
 </div>
 
-Before starting, if you can't remember how to do something from the command line, you can always refer back to [Lab 1](../lab01/readme.md).
+Note: if you can't remember how to do something using the command line, you can always refer back to [Lab 1](../lab01/readme.md).
 
 ------------------------------------------------------------------------------
 
 ## Quantum Espresso
 
-[Quantum Espresso](http://www.quantum-espresso.org) is a freely available package of open-source codes for electronic-structure calculations and materials modelling at the nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials, which you will be learning about in lectures.
+[Quantum Espresso](http://www.quantum-espresso.org) is a freely available package of open-source codes for electronic-structure calculations and materials modelling. It is based on density-functional theory.
 
-Quantum Espresso is used via the command line. There is no graphical interface by default, which is typical of most electronic structure codes. Throughout this course we will be interacting with Quantum Espresso through the command line via ssh (through PuTTY that you used in [Lab 1](../lab01/readme.md)).
+Quantum Espresso is used via the command line. There is no graphical user interface by default, which is typical of most electronic structure codes. 
 
 
 !!! example "Task 1 - Copy Input Files"
 
-    In lab 1 you should have created a directory named `MSE404` in your home directory.
+    In lab 1 you should have created a directory named `MSE404-MM` in your home directory.
 
     - Check this by issuing the command `cd ~` followed by `ls`.
-    - Copy the input files from `/opt/MSE404-MM/docs/labs/lab02` to your `MSE404` folder. Remember you need to pass an additional flag to `cp` to copy a directory. If you are struggling with this, revisit [Lab 1](../lab01/readme.md).
-    - Copy the directory containing the pseudopotentials that you will be using during this course to your `MSE404` directory. These are stored in `/opt/MSE404-MM/docs/labs/pseudo`
+    - Copy the input files from `/opt/MSE404-MM/docs/labs/lab02` to your `MSE404-MM` folder. Remember you need to pass an additional flag to `cp` to copy a directory. If you are struggling with this, revisit [Lab 1](../lab01/readme.md).
+    - Copy the directory containing the pseudopotentials that you will be using during this course to your `MSE404-MM` directory. These are stored in `/opt/MSE404-MM/docs/labs/pseudo`
 
-You should now have a directory `lab02` and `pseudo` within your `MSE404` directory. This contains a set of basic input files for a variety of systems and the pseudopotentials for the input files.
+You should now have the directories `lab02` and `pseudo` within your `MSE404-MM` directory. These contain a set of basic input files for a variety of systems and the pseudopotentials for the input files.
 
 ## Input Files
 
