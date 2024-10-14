@@ -30,7 +30,7 @@ You should now have the directories `lab02` and `pseudo` within your `MSE404-MM`
 
 ## Input Files
 
-Before running a calculation we need to write the input files. These input files give instructions to Quantum Espresso to tell it what we want to calculate, and what parameters to use for the calculation. The first example we will be looking at is in the `01_methane` directory. In this directory there is an input file for the `pw.x` module of Quantum Espresso which calculates the total energy of your system.
+Before running a DFT calculation we need to create the input files. These input files give instructions to Quantum Espresso to tell it what we want to calculate, and what parameters to use for the calculation. The first example we will be looking at is in the `01_methane` directory. In this directory there is an input file for the `pw.x` module of Quantum Espresso which calculates the total energy of your system.
 
 Let's take a look at our first input file [CH4.in](01_methane/CH4.in).
 
@@ -73,15 +73,15 @@ K_POINTS gamma #(10)!
 1. Quantum Espresso input files are ordered with 'tags'. These 'tags' start with a `&` and end with a `/`. They are blocks of input parameters.
 2. Directory containing your pseudopotentials defined later in the input file. The directory `.` means the current directory. 
 3. Bravais lattice type e.g. simple cubic, face centered cubic etc. These are documented on the [Quantum Espresso input description page](https://www.quantum-espresso.org/documentation/input-data-description/). You will get familiar with this throughout the course. ibrav = 1 is a simple cubic lattice.
-4. Crystalographic constant i.e. cell vector length. Simple cubic with A=15 means a 15x15x15 Å box. 
+4. Crystallographic constant i.e. cell vector length. Simple cubic with A=15 means a 15x15x15 Å box. 
 5. Number of atoms.
 6. Number of species.
 7. Energy cutoff for wavefunction expansion. You will learn more about this in your lectures and [Lab 3](../lab03/readme.md)
 8. Atomic species, atomic mass and the name of the pseudopotential file.
 9. Below this tag are the atomic positions of your atoms. The `angstrom` after `ATOMIC_POSITIONS` specifies these are in cartesian coordinates in units of Å.
-10. K-Points for the calculation. We have chosen to do this calculation at the Gamma point since we are dealing with molecules.
+10. K-points are wave vectors of electrons. As we are interested in bound electronic states of molecules in this lab, we are using k=(0,0,0). This k-point is also known as the Gamma point.
 
-Later we will learn how to visualise the structure, but for now, here is our methane molecule:
+Later we will learn how to visualise the structure, but for now, here is what our methane molecule looks:
 
 <figure markdown="span">
 ![methane](assets/methane.png){ width="900" }
@@ -102,7 +102,7 @@ Later we will learn how to visualise the structure, but for now, here is our met
 
 
 !!! warning "Warning - Periodic Boundary Conditions and Molecules"
-    Quantum Espresso is a periodic DFT code and it uses a plane wave basis. This is something you will learn about later in the theoretical part of this course. We therefore need to be smart in order to model isolated molecules, since by definition these are not periodic. One way of doing this is to put the molecule in the center of a large box. This minimises any interaction with its periodic neighbour. Additionally, we know that the larger the unit cell in real space, the smaller the Brillouin zone. For an isolated molecule we therefore only sample at the Gamma point.
+    Quantum Espresso uses periodic boundary conditions. In other words: we are not modelling a single molecule, but instead an infinite cubic crystal of molecules. In order to avoid interactions between molecules in the different unit cells of this crystal, we have to make the lattice constant of the crystal sufficiently large. Otherwise we might not get the correct description of an isolated molecule. 
 
 ## Running and examining the calculation
 
