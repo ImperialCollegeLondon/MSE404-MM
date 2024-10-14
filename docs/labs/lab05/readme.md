@@ -38,16 +38,18 @@ Since the DOS and the band structure are both related the Kohn-Sham eigenvalues,
 intuitively, the DOS is also related to the band structures: bands with large
 energy dispersion in the Brillouin zone result in low DOS spread across a large
 interval, whereas less dispersive (more flat) bands result in high DOS near a
-small energy interval. In insulators and semiconductors the DOS is zero inside
-the band gap, as there are no available states in that energy range. Hence, the
-DOS can give us an accurate estimation of the band gap (unlike the band
-structure plot which only goes along a certain path in the Brillouin zone, DOS
-reflects eigenvalues of all k-points in the Brillouin zone).
+small energy interval. 
+
+In insulators and semiconductors, the DOS is zero inside the band gap, as there
+are no available states in that energy range. Hence, the DOS can give us an
+accurate estimation of the band gap (unlike the band structure plot which only
+goes along a certain path in the Brillouin zone, DOS reflects eigenvalues of all
+k-points in the Brillouin zone).
 
 ### Smearing
 
 The definition of the DOS can also be represented as a sum over an infinite
-amount of k-points that sample the Brillouin zone:
+amount of k-points that sample the Brillouin zone (as $\Delta\mathbf{k} \to 0$):
 
 $$
 \mathrm{DOS}(E) = \sum_{n} \sum^\infty_{\mathbf{k}}  \delta(E -
@@ -231,7 +233,8 @@ Metals have a Fermi surface that can be quite complex in k-space. This means
 that in contrast to an insulator or semiconductor where every k-point has the
 same number of **occupied** states, **in a metal the number of occupied states
 can vary from k-point to k-point**. Remembering that DFT is a gound state theory
-, a rapidly varying occupation number will makes it more difficult to converge. 
+, a rapidly varying occupation number will make the calculation more difficult
+to converge. 
 
 
 ### Tackling Discontinuities
@@ -245,8 +248,8 @@ Generally, there are two things that we typically do for metals:
 2.  Use some smearing scheme for the calculation of occupation number of bands
     at each k-point. This is in relation to the smearing used in the calculation
     of the [:link: density of states](#density-of-states). The difference is
-    that here the occupation is also smeared (i.e., can no longer be intergers
-    of 0 and 1).
+    that here the occupation is also smeared (i.e., can be a fractional number
+    between 0 and 1).
 
     To determine the occupation number at each SCF step, we first need to obtain
     the Fermi energy of the system. This is usually achieved by using the finite
@@ -373,5 +376,6 @@ Summary
 -------
 
 In this tutorial, we have learned:
+
 - How to use the `dos.x` code from the Quantum Espresso package.
 - How to treat a metallic system.

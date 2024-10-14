@@ -181,7 +181,7 @@ bands will have trouble converging to the ground state of the system. For the
 molecule the situation is similar, but the s and p orbitals from each atom
 combine to form bonding and anti-bonding $\sigma$ and $\pi$ orbitals.
 
-The directory `02_O2` contains an input file to calculate the total energy of
+The directory `01_O2` contains an input file to calculate the total energy of
 the system at the measured bond length. Here the calculation has been set up
 exactly as you've seen in the past (i.e., assuming doubly degenerate band
 occupation without smearing or spin polarization:
@@ -329,7 +329,7 @@ K_POINTS gamma
 
 !!! example "Task 2.3 - Assuming Spin Polarized Metal"
 
-    Create another copy of `02_O2` called `02_O2_spin`. Then, try to:
+    Create another copy of `01_O2` called `01_O2_spin`. Then, try to:
 
     1. Only turn on spin polarization. Does the calculation run?
 
@@ -405,7 +405,7 @@ the system when we include a net spin polarization is lower than the energy
 when we don't.
 
 One of the most common magnetic systems is iron, so we'll examine this. The
-directory `03_Fe` contains an input file for iron. Note this is a BCC structure
+directory `02_Fe` contains an input file for iron. Note this is a BCC structure
 (as set by `ibrav = 3` in the input file), whereas most of the crystals
 structures you have examined previously were FCC. The calculation has been set
 up in the usual way for a metallic system.
@@ -456,8 +456,8 @@ value. This is done by setting the `starting_magnetization` input variable.
 
 !!! example "Task 3.2 - Relaxed magnetization"
 
-    1. Make another copy of the `02_Fe` directory, and this time set `nspin = 2`,
-       and `starting_magnetization = 1.0` (do not include the
+    1. Make another copy of the `02_Fe` directory, and this time set `nspin =
+       2`, and `starting_magnetization = 1.0` (do not include the
        `tot_magnetization` variable as this fixes a value). Run the calculation
        and see what the final total magnetization per cell is. See if you can
        find a measured value for iron to compare to.
@@ -480,12 +480,10 @@ value. This is done by setting the `starting_magnetization` input variable.
           to plot with :slight_smile:.
 
         ??? success "Answer"
-            You can find the relevant input file in the directory 
-            `03_Fe/extra_bandstructure`. The band structure should look like The
-            following:
-            <figure markdown="span">
-              ![Diamond primitive cell](assets/Iron_bands.png){ width="500" }
-            </figure>
+            You can find the relevant input file in the directory
+            `02_Fe/extra_bandstructure`. The band structure should look similar
+            to the following: <figure markdown="span"> ![Diamond primitive
+            cell](assets/Iron_bands.png){ width="500" } </figure>
 
 ------------------------------------------------------------------------------
 
