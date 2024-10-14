@@ -106,15 +106,15 @@ Later we will learn how to visualise the structure, but for now, here is what ou
 
 ## Running and examining the calculation
 
-The Quantum Espresso package has been compiled as a module on the server as discussed in [Lab 1](../lab01/readme.md). Modules are often used on HPC systems to make different versions of packages available to users.
-In order to be able to run any Quantum Espresso calculation, it must first be loaded to your environment. This can be done by issuing the command
+The Quantum Espresso package has been compiled as a module on the server as discussed in [Lab 1](../lab01/readme.md). Modules are often used on High Performance Computing (HPC) systems to make different versions of packages available to users.
+In order to be able to run a Quantum Espresso calculation, it must first be loaded to your environment. This can be done by issuing the command
 
 
 ```bash
 module load quantum-espresso
 ```
 
-This will load Quantum Espresso and any module dependencies.
+This will load Quantum Espresso and any other modules that Quantum Espresso needs to run.
 
 !!! example "Task 3 - Running a calculation"
     To run the first calculation of the day, make sure you have loaded Quantum Espresso to your environment as discussed above.
@@ -128,23 +128,23 @@ This will load Quantum Espresso and any module dependencies.
     
 After the calculation has finished take a look at the files created in your directory. You should have a file named `pwscf.xml` and a new directory named `pwscf.save`.
 
-- `pwscf.xml` has the results of the pw.x calculation in machine readable format (not so readable for humans!)
+- `pwscf.xml` contains the results of the pw.x calculation in machine readable format (not so readable for humans!)
 - `pwscf.save` is a directory which contains: 
 	- A copy of `pwscf.xml`.
 	- A copy of the pseudopotential files used in the calculation.
-	- A file with the charge density stored. This is mostly used for post-processing to obtain observables.
-	- Wavefunction files which are stored in binary (and thus are not readable). These can be used as inputs to other calculations.
+	- A file in which the charge density stored. 
+	- Wavefunction files which are stored in binary format (and thus are not human readable). These can be used as inputs to other calculations.
 
 Now that we have run the calculation for methane, we should examine the output file `CH4.out`, which is where we instructed Quantum Espresso to pipe the output of the pw.x calculation.
 Using the command
 ```bash
 less CH4.out
 ```
-we can look at the output file. Output files are generally structured as such:
+we can look at the output file. Output files are generally structured as follows:
 
-- Begining - Important information about the system including parameters used in the calculation.
-- Middle - Self-consistent cycle starting from randomised atomic wavefunctions.
-- End - Final results like total energy, band energies etc.
+- Beginning: important information about the system including parameters used in the calculation.
+- Middle: actual DFT calculation.
+- End: final results like total energy, orbital energies, etc.
 
 !!! example "Task 4 - Examining an output file"
     Using the `less` command specified above
@@ -157,7 +157,7 @@ we can look at the output file. Output files are generally structured as such:
         number of electrons       =         8.00
         ```
 
-    - How many scf cycles (iterations) did your calculation go through?
+    - How many iterations did your calculation go through to find the solution?
 
     ??? success "Answer"
         9 scf cycles. This is found on the line:
@@ -165,14 +165,14 @@ we can look at the output file. Output files are generally structured as such:
         convergence has been achieved in   9 iterations
         ```
 
-    - What is the total energy of the Methane molecule?
+    - What is the total energy of the methane molecule?
 
     ??? success "Answer"
         $E_{\text{Tot}} = -15.49833140 \, \text{Ry}$. This is found on the line:
         ```bash
         !    total energy              =     -15.49833140 Ry
         ```
-        Notice the converged total enegry will always have a `!` at the beginning of the line.
+        Notice the converged total energy will always have a `!` at the beginning of the line.
 
     - What accuracy is your calculation converged to?
 
@@ -196,7 +196,7 @@ we can look at the output file. Output files are generally structured as such:
         ```
 
 !!! note "Electrons and Energy Eigenvalues"
-    Note that in this calculation we had 8 valence electrons but only 4 energy eigenvalues were calculated. This is because we have treated the 8 electrons as 4 doubly occupied states, and therefore only 4 energy eigenvalues are outputted.
+    Note that in this calculation we had 8 valence electrons but only 4 energy eigenvalues were calculated. This is because - according to the Pauli principle - each Kohn-Sham state can accommodate 2 electrons. 
 
 !!! example "Task 5 - Alternative Input File"
     Navigate to the directory `01a_methane`. 
