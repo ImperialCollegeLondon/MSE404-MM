@@ -37,23 +37,23 @@ The labs are organised as follows:
 - [Lab 8: Vibrational Normal Modes and Phonons](docs/labs/lab08/readme.md)
 - [Lab 9: Finite Temperature Properties](docs/labs/lab09/readme.md)
 
-Additional Material:
-
-- [Calculating Useful Properties from Total
-  Energies](docs/labs/extras/labs/using_total_energies/readme.md)
-- [Examining the Charge Density and Wavefunction](docs/labs/extras/labs/visualising_output/readme.md)
-- [The Hydrogen Atom and Electron Spin](docs/labs/extras/labs/hydrogen_atom/readme.md)
-- [The Tetrahedron Method for Densities of States](docs/labs/extras/labs/tetrahedron_method/readme.md)
-- [Optical Properties and Time-Dependent Density Functional Theory](docs/labs/extras/labs/tddft/readme.md)
-- [Charged system and excited states](docs/labs/extras/labs/charged_system/readme.md) 
-
-Extras:
-
-- [Setting up a virtual machine](docs/labs/extras/misc/vmsetup/readme.md)
-- [More Useful Linux Commands](docs/labs/extras/misc/linuxcommands/readme.md)
-- [Plotting with Gnuplot](docs/labs/extras/misc/gnuplot/readme.md)
-- [Bash and Shell Scripting](docs/labs/extras/misc/shellscripting/readme.md)
-- [Running in Parallel](docs/labs/extras/labs/running_in_parallel/readme.md)
+<!-- Additional Material: -->
+<!--  -->
+<!-- - [Calculating Useful Properties from Total -->
+<!--   Energies](docs/labs/extras/labs/using_total_energies/readme.md) -->
+<!-- - [Examining the Charge Density and Wavefunction](docs/labs/extras/labs/visualising_output/readme.md) -->
+<!-- - [The Hydrogen Atom and Electron Spin](docs/labs/extras/labs/hydrogen_atom/readme.md) -->
+<!-- - [The Tetrahedron Method for Densities of States](docs/labs/extras/labs/tetrahedron_method/readme.md) -->
+<!-- - [Optical Properties and Time-Dependent Density Functional Theory](docs/labs/extras/labs/tddft/readme.md) -->
+<!-- - [Charged system and excited states](docs/labs/extras/labs/charged_system/readme.md)  -->
+<!--  -->
+<!-- Extras: -->
+<!--  -->
+<!-- - [Setting up a virtual machine](docs/labs/extras/misc/vmsetup/readme.md) -->
+<!-- - [More Useful Linux Commands](docs/labs/extras/misc/linuxcommands/readme.md) -->
+<!-- - [Plotting with Gnuplot](docs/labs/extras/misc/gnuplot/readme.md) -->
+<!-- - [Bash and Shell Scripting](docs/labs/extras/misc/shellscripting/readme.md) -->
+<!-- - [Running in Parallel](docs/labs/extras/labs/running_in_parallel/readme.md) -->
 
 ## How to Use this Material
 
@@ -98,10 +98,10 @@ marked as admonitions like the one below:
 > [!Note] 
 > Read this `readme.md` file.
 
-## Admin resources
-
-- [Contributing](admin/contributing.md)
-- [Server config](admin/server_config.md)
+<!-- ## Admin resources -->
+<!--  -->
+<!-- - [Contributing](admin/contributing.md) -->
+<!-- - [Server config](admin/server_config.md) -->
 
 ## Acknowledgements
 - Original materials provided by Éamonn Murray (https://gitlab.com/eamonnmurray/MaterialsModelling)

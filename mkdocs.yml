@@ -119,20 +119,20 @@ nav:
     - Lab 7 - Forces, Stresses and Structures: labs/lab07/readme.md
     - Lab 8 - Vibrational Frequencies and Normal Modes: labs/lab08/readme.md
     - Lab 9 - Finite Temperature Properties: labs/lab09/readme.md
-  - Extra labs:
-    - Ex Lab 1: labs/extras/labs/using_total_energies/readme.md
-    - Ex Lab 2: labs/extras/labs/visualising_output/readme.md
-    - Ex Lab 3: labs/extras/labs/hydrogen_atom/readme.md 
-    - Ex Lab 4: labs/extras/labs/tetrahedron_method/readme.md 
-    - Ex Lab 5: labs/extras/labs/tddft/readme.md 
-    - Ex Lab 6: labs/extras/labs/high_symmetry_points/readme.md 
-    - Ex Lab 7: labs/extras/labs/charged_system/readme.md 
-  - Extra resources:
-    - Virtual machines: labs/extras/misc/vmsetup/readme.md
-    - Linux commands: labs/extras/misc/linuxcommands/readme.md
-    - Gnuplot: labs/extras/misc/gnuplot/readme.md
-    - Bash scripting: labs/extras/misc/shellscripting/readme.md
-    - Parallel computing: labs/extras/misc/running_in_parallel/readme.md
-  - Admin: 
-    - Contributing: admin/contributing.md
-    - Server config: admin/server_config.md
+  # - Extra labs:
+  #   - Ex Lab 1: labs/extras/labs/using_total_energies/readme.md
+  #   - Ex Lab 2: labs/extras/labs/visualising_output/readme.md
+  #   - Ex Lab 3: labs/extras/labs/hydrogen_atom/readme.md
+  #   - Ex Lab 4: labs/extras/labs/tetrahedron_method/readme.md
+  #   - Ex Lab 5: labs/extras/labs/tddft/readme.md
+  #   - Ex Lab 6: labs/extras/labs/high_symmetry_points/readme.md
+  #   - Ex Lab 7: labs/extras/labs/charged_system/readme.md
+  # - Extra resources:
+  #   - Virtual machines: labs/extras/misc/vmsetup/readme.md
+  #   - Linux commands: labs/extras/misc/linuxcommands/readme.md
+  #   - Gnuplot: labs/extras/misc/gnuplot/readme.md
+  #   - Bash scripting: labs/extras/misc/shellscripting/readme.md
+  #   - Parallel computing: labs/extras/misc/running_in_parallel/readme.md
+  # - Admin:
+  #   - Contributing: admin/contributing.md
+  #   - Server config: admin/server_config.md
