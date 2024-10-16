@@ -1,0 +1,22 @@
+# Define a function for a simple harmonic equation of state
+E(x) = E0 + K*(x - V0)**2/(2*V0)
+# It's better to give initial guesses for a good fit. You can make a good
+# guess at E0 and V0 from the data plot.
+E0=-22.782
+V0=74
+
+# The actual fit command. The parameters and errors will be output to your
+# terminal and to the file 'fit.log'.
+fit E(x) "etot_v_vol.dat" via E0, V0, K
+
+# Let's also produce a plot of the fit along with our data. We can use the
+# same settings as before.
+set title "Carbon Diamond, ecutwfc=60 Ry"
+set xlabel "Unit Cell Volume (Bohr^3)"
+set ylabel "Total Energy (Ry)"
+set term pngcairo
+set output "etot_v_vol_fit.png"
+
+# The fit parameters are set a their optimized values at the end of the fit
+# command above, so we can simply plot E(x).
+plot "etot_v_vol.dat", E(x)

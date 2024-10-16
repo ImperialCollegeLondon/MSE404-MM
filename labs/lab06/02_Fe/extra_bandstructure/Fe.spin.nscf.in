@@ -1,0 +1,39 @@
+ &CONTROL
+    pseudo_dir = '.'
+    prefix = 'Fe'
+    calculation = 'bands'
+ /
+
+ &SYSTEM
+    ibrav = 3
+    A = 2.856
+    nat = 1
+    ntyp = 1
+    ecutwfc = 60.0
+    occupations = 'smearing'
+    degauss = 0.01
+    nspin = 2
+    starting_magnetization = 1.0
+    nbnd = 16
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ Fe  55.85  Fe.pz-nd-rrkjus.UPF
+
+ATOMIC_POSITIONS crystal
+ Fe 0.0 0.0 0.0
+
+K_POINTS crystal_b
+ 8
+ 0.000000  0.000000  0.000000 30 !GAMMA
+ 0.500000 -0.500000  0.500000 30 !H
+ 0.000000  0.000000  0.500000 30 !N
+ 0.000000  0.000000  0.000000 30 !GAMMA
+ 0.250000  0.250000  0.250000 30 !P
+ 0.500000 -0.500000  0.500000 1  !H
+ 0.250000  0.250000  0.250000 30 !P
+ 0.000000  0.000000  0.500000 0  !N
+
