@@ -69,7 +69,7 @@ K_POINTS gamma #(10)!
 9. Below this tag are the atomic positions of your atoms. The `angstrom` after `ATOMIC_POSITIONS` specifies these are in cartesian coordinates in units of Å.
 10. K-points are wave vectors of electrons. As we are interested in bound electronic states of molecules in this lab, we are using k=(0,0,0). This k-point is also known as the Gamma point.
 
-Later we will learn how to visualise the structure, but for now, here is what our methane molecule looks:
+Later we will learn how to visualise the structure, but for now, here is how our methane molecule looks:
 
 <figure markdown="span">
 ![methane](assets/methane.png){ width="900" }
@@ -116,7 +116,7 @@ This will load Quantum Espresso and any other modules that Quantum Espresso need
     
 After the calculation has finished take a look at the files created in your directory. You should have a file named `pwscf.xml` and a new directory named `pwscf.save`.
 
-- `pwscf.xml` contains the results of the pw.x calculation in machine readable format (not so readable for humans!)
+- `pwscf.xml` contains the results of the pw.x calculation in xml format. This format is both human-readable and machine-readable and facilitates the storing, transmitting and reconstructing of data.
 - `pwscf.save` is a directory which contains: 
 	- A copy of `pwscf.xml`.
 	- A copy of the pseudopotential files used in the calculation.
