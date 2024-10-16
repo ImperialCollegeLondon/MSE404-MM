@@ -1,21 +1,9 @@
 Quantum Espresso Input and Output for Molecules
 ===============================================
 
-This week you will run some DFT calculations for molecules using Quantum Espresso. We will focus on understanding and constructing input files that you will need for the rest of the course.
+This week you will run some DFT calculations for molecules and small atomic clusters using the Quantum Espresso software. We will focus on understanding the format of input files and output files that you will need for the rest of the course.
 
-<div markdown="span" style="margin: 0 auto; text-align: center">
-[Download the input files for this tutorial](./assets/lab02_input.zip){ .md-button .md-button--primary }
-</div>
-
-Note: if you can't remember how to do something using the command line, you can always refer back to [Lab 1](../lab01/readme.md).
-
-------------------------------------------------------------------------------
-
-## Quantum Espresso
-
-[Quantum Espresso](http://www.quantum-espresso.org) is a freely available package of open-source codes for electronic-structure calculations and materials modelling. It is based on density-functional theory.
-
-Quantum Espresso is used via the command line. There is no graphical user interface by default, which is typical of most electronic structure codes. 
+Quantum Espresso is used via the command line. There is no graphical user interface by default, which is typical of most electronic structure codes. If you can't remember how to do something using the command line, you can always refer back to [Lab 1](../lab01/readme.md).
 
 
 !!! example "Task 1 - Copy Input Files"
