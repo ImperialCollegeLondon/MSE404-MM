@@ -30,7 +30,7 @@ The labs are organised as follows:
 - [Lab 1: Getting started in Linux](docs/labs/lab01/readme.md)
 - [Lab 2: Quantum Espresso Input and Output](docs/labs/lab02/readme.md)
 - [Lab 3: Converging your Calculations](docs/labs/lab03/readme.md)
-- [Lab 4: The Electronic Band Structure and Density of States](docs/labs/lab04/readme.md)
+- [Lab 4: Crystals and the Electronic Band Structure](docs/labs/lab04/readme.md)
 - [Lab 5: Metals and Density of States](docs/labs/lab05/readme.md)
 - [Lab 6: Spin Polarization and Magnetic Systems](docs/labs/lab06/readme.md)
 - [Lab 7: Structural Optimisation](docs/labs/lab07/readme.md)

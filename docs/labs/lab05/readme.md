@@ -1,5 +1,5 @@
-Metals and Density of States
-============================
+Metals and the Density of States
+================================
 
 This week we'll be discussing the metallic systems and the electronic density of
 states. For metals, there are a couple of complications which mean we have to

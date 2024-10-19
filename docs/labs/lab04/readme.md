@@ -1,5 +1,5 @@
-Crystals and Electronic Band Structures
-=======================================
+Crystals and the Electronic Band Structure
+==========================================
 
 This week we are going to start doing some calculations on solids, i.e.,
 periodic crystals. Many of the principles will be the same, but as you will see
