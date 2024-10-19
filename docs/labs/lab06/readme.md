@@ -5,9 +5,9 @@ This week we'll cover the topic of spin-polarized systems. For metals, there are
 a couple of complications which mean we have to treat them differently from
 systems with a non-zero band gap.
 
-<div markdown="span" style="margin: 0 auto; text-align: center">
-[Download the input files for this tutorial](./assets/lab08_input.zip){ .md-button .md-button--primary }
-</div>
+<!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
+<!-- [Download the input files for this tutorial](./assets/lab08_input.zip){ .md-button .md-button--primary } -->
+<!-- </div> -->
 
 ------------------------------------------------------------------------------
 

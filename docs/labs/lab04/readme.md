@@ -5,9 +5,9 @@ This week we are going to start doing some calculations on solids, i.e.,
 periodic crystals. Many of the principles will be the same, but as you will see
 there are a few things that need to be done differently.
 
-<div markdown="span" style="margin: 0 auto; text-align: center">
-[Download the input files for this tutorial](./assets/lab04_input.zip){ .md-button .md-button--primary }
-</div>
+<!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
+<!-- [Download the input files for this tutorial](./assets/lab04_input.zip){ .md-button .md-button--primary } -->
+<!-- </div> -->
 
 ------------------------------------------------------------------------------
 
