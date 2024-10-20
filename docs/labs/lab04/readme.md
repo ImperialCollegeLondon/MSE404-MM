@@ -3,7 +3,11 @@ Crystals and the Electronic Band Structure
 
 This week we are going to start doing some calculations on solids, i.e.,
 periodic crystals. Many of the principles will be the same, but as you will see
-there are a few things that need to be done differently.
+there are a few things that need to be done differently. 
+
+As before, all the inpus and scripts you need can be found in
+`/opt/MSE404-MM/docs/labs/lab04` and you should make a copy of the folder to
+your home directory.
 
 <!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
 <!-- [Download the input files for this tutorial](./assets/lab04_input.zip){ .md-button .md-button--primary } -->
@@ -23,7 +27,8 @@ a brief overview of the input file:
 <!--  -->
 <!-- 1.  This is an annotation. -->
 
-```python
+```python hl_lines="25-26"
+
 &CONTROL
    pseudo_dir = '.' 
    disk_io = 'none' 
@@ -59,8 +64,16 @@ K_POINTS automatic #(3)!
     coordinates of the unit cell vectors (defined by `ibrav` and
     [`A`](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm260)).
 3.  We are using automically generated k-point grid with a 4$\times$4$\times$4
-    grid size (`1 1 1` means to shift the grid by 1 grid point in each
-    direction).
+    grid size, `1 1 1` means to shift the grid by 1 grid point in each direction
+    so that the gird includes the $\Gamma$ point.
+
+The additional card `K_POINTS` specifies the k-point grid which as we learned
+from the lecture essentially represents how many times the simulation cell is
+repeated along each direction. Since a real material can be described as a huge
+cell made of many repetitions of the simulation cell (as we shall see next) a
+big enough grid that samples the Brillouin zone (which is the reciprocal counter
+part of the unitcell) is needed to accurately describe the behavior of electrons
+in such material.
 
 ## Periodic Boundary Conditions and Atomic Positions
 
@@ -190,7 +203,7 @@ $$
             ```
 
 
-## Convergence Tests
+## Convergence Tests for $\mathbf{k}$-points
 
 One important difference between periodic crystals and molecules is that, due to
 periodic boundary conditions, the electronic states are not localised and need
@@ -202,10 +215,10 @@ e^{i\mathbf{k}\cdot\mathbf{r}}u_{n\mathbf{k}}(\mathbf{r}),
 $$
 
 where the electronic states are labelled by both the band index $n$ and the
-k-point $\mathbf{k}$. $\mathbf{k}$ needs sample the entire Brillouin zone. In
-task 1 we have already used a uniform 4x4x4 k-point sampling. However, to relly
-converge a system, **an additional convergence test with respect to the k-point
-sampling is necessary for periodic systems.**
+k-point $\mathbf{k}$. As disscussed before, $\mathbf{k}$ needs sample the entire
+Brillouin zone. In task 1 we have already used a uniform 4x4x4 k-point sampling.
+However, to really converge a system, **an additional convergence test with
+respect to the k-point sampling is necessary for periodic systems.**
 
 To test the convergence with respect to the k-point sampling, we need to
 calculate the total energy for different k-point grid densities. The directory
@@ -274,9 +287,9 @@ calculate the total energy for different k-point grid densities. The directory
 ## The Electronic Band Structure
 
 While the electronic density obtained from DFT is meaningful, the Kohn-Sham
-states are not strictly the electronic states of the system. Nonetheless, they
+states are not strictly the electronic states of the system. **Nonetheless, they
 are in practice often a good first approximation of the electronic states of a
-system, so can be useful in understanding the properties of a system.
+system, so can be useful in understanding the properties of a system.**
 
 We have now seen how to converge our calculations with respect to the
 sampled k-point grid density. And you'll have seen in the calculations you
@@ -365,7 +378,7 @@ K_POINTS crystal_b #(3)!
     structure.
 2.  `nbnd = 8` specifies that we want to calculate 8 bands. 4 more bands than
     the default value of 4.
-3. `K_POINTS crystal_b` specifies that we are using the high symmetry k-points
+3.  `K_POINTS crystal_b` specifies that we are using the high symmetry k-points
     in the reciprocal lattice coordinates. The number of high symmetry points
     is given as 8, followed by the coordinates of each point and the number of
     points to generate between it and the next point.
@@ -404,8 +417,7 @@ the value of the energy at this point from one of the other output files,
 eV.
 
 !!! example "Task 3.4 - Plotting the band structure"
-    Run either the python script to plot the band structure of 
-    diamond.
+    Run the python script to plot the band structure of carbon diamond.
 
     ??? success "Final result"
         <figure markdown="span">
