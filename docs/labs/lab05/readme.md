@@ -3,7 +3,11 @@ Metals and the Density of States
 
 This week we'll be discussing the metallic systems and the electronic density of
 states. For metals, there are a couple of complications which mean we have to
-treat them differently from systems with a non-zero band gap.
+treat them differently from systems with a non-zero band gap. 
+
+As before, all the inpus and scripts you need can be found in
+`/opt/MSE404-MM/docs/labs/lab05` and you should make a copy of the folder to
+your home directory.
 
 <!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
 <!-- [Download the input files for this tutorial](./assets/lab10_input.zip){ .md-button .md-button--primary } -->
@@ -28,7 +32,9 @@ $k$-point $\mathbf{k}$.
 For a molecular system, the DOS looks exactly the same to the eigenenergy
 spectrum and is discrete (with a constant hight of one), since we only have one
 set of molecular states. However, for periodic systems, each k-point has a set
-of eigenenergies and the DOS should become continuous.
+of eigenenergies and the DOS should become continuous. For example, here are two
+DOS plots of a water molecule (isolated system) and carbon diamond (periodic
+system):
 
 <figure markdown="span">
   ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
@@ -114,7 +120,7 @@ charge density.
 
 #### Step 2 - NSCF Calculation
 Take the density calculated in the previous step and use it to
-perform a non-self-consistent calculation on a more dense grid of k-points.
+perform a non-self-consistent calculation on a denser k-point grid.
 We want a good representation of how the state energies vary as we move
 around the Brillouin zone so we use a much denser grid here than we need
 to obtain a converged density in the previous step.
@@ -252,31 +258,32 @@ Generally, there are two things that we typically do for metals:
     between 0 and 1).
 
     To determine the occupation number at each SCF step, we first need to obtain
-    the Fermi energy of the system. This is usually achieved by using the finite
-    temperature Fermi-Dirac distrubtion and a smeared DOS by:
+    the Fermi energy of the system. This is usually achieved by solving the
+    following for $E_F$: 
+
     $$
     N_e = \int_{-\infty}^{E_F} \mathrm{DOS}(\varepsilon) f_T(E) dE
     $$
-    where $N_e$ is the number of electrons in the system and $f$ represents the
-    Fermi-Dirac distribution function at temperature $T$. As we already know,
-    the Fermi-Dirac function at 0K is a step function which would spoil the
-    convergence of metals (due to discontinuities). Here, we simply raise the
-    temperature to a small number (using the tag `degauss` for `pw.x`) so that
-    the Fermi-Dirac function is smeared out and the convergence can be achieved
-    more easily. It is worth noting that other smearing methods such as gaussian
-    smearing can also be used. Once the Fermi energy is found, the occupation
-    function is determined and the occupation number at each k-point and band
-    $n$ can be easily calculated:
-    $$
-    f_{n\mathbf{k}} = f_T(\varepsilon_{n\mathbf{k}} - E_F).
-    $$
-    Adding a smearing to the occupation function helps significantly in
-    achieving a smooth SCF convergence, as otherwise a small change in a state
-    energy from once cycle to the next could lead to a very large change in its
-    occupation and to the total energy in turn (this is called
-    'ill-conditioning'). We set the smearing scheme (for both DOS and occupation
-    function) and width with the `occupations` and `degauss` variables in the
-    input file.
+
+    where $N_e$ is the number of electrons in the system $f$ represents the
+    Fermi-Dirac distribution function at temperature $T$ and
+    $\mathrm{DOS}(\varepsilon)$ is the smeared density of states. 
+
+    As we already know, the Fermi-Dirac function at 0K is a step function which
+    would spoil the convergence of metals (due to discontinuities). Here, we
+    simply raise the temperature to a small number (using the tag `degauss` for
+    `pw.x`) so that the Fermi-Dirac function is smeared out and the convergence
+    can be achieved more easily. It is worth noting that other smearing methods
+    such as gaussian smearing can also be used. Once the Fermi energy is found,
+    the occupation function is determined and the occupation number at each
+    k-point and band $n$ can be easily calculated: $$ f_{n\mathbf{k}} =
+    f_T(\varepsilon_{n\mathbf{k}} - E_F). $$ Adding a smearing to the occupation
+    function helps significantly in achieving a smooth SCF convergence, as
+    otherwise a small change in a state energy from once cycle to the next could
+    lead to a very large change in its occupation and to the total energy in
+    turn (this is called 'ill-conditioning'). We set the smearing scheme (for
+    both DOS and occupation function) and width with the `occupations` and
+    `degauss` variables in the input file.
 
 ### Example: Aluminium
 
