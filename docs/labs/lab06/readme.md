@@ -3,7 +3,11 @@ Spin Polarization and Magnetic Systems
 
 This week we'll cover the topic of spin-polarized systems. For metals, there are
 a couple of complications which mean we have to treat them differently from
-systems with a non-zero band gap.
+systems with a non-zero band gap. 
+
+As before, all inpus and scripts you need can be found in
+`/opt/MSE404-MM/docs/labs/lab06` and you should make a copy of the folder to
+your home directory.
 
 <!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
 <!-- [Download the input files for this tutorial](./assets/lab08_input.zip){ .md-button .md-button--primary } -->
@@ -388,7 +392,7 @@ gives a lower energy.
 
 !!! pied-piper "Fun facts"
     O2 in its singlet state can be dangerous (see e.g. 
-    [`this paper`](https://www.sciencedirect.com/science/article/pii/S1383574211001189)),
+    [:link:`this paper`](https://www.sciencedirect.com/science/article/pii/S1383574211001189)),
     so treating the spin correctly is important!
 
 
