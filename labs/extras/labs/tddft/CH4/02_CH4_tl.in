@@ -1,0 +1,9 @@
+&LR_INPUT
+  prefix = 'CH4'
+  outdir = './out'
+/
+
+&LR_CONTROL
+  itermax = 400
+  ipol = 4
+/
