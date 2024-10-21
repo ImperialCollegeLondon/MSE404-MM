@@ -146,7 +146,7 @@ If you want to check what is your current directory, run the command `pwd`, whic
     ![text](images/14pwd.PNG){: width="600" }
 
 ### 4.3 List the contents of the directory
-If you want to list the contents of your current directory, run `ls`. This will print out to the terminal the list of folders and files that exist in the current directory. 
+If you want to list the contents of your current directory, run the list command `ls`. This will print out to the terminal the list of folders and files that exist in the current directory. Note: in the terminal, the digit "1" and the character "l" may look identical.
 
 !!! example "Task 4.3" 
     Run the command `ls` and check that the files that you created in the previous tasks are here.
