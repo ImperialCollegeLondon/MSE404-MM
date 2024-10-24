@@ -7,15 +7,24 @@ data = np.loadtxt("bands.out.gnu")
 # Adjust the y-values (second column by subtracting 13.993)
 x = data[:, 0]
 y = data[:, 1] - 13.993
+# reshape, we have a total of 8 bands, each line contain 182 points
+x = x.reshape([8,182])
+y = y.reshape([8,182])
 
 # Set up the plot
 fig, ax = plt.subplots()
 
-ax.plot(x, y, linestyle='-', linewidth=1)
+# set xrange
+ax.set_xlim([x[0,0],x[0,-2]])
 
-# Setting custom x-ticks
-xticks_positions = [0.0000, 1.0607, 1.4142, 2.4142, 3.2802, 4.1463, 4.6463, 5.3534]
-xticks_labels = ["Γ", "K", "X", "Γ", "L", "X", "W", "L"]
+# plot bands
+for bands in range(8):
+    ax.plot(x[bands], y[bands], linestyle='-', linewidth=1, color="tab:blue")
+
+#Setting custom x-ticks
+xticks_positions = [x[0,0], x[0,31], x[0,61], x[0,91], x[0,121],
+                    x[0,151],x[0,181]]
+xticks_labels = ["Γ", "X", "U|K", "Γ", "L", "W", "X"]
 plt.xticks(xticks_positions, xticks_labels)
 
 # Draw vertical grid lines
@@ -27,10 +36,11 @@ plt.ylabel("Energy (eV)")
 plt.title("Carbon Diamond Electronic Band Structure")
 
 # Hide the plot legend
-ax.legend().set_visible(False)
+#  ax.legend().set_visible(False)
 
-# Saving the plot as a PDF
-plt.savefig("C_diamond_bands.pdf", format='pdf')
+# Saving the plot
+#  plt.savefig("C_diamond_bands.pdf", format='pdf')
+plt.savefig("C_diamond_bands.png", dpi=300)
 
 # Optionally display the plot window
 # plt.show()
