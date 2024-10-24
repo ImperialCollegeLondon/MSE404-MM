@@ -1,0 +1,24 @@
+ &CONTROL
+    pseudo_dir = '.'
+ /
+
+ &SYSTEM
+   ibrav = 1
+   A = 10
+   nat = 2
+   ntyp = 1
+   nbnd = 8
+   ecutwfc = 60.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ O  15.9999  O.pz-rrkjus.UPF
+
+ATOMIC_POSITIONS angstrom
+ O  0.0   0.0  0.0   0 0 0
+ O  1.48  0.0  0.0   1 0 0
+
+K_POINTS gamma
