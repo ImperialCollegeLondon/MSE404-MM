@@ -15,12 +15,11 @@ your home directory.
 
 ------------------------------------------------------------------------------
 
-## Structure and Basic input for Diamond :material-diamond-outline:
+## Basic input for Diamond :material-diamond-outline:
 
-As our first example of a solid we're going to look at diamond. You can find an
-annotated input file at [:link:
-C_diamond_detailed.in](01_carbon_diamond/C_diamond_detailed.in), here I'll give
-a brief overview of the input file:
+As our first example of a solid we're going to look at diamond. You can find the
+input file at [:link: C_diamond.in](01_carbon_diamond/C_diamond.in), here I'll
+give a brief overview of the input file:
 
 <!-- !!! tip annotate "Tip: In-code annotations"  -->
 <!--     Click (1) to see notes on the input tags. -->
@@ -67,28 +66,46 @@ K_POINTS automatic #(3)!
     grid size, `1 1 1` means to shift the grid by 1 grid point in each direction
     so that the gird includes the $\Gamma$ point.
 
-The additional card `K_POINTS` specifies the k-point grid which as we learned
-from the lecture essentially represents how many times the simulation cell is
-repeated along each direction. Since a real material can be described as a huge
-cell made of many repetitions of the simulation cell (as we shall see next) a
-big enough grid that samples the Brillouin zone (which is the reciprocal counter
-part of the unitcell) is needed to accurately describe the behavior of electrons
-in such material.
+### k-points
 
-## Periodic Boundary Conditions and Atomic Positions
-
-Now we are going to look at how the atomic positions in the input file are
-specified. 
-
-Absolute Cartesian coordinates $\mathbf{r}=[x,y,z]$ and fractional coordinates 
-$\mathbf{r}_f=(x_f,y_f,z_f)$ are related by the three lattce vectors
-$\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
+One important difference between periodic crystals and molecules is that, due to
+periodic boundary conditions, the electronic states are not localised and need
+to be expressed in a Bloch form: 
 
 $$
-\begin{align*}
-\mathbf{r}_f &= \mathbf{r} \cdot [\mathbf{a},\mathbf{b},\mathbf{c}]\\
+\psi_{n\mathbf{k}}(\mathbf{r}) =
+e^{i\mathbf{k}\cdot\mathbf{r}}u_{n\mathbf{k}}(\mathbf{r}),
+$$
+
+where the electronic states are labelled by both the band index $n$ and the
+k-point $\mathbf{k}$. As discussed in the lecture, $\mathbf{k}$ needs sample the
+first Brillouin zone (which is the reciprocal counter part of the unitcell). 
+
+The additional card `K_POINTS` in the input file specifies the k-point grid.
+The first three number `4 4 4` represents how many k-points are generated along
+each directions of the reciprocal lattice vectors. In real space, they
+correspons to how many times the simulation cell is repeated along each
+direction. 
+
+Since real materials can be described as a huge cell made of many repetitions of
+the simulation cell (or unitcell if they are small enough) a dense enough
+k-point grid that finely samples the Brillouin zone is needed to accurately
+describe the behavior of electrons in materials.
+
+### Structure Parameters for Crystals
+
+Now let's take a look at how the atomic positions in the unitcell are specified
+in the input file.
+
+As discussed in the lecture, absolute Cartesian coordinates $\mathbf{r}=[x,y,z]$
+and fractional coordinates $\mathbf{r}_f=(x_f,y_f,z_f)$ are related by the three
+lattce vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
+
+$$
+\begin{align} 
+\mathbf{r} &= \mathbf{r}_f \cdot [\mathbf{a},\mathbf{b},\mathbf{c}]\\
 &=x\mathbf{a} + y\mathbf{b} + z\mathbf{c} 
-\end{align*}
+\end{align}
 $$
 
 For diamond, which has the same atomic structure as Zinc Blende, the primitive
@@ -106,18 +123,19 @@ the the fcc lattice vectors as:
 
 $$
 \begin{align*}
-\mathbf{v}_1 &= \frac{A}{2}(-1,0,1)\\
-\mathbf{v}_2 &= \frac{A}{2}(0,1,1)\\
-\mathbf{v}_3 &= \frac{A}{2}(-1,1,0)
+\mathbf{a} &= \frac{A}{2}(-1,0,1)\\
+\mathbf{b} &= \frac{A}{2}(0,1,1)\\
+\mathbf{c} &= \frac{A}{2}(-1,1,0)
 \end{align*}
 $$
 
 !!! warning 
-    Note that we've just used the measured lattice constant `A` which might not
-    be the same as teh DFT optimized value. In later labs we'll see how to find
-    the lattice constant predicted by DFT.
+    Note that here we are using the experimentally measured lattice constant `A`
+    of 3.567 Å which might not be the same as teh DFT optimized value. In later
+    labs we'll see how to find the lattice constant predicted by DFT.
 
-Under this basis, the fractional coordinates of the two carbon atoms are:
+Under this basis, the fractional coordinates of the two carbon atoms are (as we
+see in the input file, indicated by `ATOMIC_POSITIONS crystal`):
 
 $$
 \begin{align*}
@@ -143,14 +161,14 @@ $$
 
 !!! example "Task 1 - Examining input & output files"
 
-    Run the input file for diamond. There are a couple of extra things to notice
-    in the output file:
+    Run `pw.x` for the carbon diamond inside the `01_carbon_diamond` directory. There are a
+    couple of extra things to notice in the output file:
     
     - The output lists the automatically generated k-points. How many k-points 
       are there and why?
 
         ??? success "Answer"
-            We requested a 4x4x4 grid but instead in the ouput file indicates 10
+            We requested a 4$\times$4$\times$4 grid but instead in the ouput file indicates 10
             k-points are being calculated. This is because Quantum espresso uses
             crystal symmetries to relate certain k-points and to reduce the
             computational load.
@@ -203,35 +221,29 @@ $$
             ```
 
 
-## Convergence Tests for $\mathbf{k}$-points
+## Convergence Tests for k-points
 
-One important difference between periodic crystals and molecules is that, due to
-periodic boundary conditions, the electronic states are not localised and need
-to be expressed in a Bloch form: 
+In task 1 we have already used a uniform 4$\times$4$\times$4 k-point sampling.
+However, to really converge a periodic system, **an additional convergence test
+with respect to the k-point sampling is necessary.**
 
-$$
-\psi_{n\mathbf{k}}(\mathbf{r}) =
-e^{i\mathbf{k}\cdot\mathbf{r}}u_{n\mathbf{k}}(\mathbf{r}),
-$$
+To test the convergence of the k-point grid, we need to
+calculate the total energy for different grid densities. Here, since the
+three lattice vectors are related by symmetry, the density of k-points along the
+three reciprocal lattice vecotrs should be identical and we can vary them all at
+the same time.
 
-where the electronic states are labelled by both the band index $n$ and the
-k-point $\mathbf{k}$. As disscussed before, $\mathbf{k}$ needs sample the entire
-Brillouin zone. In task 1 we have already used a uniform 4x4x4 k-point sampling.
-However, to really converge a system, **an additional convergence test with
-respect to the k-point sampling is necessary for periodic systems.**
-
-To test the convergence with respect to the k-point sampling, we need to
-calculate the total energy for different k-point grid densities. The directory
-`02_convergence` contains input files and scripts that does the job.
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
-    - Understand and run the scripts (see
-      [`README.md`](02_convergence/README.md)), and plot the convergence of
-      total energy with respect to k-point sampling.
+    - The directory `02_convergence` contains input files to calculate the total
+      energy, try modify them and vary the k-point grid density (e.g., perform
+      calculations using 2 to 30 points along each direction) and see how the
+      total energy changes. If you have any trouble doing so, you can always
+      go back to [:link:lab03](../lab03/readme.md) for help.
 
         ??? success "Result"
-            The smallest converged (∆ ~10meV/atom) k-grid is 10x10x10.
+            The sparsest converged (∆ ~10meV/atom) k-grid is 10$\times$10$\times$10.
             <figure markdown="span">
               ![Diamond primitive cell](assets/convergence.png){ width="500" }
             </figure>
@@ -286,30 +298,40 @@ calculate the total energy for different k-point grid densities. The directory
 
 ## The Electronic Band Structure
 
+### What is the Electronic Band Structure?
+
 While the electronic density obtained from DFT is meaningful, the Kohn-Sham
 states are not strictly the electronic states of the system. **Nonetheless, they
 are in practice often a good first approximation of the electronic states of a
 system, so can be useful in understanding the properties of a system.**
 
-We have now seen how to converge our calculations with respect to the
-sampled k-point grid density. And you'll have seen in the calculations you
-have done that the calculated eigenvalues are a bit different at each
-calculated k-point. 
+We have seen how to converge our calculations with respect to the sampled
+k-point grid density (task 2), and have seen in task 1 that the calculated
+eigenvalues are a bit different at each calculated k-point. 
 
-Examining how the state energies change from one k-point to the next can tell us
-useful things such as if a material is likely to have a direct or indirect
-optical gap for example. For this we need to visualize how the energies of the
-states vary with k-point. The usual way this is done is to plot the band
+Examining how the Kohn-Sham energies change from one k-point to the next can
+tell us useful things such as if a material is likely to have a direct or
+indirect optical gap for example. For this we need to visualize how the energies
+of the states vary with k-point. The usual way this is done is to plot the band
 energies along lines between the various high-symmetry k-points in the Brillouin
-zone. The details of how this can be done is beyond the scope of this course,
-but an outline is given [:link:
-here](../extras/labs/high_symmetry_points/readme.md).
+zone. For example, a high symmetry path for a face-centred cubic (FCC) lattice
+(see figure below) could be `Γ—X—U|K—Γ—L—W—X`:
 
+<figure markdown="span">
+  ![FCC BZ](assets/FCC_BZ.png){ width="250" }
+</figure>
+
+??? "Finding High Symmetry Points and Paths"
+    The details of how such path can be found is beyond the scope of this course,
+    but an outline is given [:link:
+    here](../extras/labs/high_symmetry_points/readme.md).
+
+### Calculating the Electronic Band Structure
 The directory `03_bandstructure` contains input files to calculate and plot the
 band structure of diamond. This a four-step process:
 
-### Step 1 - SCF Calculation
-Calculate a converged density with a standard  self-consistent field (SCF)
+#### Step 1 - SCF Calculation
+The first step is to alculate a converged density with a standard self-consistent field (SCF)
 calculation. In this step, the charge density is optimized in order to
 minimize the total energy of the system. The input file can be found at
 [:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in). 
@@ -319,17 +341,16 @@ minimize the total energy of the system. The input file can be found at
     [:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in)
     to get the ground state charge density.
    
-### Step 2 - NSCF(bands) Calculation
-Use that density to perform a non self-consistent (NSCF) calculation for
-k-points along chosen high-symmetry lines. In an NSCF calculation, the energy
-is not minimised as the charge density is read-in and kept fixed. Instead 
-the Kohn-Sham energies and states for a particular k-point are calculated by
-diagonalizing the Hamiltonian generated by the charge density. 
+#### Step 2 - NSCF(bands) Calculation
+The second step is to use the obtained charge density to construct Hamiltonian at a
+certain set of k-points and diagonalize them obtain the Kohn-Sham eigenvalues at those k-points. 
+This is called a non-self-consistent field (NSCF) calculation as the charge
+density is kept fixed. 
+We choose a set of k-points along a path in the Brillouin zone so that we can
+later visualize how the eigenvalues change along this path.
 
-For this to work, we need to choose a set of high symmetry k-points for
-carbon diamond. Since diamond has a face-centred cubic (FCC) lattice, we have
-chosen the path `Γ-K-X-Γ'-L-X-W-L` where `Γ'` indicates the gamma point in a
-different Brillouin zone.
+Since diamond has a face-centred cubic (FCC) lattice, we have
+chosen the path `Γ-X-U|K-Γ-L-W-X` where `U|K` means no k-point is sampled between `U` and `K`.
 
 A brief overview of the 
 [:link: input file](03_bandstructure/02_C_diamond_nscf.in) is 
@@ -361,17 +382,17 @@ ATOMIC_POSITIONS crystal
  C 0.00 0.00 0.00
  C 0.25 0.25 0.25
 
-# Path here goes: G K X G' L X W L
+# Path here goes: Γ X U|K Γ L W X
 K_POINTS crystal_b #(3)!
   8
-  0.000 0.000 0.000 30
-  0.375 0.375 0.750 10
-  0.500 0.500 1.000 30
-  1.000 1.000 1.000 30
-  0.500 0.500 0.500 30
-  0.000 0.500 0.500 30
-  0.250 0.500 0.750 30
-  0.500 0.500 0.500 0
+  0.000 0.000 0.000 30 Γ
+  0.500 0.000 0.500 30 X
+  0.625 0.250 0.625 00 U
+  0.375 0.375 0.750 30 K
+  0.000 0.000 0.000 30 Γ
+  0.500 0.500 0.500 30 L
+  0.250 0.500 0.750 30 W
+  0.500 0.500 1.000 00 X
 ```
 
 1.  `calculation = 'bands'` specifies that we are calculating the band
@@ -389,32 +410,29 @@ K_POINTS crystal_b #(3)!
     to get the eigenvalues of each band at each k-point. Note that the total
     charge density is fixed in this step.
 
-### Step 3 - Extracting Band Energies
-Extract the energies from this calculation and convert it to a dataset we can 
+#### Step 3 - Extracting Band Energies
+Now we need to extract the energies from this calculation and convert it to a dataset we can 
 plot.
 
 To do this, we use the `bands.x` tool from the Quantum Espresso package.
 The [:link: input file](03_bandstructure/03_C_diamond_bands.in)
-for this contains only a `BANDS` section. For more fine-grained control
+for `bands.x` contains only a `BANDS` section. For more fine-grained control
 please refer to 
 [:link: bands.x input description](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html).
 
 !!! example "Task 3.3 - Extracting band energies"
     Run the input file
-    [:link:03_C_diamond_bands.in](03_bandstructure/03_C_diamond_bands.in)
+    [:link:03_C_diamond_bands.in](03_bandstructure/03_C_diamond_bands.in) with
+    `bands.x` (e.g. `bands.x < 03_C_diamond_bands.in > bands.out`)
     to extract and organize the eigenvalues calculated by the last step.
 
-### Step 4 - Plotting the Band Structure
-Plot the band structure. The band structure is usually plotted with the energy
+#### Step 4 - Plotting the Band Structure
+Finally, we are ready to plot the band structure. The band structure is usually plotted with the energy
 on the y-axis and the high symmetry points on the x-axis. The energy is usually
 shifted so that the valence band maximum is at 0 eV. The directory
-`03_bandstructure` contains python script that can be used to plot the band 
-structure:
+`03_bandstructure` contains python script (`plotband_shifted.py`) that can be used to plot the band 
+structure.
 
-The valence band max was at gamma (the first point on our path), we could read
-the value of the energy at this point from one of the other output files,
-`bands.out`. And here we shift the entire spectrum so that this point is at 0
-eV.
 
 !!! example "Task 3.4 - Plotting the band structure"
     Run the python script to plot the band structure of carbon diamond.
@@ -423,6 +441,11 @@ eV.
         <figure markdown="span">
           ![Diamond primitive cell](assets/band_structure.png){ width="500" }
         </figure>
+
+        From the final result we can see that the valence band max is at Γ (the first point on our path), we could read
+        the value of the energy at this point from one of the other output files,
+        `bands.out`. Note that here we have shifted the entire spectrum so that this point is at 0
+        eV.
 
 <!-- ## Density of States -->
 <!--  -->
