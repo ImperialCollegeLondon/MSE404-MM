@@ -167,42 +167,11 @@ C 15.0000000000 15.0000000000 15.0000000000
 
 ## Plane-wave energy cut-off
 
-Regardless of the type of system you're looking at, you'll need to check how
-well converged your result is (whatever it is your calculating) with respect
-to the plane-wave energy cut-off. This governs how many plane-waves are
-used in the expansion of the Kohn-Sham states (and thus how many are being calculated).
+In principle we expand the Kohn-Sham states in an infinite plane-wave basis. In practice however, we truncate this expansion by defining a maximum wavevector, $\bf{G_{\text{max}}}$. We specify this in Quantum Espresso through the variable `ecutwfc` which is the kinetic energy of the free electron with a wavevector $\bf{G_{\text{max}}}$.
 
-Let's again look at our CO2 input file:
+Regardless of the type of system we are looking at, we need to check how well converged the result is (no matter what you are calculating) with respect to the plane-wave kinetic energy cutoff. As discussed above this cutoff governs how many plane-waves are used in the expansion of the Kohn-Sham states (and thus how many are in the calculation).
 
-```python
- &CONTROL
-   pseudo_dir = '../../pseudo'
- /
 
- &SYSTEM
-   ibrav = 1
-   A = 10.0
-   nat = 3
-   ntyp = 2
-   ecutwfc = 18.0 #(1)!
- /
-
- &ELECTRONS
- /
-
-ATOMIC_SPECIES
- C  12.011  C.pz-vbc.UPF
- O  15.9999  O.pz-rrkjus.UPF
-
-ATOMIC_POSITIONS angstrom
- C  0.0000  0.0000  0.0000
- O  0.0000  0.0000  1.1615
- O  0.0000  0.0000 -1.1615
-
-K_POINTS gamma
-```
-
-1. Plane-wave energy cutoff (Ry)
 
 Note that:
 
@@ -216,7 +185,7 @@ Note that:
 !!! warning
     You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation. We'll see more about this later.
 
-An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `02_ecut/01_carbon_dioxide` directory.
+An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `01_carbon_monoxide/02_ecutwfc` directory.
 We have already set up a series of input files which are all identical except we systematically increase ***only*** the value of `ecutwfc`.
 
 Examining [CO2_25.in](02_ecut/01_carbon_dioxide/CO2_25.in) we see some new parameters that should be explained.
