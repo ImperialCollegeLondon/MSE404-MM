@@ -15,7 +15,6 @@
 &ELECTRONS
    mixing_beta      = 0.7
    diagonalization  = 'david'
-   conv_thr = 1e-4
 /
 
 &IONS

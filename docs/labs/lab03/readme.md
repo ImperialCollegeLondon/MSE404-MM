@@ -123,7 +123,7 @@ C 15.0000000000 15.0000000000 15.0000000000
 3. ibrav=1 is the bravais lattice type 'simple cubic'.
 4. The lattice parameter for the bravais lattice.
 5. This is the convergence threshold. Successive scf iterations will have their total energy compared to one another. When this difference is less than this convergence threshold, we deem the total energy to be converged.
-6. The structure of this line is <element name> <element atomic mass> <name of pseudopotential>.
+6. The structure of this line is [element name] [element atomic mass] [name of pseudopotential].
 
 
 !!! tip annotate "Tip: Running Quantum Espressso"
@@ -134,7 +134,7 @@ C 15.0000000000 15.0000000000 15.0000000000
 
 !!! example "Task 2 - Convergence Threshold"
 
-    Make 4 copies of the `CO.in` input file named `CO_i.in`, where i should go from 5 to 8. In each of these files, reduce the order of magnitude of the conv_thr by 10 each time i.e. replace the `conv_thr = 1e-4` with `conv_thr = 1e-5` in `CO_5.in`. 
+    Make 4 copies of the `CO.in` input file named `CO_i.in`, where i should go from 5 to 8. In each of these files, reduce the order of magnitude of the conv_thr by 10 each time i.e. replace the `conv_thr = 1e-4` with `conv_thr = 1e-5` in `CO_5.in`, etc. 
 
     - Run these 4 input files using `pw.x` e.g. `pw.x < CO_5.in > CO_5.out`.
 
@@ -172,7 +172,68 @@ In principle we expand the Kohn-Sham states in an infinite plane-wave basis. In 
 Regardless of the type of system we are looking at, we need to check how well converged the result is (no matter what you are calculating) with respect to the plane-wave kinetic energy cutoff. As discussed above this cutoff governs how many plane-waves are used in the expansion of the Kohn-Sham states (and thus how many are in the calculation).
 
 
+An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `01_carbon_monoxide/02_ecutwfc` directory.
+To converge the kinetic energy cutoff we are going to set up a series of input files which are all identical except we systematically increase **only** the value of `ecutwfc` and record the total energy.
 
+!!! example "Task 2 - Kinetic Energy Cutoff"
+
+    Navigate to the directory `01_carbon_monoxide/02_ecutwfc`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i is going to range from 20 to 65 in steps of 5. Edit the `ecutwfc` variable in these files to systematically increase from 20 to 65 i.e. set `ecutwfc` to be equal to the number i.
+
+    - Use `pw.x` to run a total energy calculation for each of these files.
+
+    - Check the output file `CO_20.out`. What is the converged total energy?
+
+        ??? success "Answer"
+            `!    total energy              =     -42.74125239 Ry`
+
+    - Check the output file `CO_30.out`. What is the converged total energy? Is this lower than `CO_20.out`?
+
+        ??? success "Answer"
+            `!    total energy              =     -43.00067775 Ry`.
+
+            This is lower than the total energy in `CO_20.out`.
+
+    - Use `grep` to grep the total energy from all of these output files.
+
+    These energies are in Ry. Typically when doing convergence tests we report our convergece in eV.
+
+    - Create a text file named `data.txt`. Place your results here in the format [kinetic energy cutoff (Ry)] [Total energy (eV)]
+    
+    Examine the file `data.txt`.
+
+    As you should see, the total energy decreases as we increase the plane-wave energy cutoff `ecutwfc`.
+    
+    - At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate run (`ecutwfc = 65`)?
+
+        ??? success "Result"
+            ecutwfc = 55 Ry.
+
+            $E_{T}^{\text{best}} = -586.30894733 \,\text{eV}$
+
+            $E_{T}^{55} = -586.21615168 \,\text{eV}$
+
+            $E_{T}^{\text{diff}} ~ 0.09279565 \,\text{eV}$
+
+    - Plot the total energy against the kinetic energy cutoff using the python script `plot.py` by issuing the command:
+    `python3 plot.py`
+
+        ??? success "Result"
+            <figure markdown="span">
+            ![ecutwfc_plot](assets/co_ecut_conv.png){ width="500" }
+            </figure>
+
+    We also discussed above that increasing `ecutwfc` increases the number of plane waves in the expansion of the Kohn-Sham states. This infomation is stored near the beginning of the output file, in a section that looks like:
+
+    ```bash
+     G-vector sticks info
+     sticks:   dense  smooth     PW     G-vecs:    dense   smooth      PW
+     Sum       20461   20461   5129              2201421  2201421  274961
+    ```
+
+    The number of plane-waves in our calculation is in the final column PW. 
+
+    - Look for this line in the `CO_20.in` and the `CO_65.in` and verify that the number of plane-waves is significantly higher.
+    
 Note that:
 
 - Different systems converge differently. You souldn't expect diamond and silicon to be converged to the same accuracy with the same energy cutoff despite having the same structure and same number of valence electrons.
@@ -183,303 +244,15 @@ Note that:
 	- If we want to calculate the lattice parameter of a material, don't expect it to be converged to the same accuracy as another parameter e.g. the bulk modulus.
 
 !!! warning
-    You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation. We'll see more about this later.
+    You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation.
 
-An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `01_carbon_monoxide/02_ecutwfc` directory.
-We have already set up a series of input files which are all identical except we systematically increase ***only*** the value of `ecutwfc`.
+Actually, we typically converge the total energy **per atom** (meV/atom) or **per eectron** (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). 
 
-Examining [CO2_25.in](02_ecut/01_carbon_dioxide/CO2_25.in) we see some new parameters that should be explained.
+If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom/electron is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
 
-```python
- &CONTROL
-    pseudo_dir = '../../../pseudo' #(1)!
-    disk_io = 'none' #(2)!
- /
+## Box Size
 
- &SYSTEM
-   ibrav = 1
-   A = 10.0
-   nat = 3
-   ntyp = 2
-   ecutwfc = 25.0 #(3)!
- /
 
- &ELECTRONS
-    conv_thr = 1.0E-6 #(4)!
- /
-
-ATOMIC_SPECIES
- C  12.011  C.pz-vbc.UPF
- O  15.9999  O.pz-rrkjus.UPF
-
-ATOMIC_POSITIONS angstrom
- C  0.0000  0.0000  0.0000
- O  0.0000  0.0000  1.1615
- O  0.0000  0.0000 -1.1615
-
-K_POINTS gamma
-```
-
-1. Central pseudopotential direcotry.
-2. This supresses the generation of the wavefunction file and the folder with the charge density. At this point, we don't need to worry about these and it saves disk space :).
-3. Plane-wave cutoff of 25 Ry.
-4. This variable controls when the self consistency cycle finishes. When the `estimated energy error < conv_thr` the self consistency cycle (scf) stops. You should be aware of this variable, as there is little point in trying to converge to greater accuracy than we are converging self-consistently.
-
-
-Now we want to run `pw.x` for each of these input files. It would be very tedious to do this manually, especially if we had more input files. This is where ***bash scripting*** comes in handy. We won't go too much into bash scripting, but if you are interested you are encouraged to spend some time understanding the bash scripts provided. Let's examine the simple script below:
-
-```bash
-#!/bin/bash
-
-# Run pw.x for each input file sequentially
-for i in {10..40..5}; #(1)!
-do
-	pw.x < CO2_$i.in &> CO2_$i.out #(2)!
-done
-```
-
-1. For loop going from i=10 to i=40 in steps of 5.
-2. Runs the command `pw.x < CO2_$i.in > CO2_$i.out` from i=10 to i=40.
-
-We shouldn't need to do much to these scripts, apart from changing the loop index. However, feel free to play around with them as you get better with the linux command line!
-
-To run the bash file, we use the command `./run.sh`. After some time, the output files should be in your directory.
-
-
-!!! example "Task 2 - Running Convergence Tests"
-
-    Run the bash file using the command `./run.sh`. After some time, examine the output files in your directory.
-
-    - Check the output file `CO2_10.out`. What is the converged total energy?
-
-        ??? success "Answer"
-            `!    total energy              =     -71.18353288 Ry`
-
-    - Check the output file `CO2_20.out`. What is the converged total energy? Is this lower than `CO2_10.out`?
-
-        ??? success "Answer"
-            `!    total energy              =     -74.57951430 Ry`.
-            This is lower than the total energy in `CO2_10.out`.
-
-As you should see, the total energy decreases as we increase the plane-wave energy cutoff `ecutwfc`.
-We could go through each of these input files and look for the final energy. However, this would be tedious and time consuming. We have provided another bash script `run_with_data_collect.sh` that collects the results for you and deposits them into a file called data.txt.
-
-A quick look at the bash file:
-
-```bash
-#!/bin/bash
-
-# Run pw.x for each input file sequentially
-for i in {10..40..5};
-do
-        pw.x < CO2_$i.in &> CO2_$i.out
-done
-
-# Loop through files
-for i in {10..40..5}; do
-    # Extract 'ecutwfc' value from input molecule files
-    ecutwfc_value=$(grep 'ecutwfc' CO2_$i.in | awk '{print $3}' | tr -d ', =') #(1)!
-
-    # Extract 'Total Energy' value from input molecule files
-    final_energy_value=$(grep '!' CO2_$i.out | awk '{print $5}') # Total energy (Ry) #(2)!
-
-    # Multiply 'final_energy_value' by 13.6
-    final_energy_value=$(echo "$final_energy_value * 13.6" | bc) # Converting final energy to eV
-
-    # Append values to output file.
-    echo "$ecutwfc_value $final_energy_value" >> data.txt
-done
-
-```
-
-1. This line uses `awk`. Awk is a programming language that is designed for processing text-based data. We don't use most of its functionalities here. All we are using it for is printing out a column of the output of the grep command. Additionally, it uses tr -d which is a method of removing puncuation to keep the script from breaking if punctuation is included where it shouldn't be. 
-2. The line with the converged total energy on starts with a '!', allowing for easy access using `grep`.
-
-
-!!! example "Task 3 - Running Convergence Tests"
-
-    Run the next bash file using the command `./run_with_data_collect.sh`. After some time the bash file will have run. Examine the file data.txt.
-    
-    - What is the structure of the data.txt file?
-
-        ??? success "Answer"
-            The first column is ecutwfc (Ry) and the second column is Total Energy (eV)
-
-Through this course you will need to do many convergence tests. You have been provided with scripts that generate the input files for you, as well as helping to plot your results. In the direcory for methane, `02_ecut/02_methane`, we will go through how to use these scripts.
-
-The first script we will use is named `file_build.py`. This is a python file that will generate all of our input files. Let's examine it:
-
-```python
-##############################################################################################################################################
-##############################################################################################################################################
-##############################################################################################################################################
-#                           This is a python file that will generate multiple input files for a convergence test.                            #
-#                                                                                                                                            #
-#                   How to use: Copy and paste the text from your input file to common_content_template as shown below.                      #
-#                               Make sure you are putting a space both sides of = sign when pasting.                                         #
-#                                                                                                                                            #
-#                                                   How to run: python3 file_build.py                                                        #
-##############################################################################################################################################
-##############################################################################################################################################
-##############################################################################################################################################
-
-
-# Directory where you want to create the files
-output_directory = "./"
-
-# Number of files to create
-num_files = 10 #(1)!
-
-# Common content template with a placeholder for the number
-common_content_template = """
-
-""" #(2)!
-
-# Loop to create the files
-for i in range(1, num_files + 1):
-    # Define the content for each file with the number replaced
-    calc = round(5+5*i) #(3)!
-    content = common_content_template.format(calc)
-
-    # Generate the file name
-    file_name = f"{output_directory}/scf.mol.{str(i).zfill(3)}.in" #(4)!
-
-    # Open and write to the file directly
-    with open(file_name, 'w') as file:
-        file.write(content)
-```
-
-1. Number of files you want to create. This can control the maximum cutoff that you are testing.
-2. A blank template. Here you will paste the contents of your desired input file, but with `ecutwfc = {}`. Make sure to leave a space either side of the = sign here. If this is unclear, check the file file_builder_model.py.
-3. Incrementing the cutoff from 10 Ry to the desired amount. Can also alter this for larger spacings.
-4. Output files will be named scf.mol.001.in, scf.mol.002.in etc. 
-
-To run this file you will need to edit it and paste the input file that you want to generate multiple instances of. In our case, that is the information stored in `CH4_base.in`. The only thing we need to replace is `ecutwfc = xxxx` with `ecutwfc = {}`. If you are struggling with this, take a look at the file file_build_model.py for how the file should look. After this issue the command:
-
-```bash 
-python3 file_build.py
-```
-
-You should now have many input files generated. Examine them to make sure everything has been generated correctly.
-
-Next, examine the `run.sh` file:
-
-```bash
-#!/bin/bash
-
-# Run scf calculations.
-for i in {001..010}; #(1)!
-do
-    pw.x < scf.mol.$i.in > scf.mol.$i.out #(2)!
-done
-
-# Loop through files
-for i in {001..010}; do #(3)!
-    # Extract 'ecutwfc' value from input molecule files
-    ecutwfc_value=$(grep 'ecutwfc' scf.mol.$i.in | awk '{print $3}' | tr -d ', =')
-
-    # Extract 'Total Energy' value from input molecule files
-    final_energy_value=$(grep '!' scf.mol.$i.out | awk '{print $5}')
-
-    # Multiply 'final_energy_value' by 13.6
-    final_energy_value=$(echo "$final_energy_value * 13.6" | bc)
-
-    echo "$ecutwfc_value $final_energy_value" >> data.txt
-done
-```
-
-1. Looping from 001 to 010 in steps of 001.
-2. Runs pw.x for the files scf.mol.001.in, scf.mol.002.in etc.
-3. Looping again from 001 to 010 in steps of 001.
-
-!!! example "Task 4 - Running Convergence Tests With Scripts"
-
-    In `file_build.py` change `num_files` to  20. In `run.sh` change the for loop to go from 001 to 020. Generate the input files as described above. Run the bash file as before, using the command `./run.sh`. After some time the bash file will have run. Examine the file `data.txt`.
-    
-    - At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate run?
-
-        ??? success "Result"
-            ecutwfc = 75 Ry.
-
-            $E_{T}^{\text{best}} = -218.233323168 \,\text{eV}$
-
-            $E_{T}^{75} = -218.15564649599997 \,\text{eV}$
-
-            $E_{T}^{\text{diff}} = -0.07767667200002393 \,\text{eV}$
-
-Again, this is quite tedious to find by hand. You have been provided with another script `convergence_processing.py` which analyses the results stored in data.txt and shows where the calculation has converged to within a specified tolerance.
-Let's take a quick look at this script:
-
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-##############################################################################################################################################
-##############################################################################################################################################
-##############################################################################################################################################
-#                               This script checks for converged results. Change the convergence parameter if needed.                        #
-#                                                                                                                                            #
-#                                               How to run: python3 convergence_processing.py                                                #
-##############################################################################################################################################
-##############################################################################################################################################
-##############################################################################################################################################
-
-def main():
-    filename = "data.txt" #(1)!
-
-    edata = np.loadtxt(filename, delimiter=' ') #(2)!
-    ecut, etot = edata[:, 0], edata[:, 1]
-
-    convergence_parameter = 0.01 #in eV #(3)!
-    print(f"Convergence defined as within {convergence_parameter} meV of the most accurate result")
-    flag = 0 # Flag for arrow
-
-    print("ecut (Ry)", " ", "∆_last (meV)")
-    print("-----------------------------------------------")
-    for row in edata:
-        diff = abs(abs(row[1])-abs(etot[-1]))*1000
-        if (diff  <= convergence_parameter*1000 and flag==0):
-            print(row[0],"  ", diff, "      <-------------")
-            flag = 1
-        else:
-            print(row[0],"  ", diff)
-
-    for i in range(0, len(ecut)):
-        if abs(etot[i] - etot[-1]) <= convergence_parameter:
-            value = ecut[i]
-            print("")
-            print(f"Accuracy of {convergence_parameter*1000} meV")
-            print(f"Convergence at ecutwfc = {value} Ry")
-            break
-        else:
-            continue
-	...
-```
-
-1. Name of file that we have our data stored in.
-2. Loading in the contents of the file.
-3. Defining our convergence threshold. This value is in eV. Here, we define convergence as within 10 meV of our most accurate calculation.
-
-!!! example "Task 5 - Running Convergence Tests With Scripts"
-
-    Alter the convergence threshold in `convergence_processing.py` to be 0.1 eV and run the convergence script with the command:
-    `python3 convergence_processing.py`
-
-    - What is output on your terminal? What plane-wave cutoff gives us a result converged to within 0.1 eV of the most accurate calculation?
-
-        ??? success "Result"
-            ecutwfc = 75 Ry.
-            <figure markdown="span">
-            ![Diamond primitive cell](assets/methane_convergence_results.png){ width="500" }
-            </figure>
-
-
-#### System Size Considerations
-Actually, we typically converge the total energy ***per atom*** (meV/atom). This is due to the scaling of the total energy with system size (number of atoms). 
-
-If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
-
-!!! Important "General Scripts"
-    The scripts you have been provided in `02_ecut/02_methane` are quite general. You can use them through the course. There are more like these in the `/opt/MSE404-MM/docs/labs/useful_scripts` directory.
 
 ## Plotting
 

@@ -17,7 +17,7 @@ def main():
 
 	plt.figure(figsize=(8, 6))
 	plt.scatter(ecut, etot)
-	plt.xlabel("Kinetic Energy Cutoff (Ry)")
+	plt.xlabel("Box Size (Å)")
 	plt.ylabel("Total Energy (eV)")
 	plt.title("Total Energy Convergence")
 	plt.show()
