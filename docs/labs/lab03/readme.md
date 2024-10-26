@@ -18,9 +18,9 @@ In the figure below, you can see the true "all-electron" potential and the resul
   ![Pseudopotential](assets/pseudopotential.png){ width="400" }
 </figure>
 
-Pseudopotentials are created from DFT calculations of single atoms (so-called 'all electron' calculations). In these calculations, a certain exchange-correlation functional will have been chosen e.g. local density approximation (lda), pbe, etc. Thus, within the pseudopotential itself an approximation has been made to generate it.
+Note that the pseudopotentials are generated from DFT calculations of isolated atoms. These calculations require a choice for the exchange-correlation functional. Therefore, a pseudopotential is always generated for a specific exchange-correlation functional. If you want to try out a different exchange-correlation functional, you have to use a different pseudopotential. 
 
-The header of pseudopotential files contain valuable information about how the pseudopotential was generated, such as what states are included, and what approximations are used for exchange and correlation.
+The beginning (or "header") of pseudopotential files contains important information about how the pseudopotential was generated, such as which state are considered to be core states and which approximation is used for the exchange-correlation energy. 
 
 To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` directory.
 
