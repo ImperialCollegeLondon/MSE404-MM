@@ -249,22 +249,21 @@ Actually, we typically converge the total energy **per atom** (meV/atom) or **pe
 
 ## Box Size
 
-In this lab we have been dealing with isolated molecules. Quantum Espresso expands the Kohn-Sham states in a plane-wave basis, which are inherently periodic. Since the underlying basis is periodic, we have periodic boundary conditions. To model 'isolated' atoms, we make the unit cell very large compared to the size of the isolated molecule, effectively reducing any interaction with neighbouring periodic images. 
-However, this is a parameter we should converge. A larger unit cell (volume) increases the computational cost, as the number of plane waves required scales with the unit cell volume. 
+Quantum Espresso uses periodic boundary conditions (recall that plane wave can only be used as a basis for periodic functions). Therefore, it is not possible to model a truly isolated molecule with Quantum Espresso. The best we can do is model a periodic crystal of molecules whose unit cell is so large that each molecule is not affected by the presence of all other molecules. The size of the unit cell (aka the box size) is therefore a convergence parameter and we must ensure it is sufficiently large so that physically meaningful results are obtained. Unfortunately, increasing the box size also increases the time of the calculations.
 
 !!! example "Task 4 - Unit Cell Size"
 
-    Navigate to the directory `01_carbon_monoxide/03_box_size`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i is going to range from 10 to 30 in steps of 2. Edit the `A` variable in these files to systematically increase from 10 to 30 i.e. set `A` to be equal to the number i. This is systematically increasing the size of the unit cell, and thus increasing the distance between periodic images that we want to minimise.
+    Navigate to the directory `01_carbon_monoxide/03_box_size`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` with i ranging from 10 to 30 in steps of 2. Edit the `A` variable in these files to systematically increase from 10 to 30, i.e. set `A` to be equal to the number i. This increases the size of the unit cell, and thus the distance between periodic images of the molecule.
 
-    - Use `pw.x` to run a total energy calculation for each of these files.
+    - Use `pw.x` to perform DFT calculations for these input files.
 
-    - Check the output file `CO_10.out`. What is the highest occupied molecular orbital (HOMO)?
+    - Take a loot at the output file `CO_10.out`. What is the energy of the highest occupied molecular orbital (HOMO)?
 
         ??? success "Answer"
-	    The HOMO can be read from the Kohn-Sham eigenvalues, or alternatively is printed under `highest occupied level` in the output file.
+	    The HOMO energy can be extracted from the list of Kohn-Sham energies, or alternatively is printed under `highest occupied level` in the output file.
             `highest occupied level (ev):    -9.0118`
 
-    - Check the output file `CO_26.out`. What is the highest occupied molecular orbital (HOMO)? How does this compare to the CO_10.out where the distance between periodic images is much smaller?
+    - Now inspect the output file `CO_26.out`. What is the energy of the highest occupied molecular orbital (HOMO)? How does this compare to the CO_10.out calculation where the distance between periodic images is much smaller?
 
         ??? success "Answer"
             `highest occupied level (ev):    -9.2100`.
@@ -275,7 +274,7 @@ However, this is a parameter we should converge. A larger unit cell (volume) inc
 
         ??? success "Result"
             A = 14.
-            This means that CO molecules need to be ~ 14 Å away from one another to have less than 0.1 eV effect on each others HOMO.
+            This means that CO molecules need to be ~ 14 Å away from one another to have less than 0.1 eV effect on each others HOMO. Note that each CO molecule has a dipole moment which produces a long-ranged potential that affects the other molecules.
 
     - Plot the energy of the HOMO against the unit cell size using the python script `plot.py` by issuing the command:
     `python3 plot.py`
