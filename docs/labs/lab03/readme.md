@@ -286,7 +286,7 @@ Quantum Espresso uses periodic boundary conditions (recall that plane wave can o
 
 ### Bash Scripting
 
-Now, running all of these `pw.x` commands manually is time consuming. To speed things up we can use a small bash script that will automate running these jobs for us. Bash is a programming language (the one we use to interact with the command line), like python. In the same `01_carbon_monoxide/03_box_size` you will notice a run.sh bash script. Let's quickly examine it.
+You have run a lot of DFT calculations in this lab. Running all of these `pw.x` commands manually is time consuming. To speed things up we can use a small bash script that will automate running these jobs for us. Bash is a programming language (the one we use to interact with the command line), like python. In the same directory `01_carbon_monoxide/03_box_size` you will find a run.sh bash script. Let's quickly examine it.
 
 ```bash
 #!/bin/bash #(1)!
@@ -312,7 +312,7 @@ Redo Task 4 and verify that you get the same result.
 
 ## Python Plotting 
 
-In Task 3 and 4, we used the code `plot.py`. This code uses the matplotlib library to plot the results stored in data.txt to visualise the convergence of the total energy as the kinetic energy cutoff is increased.
+In Task 3 and 4, we used the code `plot.py`. This code uses the matplotlib library to plot the results stored in data.txt to visualise the convergence of the total energy as the plane-wave cutoff is increased.
 Later in this course you will use python scripts to plot band structures and density of states. You are encouraged to examine and play around with these python codes to develop your coding skills!
 
 Let's take a quick look at plot.py from the `01_carbon_monoxide/02_kinetic_energy_cutoff` directory.
@@ -346,8 +346,8 @@ if __name__ == "__main__":
 	main()
 ```
 1. Loading in the data that is in column format in `data.txt`.
-2. The first column is the kinetic energy cutoff in Ry and the second column is the resulting total energy in eV.
-3. Initialising the size of our figure. Changing these will change the aspect ratio of the plot.
+2. The first column is the plane-wave cutoff in Ry and the second column is the corresponding total energy in eV.
+3. Initialising the size of our figure. This allows you to control the aspect ratio of the plot.
 4. Scatter plot of ecut vs etot.
 5. After giving python all of the plotting information, we tell it to plot.
 
