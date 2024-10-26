@@ -257,7 +257,7 @@ Quantum Espresso uses periodic boundary conditions (recall that plane wave can o
 
     - Use `pw.x` to perform DFT calculations for these input files.
 
-    - Take a loot at the output file `CO_10.out`. What is the energy of the highest occupied molecular orbital (HOMO)?
+    - Take a look at the output file `CO_10.out`. What is the energy of the highest occupied molecular orbital (HOMO)?
 
         ??? success "Answer"
 	    The HOMO energy can be extracted from the list of Kohn-Sham energies, or alternatively is printed under `highest occupied level` in the output file.
