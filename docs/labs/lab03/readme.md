@@ -167,21 +167,18 @@ C 15.0000000000 15.0000000000 15.0000000000
             `grep 'convergence has been achieved in' CO_5.out`. 
 
 
-## Plane-wave energy cut-off
+## Plane-wave cutoff
 
-In principle we expand the Kohn-Sham states in an infinite plane-wave basis. In practice however, we truncate this expansion by defining a maximum wavevector, $\bf{G_{\text{max}}}$. We specify this in Quantum Espresso through the variable `ecutwfc` which is the kinetic energy of the free electron with a wavevector $\bf{G_{\text{max}}}$.
+In the expansion of the Kohn-Sham wavefunctions, only plane waves with wave vectors whose lengths are smaller than that of the maximum wavevector, $\bf{G_{\text{max}}}$, are included. This maximum wave vector is specified through the variable `ecutwfc` which is the kinetic energy associated with $\bf{G_{\text{max}}}$, i.e. $\hbar^2 |bf{G}_{\text{max}|^2/(2m)}$. We must ensure that this cutoff is large enough such that physically meaningful results are obtained. 
 
-Regardless of the type of system we are looking at, we need to check how well converged the result is (no matter what you are calculating) with respect to the plane-wave kinetic energy cutoff. As discussed above this cutoff governs how many plane-waves are used in the expansion of the Kohn-Sham states (and thus how many are in the calculation).
-
-
-An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `01_carbon_monoxide/02_ecutwfc` directory.
-To converge the kinetic energy cutoff we are going to set up a series of input files which are all identical except we systematically increase **only** the value of `ecutwfc` and record the total energy.
+An example demonstrating the convergence of the total energy as function of the plane-wave cutoff can be found in the `01_carbon_monoxide/02_ecutwfc` directory.
+To find the plane-wave cutoff required to achieve convergence, you will create a set of input files which are all identical except for the value of `ecutwfc`. 
 
 !!! example "Task 3 - Kinetic Energy Cutoff"
 
-    Navigate to the directory `01_carbon_monoxide/02_ecutwfc`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i is going to range from 20 to 65 in steps of 5. Edit the `ecutwfc` variable in these files to systematically increase from 20 to 65 i.e. set `ecutwfc` to be equal to the number i.
+    Navigate to the directory `01_carbon_monoxide/02_ecutwfc`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i ranges from 20 to 65 in steps of 5. Change the `ecutwfc` variable in these files to systematically increase from 20 to 65 i.e. set `ecutwfc` to be equal to the number i.
 
-    - Use `pw.x` to run a total energy calculation for each of these files.
+    - Use `pw.x` to perform a DFT calculation for each input files.
 
     - Check the output file `CO_20.out`. What is the converged total energy?
 
@@ -195,28 +192,28 @@ To converge the kinetic energy cutoff we are going to set up a series of input f
 
             This is lower than the total energy in `CO_20.out`.
 
-    - Use `grep` to grep the total energy from all of these output files.
+    - Use `grep` to extract the total energy from all output files.
 
-    These energies are in Ry. Typically when doing convergence tests we report our convergece in eV.
+    These energies are in Ry. Often it is more insightful to convert these values to eV.
 
-    - Create a text file named `data.txt`. Place your results here in the format [kinetic energy cutoff (Ry)] [Total energy (eV)]
+    - Create a text file named `data.txt`. Copy your results into this file: the first column should be the kinetic energy cutoff in Ry and the second column should be the total energy in eV.
     
     Examine the file `data.txt`.
 
-    As you should see, the total energy decreases as we increase the plane-wave energy cutoff `ecutwfc`.
+    You should observe that the total energy decreases as we increase the plane-wave energy cutoff `ecutwfc`.
     
-    - At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate run (`ecutwfc = 65`)?
+    - At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate result (, i.e. the one obtained for `ecutwfc = 65`)?
 
         ??? success "Result"
             ecutwfc = 55 Ry.
 
-            $E_{T}^{\text{best}} = -586.30894733 \,\text{eV}$
+            $E_{tot}^{65} = -586.30894733 \,\text{eV}$
 
-            $E_{T}^{55} = -586.21615168 \,\text{eV}$
+            $E_{tot}^{55} = -586.21615168 \,\text{eV}$
 
-            $E_{T}^{\text{diff}} ~ 0.09279565 \,\text{eV}$
+            $\Delta E_{tot} = 0.09279565 \,\text{eV}$
 
-    - Plot the total energy against the kinetic energy cutoff using the python script `plot.py` by issuing the command:
+    - Plot the total energy against the plane-wave cutoff using the python script `plot.py` by issuing the command:
     `python3 plot.py`
 
         ??? success "Result"
@@ -238,19 +235,17 @@ To converge the kinetic energy cutoff we are going to set up a series of input f
     
 Note that:
 
-- Different systems converge differently. You souldn't expect diamond and silicon to be converged to the same accuracy with the same energy cutoff despite having the same structure and same number of valence electrons.
+- Different systems converge differently: You shouldn't expect diamond and silicon to be converged to the same accuracy with the same plane-wave cutoff despite having the same atomic structure and the same number of valence electrons.
 
-- Different pseudopotentials for the same atomic species will also converge differently. Often pseudopotential files will suggest an energy cutoff as mentioned previously.
+- Different pseudopotentials for the same atomic species will also converge differently. Often (but not always) pseudopotential files will suggest a plane-wave cutoff.
 
-- Different calculated parameters will converge differently. 
-	- If we want to calculate the lattice parameter of a material, don't expect it to be converged to the same accuracy as another parameter e.g. the bulk modulus.
+- Different calculated physical quantities will converge differently. 
+	- If we want to calculate the lattice parameter of a material, don't expect it to be converged to the same accuracy as another parameter, e.g. the bulk modulus.
 
 !!! warning
-    You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation.
+    You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given plane-wave cut-off changes when the volume is changed.
 
-Actually, we typically converge the total energy **per atom** (meV/atom) or **per electron** (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). 
-
-If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom/electron is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
+Actually, we typically converge the total energy **per atom** (meV/atom) or **per electron** (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom/electron is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
 
 ## Box Size
 
