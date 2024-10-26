@@ -73,9 +73,9 @@ To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` di
 
 ## Total Energy Convergence Threshold
 
-DFT is an iterative process. We self-consistenly solve the Kohn-Sham equations for the ground-state electron density, i.e. until we meet convergence. The criteria for convergence is defined as when the total energy between successive scf iterations is below a certain value, called the convergence threshold. This can play a crucial role in determining the accuracy and and stability of the results.
+In a DFT calculation, the Kohn-Sham wavefunctions which minimize the total energy are found using a self-consistent procedure: one starts with an initial guess for the density, constructs the Kohn-Sham potential and then solves the Kohn-Sham equations to obtain the Kohn-Sham wavefunctions. These can then be used to find a new density and this procedure is repeated until self-consistency is achieved. Usually, we monitor the total energy and stop the self-consistent cycle when its change (relative to the previous iteration) is below a certain threshold. This threshold is a convergence parameter and must be chosen sufficiently small such that physically meaningful results are obtained. 
 
-Let's look at a brief view of an example of the CO input file stored in `01_carbon_monoxide/01_convergence_threshold`.
+Let's take at a look at the input file for a carbon monoxide (CO) molecule in `01_carbon_monoxide/01_convergence_threshold`.
 
 !!! tip annotate "Tip: In-code annotations"
     Click (1) to see notes on the input tags.
@@ -124,7 +124,7 @@ C 15.0000000000 15.0000000000 15.0000000000
 2. Specifies that the pseudopotentials to use are in the current directory.
 3. ibrav=1 is the bravais lattice type 'simple cubic'.
 4. The lattice parameter for the bravais lattice.
-5. This is the convergence threshold. Successive scf iterations will have their total energy compared to one another. When this difference is less than this convergence threshold, we deem the total energy to be converged.
+5. This is the total energy convergence threshold. Successive iterations will have their total energy compared to one another. When this difference is less than the convergence threshold, we deem the total energy to be converged.
 6. The structure of this line is [element name] [element atomic mass] [name of pseudopotential].
 
 
@@ -136,14 +136,14 @@ C 15.0000000000 15.0000000000 15.0000000000
 
 !!! example "Task 2 - Convergence Threshold"
 
-    Make 4 copies of the `CO.in` input file named `CO_i.in`, where i should go from 5 to 8. In each of these files, reduce the order of magnitude of the conv_thr by 10 each time i.e. replace the `conv_thr = 1e-4` with `conv_thr = 1e-5` in `CO_5.in`, etc. 
+    Make four copies of the `CO.in` input file named `CO_i.in`, where i should range from 5 to 8. In each of these files, reduce the order of magnitude of the conv_thr by a factor of 10, i.e. replace `conv_thr = 1e-4` with `conv_thr = 1e-5` in `CO_5.in`, etc. 
 
-    - Run these 4 input files using `pw.x` e.g. `pw.x < CO_5.in > CO_5.out`.
+    - Run the four input files using `pw.x` e.g. `pw.x < CO_5.in > CO_5.out`.
 
-    - What does changing this convergence threshold do? What do you expect to happen?
+    - What do you expect will happen when you reduce the convergence threshold?
 
         ??? success "Answer"
-            After one scf cycle, a total energy is calculated. The calculation is converged when the difference in the total energy between two successive scf iterations is less than the convergence threshold. Therefore, reducing this convergence threshold is making our convergence tighter, meaning differences in successive iterations must be smaller for our calculation to be converged. This means the smaller the convergence threshold, the more iterations it should take for convergence.
+            More iteration in the self-consistent cycle are needed and the calculations take longer. A more accurate value of the total energy is obtained. 
 
     Quantum Espresso outputs the number of scf cycles it took for convergence to be achieved. Look for this line in the output file: 
     ```bash
