@@ -13,13 +13,13 @@ import matplotlib.pyplot as plt
 def main():
 	data = np.loadtxt("data.txt")
 
-	ecut, etot = data[:,0], data[:,1]
+	box, homo = data[:,0], data[:,1]
 
 	plt.figure(figsize=(8, 6))
-	plt.scatter(ecut, etot)
+	plt.scatter(box, homo)
 	plt.xlabel("Box Size (Å)")
-	plt.ylabel("Total Energy (eV)")
-	plt.title("Total Energy Convergence")
+	plt.ylabel("HOMO (eV)")
+	plt.title("Unit Cell Size Convergence")
 	plt.show()
 
 if __name__ == "__main__":

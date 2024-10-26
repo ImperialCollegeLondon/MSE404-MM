@@ -175,7 +175,7 @@ Regardless of the type of system we are looking at, we need to check how well co
 An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `01_carbon_monoxide/02_ecutwfc` directory.
 To converge the kinetic energy cutoff we are going to set up a series of input files which are all identical except we systematically increase **only** the value of `ecutwfc` and record the total energy.
 
-!!! example "Task 2 - Kinetic Energy Cutoff"
+!!! example "Task 3 - Kinetic Energy Cutoff"
 
     Navigate to the directory `01_carbon_monoxide/02_ecutwfc`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i is going to range from 20 to 65 in steps of 5. Edit the `ecutwfc` variable in these files to systematically increase from 20 to 65 i.e. set `ecutwfc` to be equal to the number i.
 
@@ -246,127 +246,114 @@ Note that:
 !!! warning
     You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given energy cut-off is directly proportional to the volume so this can introduce an additional variation.
 
-Actually, we typically converge the total energy **per atom** (meV/atom) or **per eectron** (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). 
+Actually, we typically converge the total energy **per atom** (meV/atom) or **per electron** (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). 
 
 If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom/electron is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
 
 ## Box Size
 
+In this lab we have been dealing with isolated molecules. Quantum Espresso expands the Kohn-Sham states in a plane-wave basis, which are inherently periodic. Since the underlying basis is periodic, we have periodic boundary conditions. To model 'isolated' atoms, we make the unit cell very large compared to the size of the isolated molecule, effectively reducing any interaction with neighbouring periodic images. 
+However, this is a parameter we should converge. A larger unit cell (volume) increases the computational cost, as the number of plane waves required scales with the unit cell volume. 
 
+!!! example "Task 4 - Unit Cell Size"
 
-## Plotting
+    Navigate to the directory `01_carbon_monoxide/03_box_size`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i is going to range from 10 to 30 in steps of 2. Edit the `A` variable in these files to systematically increase from 10 to 30 i.e. set `A` to be equal to the number i. This is systematically increasing the size of the unit cell, and thus increasing the distance between periodic images that we want to minimise.
 
-### Python
+    - Use `pw.x` to run a total energy calculation for each of these files.
 
-Most of the plotting in this course can be done with Python. Scripts will be provided for you, but you are encouraged to play around with them to fit your needs if you want to test things out.
+    - Check the output file `CO_10.out`. What is the highest occupied molecular orbital (HOMO)?
 
-You will have noticed that at the end of the `convergence_processing.py` there is more python code. This uses matplotlib to plot the results stored in data.txt to visualise the convergence as ecutwfc is increased.
-Later on in the course you will have python scripts to plot band structures and density of states.
+        ??? success "Answer"
+	    The HOMO can be read from the Kohn-Sham eigenvalues, or alternatively is printed under `highest occupied level` in the output file.
+            `highest occupied level (ev):    -9.0118`
 
-For now, we will have a brief overview of the final few lines of `convergence_processing.py`.
+    - Check the output file `CO_26.out`. What is the highest occupied molecular orbital (HOMO)? How does this compare to the CO_10.out where the distance between periodic images is much smaller?
 
-```python
-import numpy as np
-import matplotlib.pyplot as plt
-##############################################################################################################################################
-##############################################################################################################################################
-##############################################################################################################################################
-#                               This script checks for converged results. Change the convergence parameter if needed.                        #
-#                                                                                                                                            #
-#                                               How to run: python3 convergence_processing.py                                                #
-##############################################################################################################################################
-##############################################################################################################################################
-##############################################################################################################################################
+        ??? success "Answer"
+            `highest occupied level (ev):    -9.2100`.
 
-def main():
-    filename = "data.txt"
+    - Create a text file named `data.txt`. Place your results here in the format [Unit Cell Size (Å)] [Energy of HOMO (eV)]
+    
+    - At what unit cell size is the HOMO converged to within 0.1 eV of your most accurate run (`A = 30`)?
 
-    edata = np.loadtxt(filename, delimiter=' ')
-    ecut, etot = edata[:, 0], edata[:, 1]
+        ??? success "Result"
+            A = 14.
+            This means that CO molecules need to be ~ 14 Å away from one another to have less than 0.1 eV effect on each others HOMO.
 
-    convergence_parameter = 0.1 #in eV
-    print(f"Convergence defined as within {convergence_parameter} meV/atom of the most accurate result")
-    flag = 0 # Flag for arrow
+    - Plot the energy of the HOMO against the unit cell size using the python script `plot.py` by issuing the command:
+    `python3 plot.py`
 
-    print("ecut (Ry)", " ", "∆_last (meV/atom)")
-    print("-----------------------------------------------")
-    for row in edata:
-        diff = abs(abs(row[1])-abs(etot[-1]))*1000
-        if (diff  <= convergence_parameter*1000 and flag==0):
-            print(row[0],"  ", diff, "      <-------------")
-            flag = 1
-        else:
-            print(row[0],"  ", diff)
+        ??? success "Result"
+            <figure markdown="span">
+            ![BoxConvergence](assets/Box_conv.png){ width="500" }
+            </figure>
 
-    for i in range(0, len(ecut)):
-        if abs(etot[i] - etot[-1]) <= convergence_parameter:
-            value = ecut[i]
-            print("")
-            print(f"Accuracy of {convergence_parameter*1000} meV")
-            print(f"Convergence at ecutwfc = {value} Ry")
-            break
-        else:
-            continue
+### Bash Scripting
 
-    plt.figure(figsize=(8, 6)) #(1)!
-    plt.scatter(ecut , etot, color='black', marker='o') #(2)!
+Now, running all of these `pw.x` commands manually is time consuming. To speed things up we can use a small bash script that will automate running these jobs for us. Bash is a programming language (the one we use to interact with the command line), like python. In the same `01_carbon_monoxide/03_box_size` you will notice a run.sh bash script. Let's quickly examine it.
 
-    plt.ylabel("Total Energy (eV)")
-    plt.xlabel("Energy Cutoff (Ry)")
-    plt.title("Convergence Testing")
-    plt.show() #(3)!
+```bash
+#!/bin/bash #(1)!
 
-if __name__ == "__main__":
-    main()
+# Run pw.x for each input file sequentially
+for i in {10..30..2}; #(2)!
+do
+	pw.x < CO_$i.in &> CO_$i.out #(3)!
+done
 ```
 
-1. Initialising the size of our figure. Changing these will change the aspect ratio of the plot.
-2. Scatter plot of ecut vs etot.
-3. After giving python all of the plotting information, we tell it to plot.
+1. This tells the compiler that the commands below are bash commands.
+2. Entering a simple for loop going from i=10 to i=30 in steps of 2.
+3. Issue the command pw.x < CO_$i.in > CO_$i.out.
 
-!!! example "Task 6 - Convergence Plot"
+To use this script, just issue the command;
 
-    Uncomment the final few lines of the `convergence_processing.py` and run it again.
+```bash
+./run.sh
+```
 
-    - What do you expect the plot to look like?
+Redo Task 4 and verify that you get the same result.
 
-    ??? success "Result"
-        <figure markdown="span">
-        ![ecutwfc_plot](assets/ecutwfc-conv-plot.png){ width="500" }
-        </figure>
+## Python Plotting 
 
+In Task 3 and 4, we used the code `plot.py`. This code uses the matplotlib library to plot the results stored in data.txt to visualise the convergence of the total energy as the kinetic energy cutoff is increased.
+Later in this course you will use python scripts to plot band structures and density of states. You are encouraged to examine and play around with these python codes to develop your coding skills!
 
-!!! example "Task 7 - Convergence of CO2 vs Methane"
+Let's take a quick look at plot.py from the `01_carbon_monoxide/02_kinetic_energy_cutoff` directory.
 
-    We have now done a convergence test using the scripts `file_builder.py` and `convergence_processing.py` for methane. Copy `convergence_processing.py` and `file_build.py` to `02_ecut/01/carbon_dioxide`. Redo the convergence for CO2 using the convergence scripts as we did above using the script `run_02.sh`. Before running anything, make sure to remove the `data.txt` that is already in this directory from our previous calculation.
+```python
+#############################################################################################################################################
+#############################################################################################################################################
+#############################################################################################################################################
+#      	 This is a plotting code. Put your data into data.txt in column format. <column 1 = cutoff> <column 2 = total energy>               #
+#      	 					To use this code, issue the command:							    #
+#      	 						python3 plot.py									    #
+#############################################################################################################################################
+#############################################################################################################################################
+#############################################################################################################################################
+import numpy as np
+import matplotlib.pyplot as plt
 
-    - Which molecule has the lower plane-wave cutoff?
+def main():
+	data = np.loadtxt("data.txt") #(1)!
 
-    ??? success "Answer"
-        After running `convergence_processing.py` we can see that:
+	ecut, etot = data[:,0], data[:,1] #(2)!
 
-        $E_{\text{cut}}^{\text{CO2}} = 65 \,\text{Ry}$
+	plt.figure(figsize=(8, 6)) #(3)!
+	plt.scatter(ecut, etot) #(4)!
+	plt.xlabel("Kinetic Energy Cutoff (Ry)")
+	plt.ylabel("Total Energy (eV)")
+	plt.title("Total Energy Convergence")
+	plt.show() #(5)!
 
-        $E_{\text{cut}}^{\text{Methane}} = 75 \,\text{Ry}$
-
-        CO2 Has the lower plane-wave energy cutoff.
-
-    - What do the convergence plots look like?
-
-    ??? success "Result"
-        <figure markdown="span">
-        ![ecutwfc_plot](assets/ecutwfc-conv-plot-CO2.png){ width="500" }
-        </figure>
-        <figure markdown="span">
-        ![ecutwfc_plot](assets/ecutwfc-conv-plot-Methane.png){ width="500" }
-        </figure>
-
-    - Is this a fair comparison?
-
-    ??? success "Answer"
-        No. If we want to compare the two we should have convegred the total energy per atom.
-
-
+if __name__ == "__main__":
+	main()
+```
+1. Loading in the data that is in column format in `data.txt`.
+2. The first column is the kinetic energy cutoff in Ry and the second column is the resulting total energy in eV.
+3. Initialising the size of our figure. Changing these will change the aspect ratio of the plot.
+4. Scatter plot of ecut vs etot.
+5. After giving python all of the plotting information, we tell it to plot.
 
 ## Exchange & Correlation Functional
 
@@ -451,8 +438,6 @@ In `03_argon` we are going to investigate the change in the binding energy as we
 
 ## More Convergence Parameters
 
-In this lab we have been dealing with isolated molecules. Quantum Espresso is a plane-wave DFT code, and thus deals with periodic unit cells. To model 'isolated' atoms, we make the unit cell very large compared to the size of the isolated molecule, effectively reducing any interaction with neighbouring periodic images. 
-However, this is a parameter we should converge. A larger unit cell (volume) increases the computational cost, as the number of plane waves sales with the unit cell volume, so we don't want the unit cell too large. We should also have converged the total enegry versus the unit cell size.
 
 Additionally, if we are dealing with crystals which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in [Lab 4](../lab04/readme.md). The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.
 
