@@ -26,31 +26,31 @@ To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` di
 
 !!! example "Task 1 - Pseudopotential File"
 
-    Navigate to the `01_carbon_monoxide/01_convergence_threshold` directory. Here you will see an input file `CO.in` and two psedupotnetial files. Open the pseudopotential file for oxygen using the `less` command.
+    Navigate to the `01_carbon_monoxide/01_convergence_threshold` directory. Here you will see an input file `CO.in` and two pseudopotential files. Open the pseudopotential file for oxygen using the `less` command.
 
-    - What level of approximation are we using e.g. Local Density Approximation (LDA), PBE, etc..? Hint: This is usually stored at the top of pseudopotential files.
+    - Which approximation is used for the exchange-correlation functional?
 
         ??? success "Answer"
-            LDA. This is found at the top of the pseudopotential file:
+            The local density approximation (LDA). This is found at the top of the pseudopotential file:
 
             ```
             Info:   O LDA 2s2 2p4 RRKJ3 US
             ```
 
-    - What were the 'core' and 'valence' states used to generate the pseudopotential file??
+    - Which atomic orbitals are included as valence states and which ones are included in the core?
 
         ??? success "Answer"
-            The states listed in the PP file are the valence states, and thus these are:
+            The states listed in the pseudopotential file are the valence states. These are:
             ```
             nl pn  l   occ               Rcut            Rcut US             E pseuo
             2S  0  0  2.00      0.00000000000      0.00000000000      0.00000000000
             2P  0  1  2.00      0.00000000000      0.00000000000      0.00000000000
             ```
-            The core states are therefore 1S.
+            The core state are therefore the 1S state.
     - What is the valence charge of the oxygen atom core consisting of the nucleus and the core electrons?
 
         ??? success "Answer"
-            The valence charge is 4. Found by identifying the line `4.00000000000 Z valence` in the information below:
+            The valence charge is 4. This is state in the line `4.00000000000 Z valence`:
             ```
             <PP_HEADER>
             0                      Version Number
