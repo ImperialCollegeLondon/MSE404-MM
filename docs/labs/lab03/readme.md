@@ -169,7 +169,7 @@ C 15.0000000000 15.0000000000 15.0000000000
 
 ## Plane-wave cutoff
 
-In the expansion of the Kohn-Sham wavefunctions, only plane waves with wave vectors whose lengths are smaller than that of the maximum wavevector, $\bf{G_{\text{max}}}$, are included. This maximum wave vector is specified through the variable `ecutwfc` which is the kinetic energy associated with $\bf{G_{\text{max}}}$, i.e. $\hbar^2 |bf{G}_{\text{max}|^2/(2m)}$. We must ensure that this cutoff is large enough such that physically meaningful results are obtained. 
+In the expansion of the Kohn-Sham wavefunctions, only plane waves with wave vectors whose lengths are smaller than that of the maximum wavevector, $\bf{G_{\text{max}}}$, are included. This maximum wave vector is specified through the variable `ecutwfc` which is the kinetic energy associated with $\bf{G_{\text{max}}}$, i.e. $\hbar^2 |\bf{G}_{\text{max}|^2/(2m)}$. We must ensure that this cutoff is large enough such that physically meaningful results are obtained. 
 
 An example demonstrating the convergence of the total energy as function of the plane-wave cutoff can be found in the `01_carbon_monoxide/02_ecutwfc` directory.
 To find the plane-wave cutoff required to achieve convergence, you will create a set of input files which are all identical except for the value of `ecutwfc`. 
