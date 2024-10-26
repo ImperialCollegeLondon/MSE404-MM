@@ -351,29 +351,23 @@ if __name__ == "__main__":
 4. Scatter plot of ecut vs etot.
 5. After giving python all of the plotting information, we tell it to plot.
 
-## Exchange & Correlation Functional
+## Exchange & Correlation Energy Functionals
 
-How we approximate the exchange and correlation between elections is a key part of DFT. The functional that we use determines how we approximate these many-body interactions.
-
-By default, Quantum Espresso reads what exchange correlation functional to use from the header of the pseudopotential file, as we saw earlier in Task 1.
-It is possible to override this by using the `input_dft` variable in the &system section.
-
-!!! Warning "Mixing Approximations"
-    It is generally not a good idea to mix approximations. It is best to use the same approximation for the exchange correlation functional as was used to construct the pseudopotential.
-
-As you might expect, the exchange correlation functional chosen can have a big impact on a number of parameters. When we change the exchange correlation functional, we are changing the level of theory our calculations are running at.
+Choosing an appropriate exchange-correlation functional for the system we want to study is an important consideration in every DFT calculation. This choice can have a big impact the results we obtain from our DFT calculation. 
 
 ??? note "Levels of approximation"
-    - Lowest level of approximation is the local density approximation (LDA)
-    - Next highest level of approximation is the generalised gradient approximation (GGA)
-    - More complicated functionals like 'meta-GGA', 'hybrid' etc.
-
-    This is usually depicted in 'Jacob's ladder' of approximations, where the higher on the ladder you are, the more accurate the more accurate the description of exchange and correlation between the electrons are.
+    - There is a hierarchy of exchange-correlation functionals. This is sometimes represented as a ladder called 'Jacob's ladder' whose lowest rung is the LDA with higher rungs being GGAs, meta-GGAs, hybrid functionals and so on.
     <figure markdown="span">
     ![Jacobs-ladder](assets/Jacobs-ladder.png){ width="500" }
     </figure>
 
-In `03_argon` we are going to investigate the change in the binding energy as we vary the bond length between an argon dimer using two different levels of theory.
+By default, Quantum Espresso determines which exchange-correlation functional it should use from the pseudopotential files as discussed above. It is possible, however, to override this default by using the `input_dft` variable in the &system section.
+
+!!! Warning "Mixing Approximations"
+    It is generally not a good idea to override the default exchange-correlation functional read from the pseudopotential file. However, sometimes it may be difficult to find pseudopotentials for exotic exchange-correlation functionals. 
+
+
+In `03_argon` we will calculate the total energy as function of bond length for a pair of argon atoms using two different approximations for the exchange-correlation functional: first we will use a standard GGA functional and then we will study the effect of using a correction that accounts for van der Waals interactions.
 
 !!! example "Task 8 - Argon Dimer"
     Examine and run the scripts `file_builder.py` and `run.sh` in `03_argon/01_lda`.
@@ -431,28 +425,15 @@ In `03_argon` we are going to investigate the change in the binding energy as we
         </figure>
 
 
-
-## More Convergence Parameters
-
-
-Additionally, if we are dealing with crystals which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in [Lab 4](../lab04/readme.md). The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.
-
 ------------------------------------------------------------------------------------
 
 Summary
 -------
 
-In this lab we looked at defining pseudopotentials, checking the convergence of the total energy with respect to the plane-wave energy cutoff, and the effect of exchange and correlation functional.
+In this lab we gained a deeper understanding of the interrelated concepts of plane waves, pseudopotentials and periodic boundary conditions. We also learned about the importance of converging the results of our calculations with respect to the total energy threshold, the plane-wave cutoff and the box size:
 
-- Convergence of any parameter is done by systematically varying the corresponding calculation parameter and looking at how the result changes.
+- Convergence of any physical quantity of interest is achieved by systematically varying the relevant convergence parameters and making sure their values are chosen such that physically meaning results are obtained.
 
-We saw how we can use python and bash scripts to automate this process.
-
-- We can use python scripts to generate multiple input files with systematically varied parameters.
-- We can use a bash `for` loop to perform a calculation for a number of
-  input files.
-- We can use `grep` or `awk` to parse results or parameters from our
-  output files.
-- We can quickly generate a plot of a data file with pythons matplotlib.
+We also learned about the importance of choosing an appropriate exchange-correlation functional for the system we want to study.
 
 ------------------------------------------------------------------------------
