@@ -16,9 +16,10 @@ your home directory.
 ------------------------------------------------------------------------------
 
 ## Basic input for Diamond :material-diamond-outline:
-As our first example of a solid we're going to look at diamond. You can find the
-input file at [:link:C_diamond.in](01_carbon_diamond/C_diamond.in), here I'll
-give a brief overview of the input file:
+
+As our first example of a crystal solid we're going to look at diamond. You can
+find the input file at [:link:C_diamond.in](01_carbon_diamond/C_diamond.in),
+here I'll give a brief overview of it:
 
 <!-- !!! tip annotate "Tip: In-code annotations"  -->
 <!--     Click (1) to see notes on the input tags. -->
@@ -110,8 +111,8 @@ Blende](https://en.wikipedia.org/wiki/Cubic_crystal_system#Zincblende_structure)
 the primitive cell of diamond looks like the following:
 
 <figure markdown="span">
-  ![Diamond primitive cell](assets/C_diamond_light.png#only-light){ width="200" }
-  ![Diamond primitive cell](assets/C_diamond_dark.png#only-dark){ width="200" }
+  ![Diamond primitive cell](assets/C_diamond_light.png#only-light){width="200"}
+  ![Diamond primitive cell](assets/C_diamond_dark.png#only-dark){width="200"}
 </figure>
 
 
@@ -236,10 +237,10 @@ the same time.
 
     - The directory `02_convergence` contains input files to calculate the total
       energy, try modify them and vary the k-point grid density and see how the
-      total energy changes (e.g., perform a series of calculations with k-point
-      grid set to `2 2 2`, `4 4 4`, `6 6 6`, all the way to `30 30 30` and see
-      how the total energy changes). If you have any trouble doing so, you can
-      always go back to [:link:lab03](../lab03/readme.md) for help.
+      total energy changes. For example, perform a series of calculations with
+      k-point grid set to `2 2 2`, `4 4 4`, `6 6 6`, ..., all the way to `30 30
+      30` and see how the total energy changes. If you have any trouble doing
+      so, you can always go back to [:link:lab03](../lab03/readme.md) for help.
 
         ??? success "Result"
             The sparsest converged k-grid (∆ ~10meV/atom) is around
@@ -270,7 +271,8 @@ of a system.**
 
 We have seen how to converge our calculations with respect to the sampled
 k-point grid density (task 2), and have seen in task 1 that the calculated
-eigenvalues are a bit different at each calculated k-point. 
+eigenvalues are a bit different at each calculated k-point. Now we want to see
+exatcly how these eigenvalues change as we move from one k-point to the next.
 
 Examining how the Kohn-Sham energies change from one k-point to the next can
 tell us useful things such as if a material is likely to have a direct or
@@ -285,8 +287,8 @@ zone. For example, a high symmetry path for a face-centred cubic (FCC) lattice
 </figure>
 
 ??? "Finding High Symmetry Points and Paths"
-    The details of how such path can be found is beyond the scope of this course,
-    but an outline is given [:link:
+    The details of how such path can be found is beyond the scope of this 
+    course, but an outline is given [:link:
     here](../extras/labs/high_symmetry_points/readme.md).
 
 ### Calculating the Electronic Band Structure
@@ -294,9 +296,10 @@ The directory `03_bandstructure` contains input files to calculate and plot the
 band structure of diamond. This a four-step process:
 
 #### Step 1 - SCF Calculation
-The first step is to alculate a converged density with a standard self-consistent field (SCF)
-calculation. In this step, the charge density is optimized in order to
-minimize the total energy of the system. The input file can be found at
+The first step is to alculate a converged density with a standard
+self-consistent field (SCF) calculation. In this step, the charge density is
+optimized in order to minimize the total energy of the system. The input file
+can be found at
 [:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in). 
 
 !!! example "Task 3.1 - SCF Calculation"
@@ -308,15 +311,12 @@ minimize the total energy of the system. The input file can be found at
     ```
    
 #### Step 2 - NSCF(bands) Calculation
-The second step is to use the obtained charge density to construct Hamiltonian at a
-certain set of k-points and diagonalize them obtain the Kohn-Sham eigenvalues at those k-points. 
-This is called a non-self-consistent field (NSCF) calculation as the charge
-density is kept fixed. 
-We choose a set of k-points along a path in the Brillouin zone so that we can
-later visualize how the eigenvalues change along this path.
-
-Since diamond has a face-centred cubic (FCC) lattice, we have
-chosen the path `Γ-X-U|K-Γ-L-W-X` where `U|K` means no k-point is sampled between `U` and `K`.
+The second step is to use the obtained charge density to construct Hamiltonian
+at a certain set of k-points and diagonalize them obtain the Kohn-Sham
+eigenvalues at those k-points. This is called a non-self-consistent field (NSCF)
+calculation as the charge density is kept fixed. We choose a set of k-points
+along a path in the Brillouin zone so that we can later visualize how the
+eigenvalues change along this path.
 
 A brief overview of the 
 [:link:input file](03_bandstructure/02_C_diamond_nscf.in) is 
@@ -371,14 +371,24 @@ K_POINTS crystal_b #(3)!
     is given as 8, followed by the coordinates of each point and the number of
     points to generate between it and the next point.
 
+Since diamond has a face-centred cubic (FCC) lattice, we have chosen the path
+`Γ-X-U|K-Γ-L-W-X` where `U|K` means no k-point is sampled between `U` and `K`.
+
+
 !!! example "Task 3.2 - NSCF Calculation"
     Run the input file
     [:link:02_C_diamond_nscf.in](03_bandstructure/02_C_diamond_nscf.in)
-    to get the eigenvalues of each band at each k-point. Note that the total
-    charge density is fixed in this step.
+    to get the eigenvalues of each band at each k-point.
     ```
     pw.x < 02_C_diamond_nscf.in > 02_C_diamond_nscf.out
     ```
+    Take a look at the output, can you find where it says the charge density is
+    read?
+    ??? success "Answer"
+        ```
+        The potential is recalculated from file :
+        ./pwscf.save/charge-density
+        ```
 
 #### Step 3 - Extracting Band Energies
 Now we need to extract the energies from this calculation and convert it to a
@@ -401,10 +411,10 @@ please refer to
 
 
 #### Step 4 - Plotting the Band Structure 
-Finally, we are ready  to plot the band structure. The band structure is usually
-plotted with the energy on the y-axis and the high symmetry points on the
-x-axis. The energy is usually shifted so that the valence band maximum is at 0
-eV. The directory `03_bandstructure` contains python script
+Finally, we are ready  to plot the band structure. The band structure is
+typically plotted with the energy on the y-axis and the high symmetry points on
+the x-axis. The energy is usually shifted so that the valence band maximum is at
+0 eV. The directory `03_bandstructure` contains python script
 (`plotband_shifted.py`) that can be used to plot the band structure.
 
 
@@ -433,9 +443,9 @@ eV. The directory `03_bandstructure` contains python script
 Summary
 -------
 
-- In this lab we looked at how to calculate:
-    - k-point convergence in solids.
-    - the electronic band structure of a solid.
+- In this lab we looked at how to:
+    - reach k-point convergence in solids.
+    - calculate the electronic band structure of a solid.
 - We have seen how several calculations may be chained together where the
   output of one is used as an input for a subsequent calculation.
 - We should always keep in mind that the Kohn-Sham eigenvalues as obtained

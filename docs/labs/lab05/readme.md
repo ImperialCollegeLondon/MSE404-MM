@@ -193,7 +193,7 @@ file for `dos.x` and contains just a `DOS` section:
 2.  `DeltaE` specifies the spacing between points in the output file, in eV.
 
 !!! note
-    we've picked values for these of similar magnitude despite their different 
+    We've picked values for these of similar magnitude despite their different 
     units. In fact if `degauss` is not specified, and no broadening scheme is 
     used in the DFT calculation, `degauss` will take the value of `DeltaE` by
     default. You can check the documentation [:link:
@@ -220,16 +220,19 @@ a separate calculation using a relatively small broadening if you're looking a
 metallic system, while for semiconductors and insulators you could find the
 maximum valence band state energy manually. 
 
-The directory `03_densityofstates` contains a gnuplot and a python script that 
-can be used to plot the shifted DOS along with the integrated DOS:
+The directory `03_densityofstates` contains a python script that can be used to
+plot the shifted DOS with the integrated DOS.
 
 !!! example "Task 10.4 - Density of States Calculation"
     Plot the density of states using the script provided.
 
-    ??? success "Final result"
+    ??? success "DOS Plot"
         <figure markdown="span">
           ![Diamond primitive cell](assets/dos.png){ width="500" }
         </figure>
+
+    Now try re-running Tasks 3 and 4 with different `degauss` values and see
+    how the DOS plots change. Does the change matche your expectations?
 
 ------------------------------------------------------------------------------
 
@@ -278,12 +281,12 @@ Generally, there are two things that we typically do for metals:
     the occupation function is determined and the occupation number at each
     k-point and band $n$ can be easily calculated: $$ f_{n\mathbf{k}} =
     f_T(\varepsilon_{n\mathbf{k}} - E_F). $$ Adding a smearing to the occupation
-    function helps significantly in achieving a smooth SCF convergence, as
-    otherwise a small change in a state energy from once cycle to the next could
-    lead to a very large change in its occupation and to the total energy in
-    turn (this is called 'ill-conditioning'). We set the smearing scheme (for
-    both DOS and occupation function) and width with the `occupations` and
-    `degauss` variables in the input file.
+    function helps significantly in achieving a smooth SCF convergence for
+    metals, as otherwise a small change in a state energy from once cycle to the
+    next could lead to a very large change in its occupation and to the total
+    energy in turn (this is called 'ill-conditioning'). We set the smearing
+    scheme (for both DOS and occupation function) and width with the
+    `occupations` and `degauss` variables in the input file.
 
 ### Example: Aluminium
 
@@ -333,19 +336,19 @@ K_POINTS automatic
       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401).
 
 
-!!! example "Task 10.5 - Smearing"
+!!! example "Task 10.5 - Occupation Smearing for Metals"
 
     First, run the `pw.x` calculation with the supplied input file in
     [:link:02_aluminium/Al.in](02_aluminium/Al.in).
     
     Then, look in the `pwscf.xml` file and find the various `ks_energies`
     entries towards the end. These give the various k-points used in the
-    calculation and the energies and occupations of each state for this k-point.
-    Note, for a metal the default number of bands is at least four more than are
-    needed for the number of electrons per cell. The pseudopotential we have
-    used has 3 valence electrons, which could be represented with two
-    potentially doubly occupied bands, so we have four more bands in the
-    calculation for a total of 6.
+    calculation and the energies and **occupations** of each state for this
+    k-point. Note, for a metal the default number of bands is at least four more
+    than are needed for the number of electrons per cell (even without us
+    setting the `nband` tag). The pseudopotential we have used has 3 valence
+    electrons, which could be represented with two potentially doubly occupied
+    bands, so we have four more bands in the calculation for a total of 6.
 
     ??? success "Example" 
         ```
