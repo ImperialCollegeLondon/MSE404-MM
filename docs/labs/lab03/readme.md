@@ -169,10 +169,10 @@ C 15.0000000000 15.0000000000 15.0000000000
 
 ## Plane-wave cutoff
 
-In the expansion of the Kohn-Sham wavefunctions, only plane waves with wave vectors whose lengths are smaller than that of the maximum wavevector, $\bf{G_{\text{max}}}$, are included. This maximum wave vector is specified through the variable `ecutwfc` which is the kinetic energy associated with $\bf{G_{\text{max}}}$, i.e. $\hbar^2 |\bf{G}_{\text{max}|^2/(2m)}$. We must ensure that this cutoff is large enough such that physically meaningful results are obtained. 
+In the expansion of the Kohn-Sham wavefunctions, only plane waves with wave vectors whose lengths are smaller than that of the maximum wavevector, $\bf{G_{\text{max}}}$, are included. This maximum wave vector is specified through the variable `ecutwfc` which is the kinetic energy associated with $\bf{G_{\text{max}}}$, i.e. $\hbar^2 |\bf{G}_{\text{max}|^2}/{2m}$. We must ensure that this cutoff is large enough such that physically meaningful results are obtained. 
 
-An example demonstrating the convergence of the total energy as function of the plane-wave cutoff can be found in the `01_carbon_monoxide/02_ecutwfc` directory.
-To find the plane-wave cutoff required to achieve convergence, you will create a set of input files which are all identical except for the value of `ecutwfc`. 
+An example demonstrating the total energy convergence with respect to energy cutoff is shown in the `01_carbon_monoxide/02_ecutwfc` directory.
+To converge the kinetic energy cutoff we are going to set up a series of input files which are all identical except we systematically increase **only** the value of `ecutwfc` and record the total energy.
 
 !!! example "Task 3 - Kinetic Energy Cutoff"
 
@@ -247,6 +247,9 @@ Note that:
 
 Actually, we typically converge the total energy **per atom** (meV/atom) or **per electron** (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom/electron is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.
 
+??? note "Harder To Converge Orbitals"
+    We can make educated guesses on how easily structures can converge based on the orbitals they contain. For example, molecules containing elements that have d orbitals require much higher kinetic energy cutoffs. This is due to the localised nature of the d orbitals resulting in steper gradients of the wavefucntion and therefore needing much higher energy Fourier components in the plane-wave expansion of the Kohn-Sham states.
+
 ## Box Size
 
 Quantum Espresso uses periodic boundary conditions (recall that plane wave can only be used as a basis for periodic functions). Therefore, it is not possible to model a truly isolated molecule with Quantum Espresso. The best we can do is model a periodic crystal of molecules whose unit cell is so large that each molecule is not affected by the presence of all other molecules. The size of the unit cell (aka the box size) is therefore a convergence parameter and we must ensure it is sufficiently large so that physically meaningful results are obtained. Unfortunately, increasing the box size also increases the time of the calculations.
@@ -260,7 +263,8 @@ Quantum Espresso uses periodic boundary conditions (recall that plane wave can o
     - Take a look at the output file `CO_10.out`. What is the energy of the highest occupied molecular orbital (HOMO)?
 
         ??? success "Answer"
-	    The HOMO energy can be extracted from the list of Kohn-Sham energies, or alternatively is printed under `highest occupied level` in the output file.
+            The HOMO energy can be extracted from the list of Kohn-Sham energies, or alternatively is printed under `highest occupied level` in the output file.
+
             `highest occupied level (ev):    -9.0118`
 
     - Now inspect the output file `CO_26.out`. What is the energy of the highest occupied molecular orbital (HOMO)? How does this compare to the CO_10.out calculation where the distance between periodic images is much smaller?
@@ -300,7 +304,7 @@ done
 
 1. This tells the compiler that the commands below are bash commands.
 2. Entering a simple for loop going from i=10 to i=30 in steps of 2.
-3. Issue the command pw.x < CO_$i.in > CO_$i.out.
+3. Issue the command `pw.x < CO_$i.in > CO_$i.out.`
 
 To use this script, just issue the command;
 
@@ -345,6 +349,7 @@ def main():
 if __name__ == "__main__":
 	main()
 ```
+
 1. Loading in the data that is in column format in `data.txt`.
 2. The first column is the plane-wave cutoff in Ry and the second column is the corresponding total energy in eV.
 3. Initialising the size of our figure. This allows you to control the aspect ratio of the plot.
@@ -352,6 +357,11 @@ if __name__ == "__main__":
 5. After giving python all of the plotting information, we tell it to plot.
 
 ## Exchange & Correlation Energy Functionals
+
+
+Recall that in the Kohn-Sham equations we have a term known as the exange-correlation potential. What approximation we choose for this is a key part of DFT. The functional that we use determines how we approximate the many-body interactions between the electrons.
+
+As we discussed earlier, the pseudopotentials that we use are built from DFT calculations of single atoms. In these DFT calculations, an exchange-correlation functional was chosen. Thus, pseudopotentials inherently contain an exchange-correlation approximation. 
 
 Choosing an appropriate exchange-correlation functional for the system we want to study is an important consideration in every DFT calculation. This choice can have a big impact the results we obtain from our DFT calculation. 
 
@@ -367,63 +377,54 @@ By default, Quantum Espresso determines which exchange-correlation functional it
     It is generally not a good idea to override the default exchange-correlation functional read from the pseudopotential file. However, sometimes it may be difficult to find pseudopotentials for exotic exchange-correlation functionals. 
 
 
-In `03_argon` we will calculate the total energy as function of bond length for a pair of argon atoms using two different approximations for the exchange-correlation functional: first we will use a standard GGA functional and then we will study the effect of using a correction that accounts for van der Waals interactions.
+In `02_argon` we will calculate the total energy as function of bond length for a pair of argon atoms using two different approximations for the exchange-correlation functional: first we will use a standard GGA functional and then we will study the effect of using a correction that accounts for van der Waals interactions.
 
-!!! example "Task 8 - Argon Dimer"
-    Examine and run the scripts `file_builder.py` and `run.sh` in `03_argon/01_lda`.
+!!! example "Task 5 - Argon Dimer"
+    Navigate to the directory `02_argon/01_pbe`. Here you will see an input file `Ar2.in`, an argon pseudopotential file, and a python plotting code plot.py.
 
-    - What level theory is this at?
-
-    ??? success "Answer"
-        This is at the local density approximation (lda) level.
-
-    - What are these script doing?
+    - What level theory is this calculation going to be at?
 
     ??? success "Answer"
-        The script is generating multiple input files of varying bond length for the argon dimer and running a total energy calculation on them. The end of `run.sh` is collecting the relevant data for us and outputting it into a file called data.txt.
-    
-    Now examine and run the script `analysis.py`.
+        This is at the GGA (pbe) level.
 
-    - What is this script doing?
+    Make 10 copies of the input file named Ar2_i.in where i should run from 1 to 10 in steps of 1. In each of these files we want to systematically increase the distance between Ar atoms from 3.2 to 5 in steps of 0.2. Replace `xxxx` in the ATOMIC_POSITIONS of each file to do this. You should now have files named `Ar2_1.in`, `Ar2_2.in` etc with increasing dimer distances. You have been provided with a script `run.sh` that will automate the running of `pw.x`.
 
-    ??? success "Answer"
-        The script is looking through data.txt and finding the lowest energy. This is the 'optimal' distance between the two argon atoms.
+    - Run the script `run.sh`. One finished, store write the data in a text file named `data.txt` in the format: [dimer distance] [total energy].
+
+    - Examine the script `plot.py`. Read through the python script and try to understand what each line of code is doing.
 
     - At what distance does the argon dimer have the lowest energy?
 
     ??? success "Result"
-        a = 3.4 Å gives the minimum energy of -1172.70049957 eV
-        <figure markdown="span">
-        ![lda-dimer](assets/lda-dimer.png){ width="500" }
-        </figure>
-
-    Do the same for `03_argon/02_pbe`. This is at the GGA level, specifically using the pbe functional.
-
-    - At what distance does the argon dimer have the lowest energy?
-
-    ??? success "Result"
-        a = 4.0 Å gives the minimum energy of -1173.066229 eV
+        a = 4.0 Å gives the minimum energy of -86.2547336 Ry
 
         However, the minimum is not very well defined.
         <figure markdown="span">
         ![pbe-dimer](assets/pbe-dimer.png){ width="500" }
         </figure>
     
-    This is a known problem in DFT. LDA tends to 'overbind' and PBE tends to 'underbind'. In dimer situations like this Argon dimer, one may think van der Waals interactions are something important to consider. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through the exchange-correlation potential.
+    It is important to remember that the exchange-correlation potential is an approximation, and are not always entirely accurate e.g. PBE tends to 'underbind' atoms. In dimer situations like this Argon dimer, one may think van der Waals interactions are something important to consider. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through an exchange-correlation potential which includes van der Waals effects.
 
-    Navigate to `03_vdw`.
+    Navigate to `02_vdw`.
 
-    - Run `file_build.py`. Examine the input files. You will see a tag `vdw_corr = 'grimme-d3'`. This means that we are going to include van der Waals corrections (via a total energy correction term).
+    - Examine the input file Ar2.in. You will see a tag `vdw_corr = 'grimme-d3'`. This means that we are going to include van der Waals corrections (via a correction term to the total energy).
+
+    Do the same process as we did in `01_pbe`, making 10 copies of the Ar2.in named Ar2_i.in where i ranges from 1 to 10. Systematically increase the dimer distance over the same range and run the DFT calculations.
 
     - At what distance does the argon dimer have the lowest energy?
 
     ??? success "Result"
-        a = 3.8 Å gives the minimum energy of -1173.07559029 eV
+        a = 3.8 Å gives the minimum energy of -86.25537711 Ry
 
         <figure markdown="span">
         ![pbe-dimer](assets/pbe-dimer-vdw.png){ width="500" }
         </figure>
 
+
+
+## More Convergence Parameters
+
+So far we have only been dealing with isolated molecules, and thus we have been running our calculations with no $\bf{k}$ dependence. However, if we are dealing with crystals, which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in [Lab 4](../lab04/readme.md). The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.
 
 ------------------------------------------------------------------------------------
 
@@ -435,5 +436,4 @@ In this lab we gained a deeper understanding of the interrelated concepts of pla
 - Convergence of any physical quantity of interest is achieved by systematically varying the relevant convergence parameters and making sure their values are chosen such that physically meaning results are obtained.
 
 We also learned about the importance of choosing an appropriate exchange-correlation functional for the system we want to study.
-
 ------------------------------------------------------------------------------

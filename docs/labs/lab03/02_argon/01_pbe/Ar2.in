@@ -1,0 +1,33 @@
+&CONTROL
+   calculation      = 'scf'
+   disk_io          = 'none'
+   pseudo_dir       = '.'
+/
+
+&SYSTEM
+   ibrav            = 1
+   A                = 20
+   nat              = 2
+   ntyp             = 1
+   ecutwfc          = 30
+/
+
+&ELECTRONS
+   mixing_beta      = 0.7
+   diagonalization  = 'david'
+/
+
+&IONS
+/
+
+&CELL
+/
+
+ATOMIC_SPECIES
+Ar  39.948  Ar.pbe-n-rrkjus_psl.1.0.0.UPF
+
+ATOMIC_POSITIONS angstrom
+Ar  0.0       0.0       0.0
+Ar  0.0       0.0       xxxx
+
+K_POINTS gamma
