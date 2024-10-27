@@ -4,30 +4,37 @@ import matplotlib.pyplot as plt
 # Reading the data from the file
 data = np.loadtxt("bands.out.gnu")
 
-# Adjust the y-values (second column by subtracting 13.993)
-x = data[:, 0]
-y = data[:, 1] - 13.993
-# reshape, we have a total of 8 bands, each line contain 182 points
-x = x.reshape([8,182])
-y = y.reshape([8,182])
+# parameters (ticks are set later.)
+num_bands = 8
+E_Fermi = 13.993
 
-# Set up the plot
+# x -> the k-path
+x = data[:, 0]
+# y -> the energy
+y = data[:, 1] - E_Fermi
+
+# reshape to [num_bands, num_kpoints]
+x = x.reshape([num_bands,-1])
+y = y.reshape([num_bands,-1])
+
+# Set up the plot canvas
 fig, ax = plt.subplots()
 
-# set xrange
-ax.set_xlim([x[0,0],x[0,-2]])
+# set xrange to teh first and last k-point
+ax.set_xlim([x[0,0],x[0,-1]])
 
 # plot bands
-for bands in range(8):
+for bands in range(num_bands):
     ax.plot(x[bands], y[bands], linestyle='-', linewidth=1, color="tab:blue")
 
-#Setting custom x-ticks
-xticks_positions = [x[0,0], x[0,31], x[0,61], x[0,91], x[0,121],
+# setting custom x-ticks
+# note that "U|K" adds one additional point.
+xticks_positions = [x[0,0], x[0,30], x[0,60], x[0,91], x[0,121],
                     x[0,151],x[0,181]]
 xticks_labels = ["Γ", "X", "U|K", "Γ", "L", "W", "X"]
 plt.xticks(xticks_positions, xticks_labels)
 
-# Draw vertical grid lines
+# Draw vertical grid lines at the high symmetry points
 for xc in xticks_positions:
     plt.axvline(x=xc, color='gray', linestyle='--', linewidth=1.0)
 
@@ -35,11 +42,7 @@ for xc in xticks_positions:
 plt.ylabel("Energy (eV)")
 plt.title("Carbon Diamond Electronic Band Structure")
 
-# Hide the plot legend
-#  ax.legend().set_visible(False)
-
 # Saving the plot
-#  plt.savefig("C_diamond_bands.pdf", format='pdf')
 plt.savefig("C_diamond_bands.png", dpi=300)
 
 # Optionally display the plot window
