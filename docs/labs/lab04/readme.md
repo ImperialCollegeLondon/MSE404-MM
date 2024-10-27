@@ -17,7 +17,7 @@ your home directory.
 
 ## Basic input for Diamond :material-diamond-outline:
 As our first example of a solid we're going to look at diamond. You can find the
-input file at [:link: C_diamond.in](01_carbon_diamond/C_diamond.in), here I'll
+input file at [:link:C_diamond.in](01_carbon_diamond/C_diamond.in), here I'll
 give a brief overview of the input file:
 
 <!-- !!! tip annotate "Tip: In-code annotations"  -->
@@ -86,9 +86,9 @@ correspons to how many times the simulation cell is repeated along each
 direction. 
 
 Since real materials can be described as a huge cell made of many repetitions of
-the simulation cell (or unitcell if they are small enough) a dense enough
-k-point grid that finely samples the Brillouin zone is needed to accurately
-describe the behavior of electrons in materials.
+the simulation cell (unitcell), a dense enough k-point grid that finely samples
+the Brillouin zone is needed to accurately describe the behavior of electrons in
+materials.
 
 ### Structure Parameters for Crystals
 Now let's take a look at how the atomic positions in the unitcell are specified
@@ -100,13 +100,14 @@ lattce vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
 
 $$
 \begin{align} 
-\mathbf{r} &= \mathbf{r}_f \cdot [\mathbf{a},\mathbf{b},\mathbf{c}]\\
+\mathbf{r} &= [\mathbf{a},\mathbf{b},\mathbf{c}] \cdot \mathbf{r}_f\\
 &=x\mathbf{a} + y\mathbf{b} + z\mathbf{c} 
 \end{align}
 $$
 
-For diamond, which has the same atomic structure as Zinc Blende, the primitive
-cell of diamond looks like the following:
+For diamond, which has the same atomic structure as [:link:Zinc
+Blende](https://en.wikipedia.org/wiki/Cubic_crystal_system#Zincblende_structure),
+the primitive cell of diamond looks like the following:
 
 <figure markdown="span">
   ![Diamond primitive cell](assets/C_diamond_light.png#only-light){ width="200" }
@@ -128,7 +129,7 @@ $$
 
 !!! warning 
     Note that here we are using the experimentally measured lattice constant `A`
-    of 3.567 Å which might not be the same as teh DFT optimized value. In later
+    of 3.567 Å which might not be the same as the DFT optimized value. In later
     labs we'll see how to find the lattice constant predicted by DFT.
 
 Under this basis, the fractional coordinates of the two carbon atoms are (as we
@@ -226,20 +227,22 @@ with respect to the k-point sampling is necessary.**
 
 To test the convergence of the k-point grid, we need to calculate the total
 energy for different grid densities. Here, since the three lattice vectors are
-related by symmetry, the density of k-points along the three reciprocal lattice
-vecotrs should be identical and we can vary them all at the same time.
+related by a three-fold rotation symmetry, the density of k-points along the
+three reciprocal lattice vecotrs should be identical and we can vary them all at
+the same time.
 
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
     - The directory `02_convergence` contains input files to calculate the total
-      energy, try modify them and vary the k-point grid density (e.g., perform
-      calculations using 2 to 30 points along each direction) and see how the
-      total energy changes. If you have any trouble doing so, you can always
-      go back to [:link:lab03](../lab03/readme.md) for help.
+      energy, try modify them and vary the k-point grid density and see how the
+      total energy changes (e.g., perform a series of calculations with k-point
+      grid set to `2 2 2`, `4 4 4`, `6 6 6`, all the way to `30 30 30` and see
+      how the total energy changes). If you have any trouble doing so, you can
+      always go back to [:link:lab03](../lab03/readme.md) for help.
 
         ??? success "Result"
-            The sparsest converged (∆ ~10meV/atom) k-grid is
+            The sparsest converged k-grid (∆ ~10meV/atom) is around
             10$\times$10$\times$10.
             <figure markdown="span">
               ![Diamond primitive cell](assets/convergence.png){ width="500" }
@@ -251,17 +254,19 @@ vecotrs should be identical and we can vary them all at the same time.
       yourself and find the best set of parameters for diamond.
     
         ??? success "Tips"
-            Try starting with E_cut of ~60.0 Ry and converge the k-points. 
-            Or start with k-points of 30x30x30 and converge the energy cutoff.
+            Try starting with `ecutwfc` of ~60.0 Ry and converge the k-points. 
+            Or start with k-points of 30$\times$30$\times$30 and converge the
+            energy cutoff.
 
 ## The Electronic Band Structure
 
 ### What is the Electronic Band Structure?
 
-While the electronic density obtained from DFT is meaningful, the Kohn-Sham
-states are not strictly the electronic states of the system. **Nonetheless, they
-are in practice often a good first approximation of the electronic states of a
-system, so can be useful in understanding the properties of a system.**
+We know that, while the electronic density obtained from DFT is meaningful, the
+Kohn-Sham states are not strictly the electronic states of the system.
+**Nonetheless, they are in practice often a good first approximation of the
+electronic states of a system, so can be useful in understanding the properties
+of a system.**
 
 We have seen how to converge our calculations with respect to the sampled
 k-point grid density (task 2), and have seen in task 1 that the calculated
@@ -314,7 +319,7 @@ Since diamond has a face-centred cubic (FCC) lattice, we have
 chosen the path `Γ-X-U|K-Γ-L-W-X` where `U|K` means no k-point is sampled between `U` and `K`.
 
 A brief overview of the 
-[:link: input file](03_bandstructure/02_C_diamond_nscf.in) is 
+[:link:input file](03_bandstructure/02_C_diamond_nscf.in) is 
 given below:
 
 ```python
@@ -329,7 +334,7 @@ given below:
    nat =  2
    ntyp = 1
    ecutwfc = 30.0
-   # Add 4 conduction bands also
+   # Also add 4 additional bands (unoccupied states)
    nbnd = 8 #(2)!
 /
 
@@ -359,7 +364,8 @@ K_POINTS crystal_b #(3)!
 1.  `calculation = 'bands'` specifies that we are calculating the band
     structure.
 2.  `nbnd = 8` specifies that we want to calculate 8 bands. 4 more bands than
-    the default value of 4.
+    the default value of 4. We add these bands so that we can calculate the band
+    gap later.
 3.  `K_POINTS crystal_b` specifies that we are using the high symmetry k-points
     in the reciprocal lattice coordinates. The number of high symmetry points
     is given as 8, followed by the coordinates of each point and the number of
@@ -379,10 +385,10 @@ Now we need to extract the energies from this calculation and convert it to a
 dataset we can plot.
 
 To do this, we use the `bands.x` tool from the Quantum Espresso package.
-The [:link: input file](03_bandstructure/03_C_diamond_bands.in)
+The [:link:input file](03_bandstructure/03_C_diamond_bands.in)
 for `bands.x` contains only a `BANDS` section. For more fine-grained control
 please refer to 
-[:link: bands.x input description](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html).
+[:link:bands.x input description](https://www.quantum-espresso.org/Doc/INPUT_BANDS.html).
 
 !!! example "Task 3.3 - Extracting band energies"
     Run the input file
@@ -404,10 +410,12 @@ eV. The directory `03_bandstructure` contains python script
 
 !!! example "Task 3.4 - Plotting the band structure"
     Run the python script to plot the band
-    structure of carbon diamond.
+    structure of carbon diamond. 
     ```
-    python plotband_shifted.py 03_C_diamond_bands.dat
+    python plotband_shifted.py
     ```
+    Is carbon diamond a metal or an insulator? Where is the valence band maximum
+    and the conduction band minimum? how big is the band gap?
 
     ??? success "Final result"
         <figure markdown="span">
@@ -415,9 +423,11 @@ eV. The directory `03_bandstructure` contains python script
         </figure>
 
         From the final result we can see that the valence band max is at Γ (the
-        first point on our path), we could read the value of the energy at this
-        point from one of the other output files, `bands.out`. Note that here we
-        have shifted the entire spectrum so that this point is at 0 eV.
+        first point on our path), the conduction band min is located between Γ
+        and X and the band gap is around 4 eV. We could read the value of the
+        energy at this point from one of the other output files, `bands.out`.
+        Note that here we have shifted the entire spectrum so that this point is
+        at 0 eV.
 
 
 Summary
