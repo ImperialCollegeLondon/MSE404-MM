@@ -373,12 +373,16 @@ K_POINTS automatic
     file and see what happens when you try to run the calculation.
 
     ??? success "Example" 
+        The calculation will fail with the following error message:
         ```
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
              Error in routine electrons (1):
              charge is wrong: smearing is needed
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         ```
+
+     Also, try play around with the `degauss` value and see how the occupations
+     change. Does it match your expectations?
 
 ------------------------------------------------------------------------------
 
