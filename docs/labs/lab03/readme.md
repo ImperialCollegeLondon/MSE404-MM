@@ -26,7 +26,7 @@ To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` di
 
 !!! example "Task 1 - Pseudopotential File"
 
-    Navigate to the `01_carbon_monoxide/01_convergence_threshold` directory. Here you will see an input file `CO.in` and two pseudopotential files. Open the pseudopotential file for oxygen using the `less` command.
+    Navigate to the `01_carbon_monoxide/01_convergence_threshold` directory. Here you will see an input file `CO.in` and two pseudopotential files. Open the pseudopotential file for carbon using the `less` command.
 
     - Which approximation is used for the exchange-correlation functional?
 
@@ -34,7 +34,7 @@ To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` di
             The local density approximation (LDA). This is found at the top of the pseudopotential file:
 
             ```
-            Info:   O LDA 2s2 2p4 RRKJ3 US
+            Info: C LDA 2s2 2p2 VonBarth-Car, l=1 local
             ```
 
     - Which atomic orbitals are included as valence states and which ones are included in the core?
@@ -47,28 +47,10 @@ To start this lab, copy the `/opt/MSE404-MM/docs/labs/lab03` to your `MSE404` di
             2P  0  1  2.00      0.00000000000      0.00000000000      0.00000000000
             ```
             The core state are therefore the 1S state.
-    - What is the valence charge of the oxygen atom core consisting of the nucleus and the core electrons?
+    - What is the valence charge of the carbon atom core consisting of the nucleus and the core electrons?
 
         ??? success "Answer"
             The valence charge is 4. This is state in the line `4.00000000000 Z valence`:
-            ```
-            <PP_HEADER>
-            0                      Version Number
-            C                      Element
-            NC                     Norm - Conserving pseudopotential
-            F                      Nonlinear Core Correction
-            SLA PZ NOGX NOGC PZ    Exchange-Correlation functional
-            4.00000000000          Z valence
-            0.00000000000          Total energy
-            0.0000000  0.0000000   Suggested cutoff for wfc and rho
-            0                      Max angular momentum component
-            269                    Number of points in mesh
-            2    1                 Number of Wavefunctions, Number of Projectors
-            Wavefunctions          nl  l   occ
-                                   2S  0  2.00
-                                   2P  1  2.00
-            </PP_HEADER>
-            ```
 
 
 ## Total Energy Convergence Threshold
