@@ -28,7 +28,6 @@ def main():
     plt.ylabel("Total Energy (Ry)")
     plt.xlabel("Dimer Distance (Å)")
     plt.title("PBE Dimer Distance")
-    plt.savefig("pbe-dimer-vdw.png", dpi=400)
     plt.show()
 
 if __name__ == "__main__":

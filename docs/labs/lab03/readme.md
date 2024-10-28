@@ -436,4 +436,3 @@ In this lab we gained a deeper understanding of the interrelated concepts of pla
 - Convergence of any physical quantity of interest is achieved by systematically varying the relevant convergence parameters and making sure their values are chosen such that physically meaning results are obtained.
 
 We also learned about the importance of choosing an appropriate exchange-correlation functional for the system we want to study.
-------------------------------------------------------------------------------
