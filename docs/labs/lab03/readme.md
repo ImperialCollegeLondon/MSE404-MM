@@ -414,7 +414,7 @@ In `02_argon` we will calculate the total energy as function of bond length for 
     - At what distance does the argon dimer have the lowest energy?
 
     ??? success "Result"
-        a = 3.8 Å gives the minimum energy of -86.25537711 Ry. This is in good agreement with the experimental result of 3.76 Å.
+        a = 3.8 Å gives the minimum energy of -86.25537711 Ry. This is in good agreement with the experimental result of 3.76 Å (see Molecular Physics, 103 (15–16), 2031–2045 (2005)).
 
         <figure markdown="span">
         ![pbe-dimer](assets/pbe-dimer-vdw.png){ width="500" }
