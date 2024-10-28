@@ -382,39 +382,39 @@ In `02_argon` we will calculate the total energy as function of bond length for 
 !!! example "Task 5 - Argon Dimer"
     Navigate to the directory `02_argon/01_pbe`. Here you will see an input file `Ar2.in`, an argon pseudopotential file, and a python plotting code plot.py.
 
-    - What level theory is this calculation going to be at?
+    - Find out which approximation for the exchange-correlation functional is used by taking a look at the pseudopotential file.
 
     ??? success "Answer"
         This is at the GGA (pbe) level.
 
     Make 10 copies of the input file named Ar2_i.in where i should run from 1 to 10 in steps of 1. In each of these files we want to systematically increase the distance between Ar atoms from 3.2 to 5 in steps of 0.2. Replace `xxxx` in the ATOMIC_POSITIONS of each file to do this. You should now have files named `Ar2_1.in`, `Ar2_2.in` etc with increasing dimer distances. You have been provided with a script `run.sh` that will automate the running of `pw.x`.
 
-    - Run the script `run.sh`. One finished, store write the data in a text file named `data.txt` in the format: [dimer distance] [total energy].
+    - Run the script `run.sh`. One finished, store the data in a text file named `data.txt` in the format: [dimer distance] [total energy].
 
     - Examine the script `plot.py`. Read through the python script and try to understand what each line of code is doing.
 
-    - At what distance does the argon dimer have the lowest energy?
+    - At which distance does the argon dimer have the lowest energy?
 
     ??? success "Result"
         a = 4.0 Å gives the minimum energy of -86.2547336 Ry
 
-        However, the minimum is not very well defined.
+        However, the minimum is very shallow.
         <figure markdown="span">
         ![pbe-dimer](assets/pbe-dimer.png){ width="500" }
         </figure>
     
-    It is important to remember that the exchange-correlation potential is an approximation, and are not always entirely accurate e.g. PBE tends to 'underbind' atoms. In dimer situations like this Argon dimer, one may think van der Waals interactions are something important to consider. In fact, in this case it is very important. Van der Waals can be taken into account in different ways - an additional term added to the total energy or directly through an exchange-correlation potential which includes van der Waals effects.
+    Argon atoms have full electronic shells. Therefore, they cannot form chemical bonds. They only interact with weak van der Waals interactions. The PBE exchange-correlation functional does not describe these interactions well. To capture them, we will have to introduce a special van der Waals correction.
 
     Navigate to `02_vdw`.
 
     - Examine the input file Ar2.in. You will see a tag `vdw_corr = 'grimme-d3'`. This means that we are going to include van der Waals corrections (via a correction term to the total energy).
 
-    Do the same process as we did in `01_pbe`, making 10 copies of the Ar2.in named Ar2_i.in where i ranges from 1 to 10. Systematically increase the dimer distance over the same range and run the DFT calculations.
+    Go through the same steps as in `01_pbe`, making 10 copies of the Ar2.in named Ar2_i.in where i ranges from 1 to 10. Systematically increase the dimer distance over the same range and run the DFT calculations.
 
     - At what distance does the argon dimer have the lowest energy?
 
     ??? success "Result"
-        a = 3.8 Å gives the minimum energy of -86.25537711 Ry
+        a = 3.8 Å gives the minimum energy of -86.25537711 Ry. This is in good agreement with the experimental result of 3.76 Å.
 
         <figure markdown="span">
         ![pbe-dimer](assets/pbe-dimer-vdw.png){ width="500" }
