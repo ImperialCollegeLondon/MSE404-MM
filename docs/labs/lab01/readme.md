@@ -26,14 +26,14 @@ The server can be accessed by using PuTTY and XMing, which can be run from the [
     ![text](images/5puttyX11.PNG){: width="600" }
     3. In the **Session** tab, under **Host Name**, input the name of the server that you want to access, and save this session by giving it a name under **Saved Sessions** and clicking **Save**. Whenever you want to reconnect with PuTTY, you can simply load this session again. Finally, click **Open**:<br>
     ![text](images/5putty.PNG){: width="600" }    
-    4. If this is your first time connecting to this server, you might get a security alert asking whether you want to accept the host key. Press "Accept".<br>
+    4. If this is your first time connecting to this server, you might get a security alert asking whether you want to accept the host key. Press ***Accept***.<br>
     ![text](images/sec_alert.PNG){: width="600" }
-    5. A terminal will be presented to you. In order to login, you will have to enter your College username, press **Enter**, enter your password and press **Enter** again.<br>
+    5. A terminal will be presented to you. In order to login, you will have to enter your College username, press ***Enter***, enter your password and press ***Enter*** again.<br>
     ![text](images/6terminal.PNG){: width="600" }
 
-    **Note:** while we try to ensure students registered for the course have access before the first class, we may not have the most up-to-date information. If it doesn't accept your login details please let me know and we can give you access.<br>
+    ***Note:*** while we try to ensure students registered for the course have access before the first class, we may not have the most up-to-date information. If it doesn't accept your login details please let me know and we can give you access.<br>
 
-    **Congratulations**! You are now connected to **matmod** and have complete access to its powerful Linux command line.
+    ***Congratulations***! You are now connected to ***matmod*** and have complete access to its powerful Linux command line.
 
 
 
@@ -84,12 +84,12 @@ where the number of arguments can be virtually arbitrary.
 
 
 ### 3.1 Writing to and reading from file
-In many circumstances, you might want to save the output of a command to a file so that you can process it later. This can be done with the **output redirect** symbol `>`. For example, running 
+In many circumstances, you might want to save the output of a command to a file so that you can process it later. This can be done with the ***output redirect*** symbol `>`. For example, running 
 ```bash
 date > file.txt 
 ```
 
-in the command line will save the output that you got previously into the file called “file.txt”. You can check that this file has been created by using gedit.
+in the command line will save the output that you got previously into the file called `file.txt`. You can check that this file has been created by using gedit.
 
 !!! example "Task 3: saving to file"
     1. Run the previous command
@@ -112,17 +112,17 @@ While gedit provides all the means necessary to read and write files, it can be 
     ![text](images/11cat.PNG){: width="600" }
 
  
- If the file is very long, you can also use `head file.txt` if you just want to print out the first lines of the file, or `tail file.txt` if you just want to print out the last lines. Alternatively, you can use a more interactive command like `less file.txt` which will replace the terminal with a file reader that you can scroll through with your mouse wheel or the keyboard arrows. You can exit this file reader by pressing `q`. Reading the file directly from the command line is often the quickest and most convenient way to do so.
+ If the file is very long, you can also use `head file.txt` if you just want to print out the first lines of the file, or `tail file.txt` if you just want to print out the last lines. Alternatively, you can use a more interactive command like `less file.txt` which will replace the terminal with a file reader that you can scroll through with your mouse wheel or the keyboard arrows. You can exit this file reader by pressing `q`. Reading the file directly from the command line is often the quickest and most convenient way to get information from a file.
 
 ### 3.2 Using a file as argument to a command
-Some Linux commands can use instructions saved in files to perform their job. For the purposes of this Lab, we will be doing this by using the **input redirect** feature with the symbol `<`. 
+Some Linux commands can use instructions saved in files to perform their job. For the purposes of this Lab, we will be doing this by using the ***input redirect*** feature with the symbol `<`. 
 
 !!! example "Task 5 - Files as input"
     The command `sort` sorts the input that is given to it. 
 
-    1. Using gedit, create a file called **numbers.txt** containing three separate lines with the numbers 3,9 and 1
+    1. Using gedit, create a file called `numbers.txt` containing three separate lines with the numbers 3,9 and 1
     2. Run `sort < numbers.txt`. This command will print out the sorted list of numbers.
-    3. Save the output of this command into another file **numbers_sorted.txt** using what you learned previously: `sort < numbers.txt > numbers_sorted.txt`
+    3. Save the output of this command into another file `numbers_sorted.txt` using what you learned previously: `sort < numbers.txt > numbers_sorted.txt`
     4. Read the contents of this new file using `cat` and check that the numbers have been sorted
 
     ![text](images/12numbersgedit.PNG){: width="600" }
@@ -133,12 +133,12 @@ Some Linux commands can use instructions saved in files to perform their job. Fo
 So far, all the commands you have been running were executed inside of your **home** directory. In a GUI, you navigate the system by clicking on folders with the cursor and looking at their contents. In a terminal, everything is done via commands. Instead of clicking on a folder, you issue a command to change your current location to that folder. Instead of visualizing the files as icons inside a folder, you issue a command to show the file names in the current directory.
 
 ### 4.1 Understanding the directory structure
-The directory (or folder) structure in Linux is defined through the use of the forward slash `/`. For example, `/file1.txt` means that `file1.txt` is inside the root directory, which is represented by a single forward slash `/`. `/directory1/file1.txt` means that `file1.txt` is inside `directory1` which is inside the root directory `/`. As a user of the **matmod** server, your files are located in the directory `/home/username`, which has a shorthand expression `~`. This is called the **home** directory.
+The directory (or folder) structure in Linux is defined through the use of the forward slash `/`. For example, `/file1.txt` means that `file1.txt` is inside the root directory, which is represented by a single forward slash `/`. `/directory1/file1.txt` means that `file1.txt` is inside `directory1` which is inside the root directory `/`. As a user of the ***matmod*** server, your files are located in the directory `/home/username`, which has a shorthand expression `~`. This is called the ***home*** directory.
 
 ![text](images/13home.PNG){: width="600" }
 
 ### 4.2 Figuring out where you are
-If you want to check what is your current directory, run the command `pwd`, which stands for **print working directory**. This will print out something like “/home/sjoao”, which means that the directory “sjoao” is located inside the directory “home”. It also means that you are currently located inside the `/home/username` folder. This directory “/home/sjoao” is known as the home directory, and is equivalently represented by a tilde “~” as a shorthand.
+If you want to check what is your current directory, run the command `pwd`, which stands for ***print working directory***. This will print out something like `/home/sjoao`, which means that the directory `sjoao` is located inside the directory `home`. It also means that you are currently located inside the `/home/username` folder. This directory `/home/sjoao` is known as the home directory, and is equivalently represented by a tilde `~` as a shorthand.
 
 !!! example "Task 4.1"
     Run the command `pwd` in the command line. Check that this output corresponds to a directory structure as discussed above
@@ -146,7 +146,7 @@ If you want to check what is your current directory, run the command `pwd`, whic
     ![text](images/14pwd.PNG){: width="600" }
 
 ### 4.3 List the contents of the directory
-If you want to list the contents of your current directory, run the list command `ls`. This will print out to the terminal the list of folders and files that exist in the current directory. Note: in the terminal, the digit "1" and the character "l" may look identical.
+If you want to list the contents of your current directory, run the ***list*** command `ls`. This will print out to the terminal the list of folders and files that exist in the current directory. ***Note***: in the terminal, the digit ***1*** and the letter ***l*** may look identical, so be sure you write the letter, not the digit.
 
 !!! example "Task 4.3" 
     Run the command `ls` and check that the files that you created in the previous tasks are here.
@@ -154,7 +154,7 @@ If you want to list the contents of your current directory, run the list command
 
 
 ### 4.4 Creating new directories and changing directories
-The command `mkdir` (which stands for **make directory**) is used to create new directories inside of the current directory. If you run `mkdir newDirectory`, you will see that a directory **newDirectory** has been created. To navigate to that directory, run `cd newDirectory`. To navigate to its parent directory, run `cd ..` in the command line. The two dots **..** stand for **parent directory**. 
+The command `mkdir` (which stands for ***make directory***) is used to create new directories inside of the current directory. If you run `mkdir newDirectory`, you will see that a directory `newDirectory` has been created. To navigate to that directory, run `cd newDirectory`. To navigate to its parent directory, run `cd ..` in the command line. The two dots `..` stand for ***parent directory***. 
 
 These commands are all relative to the current directory, but you can also use the absolute path. For example, run `mkdir ~/newDirectory/dir2`. You will see that a directory will be created inside of **newDirectory**, which is inside of your home `~` directory. To navigate to it directly, you can run `cd ~/newDirectory/dir2` in just the same way. Running `cd ~` will place you back into your home directory.
 
@@ -168,7 +168,7 @@ These commands are all relative to the current directory, but you can also use t
 ## 5. File manipulation
 
 ### 5.1 Copying files
-In the terminal, you copy files by using the `cp` command, which requires the origin (file to be copied) to be specified as the first argument and destination to be specified as second argument. For example, if you want to copy file `~/text.txt` (which is located in your home folder) to the directory **~/newDirectory/dir2**, you can do it in two ways:
+In the terminal, you copy files by using the `cp` command, which requires the origin (file to be copied) to be specified as the first argument and destination to be specified as second argument. For example, if you want to copy file `~/text.txt` (which is located in your home folder) to the directory `~/newDirectory/dir2`, you can do it in two ways:
 
 1. Specify the full paths:
 ```
@@ -179,11 +179,11 @@ cp ~/file.txt  ~/newDirectory/dir2
 cd ~/newDirectory/dir2
 cp ~/file.txt .
 ```
-The dot `.` in this last command represents **this directory**, so the command means: “copy the file ~/file.txt, which is located in the home directory into the current directory”. <br>
-**Note:** if the file already exists in the destination, it will be overwritten. 
+The dot `.` in this last command represents ***this directory***, so the command means: “copy the file `~/file.txt`, which is located in the home directory into the current directory”. <br>
+***Note:*** if the file already exists in the destination, it will be overwritten. 
 
 ### 5.2 Copying folders
-To copy folders, the only extra thing you need to do is to specify the additional “-r” argument to “cp”. For example, you can copy the directory dir2, which has the location “~/newDirectory/dir2” to the home directory as such:
+To copy folders, the only extra thing you need to do is to specify the additional `-r` argument to `cp`. For example, you can copy the directory `dir2`, which has the location `~/newDirectory/dir2` to the home directory as such:
 ```
 cp -r ~/newDirectory/dir2  ~
 ```
@@ -195,33 +195,33 @@ cp -r ~/newDirectory/dir2  ~
 
 
 ### 5.3 Moving and renaming files
-The syntax to move files is exactly the same as the one for the “cp” command. To move a file “file.txt” from “~/newDirectory/dir2” to “~/newDirectory”, run the command
+The syntax to move files is exactly the same as the one for the `cp` command. To move a file `file.txt` from `~/newDirectory/dir2` to `~/newDirectory`, run the command
 ```
 mv ~/newDirectory/dir2/file.txt ~/newDirectory
 ```
-You can also move directories in a similar way to “cp”, but without the additional “-r” argument. 
+You can also move directories in a similar way to `cp`, but without the additional `-r` argument. 
 !!! example "Task"
 
-    Create a new directory “dir3” inside the home directory and move “~/dir2” into “dir3”
+    Create a new directory `dir3` inside the home directory and move `~/dir2` into `dir3`
     ```
     cd ~
     mkdir dir3
     mv dir2 dir3
     ```
 
-To rename a file, you also use the “mv” command. You can think of renaming a file as moving a file into another with a different name. For example, to rename “file.txt” to “data.txt”, use “mv file.txt data.txt”
+To rename a file, you also use the `mv` command. You can think of renaming a file as moving a file into another with a different name. For example, to rename `file.txt` to `data.txt`, use `mv file.txt data.txt`
 
 !!! example "Task"
     Run the previous command and check that the file has the expected name.
 
 
 ### 5.4 Deleting files
-To delete a file, you use the “rm” command. For example, if you want to remove file “file.txt”, use
-`rm file.txt`. To delete directories, the argument “-r” has to be provided: `rm -r ~/newDirectory/dir2`<br>
-**Note:** If you run the “rm” command, the deleted file or directory will be deleted permanently, there is no way to undo it, so make sure you are running the correct command.
+To delete a file, you use the `rm` command. For example, if you want to remove file `file.txt`, use
+`rm file.txt`. To delete directories, the argument `-r` has to be provided: `rm -r ~/newDirectory/dir2`<br>
+**Note:** If you run the `rm` command, the deleted file or directory will be deleted permanently, there is no way to undo it, so make sure you are running the correct command.
 
 !!! example "Task"
-    Run the previous command and check that file.txt and dir2 no longer exist.
+    Run the previous command and check that `file.txt` and `dir2` no longer exist.
 
 
 ## 6. Wildcards
@@ -314,12 +314,38 @@ Running commands may produce a lot of output, making it difficult to find the in
     Modify the example above to print out all the lines containing the keyword `total`. Why do you get several outputs now?
 
 
-## 12. Logging out
+
+## 12. Uploading files to matmod
+In order to complete your homework assignments, you might want to upload your DFT input files to matmod and use matmod to perform the DFT calculations. In this section, you will learn how to do that. In the Imperial Software Hub, search and run ***WinSCP***
+
+![text](images/23softhub.PNG){: width="600" }
+
+You will be presented with an interface to input the connection details. This is similar to what you have done with PuTTY.
+
+![text](images/23winscp.PNG){: width="600" }
+
+After the connection is successful, you will be prompted to add the host key to a cache. Press ***Accept***
+
+![text](images/23security.PNG){: width="600" }
+
+Finally, you will be presented with a window with your Windows folders on the left and your matmod folders on the right. Now you can simply drag and drop the files you want into matmod. In this example, we are uploading some file containing instructions, but in your case you might be uploading the DFT input files.
+
+![text](images/23dragdrop.PNG){: width="600" }
+
+
+!!! example "Task"
+
+    1. Using WinSCP, upload a file of your choice to matmod.
+
+    2. Using the Linux command line you were using previously, check with `ls` that the file you just uploaded shows up in the correct directory.
+
+
+## 13. Logging out
 Once you're done, exit the session by closing the terminal and then pressing *OK*. This will close Putty. Finally, go back to the Cloudpaging Player, select Xming, Stop the application and press *Yes*.
 
 ![text](images/22exit.PNG){: width="600" }
 
-## 13. Summary
+## 14. Summary
 
 There are a lot of commands to remember from this week's lab. You can always
 refer back to this week, but to make things easier in future weeks you might
