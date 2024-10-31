@@ -93,7 +93,7 @@ vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
 
 $$
 \begin{align} 
-\mathbf{r} = = x_c \mathbf{a} + y_c \mathbf{b} + z_c \mathbf{c} 
+\mathbf{r} = x_c \mathbf{a} + y_c \mathbf{b} + z_c \mathbf{c} 
 \end{align}
 $$
 
