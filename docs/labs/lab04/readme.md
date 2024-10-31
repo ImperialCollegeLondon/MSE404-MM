@@ -84,23 +84,22 @@ corresponds to size of the crystal we are modelling, i.e. a crystal that consist
 
 
 ### Structure Parameters for Crystals
-Now let's take a look at how the atomic positions in the unitcell are specified
+Now let's take a look at how the atomic positions in the unit cell are specified
 in the input file.
 
-As discussed in the lecture, absolute Cartesian coordinates $\mathbf{r}=[x,y,z]$
-and fractional coordinates $\mathbf{r}_f=(x_f,y_f,z_f)$ are related by the three
-lattce vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
+Quantum Espresso allows us to express the atomic positions either in absolute Cartesian coordinates $(x,y,z)$ or 
+alternatively in crystal coordinates $(x_c,y_c,z_c)$. The position vector of the atom can then be obtained from the lattice
+vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
 
 $$
 \begin{align} 
-\mathbf{r} &= [\mathbf{a},\mathbf{b},\mathbf{c}] \cdot \mathbf{r}_f\\
-&=x\mathbf{a} + y\mathbf{b} + z\mathbf{c} 
+\mathbf{r} = = x_c \mathbf{a} + y_c \mathbf{b} + z_c \mathbf{c} 
 \end{align}
 $$
 
 For diamond, which has the same atomic structure as [:link:Zinc
 Blende](https://en.wikipedia.org/wiki/Cubic_crystal_system#Zincblende_structure),
-the primitive cell of diamond looks like the following:
+the atomic structure looks like this:
 
 <figure markdown="span">
   ![Diamond primitive cell](assets/C_diamond_light.png#only-light){width="200"}
@@ -108,7 +107,7 @@ the primitive cell of diamond looks like the following:
 </figure>
 
 
-To specify the primitive cell shape, we first set `ibrav=2`, i.e. face-centred
+To specify the shape of the primitive unit cell, we first set `ibrav=2`, i.e. face-centred
 cubic (fcc) Bravais lattice. Internally, with `ibrav=2`, Quantum ESPRESSO sets
 the the fcc lattice vectors as:
 
@@ -125,13 +124,13 @@ $$
     of 3.567 Å which might not be the same as the DFT optimized value. In later
     labs we'll see how to find the lattice constant predicted by DFT.
 
-Under this basis, the fractional coordinates of the two carbon atoms are (as we
+In terms of these lattice vectors, the crystal coordinates of the two carbon atoms are (as we
 see in the input file, indicated by `ATOMIC_POSITIONS crystal`):
 
 $$
 \begin{align*}
-\mathbf{r}_f^{C1} &= (0,0,0) \\
-\mathbf{r}_f^{C2} &= (\frac{1}{4},\frac{1}{4},\frac{1}{4})
+\mathbf{r}_c^{C1} &= (0,0,0) \\
+\mathbf{r}_c^{C2} &= (\frac{1}{4},\frac{1}{4},\frac{1}{4})
 \end{align*}
 $$
 
@@ -161,11 +160,11 @@ $$
         ??? success "Answer"
 
             We requested a 4$\times$4$\times$4 grid but instead in the ouput
-            file indicates 10 k-points are being calculated. This is because
-            Quantum espresso uses crystal symmetries to relate certain k-points
+            file indicates 10 k-points are being used. This is because
+            Quantum Espresso uses crystal symmetries to relate certain k-points
             and to reduce the computational load.
 
-    - What are the eigenvalues and occupations?
+    - What are the eigenvalues?
 
         ??? success "Answer"
             For periodic systems, we have a set of band energies for each 
