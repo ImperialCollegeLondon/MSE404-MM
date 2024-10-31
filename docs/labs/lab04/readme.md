@@ -5,8 +5,8 @@ This week we are going to start doing some calculations on solids, i.e.,
 periodic crystals. Many of the principles will be the same, but as you will see
 there are a few things that need to be done differently. 
 
-As before, all the inpus and scripts you need can be found in
-`/opt/MSE404-MM/docs/labs/lab04` and you should make a copy of the folder to
+As before, all the inputs and scripts you need can be found in
+`/opt/MSE404-MM/docs/labs/lab04` and you should copy the folder to
 your home directory.
 
 <!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
@@ -17,7 +17,7 @@ your home directory.
 
 ## Basic input for Diamond :material-diamond-outline:
 
-As our first example of a crystal solid we're going to look at diamond. You can
+As our first example of a crystalline solid we're going to look at diamond. You can
 find the input file at [:link:C_diamond.in](01_carbon_diamond/C_diamond.in),
 here I'll give a brief overview of it:
 
@@ -63,13 +63,10 @@ K_POINTS automatic #(3)!
     coordinates of the unit cell vectors (defined by `ibrav` and
     [`A`](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm260)).
 3.  We are using automically generated k-point grid with a 4$\times$4$\times$4
-    grid size, `1 1 1` means to shift the grid by 1 grid point in each direction
-    so that the gird includes the $\Gamma$ point.
+    grid size, `1 1 1` means to shift the grid by one half of a grid spacing in each direction. 
 
 ### k-points
-One important difference between periodic crystals and molecules is that, due to
-periodic boundary conditions, the electronic states are not localised and need
-to be expressed in a Bloch form: 
+One important difference between periodic crystals and molecules is that the electronic states are not localised and their wavefunction is given by Bloch's theorem: 
 
 $$
 \psi_{n\mathbf{k}}(\mathbf{r}) =
@@ -77,19 +74,14 @@ e^{i\mathbf{k}\cdot\mathbf{r}}u_{n\mathbf{k}}(\mathbf{r}),
 $$
 
 where the electronic states are labelled by both the band index $n$ and the
-k-point $\mathbf{k}$. As discussed in the lecture, $\mathbf{k}$ needs sample the
-first Brillouin zone (which is the reciprocal counter part of the unitcell). 
+k-point $\mathbf{k}$. As discussed in the lecture, $\mathbf{k}$ lies in the
+first Brillouin zone. 
 
 The additional card `K_POINTS` in the input file specifies the k-point grid.
-The first three number `4 4 4` represents how many k-points are generated along
-each directions of the reciprocal lattice vectors. In real space, they
-correspons to how many times the simulation cell is repeated along each
-direction. 
+The first three numbers `4 4 4` represent how many k-points are generated along
+each direction of the reciprocal lattice vectors. In real space, this
+corresponds to size of the crystal we are modelling, i.e. a crystal that consists of $4 \times 4 \times 4$ unit cells. The fineness of the k-point grid is a convergence parameters. We must make sure that it is sufficiently fine such that physically meaningful results are obtained.
 
-Since real materials can be described as a huge cell made of many repetitions of
-the simulation cell (unitcell), a dense enough k-point grid that finely samples
-the Brillouin zone is needed to accurately describe the behavior of electrons in
-materials.
 
 ### Structure Parameters for Crystals
 Now let's take a look at how the atomic positions in the unitcell are specified
