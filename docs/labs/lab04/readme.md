@@ -257,15 +257,15 @@ Kohn-Sham states are not strictly the electronic states of the system.
 electronic states of a system, so can be useful in understanding the properties
 of a system.**
 
-We have seen how to converge our calculations with respect to the sampled
-k-point grid density (task 2), and have seen in task 1 that the calculated
-eigenvalues are a bit different at each calculated k-point. Now we want to see
-exatcly how these eigenvalues change as we move from one k-point to the next.
+We have seen how to converge our calculations with respect to the
+k-point grid size (task 2), and have found in task 1 that the calculated
+energy eigenvalues are a bit different at each calculated k-point. Now we want to study
+how exactly these eigenvalues change as we move from one k-point to the next.
 
 Examining how the Kohn-Sham energies change from one k-point to the next can
 tell us useful things such as if a material is likely to have a direct or
-indirect optical gap for example. For this we need to visualize how the energies
-of the states vary with k-point. The usual way this is done is to plot the band
+indirect optical gap. For this it is useful to visualize how the energies
+change along a k-point path in the first Brillouin zone. The usual way this is done is to plot the band
 energies along lines between the various high-symmetry k-points in the Brillouin
 zone. For example, a high symmetry path for a face-centred cubic (FCC) lattice
 (see figure below) could be `Γ—X—U|K—Γ—L—W—X`:
@@ -284,8 +284,8 @@ The directory `03_bandstructure` contains input files to calculate and plot the
 band structure of diamond. This a four-step process:
 
 #### Step 1 - SCF Calculation
-The first step is to alculate a converged density with a standard
-self-consistent field (SCF) calculation. In this step, the charge density is
+The first step is to calculate a converged electron density with a standard
+self-consistent field (SCF) calculation. In this step, the electron density is
 optimized in order to minimize the total energy of the system. The input file
 can be found at
 [:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in). 
@@ -293,18 +293,16 @@ can be found at
 !!! example "Task 3.1 - SCF Calculation"
     Run the input file
     [:link:01_C_diamond_scf.in](03_bandstructure/01_C_diamond_scf.in)
-    to get the ground state charge density.
+    to calculate the ground state electron density.
     ```
     pw.x < 01_C_diamond_scf.in > 01_C_diamond_scf.out
     ```
    
 #### Step 2 - NSCF(bands) Calculation
-The second step is to use the obtained charge density to construct Hamiltonian
-at a certain set of k-points and diagonalize them obtain the Kohn-Sham
+The second step is to use the obtained electron density to construct the Kohn-Sham Hamiltonian
+at a set of k-points along the path we want to study and to calculate the Kohn-Sham
 eigenvalues at those k-points. This is called a non-self-consistent field (NSCF)
-calculation as the charge density is kept fixed. We choose a set of k-points
-along a path in the Brillouin zone so that we can later visualize how the
-eigenvalues change along this path.
+calculation as the charge density is kept fixed. 
 
 A brief overview of the 
 [:link:input file](03_bandstructure/02_C_diamond_nscf.in) is 
@@ -354,10 +352,10 @@ K_POINTS crystal_b #(3)!
 2.  `nbnd = 8` specifies that we want to calculate 8 bands. 4 more bands than
     the default value of 4. We add these bands so that we can calculate the band
     gap later.
-3.  `K_POINTS crystal_b` specifies that we are using the high symmetry k-points
-    in the reciprocal lattice coordinates. The number of high symmetry points
-    is given as 8, followed by the coordinates of each point and the number of
-    points to generate between it and the next point.
+3.  `K_POINTS crystal_b` specifies that we express the high-symmetry k-points
+    in crystal coordinates. The number of high-symmetry k-points
+    is 8, followed by the crystal coordinates of each k-point and the number of
+    points to generate along the section of the path that connects this k-point to the next one in the list. 
 
 Since diamond has a face-centred cubic (FCC) lattice, we have chosen the path
 `Γ-X-U|K-Γ-L-W-X` where `U|K` means no k-point is sampled between `U` and `K`.
@@ -379,7 +377,7 @@ Since diamond has a face-centred cubic (FCC) lattice, we have chosen the path
         ```
 
 #### Step 3 - Extracting Band Energies
-Now we need to extract the energies from this calculation and convert it to a
+Now we need to extract the Kohn-Sham energies from the output file and convert them into a
 dataset we can plot.
 
 To do this, we use the `bands.x` tool from the Quantum Espresso package.
@@ -391,7 +389,7 @@ please refer to
 !!! example "Task 3.3 - Extracting band energies"
     Run the input file
     [:link:03_C_diamond_bands.in](03_bandstructure/03_C_diamond_bands.in) with
-    `bands.x`to extract and organize the eigenvalues calculated by the last
+    `bands.x` to extract and organize the eigenvalues calculated in the last
     step. 
     ```
     bands.x < 03_C_diamond_bands.in > 03_C_diamond_bands.out
@@ -400,9 +398,9 @@ please refer to
 
 #### Step 4 - Plotting the Band Structure 
 Finally, we are ready  to plot the band structure. The band structure is
-typically plotted with the energy on the y-axis and the high symmetry points on
+typically plotted with the energy on the y-axis and the high-symmetry k-points on
 the x-axis. The energy is usually shifted so that the valence band maximum is at
-0 eV. The directory `03_bandstructure` contains python script
+0 eV. The directory `03_bandstructure` contains a python script
 (`plotband_shifted.py`) that can be used to plot the band structure.
 
 
@@ -412,31 +410,28 @@ the x-axis. The energy is usually shifted so that the valence band maximum is at
     ```
     python plotband_shifted.py
     ```
-    Is carbon diamond a metal or an insulator? Where is the valence band maximum
-    and the conduction band minimum? how big is the band gap?
+    Is carbon diamond a metal or an insulator? At which k-points is the valence band maximum
+    and the conduction band minimum? How large is the band gap (and is it direct or indirect)?
 
     ??? success "Final result"
         <figure markdown="span">
           ![Diamond primitive cell](assets/band_structure.svg){ width="500" }
         </figure>
 
-        From the final result we can see that the valence band max is at Γ (the
-        first point on our path), the conduction band min is located between Γ
-        and X and the band gap is around 4 eV. We could read the value of the
-        energy at this point from one of the other output files, `bands.out`.
-        Note that here we have shifted the entire spectrum so that this point is
+        From the graph we can see that the valence band maximum is at Γ (the
+        first point on our path), the conduction band minimum is located between Γ
+        and X and the size of the indirect band gap is around 4 eV (note that this is significantly smaller than the experimentally measured band gap of diamond). Note that here we have shifted the entire spectrum so that this point is
         at 0 eV.
 
 
 Summary
 -------
 
-- In this lab we looked at how to:
-    - reach k-point convergence in solids.
+- In this lab we learned how to:
+    - achieve k-point convergence in solids.
     - calculate the electronic band structure of a solid.
 - We have seen how several calculations may be chained together where the
-  output of one is used as an input for a subsequent calculation.
-- We should always keep in mind that the Kohn-Sham eigenvalues as obtained
-  from a DFT calculation do not correspond to the real interacting electron
-  energy levels, but are often useful as a first approximation.
+  output of one is used as an input for the next one.
+- We should always keep in mind that the Kohn-Sham eigenvalues obtained
+  from a DFT calculation do not correspond to the energy levels of the real interacting electrons, but are often useful as a first approximation.
 
