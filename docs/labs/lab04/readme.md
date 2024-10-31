@@ -212,43 +212,40 @@ $$
             ```
 
 
-## Convergence Tests for k-points
-In task 1 we have already used a uniform 4$\times$4$\times$4 k-point sampling.
+## Convergence Test for K-Point Grid
+Above, we used a uniform 4$\times$4$\times$4 k-point grid to sample the first Brillouin zone.
 However, to really converge a periodic system, **an additional convergence test
 with respect to the k-point sampling is necessary.**
 
-To test the convergence of the k-point grid, we need to calculate the total
-energy for different grid densities. Here, since the three lattice vectors are
-related by a three-fold rotation symmetry, the density of k-points along the
-three reciprocal lattice vecotrs should be identical and we can vary them all at
-the same time.
+To test the convergence of our results with respect to the size of the k-point grid, we need to calculate the total
+energy for different grid sizes. 
 
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
     - The directory `02_convergence` contains input files to calculate the total
-      energy, try modify them and vary the k-point grid density and see how the
+      energy. Change the k-point grid size in the input file, run the DFT calculation and see how the
       total energy changes. For example, perform a series of calculations with
-      k-point grid set to `2 2 2`, `4 4 4`, `6 6 6`, ..., all the way to `30 30
+      k-point grids set to `2 2 2`, `4 4 4`, `6 6 6`, ..., all the way to `30 30
       30` and see how the total energy changes. If you have any trouble doing
       so, you can always go back to [:link:lab03](../lab03/readme.md) for help.
 
         ??? success "Result"
-            The sparsest converged k-grid (∆ ~10meV/atom) is around
-            10$\times$10$\times$10.
+            To obtain a total energy per atom which is converged to within 10 meV, we need at least a
+            10$\times$10$\times$10 k-point grid.
             <figure markdown="span">
               ![Diamond primitive cell](assets/convergence.png){ width="500" }
             </figure>
 
     - For every periodic system you simulate, you should converge **both** the
-      cut-off energy and k-points. Usually people start with one parameter set
-      to very high and varys the other one, then switch and repeat. Try do this
+      plane-wave cut-off energy and k-point grid size. To do this, one usually starts with one parameter set
+      to a very high value and then varies the other one. Then one repeats this with switched roles. Try do this
       yourself and find the best set of parameters for diamond.
     
         ??? success "Tips"
             Try starting with `ecutwfc` of ~60.0 Ry and converge the k-points. 
             Or start with k-points of 30$\times$30$\times$30 and converge the
-            energy cutoff.
+            plane-wave cutoff.
 
 ## The Electronic Band Structure
 
