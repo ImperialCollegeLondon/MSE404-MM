@@ -19,32 +19,34 @@ your home directory.
 
 The electronic Density of states (DOS) describes the distribution of electronic
 states in a material with respect to their energy. More precisely, it tells us
-how many electronic states, for a system of volume V, can be occupied in a small
-(infinitesimal) energy range near a specific energy. The DOS is defined as:
+how many electronic states, for a system of volume $V$, can be occupied in a
+small (infinitesimal) energy range near a specific energy $E$. The DOS is
+defined as:
 
 $$ 
-\mathrm{DOS}(E) = \sum_{n} \int  \delta(E - \epsilon_{n\mathbf{k}}) d\mathbf{k},
+\mathrm{DOS}(E) = \sum_{n} \int_{0}^{\frac{(2\pi)^3}{V}}
+                  \delta(E - \epsilon_{n\mathbf{k}})
+                  d\mathbf{k},
 $$
 
 where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
-$k$-point $\mathbf{k}$.
+k-point $\mathbf{k}$.
 
 For a molecular system, the DOS looks exactly the same to the eigenenergy
-spectrum and is discrete (with a constant hight of one), since we only have one
-set of molecular states. However, for periodic systems, each k-point has a set
-of eigenenergies and the DOS should become continuous. For example, here are two
-DOS plots of a water molecule (isolated system) and carbon diamond (periodic
-system):
+spectrum and is discrete, since we only one k-point (the $\Gamma$ point).
+However, for periodic systems, each k-point has a set of eigenenergies and the
+DOS should become continuous. For example, here are two DOS plots of a water
+molecule (isolated system) and carbon diamond (periodic system):
 
 <figure markdown="span">
   ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
 
 
 Since the DOS and the band structure are both related the Kohn-Sham eigenvalues,
-intuitively, the DOS is also related to the band structures: bands with large
-energy dispersion in the Brillouin zone result in low DOS spread across a large
-interval, whereas less dispersive (more flat) bands result in high DOS near a
-small energy interval. 
+intuitively, the DOS can also be related to the band structures: bands with
+large energy dispersion in the Brillouin zone result in low DOS spread across a
+large interval, whereas less dispersive (more flat) bands result in high DOS
+near a small energy interval. 
 
 In insulators and semiconductors, the DOS is zero inside the band gap, as there
 are no available states in that energy range. Hence, the DOS can give us an
@@ -55,15 +57,15 @@ k-points in the Brillouin zone).
 ### Smearing
 
 The definition of the DOS can also be represented as a sum over an infinite
-amount of k-points that sample the Brillouin zone (as $\Delta\mathbf{k} \to 0$):
+amount of k-points that sample the first Brillouin zone ($\mathrm{BZ}$):
 
 $$
-\mathrm{DOS}(E) = \sum_{n} \sum^\infty_{\mathbf{k}}  \delta(E -
+\mathrm{DOS}(E) = \sum_{n} \sum^\infty_{\mathbf{k}\in \mathrm{BZ}}  \delta(E -
 \epsilon_{n\mathbf{k}}) \Delta \mathbf{k}.
 $$
 
 However, since we can only have a finite sampling of the Brillouin zone, in
-pratice, interpolation of the $\delta$ function (or, smearing) is used to
+pratice, interpolation (or, smearing) of the $\delta$ function is used to
 artifically include some contributions from k-points that we missed.
 
 <figure markdown="span">
@@ -105,7 +107,7 @@ correct way:
     necessarily think of it as a more correct representation of a real
     system.
 
-### Steps to Calculate the DOS
+### Calculating the DOS
 In a similar way to the electronic band structure, we produce the density of 
 states plot in three steps.
 
@@ -217,8 +219,8 @@ or valence band max is at 0. While a value for the Fermi level is given in
 the file header of the generated `pwscf.dos`, this is determined in a simple
 way from the integrated density of states. It may be worth obtaining this from
 a separate calculation using a relatively small broadening if you're looking a
-metallic system, while for semiconductors and insulators you could find the
-maximum valence band state energy manually. 
+metallic system (as we shall see later), while for semiconductors and insulators
+you could find the maximum valence band state energy manually. 
 
 The directory `03_densityofstates` contains a python script that can be used to
 plot the shifted DOS with the integrated DOS.
@@ -248,21 +250,22 @@ to converge.
 
 ### Tackling Discontinuities
 
-Generally, there are two things that we typically do for metals:
+Generally, there are two things that we typically do for metals to help with the
+convergence of the SCF calculation:
 
 1.  Use a denser k-point grid than you would need for a semiconductor or
     insulator. This is to help sampling the rapid change in the Fermi surface at
     different k-points.
 
-2.  Use some smearing scheme for the calculation of occupation number of bands
-    at each k-point. This is in relation to the smearing used in the calculation
-    of the [:link: density of states](#density-of-states). The difference is
-    that here the occupation is also smeared (i.e., can be a fractional number
-    between 0 and 1).
+2.  Use some smearing scheme for the calculation of **occupation number** of
+    bands at each k-point. This is in relation to the smearing used in the
+    calculation of the [:link: density of states](#density-of-states). The
+    difference is that here the occupation is also smeared (i.e., can be a
+    fractional number between 0 and 1).
 
     To determine the occupation number at each SCF step, we first need to obtain
     the Fermi energy of the system. This is usually achieved by solving the
-    following for $E_F$: 
+    following for $E_F$ at 0K: 
 
     $$
     N_e = \int_{-\infty}^{E_F} \mathrm{DOS}(\varepsilon) f_T(E) dE
@@ -277,16 +280,28 @@ Generally, there are two things that we typically do for metals:
     simply raise the temperature to a small number (using the tag `degauss` for
     `pw.x`) so that the Fermi-Dirac function is smeared out and the convergence
     can be achieved more easily. It is worth noting that other smearing methods
-    such as gaussian smearing can also be used. Once the Fermi energy is found,
-    the occupation function is determined and the occupation number at each
-    k-point and band $n$ can be easily calculated: $$ f_{n\mathbf{k}} =
-    f_T(\varepsilon_{n\mathbf{k}} - E_F). $$ Adding a smearing to the occupation
-    function helps significantly in achieving a smooth SCF convergence for
-    metals, as otherwise a small change in a state energy from once cycle to the
-    next could lead to a very large change in its occupation and to the total
-    energy in turn (this is called 'ill-conditioning'). We set the smearing
-    scheme (for both DOS and occupation function) and width with the
-    `occupations` and `degauss` variables in the input file.
+    such as gaussian smearing can also be used and a consistent method is needed
+    for both DOS and occupation smearing. Once the Fermi energy is found, the
+    occupation function is determined and the occupation number at each k-point
+    $\mathbf{k}$ and band $n$ can be calculated: 
+
+    $$
+    f_{n\mathbf{k}} = f_T(\varepsilon_{n\mathbf{k}} - E_F).
+    $$ 
+
+    Adding a smearing to the occupation function helps significantly in
+    achieving a smooth SCF convergence for metals, as otherwise a small change
+    in a state energy from once cycle to the next could lead to a very large
+    change in its occupation and to the total energy in turn (this is called
+    'ill-conditioning'). We set the smearing scheme (for both DOS and occupation
+    function) and width with the `occupations` and `degauss` variables in the
+    input file.
+
+    !!! tip "Additional read"
+        For a thorough review of the most typical smearing method used in DFT,
+        have a read at [:link:this
+        paper](https://doi.org/10.1103/PhysRevB.107.195122). 
+    
 
 ### Example: Aluminium
 
@@ -296,7 +311,7 @@ more complicated within DFT is that it is a metal.
 
 Here is an example input file for a calculation of Aluminium:
 
-```python
+```python hl_lines="11-13"
  &CONTROL
     pseudo_dir = '.'
  /
@@ -344,11 +359,7 @@ K_POINTS automatic
     Then, look in the `pwscf.xml` file and find the various `ks_energies`
     entries towards the end. These give the various k-points used in the
     calculation and the energies and **occupations** of each state for this
-    k-point. Note, for a metal the default number of bands is at least four more
-    than are needed for the number of electrons per cell (even without us
-    setting the `nband` tag). The pseudopotential we have used has 3 valence
-    electrons, which could be represented with two potentially doubly occupied
-    bands, so we have four more bands in the calculation for a total of 6.
+    k-point. 
 
     ??? success "Example" 
         ```
@@ -368,9 +379,15 @@ K_POINTS automatic
               </ks_energies>
          ... 
         ```
+
+    For a metal the default number of bands is at least four more
+    than are needed for the number of electrons per cell (even without us
+    setting the `nband` tag). The pseudopotential we have used has 3 valence
+    electrons, which could be represented with two potentially doubly occupied
+    bands, so we have four more bands in the calculation for a total of 6.
     
-    Now, try removing the `occupations` and `degauss` variables from the input
-    file and see what happens when you try to run the calculation.
+    Now, try remove the `occupations` and `degauss` variables from the input
+    file and see what happens when re-run the calculation.
 
     ??? success "Example" 
         The calculation will fail with the following error message:

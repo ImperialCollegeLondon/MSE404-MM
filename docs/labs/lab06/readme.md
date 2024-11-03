@@ -15,150 +15,14 @@ your home directory.
 
 ------------------------------------------------------------------------------
 
-<!-- ## Metals -->
-<!--  -->
-<!-- Metals have a Fermi surface that can be quite complex in k-space. This means -->
-<!-- that in contrast to an insulator or semiconductor where every k-point has the -->
-<!-- same number of occupied states, **in a metal the number of occupied states can -->
-<!-- vary from k-point to k-point**. This makes them more difficult to converge than -->
-<!-- other systems.  -->
-<!--  -->
-<!-- In short, there are generally two things you need to do: -->
-<!--  -->
-<!-- 1.  Use a denser k-point grid than you would need for a semiconductor or -->
-<!--     insulator. This is to help sampling the rapid change in the Fermi surface at -->
-<!--     different k-points. -->
-<!--  -->
-<!-- 2.  Use some smearing scheme. This is in relation to the smearing used in the -->
-<!--     calculation of the [:link: density of -->
-<!--     states](../lab04/readme.md#density-of-states). The difference is that here -->
-<!--     the occupation is also smeared (i.e., can no longer be intergers of 0 and -->
-<!--     1.) Visually, the smeared DOS would look like the following: -->
-<!--  -->
-<!--     where the occupation function (Fermi-Dirac function) is plotted in red. The -->
-<!--     Fermi energy is obtaeind by solving the following equaion: -->
-<!--     $$  -->
-<!--     \int_{-\infty}^{\varepsilon_F} \mathrm{DOS}(\varepsilon) f_T(\varepsilon) -->
-<!--     d\varepsilon = N_e  -->
-<!--     $$ -->
-<!--     where $N_e$ is the number of electrons in the system and $f$ represents the -->
-<!--     Fermi-Dirac distribution function at temperature $T$. As we already know,  -->
-<!--     the Fermi-Dirac function at 0K is a step function which would spoil the -->
-<!--     convergence of metals. Here, we simply raise the temperature to a small -->
-<!--     number (`degauss`) so that the Fermi-Dirac function is smeared out and the -->
-<!--     Convergence can be more easily achieved. It is worth noting that other -->
-<!--     smearing methods such as gaussian smearing can also be used. -->
-<!--  -->
-<!--     Adding a smearing helps significantly in achieving a smooth -->
-<!--     SCF convergence, as otherwise a small change in a state energy from once -->
-<!--     cycle to the next could lead to a very large change in its occupation and to -->
-<!--     the total energy in turn (this is called 'ill-conditioning').  -->
-<!--     We set the smearing scheme and width with the `occupations` and `degauss`  -->
-<!--     variables in the input file. -->
-<!--  -->
-<!-- Example: Aluminium -->
-<!-- ------------------ -->
-<!--  -->
-<!-- Aluminium forms in a standard fcc structure with one atom per cell, which we -->
-<!-- know how to deal with at this point. The thing about Aluminium that makes it -->
-<!-- more complicated within DFT is that it is a metal. -->
-<!--  -->
-<!-- Here is an example input file for a calculation of Aluminium: -->
-<!--  -->
-<!-- ```python -->
-<!--  &CONTROL -->
-<!--     pseudo_dir = '.' -->
-<!--  / -->
-<!--  -->
-<!--  &SYSTEM -->
-<!--     ibrav =  2 -->
-<!--     A = 2.863 -->
-<!--     nat =  1 -->
-<!--     ntyp = 1 -->
-<!--     ecutwfc = 18.0 -->
-<!--     occupations = 'smearing' #(1)! -->
-<!--     smearing = 'fermi-dirac' #(2)! -->
-<!--     degauss = 0.1d0 #(3)! -->
-<!--  / -->
-<!--  -->
-<!--  &ELECTRONS -->
-<!--  / -->
-<!--  -->
-<!-- ATOMIC_SPECIES -->
-<!--  Al  26.982  Al.pz-vbc.UPF -->
-<!--  -->
-<!-- ATOMIC_POSITIONS crystal -->
-<!--  Al 0.00 0.00 0.00 -->
-<!--  -->
-<!-- K_POINTS automatic -->
-<!--   8 8 8 1 1 1 -->
-<!-- ``` -->
-<!--  -->
-<!-- 1.    The `occupations` variable is set to `smearing` to tell Quantum Espresso -->
-<!--       to use a smearing scheme [:link:input  -->
-<!--       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm362). -->
-<!-- 2.    The `smearing` variable is set to `fermi-dirac` to tell Quantum Espresso -->
-<!--       to use a Fermi-Dirac smearing scheme. [:link:input -->
-<!--       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm404).  -->
-<!-- 3.    The `degauss` variable is set to 0.1d0 to set the width of the smearing. -->
-<!--       see [:link:input -->
-<!--       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401). -->
-<!--  -->
-<!--  -->
-<!-- !!! example "Task 1 - Smearing" -->
-<!--  -->
-<!--     First, run the `pw.x` calculation with the supplied input file in -->
-<!--     [:link:01_aluminium/Al.in](01_aluminium/Al.in). -->
-<!--      -->
-<!--     Then, look in the `pwscf.xml` file and find the various `ks_energies` -->
-<!--     entries towards the end. These give the various k-points used in the -->
-<!--     calculation and the energies and occupations of each state for this k-point. -->
-<!--     Note, for a metal the default number of bands is at least four more than are -->
-<!--     needed for the number of electrons per cell. The pseudopotential we have -->
-<!--     used has 3 valence electrons, which could be represented with two -->
-<!--     potentially doubly occupied bands, so we have four more bands in the -->
-<!--     calculation for a total of 6. -->
-<!--  -->
-<!--     ??? success "Example"  -->
-<!--         ``` -->
-<!--               <ks_energies> -->
-<!--                 <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point> -->
-<!--                 <npw>59</npw> -->
-<!--                 <eigenvalues size="6"> -->
-<!--           1.315972343567215E-001  1.505697520824042E+000  1.607697079464305E+000 -->
-<!--           1.607697714947740E+000  1.834366371282428E+000 -->
-<!--           1.952726961146777E+000 -->
-<!--                 </eigenvalues> -->
-<!--                 <occupations size="6"> -->
-<!--           9.999990177787399E-001  1.181697427742303E-006  1.536561074875367E-007 -->
-<!--           1.536541545820267E-007  1.650917762173208E-009 -->
-<!--           1.547598926179030E-010 -->
-<!--                 </occupations> -->
-<!--               </ks_energies> -->
-<!--          ...  -->
-<!--         ``` -->
-<!--      -->
-<!--     Now, try removing the `occupations` and `degauss` variables from the input -->
-<!--     file and see what happens when you try to run the calculation. -->
-<!--  -->
-<!--     ??? success "Example"  -->
-<!--         ``` -->
-<!--         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!--              Error in routine electrons (1): -->
-<!--              charge is wrong: smearing is needed -->
-<!--         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
-<!--         ``` -->
-<!--  -->
-<!-- ------------------------------------------------------------------------------ -->
-
 Spin Polarization
 -----------------
 
-Up untill now we have been assuming that we always had some set of bands which
-could each fit two electrons. Essentially we have been ignoring the electron
-spin. If you want to examine, for example, a magnetic system then the spin of
-the electrons is important. It can also be important in modelling atomic or
-molecular systems. We'll cover different examples of this in this lab.
+Up until now we have been assuming that we always have electronic states which
+could be occupied by two electrons. Essentially we have been ignoring the
+electron spin. If you want to examine, for example, a magnetic system then the
+spin of the electrons is important. It can also be important in modelling atomic
+or molecular systems. We'll cover different examples of this in this lab.
 
 
 The Oxygen Molecule
@@ -176,13 +40,13 @@ has 8 electrons in total, with the configuration `1s2 2s2 2p4` (the 1s orbital
 will be contained within the pseudopotential for the DFT calculations done
 here, so you will have 6 electrons from each oxygen atom). 
 
-For a single oxygen, from Hund's rule the three p orbitals should be filled
+For a single oxygen, from Hund's rule the three p-orbitals should be filled
 singly before being filled in pairs, so that one of the p-orbitals will have two
 electrons, and the other two should have one each. However, if we assume doubly
 occupied orbitals, we'll have the two p-orbitals with two electrons and one that
 is empty. This means a calculation where we assume a set of doubly occupied
 bands will have trouble converging to the ground state of the system. For the
-molecule the situation is similar, but the s and p orbitals from each atom
+molecule the situation is similar, but the s and p-orbitals from each atom
 combine to form bonding and anti-bonding $\sigma$ and $\pi$ orbitals.
 
 The directory `01_O2` contains an input file to calculate the total energy of
@@ -273,8 +137,8 @@ K_POINTS gamma
 
     - Does the calculation now converge?
 
-    ??? success "Answer"
-        Yes, the calculation should now converge.
+    <!-- ??? success "Answer" -->
+    <!--     Yes, the calculation should now converge. -->
 
     - Take a look at the file `pwscf.xml` in the calculation directory, and
       try to find the occupations of each band at each k-point. Are these as
@@ -335,10 +199,11 @@ K_POINTS gamma
 
     Create another copy of `01_O2` called `01_O2_spin`. Then, try to:
 
-    1. Only turn on spin polarization. Does the calculation run?
+    1. Only turn on spin polarization (`nspin=2`). Does the calculation run?
 
         ??? success "Answer"
-            The calculation will not run.
+            The calculation will not run because it needs to know how to set the
+            number of electrons in each spin channels.
             ```
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 Error in routine iosys (1):
@@ -348,9 +213,9 @@ K_POINTS gamma
 
     2. Setting the total magnetization to 0, which would be the case if we 
        don't have any net magnetization in the molecule, as both spins point in
-       opposite directions. 
+       opposite directions. What is the final energy?
 
-        ??? success "Answer"
+        ??? success "Final energy"
             The calculation converges to an energy of -63.25520699 Ry.
 
     3. Setting the total magnetization to 2.0, which corresponds
@@ -396,25 +261,25 @@ gives a lower energy.
     so treating the spin correctly is important!
 
 
-Iron
+Iron :material-hammer:
 ----
 
 Now that you've seen how including spin polarization can allow us a correctly
-describe the ground state of our system in your calculation, the next step
-is to use it to describe a magnetic system.
+describe the ground state of a molecular system, the next step is to use it to
+describe a magnetic crystal system.
 
-In a magnetic system there is a net spin polarization in the unit cell. This
-means that we'll probably have an odd number of electrons, and the energy of
-the system when we include a net spin polarization is lower than the energy
-when we don't.
+In a magnetic crystal there is a net spin polarization in the unit cell. This
+means that we'll probably have an odd number of electrons, and the energy of the
+system when we include a net spin polarization is lower than the energy when we
+don't.
 
-One of the most common magnetic systems is iron, so we'll examine this. The
+One of the most common magnetic crystal is iron, so we'll examine this. The
 directory `02_Fe` contains an input file for iron. Note this is a BCC structure
 (as set by `ibrav = 3` in the input file), whereas most of the crystals
 structures you have examined previously were FCC. The calculation has been set
 up in the usual way for a metallic system.
 
-!!! example "Task 3.1 - fixed magnetization"
+!!! example "Task 3.1 - Fixed Magnetization"
 
     1. Run this calculation and check everything worked as expected. What is the
        final energy?
@@ -424,15 +289,15 @@ up in the usual way for a metallic system.
 
     2. Now make a copy of the calculation directory and in this, modify the
        calculation to turn on spin polarization. Try running the calculation
-       with `tot_magnetization = 0.0` first, and compare your total energy to that
-       obtained using doubly degenerate bands. 
+       with `tot_magnetization = 0.0` first, and compare your total energy to
+       that obtained using doubly degenerate bands. 
 
         !!! note "Note" 
-            while in the case of the O2 above, we were able to get our
+            While in the case of the O2 above, we were able to get our
             calculations to at least converge by using a metallic occupation
-            instead of using spin polarization, in the case of iron, it will still
-            be a metal when you use spin polarization, so you should not remove
-            the input variables associated with this. 
+            instead of using spin polarization, in the case of iron, it will
+            still be a metal when you use spin polarization, so you should not
+            remove the input variables associated with this. 
 
         ??? success "Answer"
             The total energy becomes -55.52528589 Ry. Almost identical to the
@@ -474,8 +339,8 @@ value. This is done by setting the `starting_magnetization` input variable.
             This is becuase we are allowing the spin to fully relax in the
             system.
     
-    2. See if you can use what we covered in previous labs to calculate and make a
-       plot of the electronic band structure of BCC Fe.
+    2. See if you can use what we covered in previous labs to calculate and make
+       a plot of the electronic band structure of BCC Fe.
 
         - Plot the spin-up and spin-down bands in different colours.
         - Indicate the Fermi energy on your plot in some sensible way.
