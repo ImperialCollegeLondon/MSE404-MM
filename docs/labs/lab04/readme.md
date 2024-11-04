@@ -81,11 +81,15 @@ first Brillouin zone.
 
 The additional card `K_POINTS` in the input file specifies the k-point grid.
 The first three numbers `4 4 4` represent how many k-points are generated along
-each direction of the reciprocal lattice vectors. In real space, this
-corresponds to size of the crystal we are modelling, i.e. a crystal that
-consists of $4 \times 4 \times 4$ unit cells. The fineness of the k-point grid
-is a convergence parameters. We must make sure that it is sufficiently fine such
-that physically meaningful results are obtained.
+each direction of the reciprocal lattice vectors. 
+<!--  -->
+<!-- In real space, this -->
+<!-- corresponds to size of the crystal we are modelling, i.e. a crystal that -->
+<!-- consists of $4 \times 4 \times 4$ unit cells.  -->
+<!--  -->
+The fineness of the k-point grid is a convergence parameters and we must make
+sure that it is sufficiently fine such that physically meaningful results are
+obtained.
 
 
 ### Structure Parameters for Crystals
