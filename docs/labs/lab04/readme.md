@@ -244,10 +244,8 @@ grid, we need to calculate the total energy for different grid sizes.
 
         ??? success "Result"
 
-            To obtain a total energy per atom which is converged to within 10
-            meV, we need at least a 10$\times$10$\times$10 k-point grid. <figure
-            markdown="span"> ![Diamond primitive cell](assets/convergence.png){
-            width="500" } </figure>
+            To obtain a **total energy per atom** which is converged to within
+            10 meV/Atom, we need at least a 10$\times$10$\times$10 k-point grid. 
 
     - For every periodic system you simulate, you should converge **both** the
       plane-wave cut-off energy and k-point grid size. To do this, one usually
