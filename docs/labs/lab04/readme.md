@@ -16,9 +16,8 @@ your home directory.
 ------------------------------------------------------------------------------
 
 ## Basic input for Diamond :material-diamond-outline:
-
-As our first example of a crystalline solid we're going to look at diamond. You can
-find the input file at [:link:C_diamond.in](01_carbon_diamond/C_diamond.in),
+As our first example of a crystalline solid we're going to look at diamond. You
+can find the input file at [:link:C_diamond.in](01_carbon_diamond/C_diamond.in),
 here I'll give a brief overview of it:
 
 <!-- !!! tip annotate "Tip: In-code annotations"  -->
@@ -63,10 +62,13 @@ K_POINTS automatic #(3)!
     coordinates of the unit cell vectors (defined by `ibrav` and
     [`A`](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm260)).
 3.  We are using automically generated k-point grid with a 4$\times$4$\times$4
-    grid size, `1 1 1` means to shift the grid by one half of a grid spacing in each direction. 
+    grid size, `1 1 1` means to shift the grid by one half of a grid spacing in
+    each direction. 
 
 ### k-points
-One important difference between periodic crystals and molecules is that the electronic states are not localised and their wavefunction is given by Bloch's theorem: 
+One important difference between periodic crystals and molecules is that the
+electronic states are not localised and their wavefunction is given by Bloch's
+theorem: 
 
 $$
 \psi_{n\mathbf{k}}(\mathbf{r}) =
@@ -80,16 +82,20 @@ first Brillouin zone.
 The additional card `K_POINTS` in the input file specifies the k-point grid.
 The first three numbers `4 4 4` represent how many k-points are generated along
 each direction of the reciprocal lattice vectors. In real space, this
-corresponds to size of the crystal we are modelling, i.e. a crystal that consists of $4 \times 4 \times 4$ unit cells. The fineness of the k-point grid is a convergence parameters. We must make sure that it is sufficiently fine such that physically meaningful results are obtained.
+corresponds to size of the crystal we are modelling, i.e. a crystal that
+consists of $4 \times 4 \times 4$ unit cells. The fineness of the k-point grid
+is a convergence parameters. We must make sure that it is sufficiently fine such
+that physically meaningful results are obtained.
 
 
 ### Structure Parameters for Crystals
 Now let's take a look at how the atomic positions in the unit cell are specified
 in the input file.
 
-Quantum Espresso allows us to express the atomic positions either in absolute Cartesian coordinates $(x,y,z)$ or 
-alternatively in crystal coordinates $(x_c,y_c,z_c)$. The position vector of the atom can then be obtained from the lattice
-vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
+Quantum Espresso allows us to express the atomic positions either in absolute
+Cartesian coordinates $(x,y,z)$ or alternatively in crystal coordinates
+$(x_c,y_c,z_c)$. The position vector of the atom can then be obtained from the
+lattice vectors $\mathbf{a},\mathbf{b},\mathbf{c}$ as follows:
 
 $$
 \begin{align} 
@@ -107,9 +113,9 @@ the atomic structure looks like this:
 </figure>
 
 
-To specify the shape of the primitive unit cell, we first set `ibrav=2`, i.e. face-centred
-cubic (fcc) Bravais lattice. Internally, with `ibrav=2`, Quantum ESPRESSO sets
-the the fcc lattice vectors as:
+To specify the shape of the primitive unit cell, we first set `ibrav=2`, i.e.
+face-centred cubic (fcc) Bravais lattice. Internally, with `ibrav=2`, Quantum
+ESPRESSO sets the the fcc lattice vectors as:
 
 $$
 \begin{align*}
@@ -124,8 +130,9 @@ $$
     of 3.567 Å which might not be the same as the DFT optimized value. In later
     labs we'll see how to find the lattice constant predicted by DFT.
 
-In terms of these lattice vectors, the crystal coordinates of the two carbon atoms are (as we
-see in the input file, indicated by `ATOMIC_POSITIONS crystal`):
+In terms of these lattice vectors, the crystal coordinates of the two carbon
+atoms are (as we see in the input file, indicated by `ATOMIC_POSITIONS
+crystal`):
 
 $$
 \begin{align*}
@@ -212,35 +219,37 @@ $$
             ```
 
 
-## Convergence Test for K-Point Grid
-Above, we used a uniform 4$\times$4$\times$4 k-point grid to sample the first Brillouin zone.
-However, to really converge a periodic system, **an additional convergence test
-with respect to the k-point sampling is necessary.**
+## Convergence Test for K-Point Grid Above, we used a uniform
+4$\times$4$\times$4 k-point grid to sample the first Brillouin zone. However, to
+really converge a periodic system, **an additional convergence test with respect
+to the k-point sampling is necessary.**
 
-To test the convergence of our results with respect to the size of the k-point grid, we need to calculate the total
-energy for different grid sizes. 
+To test the convergence of our results with respect to the size of the k-point
+grid, we need to calculate the total energy for different grid sizes. 
 
 
 !!! example "Task 2 - Convergence with respect to k-point sampling and cut-off energy"
 
     - The directory `02_convergence` contains input files to calculate the total
-      energy. Change the k-point grid size in the input file, run the DFT calculation and see how the
-      total energy changes. For example, perform a series of calculations with
-      k-point grids set to `2 2 2`, `4 4 4`, `6 6 6`, ..., all the way to `30 30
-      30` and see how the total energy changes. If you have any trouble doing
-      so, you can always go back to [:link:lab03](../lab03/readme.md) for help.
+      energy. Change the k-point grid size in the input file, run the DFT
+      calculation and see how the total energy changes. For example, perform a
+      series of calculations with k-point grids set to `2 2 2`, `4 4 4`, `6 6
+      6`, ..., all the way to `30 30 30` and see how the total energy changes.
+      If you have any trouble doing so, you can always go back to
+      [:link:lab03](../lab03/readme.md) for help.
 
         ??? success "Result"
-            To obtain a total energy per atom which is converged to within 10 meV, we need at least a
-            10$\times$10$\times$10 k-point grid.
-            <figure markdown="span">
-              ![Diamond primitive cell](assets/convergence.png){ width="500" }
-            </figure>
+
+            To obtain a total energy per atom which is converged to within 10
+            meV, we need at least a 10$\times$10$\times$10 k-point grid. <figure
+            markdown="span"> ![Diamond primitive cell](assets/convergence.png){
+            width="500" } </figure>
 
     - For every periodic system you simulate, you should converge **both** the
-      plane-wave cut-off energy and k-point grid size. To do this, one usually starts with one parameter set
-      to a very high value and then varies the other one. Then one repeats this with switched roles. Try do this
-      yourself and find the best set of parameters for diamond.
+      plane-wave cut-off energy and k-point grid size. To do this, one usually
+      starts with one parameter set to a very high value and then varies the
+      other one. Then one repeats this with switched roles. Try do this yourself
+      and find the best set of parameters for diamond.
     
         ??? success "Tips"
             Try starting with `ecutwfc` of ~60.0 Ry and converge the k-points. 
@@ -248,9 +257,7 @@ energy for different grid sizes.
             plane-wave cutoff.
 
 ## The Electronic Band Structure
-
 ### What is the Electronic Band Structure?
-
 We know that, while the electronic density obtained from DFT is meaningful, the
 Kohn-Sham states are not strictly the electronic states of the system.
 **Nonetheless, they are in practice often a good first approximation of the
@@ -258,17 +265,17 @@ electronic states of a system, so can be useful in understanding the properties
 of a system.**
 
 We have seen how to converge our calculations with respect to the
-k-point grid size (task 2), and have found in task 1 that the calculated
-energy eigenvalues are a bit different at each calculated k-point. Now we want to study
+k-point grid size (task 2), and have found in task 1 that the calculated energy
+eigenvalues are a bit different at each calculated k-point. Now we want to study
 how exactly these eigenvalues change as we move from one k-point to the next.
 
 Examining how the Kohn-Sham energies change from one k-point to the next can
 tell us useful things such as if a material is likely to have a direct or
-indirect optical gap. For this it is useful to visualize how the energies
-change along a k-point path in the first Brillouin zone. The usual way this is done is to plot the band
-energies along lines between the various high-symmetry k-points in the Brillouin
-zone. For example, a high symmetry path for a face-centred cubic (FCC) lattice
-(see figure below) could be `Γ—X—U|K—Γ—L—W—X`:
+indirect optical gap. For this it is useful to visualize how the energies change
+along a k-point path in the first Brillouin zone. The usual way this is done is
+to plot the band energies along lines between the various high-symmetry k-points
+in the Brillouin zone. For example, a high symmetry path for a face-centred
+cubic (FCC) lattice (see figure below) could be `Γ—X—U|K—Γ—L—W—X`:
 
 <figure markdown="span">
   ![FCC BZ](assets/FCC_BZ.png){ width="250" }
@@ -299,10 +306,11 @@ can be found at
     ```
    
 #### Step 2 - NSCF(bands) Calculation
-The second step is to use the obtained electron density to construct the Kohn-Sham Hamiltonian
-at a set of k-points along the path we want to study and to calculate the Kohn-Sham
-eigenvalues at those k-points. This is called a non-self-consistent field (NSCF)
-calculation as the charge density is kept fixed. 
+The second step is to use the obtained electron density to construct the
+Kohn-Sham Hamiltonian at a set of k-points along the path we want to study and
+to calculate the Kohn-Sham eigenvalues at those k-points. This is called a
+non-self-consistent field (NSCF) calculation as the charge density is kept
+fixed. 
 
 A brief overview of the 
 [:link:input file](03_bandstructure/02_C_diamond_nscf.in) is 
@@ -355,7 +363,8 @@ K_POINTS crystal_b #(3)!
 3.  `K_POINTS crystal_b` specifies that we express the high-symmetry k-points
     in crystal coordinates. The number of high-symmetry k-points
     is 8, followed by the crystal coordinates of each k-point and the number of
-    points to generate along the section of the path that connects this k-point to the next one in the list. 
+    points to generate along the section of the path that connects this k-point
+    to the next one in the list. 
 
 Since diamond has a face-centred cubic (FCC) lattice, we have chosen the path
 `Γ-X-U|K-Γ-L-W-X` where `U|K` means no k-point is sampled between `U` and `K`.
@@ -377,8 +386,8 @@ Since diamond has a face-centred cubic (FCC) lattice, we have chosen the path
         ```
 
 #### Step 3 - Extracting Band Energies
-Now we need to extract the Kohn-Sham energies from the output file and convert them into a
-dataset we can plot.
+Now we need to extract the Kohn-Sham energies from the output file and convert
+them into a dataset we can plot.
 
 To do this, we use the `bands.x` tool from the Quantum Espresso package.
 The [:link:input file](03_bandstructure/03_C_diamond_bands.in)
@@ -398,20 +407,21 @@ please refer to
 
 #### Step 4 - Plotting the Band Structure 
 Finally, we are ready  to plot the band structure. The band structure is
-typically plotted with the energy on the y-axis and the high-symmetry k-points on
-the x-axis. The energy is usually shifted so that the valence band maximum is at
-0 eV. The directory `03_bandstructure` contains a python script
+typically plotted with the energy on the y-axis and the high-symmetry k-points
+on the x-axis. The energy is usually shifted so that the valence band maximum is
+at 0 eV. The directory `03_bandstructure` contains a python script
 (`plotband_shifted.py`) that can be used to plot the band structure.
 
 
 !!! example "Task 3.4 - Plotting the band structure"
-    Run the python script to plot the band
-    structure of carbon diamond. 
+    Run the python script to plot the band structure of carbon diamond. 
     ```
     python plotband_shifted.py
     ```
-    Is carbon diamond a metal or an insulator? At which k-points is the valence band maximum
-    and the conduction band minimum? How large is the band gap (and is it direct or indirect)?
+    Download the output file `C_diamond_bands.png` and take a look at it.
+    Is carbon diamond a metal or an insulator? At which k-points is the valence
+    band maximum and the conduction band minimum? How large is the band gap (and
+    is it direct or indirect)?
 
     ??? success "Final result"
         <figure markdown="span">
@@ -419,9 +429,11 @@ the x-axis. The energy is usually shifted so that the valence band maximum is at
         </figure>
 
         From the graph we can see that the valence band maximum is at Γ (the
-        first point on our path), the conduction band minimum is located between Γ
-        and X and the size of the indirect band gap is around 4 eV (note that this is significantly smaller than the experimentally measured band gap of diamond). Note that here we have shifted the entire spectrum so that this point is
-        at 0 eV.
+        first point on our path), the conduction band minimum is located between
+        Γ and X and the size of the indirect band gap is around 4 eV (note that
+        this is significantly smaller than the experimentally measured band gap
+        of diamond). Note that here we have shifted the entire spectrum so that
+        this point is at 0 eV.
 
 
 Summary
@@ -432,6 +444,7 @@ Summary
     - calculate the electronic band structure of a solid.
 - We have seen how several calculations may be chained together where the
   output of one is used as an input for the next one.
-- We should always keep in mind that the Kohn-Sham eigenvalues obtained
-  from a DFT calculation do not correspond to the energy levels of the real interacting electrons, but are often useful as a first approximation.
+- We should always keep in mind that the Kohn-Sham eigenvalues obtained from a
+  DFT calculation do not correspond to the energy levels of the real interacting
+  electrons, but are often useful as a first approximation.
 
