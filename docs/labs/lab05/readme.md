@@ -252,7 +252,7 @@ convergence of the SCF calculation:
 
 ### Example: Aluminium
 
-Aluminium forms in a standard FCC structure with one atom per unit cell, which
+Aluminium has an FCC crystal structure with one atom per unit cell, which
 we know how to deal with at this point. The thing about Aluminium that makes it
 more complicated within DFT is that it is a metal.
 
@@ -303,9 +303,9 @@ K_POINTS automatic
     First, run the `pw.x` calculation with the supplied input file in
     [:link:02_aluminium/Al.in](02_aluminium/Al.in).
     
-    Then, look in the `pwscf.xml` file and find the various `ks_energies`
+    Then, take a look at the `pwscf.xml` file and find the various `ks_energies`
     entries towards the end. These give the various k-points used in the
-    calculation and the energies and **occupations** of each state for this
+    calculation as well as the KS energies and **occupations** of each state for this
     k-point. 
 
     ??? success "Example" 
@@ -327,14 +327,14 @@ K_POINTS automatic
          ... 
         ```
 
-    For a metal the default number of bands is at least four more
-    than are needed for the number of electrons per cell (even without us
-    setting the `nband` tag). The pseudopotential we have used has 3 valence
-    electrons, which could be represented with two potentially doubly occupied
-    bands, so we have four more bands in the calculation for a total of 6.
+    For a metal the default number of bands that are used in the SCF calculation is at least four more
+    than are needed to accommodate all electrons (even without us
+    setting the `nband` tag). The pseudopotential we have used for aluminium has 3 valence
+    electrons, which could be accommodated in two 
+    bands. Adding the four extra bands, this gives a total of 6 bands which are used in the calculation. 
     
-    Now, try remove the `occupations` and `degauss` variables from the input
-    file and see what happens when re-run the calculation.
+    Now, try to remove the `occupations` and `degauss` variables from the input
+    file and see what happens when you re-run the calculation.
 
     ??? success "Example" 
         The calculation will fail with the following error message:
@@ -345,7 +345,7 @@ K_POINTS automatic
         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         ```
 
-     Also, try play around with the `degauss` value and see how the occupations
+     Also, try to play around with the `degauss` value and see how the occupations
      change. Does it match your expectations?
 
 ------------------------------------------------------------------------------
