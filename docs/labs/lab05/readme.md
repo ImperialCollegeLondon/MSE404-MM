@@ -144,8 +144,8 @@ K_POINTS automatic #(3)!
 
 #### Step 3 - Density of States Calculation
 
-Then, we need to convert the state energies calculated on this dense k-point
-grid to a density of states using `dos.x`.
+From the Kohn-Sham energies calculated on the dense k-point
+grid we then calculate the density of states using `dos.x`.
 [:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in) is the input
 file for `dos.x` and contains just a `DOS` section:
 
@@ -158,11 +158,10 @@ file for `dos.x` and contains just a `DOS` section:
 
 1.  `degauss` specifies the Gaussian broadening (in Rydberg) to use in the
     density of states calculation.
-2.  `DeltaE` specifies the spacing between points in the output file, in eV.
+2.  `DeltaE` specifies the spacing between energies at which the DOS is calculated, in eV.
 
 !!! note
-    We've picked values for these of similar magnitude despite their different 
-    units. In fact if `degauss` is not specified, and no broadening scheme is 
+    We have picked similar values for `degauss` and `DeltaE` (after converting them to the same units). In fact if `degauss` is not specified, and no broadening scheme is 
     used in the DFT calculation, `degauss` will take the value of `DeltaE` by
     default. You can check the documentation [:link:
     INPUT_DOS](https://www.quantum-espresso.org/Doc/INPUT_DOS.html) for more
@@ -181,15 +180,15 @@ text file you can plot. It has three columns:
 3. Integrated Density of States (states)
 
 It is customary to shift the x-axis in the plot such that the Fermi energy
-or valence band max is at 0. While a value for the Fermi level is given in
-the file header of the generated `pwscf.dos`, this is determined in a simple
-way from the integrated density of states. It may be worth obtaining this from
-a separate calculation using a relatively small broadening if you're looking a
-metallic system (as we shall see later), while for semiconductors and insulators
-you could find the maximum valence band state energy manually. 
+or valence band maximum is at 0. A value for the Fermi level is given in
+the file header of `pwscf.dos`. This value is determined in a simple
+way from the integrated density of states. Sometimes, it may be worth calculating the Fermi level in
+a separate calculation using a relatively small broadening if you're studying a
+metallic system (as we shall see later). For semiconductors and insulators
+you can determine the valence band maximum energy from the output file. 
 
 The directory `03_densityofstates` contains a python script that can be used to
-plot the shifted DOS with the integrated DOS.
+plot the shifted DOS together with the integrated DOS.
 
 !!! example "Task 10.4 - Density of States Calculation"
     Plot the density of states using the script provided.
@@ -200,7 +199,7 @@ plot the shifted DOS with the integrated DOS.
         </figure>
 
     Now try re-running Tasks 3 and 4 with different `degauss` values and see
-    how the DOS plots change. Does the change matche your expectations?
+    how the DOS plots change. Does the change match your expectations?
 
 ------------------------------------------------------------------------------
 
