@@ -44,56 +44,34 @@ are no Kohn-Sham states in that energy range. Hence, the DOS allows us to determ
 
 ### Smearing
 
-The definition of the DOS can also be represented as a sum over an infinite
-amount of k-points that sample the first Brillouin zone ($\mathrm{BZ}$):
-
-$$
-\mathrm{DOS}(E) = \sum_{n} \sum^\infty_{\mathbf{k}\in \mathrm{BZ}}  \delta(E -
-\epsilon_{n\mathbf{k}}) \Delta \mathbf{k}.
-$$
-
-However, since we can only have a finite sampling of the Brillouin zone, in
-pratice, interpolation (or, smearing) of the $\delta$ function is used to
-artifically include some contributions from k-points that we missed.
+To evaluate the equation for the DOS of a crystal numerically, we have to replace the delta-functions by functions with a finite width, such as a Gaussian (otherwise the DOS will always look like a set of sharp peaks). This is called "smearing". 
 
 <figure markdown="span">
   ![Delta](./assets/delta.svg)
 </figure>
 
-While this scheme is quite fast and straight-forward, you'll need to tune the
-broadening energy so that your calculated density of states is smooth in the
-correct way: 
+The width of the Gaussian is a parameter that needs to be tuned to ensure that a physically meaningful result is obtained: 
 
-- If you use too large a broadening, you may smear out important
-  features.
-- If you use too small a broadening you may introduce spurious features
-  and your density of states plot will look very bumpy/spikey.
-- In principle you would want the smearing to be comparable to the **typical
-  change in energy of a state from a k-point to its neighbours**. In practice
-  though it's easiest to just try different values until it looks right.
+- If the broadening is too large, you may smear out important
+  features of the DOS.
+- If the broadening is too small, you will see some unphysical peaks in the DOS
+  and it will look very spikey.
+- In principle you want the smearing to be comparable to the **typical
+  difference of Kohn-Sham energies at neighboring k-points**. In practice,
+  however, it is often easier to just try different values for the broadening until the DOS looks physically meaningful.
 
 ??? note "Tetrahedron Method"
-    The other way to interpolate is to use the so-called tetrahedron method.
-    Essentially this corresponds to doing a three dimensional linear
-    interpolation from a regular grid of values. This calculation can be
+    Another way to obtained an accurate DOS is to linearly interpolate the calculated Kohn-Sham energies using the so-called tetrahedron method. Such a calculation is
     noticeably slower than using a broadening but there is no need to to worry
-    about using the correct smearing. The density of states will simply become
-    more finely featured as you increase the density of the k-point grid in the
-    non-self-consistent calculation.
+    about using the correct smearing. Your only convergence parameter is the fineness of the k-point grid you use which determines how accurate the interpolation is.
 
     It's important to note that in a real measurement of the density of
-    states of a system, there is an implicit broadening that comes from
+    states of material (for example, using photoemission spectroscopy), there is always some broadening coming from
 
-      1. Electron-phonon coupling: the states are not simply at a fixed
-      energy, but will have some distribution as the atoms vibrate.
+      1. Electron-phonon coupling: since the atoms in a real material vibrate around their equilibrium positions, the energies of the electronic states will be smeared out.
 
-      2. Any measurement probe will have a finite energy width associated
-      with it, which will limit how finely it can resolve density of states
-      features.
-
-    So while tetrahedron may seem the more accurate approach, you shouldn't
-    necessarily think of it as a more correct representation of a real
-    system.
+      2. Any measurement apparatus will have a finite energy resolution which will further broaden the measured DOS. 
+      
 
 ### Calculating the DOS
 In a similar way to the electronic band structure, we produce the density of 
