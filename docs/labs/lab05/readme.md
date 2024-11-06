@@ -1,12 +1,11 @@
 Metals and the Density of States
 ================================
 
-This week we'll be discussing the metallic systems and the electronic density of
-states. For metals, there are a couple of complications which mean we have to
-treat them differently from systems with a non-zero band gap. 
+This week we will study the electronic structure of metals and the electronic density of
+states. Solving the Kohn-Sham equation for metals requires some additional considerations compared to the case of semiconductors and insulators which we studied in the last lab.
 
-As before, all the inpus and scripts you need can be found in
-`/opt/MSE404-MM/docs/labs/lab05` and you should make a copy of the folder to
+As before, all the input files and scripts you need can be found in
+`/opt/MSE404-MM/docs/labs/lab05` and you should copy this folder to
 your home directory.
 
 <!-- <div markdown="span" style="margin: 0 auto; text-align: center"> -->
@@ -17,42 +16,31 @@ your home directory.
 
 ## Density of States
 
-The electronic Density of states (DOS) describes the distribution of electronic
-states in a material with respect to their energy. More precisely, it tells us
-how many electronic states, for a system of volume $V$, can be occupied in a
-small (infinitesimal) energy range near a specific energy $E$. The DOS is
-defined as:
+The electronic density of states (DOS) contains information about the number of electronic states with certain energies. Mathematically, it is defined as 
 
 $$ 
-\mathrm{DOS}(E) = \sum_{n} \int_{0}^{\frac{(2\pi)^3}{V}}
-                  \delta(E - \epsilon_{n\mathbf{k}})
-                  d\mathbf{k},
+\mathrm{DOS}(E) = \sum_{n} \sum_{\mathbf{k}}
+                  \delta(E - \epsilon_{n\mathbf{k}}),
 $$
 
 where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
-k-point $\mathbf{k}$.
+k-point $\mathbf{k}$ and the integral is over the first Brillouin zone.
 
-For a molecular system, the DOS looks exactly the same to the eigenenergy
-spectrum and is discrete, since we only one k-point (the $\Gamma$ point).
-However, for periodic systems, each k-point has a set of eigenenergies and the
-DOS should become continuous. For example, here are two DOS plots of a water
-molecule (isolated system) and carbon diamond (periodic system):
+For a molecular system, the DOS consists of a series of discrete peaks at the energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the $\Gamma$ point) for DFT calculations of isolated molecules.
+In contrast, for DFT calculations of crystals, we use many k-points to samples the first Brillouin zone and in this case the discrete peaks merge to form a continous curve. For example, here are graphs of the DOS of a water
+molecule (isolated molecule) and carbon diamond (periodic crystal):
 
 <figure markdown="span">
   ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
 
 
-Since the DOS and the band structure are both related the Kohn-Sham eigenvalues,
-intuitively, the DOS can also be related to the band structures: bands with
-large energy dispersion in the Brillouin zone result in low DOS spread across a
-large interval, whereas less dispersive (more flat) bands result in high DOS
-near a small energy interval. 
+The shape of the DOS is intimately connected to the band structure of a crystal: bands with a
+strong dispersion (i.e. the Kohn-Sham energies change rapidly along a path in k-space) result in low DOS spread over a
+large interval, whereas less dispersive (i.e. flatter) bands result in high DOS
+in a smaller energy interval. 
 
-In insulators and semiconductors, the DOS is zero inside the band gap, as there
-are no available states in that energy range. Hence, the DOS can give us an
-accurate estimation of the band gap (unlike the band structure plot which only
-goes along a certain path in the Brillouin zone, DOS reflects eigenvalues of all
-k-points in the Brillouin zone).
+For insulators and semiconductors, the DOS is zero inside the band gap, as there
+are no Kohn-Sham states in that energy range. Hence, the DOS allows us to determine the band gap of a crystal (unlike a band structure plot which only shows the KS energies along a specific path in the Brillouin zone, the DOS contains information about the KS energies at all k-points in the first Brillouin zone).
 
 ### Smearing
 
