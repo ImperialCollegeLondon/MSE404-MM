@@ -78,7 +78,7 @@ In a similar way to the electronic band structure, we produce the density of
 states plot in three steps.
 
 #### Step 1 - SCF Calculation
-Perform a self-consistent calculation as before, producing a converged
+Perform a self-consistent calculation as before to produce a converged
 charge density.
 
 !!! example "Task 10.1 - SCF Calculation"
@@ -89,9 +89,9 @@ charge density.
 #### Step 2 - NSCF Calculation
 Take the density calculated in the previous step and use it to
 perform a non-self-consistent calculation on a denser k-point grid.
-We want a good representation of how the state energies vary as we move
+We want an accurate description of how the KS energies vary as we move
 around the Brillouin zone so we use a much denser grid here than we need
-to obtain a converged density in the previous step.
+to obtain the converged density in the previous step.
 
 The difference between this and the band structure calculation is that here
 we use a uniform sampling of the Brillouin zone, rather than a path between
