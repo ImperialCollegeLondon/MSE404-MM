@@ -205,12 +205,10 @@ plot the shifted DOS together with the integrated DOS.
 
 ## Metals
 
-Metals have a Fermi surface that can be quite complex in k-space. This means
-that in contrast to an insulator or semiconductor where every k-point has the
+Metals have a Fermi surface in k-space which separate the occupied from the unoccupied Kohn-Sham states. The shape of the Fermi surface can be quite complicated and is not known a priori. This means
+that in contrast to insulators or semiconductors where every k-point has the
 same number of **occupied** states, **in a metal the number of occupied states
-can vary from k-point to k-point**. Remembering that DFT is a gound state theory
-, a rapidly varying occupation number will make the calculation more difficult
-to converge. 
+can vary from k-point to k-point**. This makes it more difficult to obtain converged results for metals.
 
 
 ### Tackling Discontinuities
@@ -219,14 +217,10 @@ Generally, there are two things that we typically do for metals to help with the
 convergence of the SCF calculation:
 
 1.  Use a denser k-point grid than you would need for a semiconductor or
-    insulator. This is to help sampling the rapid change in the Fermi surface at
-    different k-points.
-
-2.  Use some smearing scheme for the calculation of **occupation number** of
-    bands at each k-point. This is in relation to the smearing used in the
-    calculation of the [:link: density of states](#density-of-states). The
-    difference is that here the occupation is also smeared (i.e., can be a
-    fractional number between 0 and 1).
+    insulator. This allows us to better resolve where the Fermi surface is located.
+    
+2.  Use a smearing scheme for the calculation of the **occupation number** of
+    Kohn-Sham states at each k-point. Instead of having integer occupation numbers and a sharp jump of the occupation number as we cross the Fermi surface, we now allow the occupation numbers to have any value between 0 and 1 and to change smoothly as we cross the Fermi level.  
 
     To determine the occupation number at each SCF step, we first need to obtain
     the Fermi energy of the system. This is usually achieved by solving the
