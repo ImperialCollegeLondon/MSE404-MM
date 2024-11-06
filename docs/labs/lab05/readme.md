@@ -205,10 +205,10 @@ plot the shifted DOS together with the integrated DOS.
 
 ## Metals
 
-Metals have a Fermi surface in k-space which separate the occupied from the unoccupied Kohn-Sham states. The shape of the Fermi surface can be quite complicated and is not known a priori. This means
+Metals have a Fermi surface in k-space which separates the occupied from the unoccupied Kohn-Sham states. The shape of the Fermi surface can be quite complicated and is not known a priori. This means
 that in contrast to insulators or semiconductors where every k-point has the
 same number of **occupied** states, **in a metal the number of occupied states
-can vary from k-point to k-point**. This makes it more difficult to obtain converged results for metals.
+can vary from k-point to k-point**. This makes it more difficult to calculate the electron density which involves a summation of the squared magnitudes of the wavefunctions of all **occupied states**. 
 
 
 ### Tackling Discontinuities
@@ -220,39 +220,27 @@ convergence of the SCF calculation:
     insulator. This allows us to better resolve where the Fermi surface is located.
     
 2.  Use a smearing scheme for the calculation of the **occupation number** of
-    Kohn-Sham states at each k-point. Instead of having integer occupation numbers and a sharp jump of the occupation number as we cross the Fermi surface, we now allow the occupation numbers to have any value between 0 and 1 and to change smoothly as we cross the Fermi level.  
+    Kohn-Sham states at each k-point. Instead of having integer occupation numbers and a sharp jump of the occupation number as we cross the Fermi surface, we now allow the occupation numbers to vary continuously from fully occupied to completely empty in the vicinity of the Fermi surface.
 
-    To determine the occupation number at each SCF step, we first need to obtain
-    the Fermi energy of the system. This is usually achieved by solving the
-    following for $E_F$ at 0K: 
+    One way to obtain smeared occupation numbers is to calculate them using the Fermi-Dirac distribution $f_T(\epsilon_{n\mathbf{k}})$ at a finite temperature $T$
 
     $$
-    N_e = \int_{-\infty}^{E_F} \mathrm{DOS}(\varepsilon) f_T(E) dE
+    f_T(E) = 1/(\exp((E-E_F)/k_B T) + 1),
     $$
 
-    where $N_e$ is the number of electrons in the system $f$ represents the
-    Fermi-Dirac distribution function at temperature $T$ and
-    $\mathrm{DOS}(\varepsilon)$ is the smeared density of states. 
-
-    As we already know, the Fermi-Dirac function at 0K is a step function which
-    would spoil the convergence of metals (due to discontinuities). Here, we
-    simply raise the temperature to a small number (using the tag `degauss` for
-    `pw.x`) so that the Fermi-Dirac function is smeared out and the convergence
-    can be achieved more easily. It is worth noting that other smearing methods
-    such as gaussian smearing can also be used and a consistent method is needed
-    for both DOS and occupation smearing. Once the Fermi energy is found, the
-    occupation function is determined and the occupation number at each k-point
-    $\mathbf{k}$ and band $n$ can be calculated: 
+    where $E_F$ denotes the Fermi energy which is the energy of the highest occupied Kohn-Sham state. We can calculate the Fermi level using the condition that the sum over all occupation numbers must be equal to the total number of electrons $N_e$ in the crystal
 
     $$
-    f_{n\mathbf{k}} = f_T(\varepsilon_{n\mathbf{k}} - E_F).
-    $$ 
+    N_e = \sum_n \sum_\mathbf{k} f_T(\epsilon_{n\mathbf{k}}).
+    $$
 
-    Adding a smearing to the occupation function helps significantly in
+    At low temperatures, the Fermi-Dirac distribution becomes a discontinous step function. So we must choose the temperature to be sufficiently high to ensure smooth occupation numbers near the Fermi surface (using the tag `degauss` in the input file). It is worth noting that other smearing methods,
+    such as Gaussian smearing.
+
+    Using a smearing scheme for the occupation numbers helps significantly in
     achieving a smooth SCF convergence for metals, as otherwise a small change
-    in a state energy from once cycle to the next could lead to a very large
-    change in its occupation and to the total energy in turn (this is called
-    'ill-conditioning'). We set the smearing scheme (for both DOS and occupation
+    in the energy of a KS state from one self-consistent iteration to the next one could lead to a very large
+    change in its occupation number and to the electron density. We set the smearing scheme (for both DOS and occupation
     function) and width with the `occupations` and `degauss` variables in the
     input file.
 
