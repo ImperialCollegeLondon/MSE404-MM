@@ -81,7 +81,7 @@ ATOMIC_POSITIONS angstrom
 K_POINTS gamma
 ```
 
-!!! example "Task 2.1 - Assming Spin Degenerate Insulator"
+!!! example "Task 1.1 - Assming Spin Degenerate Insulator"
 
     Try running the calculation in this directory. Does it converge?
     
@@ -89,11 +89,12 @@ K_POINTS gamma
         While it's possible that the system may randomly meet the convergence
         criteria in the self-consistent cycle, this calculation will most likely
         not converge. If you look at the estimate accuracy at the end of each
-        iteration in the output, it will likely vary from step to step, rather than
-        steadily decreasing as in a well-behaved calculation.
+        iteration in the output, it will likely vary from step to step, rather
+        than steadily decreasing as in a well-behaved calculation.
         
-        The situation we have is similar to a metal: we have two bands and the ground
-        state of the system should be when there is one electron in each of them.
+        The situation we have is similar to a metal: we have two bands and the
+        ground state of the system should be when there is one electron in each
+        of them.
 
 To get around this, we can use a metallic occupation scheme with a small
 smearing width. This will allow the system to converge to the correct ground
@@ -129,7 +130,7 @@ ATOMIC_POSITIONS angstrom
 K_POINTS gamma
 ```
 
-!!! example "Task 2.2 - Assuming Spin Degenerate Metal"
+!!! example "Task 1.2 - Assuming Spin Degenerate Metal"
 
     Create a copy of the `01_O2` directory called `01_O2_metal`. Modify the
     input file in it to use a metallic occupation scheme with a small smearing
@@ -195,7 +196,7 @@ K_POINTS gamma
       spin-down electrons in the cell. If we want a single spin up electron
       we can set this to `1.0`.
 
-!!! example "Task 2.3 - Assuming Spin Polarized Metal"
+!!! example "Task 1.3 - Assuming Spin Polarized Metal"
 
     Create another copy of `01_O2` called `01_O2_spin`. Then, try to:
 
@@ -279,7 +280,7 @@ directory `02_Fe` contains an input file for iron. Note this is a BCC structure
 structures you have examined previously were FCC. The calculation has been set
 up in the usual way for a metallic system.
 
-!!! example "Task 3.1 - Fixed Magnetization"
+!!! example "Task 2.1 - Fixed Magnetization"
 
     1. Run this calculation and check everything worked as expected. What is the
        final energy?
@@ -311,7 +312,7 @@ up in the usual way for a metallic system.
             The total energy becomes -55.53839616 Ry. Lower than the spin
             degenerate case.
 
-    4. Try setting the total magnetization to 2.0. How does the final energy
+    4. Try setting the total magnetization to62.0. How does the final energy
        compare to the previous value?
 
         ??? success "Answer"
@@ -323,7 +324,7 @@ the value which gives the lowest overall total energy. However, we can instead
 pass an option that tells quantum espresso to automatically find the best
 value. This is done by setting the `starting_magnetization` input variable.
 
-!!! example "Task 3.2 - Relaxed magnetization"
+!!! example "Task 2.2 - Relaxed magnetization"
 
     1. Make another copy of the `02_Fe` directory, and this time set `nspin =
        2`, and `starting_magnetization = 1.0` (do not include the

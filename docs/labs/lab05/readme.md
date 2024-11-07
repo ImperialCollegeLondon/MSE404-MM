@@ -1,8 +1,10 @@
 Metals and the Density of States
 ================================
 
-This week we will study the electronic structure of metals and the electronic density of
-states. Solving the Kohn-Sham equation for metals requires some additional considerations compared to the case of semiconductors and insulators which we studied in the last lab.
+This week we will study the electronic structure of metals and the electronic
+density of states. Solving the Kohn-Sham equation for metals requires some
+additional considerations compared to the case of semiconductors and insulators
+which we studied in the last lab.
 
 As before, all the input files and scripts you need can be found in
 `/opt/MSE404-MM/docs/labs/lab05` and you should copy this folder to
@@ -16,7 +18,8 @@ your home directory.
 
 ## Density of States
 
-The electronic density of states (DOS) contains information about the number of electronic states with certain energies. Mathematically, it is defined as 
+The electronic density of states (DOS) contains information about the number of
+electronic states with certain energies. Mathematically, it is defined as 
 
 $$ 
 \mathrm{DOS}(E) = \sum_{n} \sum_{\mathbf{k}}
@@ -26,31 +29,43 @@ $$
 where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
 k-point $\mathbf{k}$ and the integral is over the first Brillouin zone.
 
-For a molecular system, the DOS consists of a series of discrete peaks at the energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the $\Gamma$ point) for DFT calculations of isolated molecules.
-In contrast, for DFT calculations of crystals, we use many k-points to samples the first Brillouin zone and in this case the discrete peaks merge to form a continous curve. For example, here are graphs of the DOS of a water
-molecule (isolated molecule) and carbon diamond (periodic crystal):
+For a molecular system, the DOS consists of a series of discrete peaks at the
+energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the
+$\Gamma$ point) for DFT calculations of isolated molecules. In contrast, for DFT
+calculations of crystals, we use many k-points to samples the first Brillouin
+zone and in this case the discrete peaks merge to form a continous curve. For
+example, here are graphs of the DOS of a water molecule (isolated molecule) and
+carbon diamond (periodic crystal):
 
 <figure markdown="span">
   ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
 
 
-The shape of the DOS is intimately connected to the band structure of a crystal: bands with a
-strong dispersion (i.e. the Kohn-Sham energies change rapidly along a path in k-space) result in low DOS spread over a
-large interval, whereas less dispersive (i.e. flatter) bands result in high DOS
-in a smaller energy interval. 
+The shape of the DOS is intimately connected to the band structure of a crystal:
+bands with a strong dispersion (i.e. the Kohn-Sham energies change rapidly along
+a path in k-space) result in low DOS spread over a large interval, whereas less
+dispersive (i.e. flatter) bands result in high DOS in a smaller energy interval. 
 
 For insulators and semiconductors, the DOS is zero inside the band gap, as there
-are no Kohn-Sham states in that energy range. Hence, the DOS allows us to determine the band gap of a crystal (unlike a band structure plot which only shows the KS energies along a specific path in the Brillouin zone, the DOS contains information about the KS energies at all k-points in the first Brillouin zone).
+are no Kohn-Sham states in that energy range. Hence, the DOS allows us to
+determine the band gap of a crystal (unlike a band structure plot which only
+shows the KS energies along a specific path in the Brillouin zone, the DOS
+contains information about the KS energies at all k-points in the first
+Brillouin zone).
 
 ### Smearing
 
-To evaluate the equation for the DOS of a crystal numerically, we have to replace the delta-functions by functions with a finite width, such as a Gaussian (otherwise the DOS will always look like a set of sharp peaks). This is called "smearing". 
+To evaluate the equation for the DOS of a crystal numerically, we have to
+replace the delta-functions by functions with a finite width, such as a Gaussian
+(otherwise the DOS will always look like a set of sharp peaks). This is called
+"smearing". 
 
 <figure markdown="span">
   ![Delta](./assets/delta.svg)
 </figure>
 
-The width of the Gaussian is a parameter that needs to be tuned to ensure that a physically meaningful result is obtained: 
+The width of the Gaussian is a parameter that needs to be tuned to ensure that a
+physically meaningful result is obtained: 
 
 - If the broadening is too large, you may smear out important
   features of the DOS.
@@ -58,19 +73,27 @@ The width of the Gaussian is a parameter that needs to be tuned to ensure that a
   and it will look very spikey.
 - In principle you want the smearing to be comparable to the **typical
   difference of Kohn-Sham energies at neighboring k-points**. In practice,
-  however, it is often easier to just try different values for the broadening until the DOS looks physically meaningful.
+  however, it is often easier to just try different values for the broadening
+  until the DOS looks physically meaningful.
 
 ??? note "Tetrahedron Method"
-    Another way to obtained an accurate DOS is to linearly interpolate the calculated Kohn-Sham energies using the so-called tetrahedron method. Such a calculation is
-    noticeably slower than using a broadening but there is no need to to worry
-    about using the correct smearing. Your only convergence parameter is the fineness of the k-point grid you use which determines how accurate the interpolation is.
+    Another way to obtained an accurate DOS is to linearly interpolate the
+    calculated Kohn-Sham energies using the so-called tetrahedron method. Such a
+    calculation is noticeably slower than using a broadening but there is no
+    need to to worry about using the correct smearing. Your only convergence
+    parameter is the fineness of the k-point grid you use which determines how
+    accurate the interpolation is.
 
-    It's important to note that in a real measurement of the density of
-    states of material (for example, using photoemission spectroscopy), there is always some broadening coming from
+    It's important to note that in a real measurement of the density of states
+    of material (for example, using photoemission spectroscopy), there is always
+    some broadening coming from
 
-      1. Electron-phonon coupling: since the atoms in a real material vibrate around their equilibrium positions, the energies of the electronic states will be smeared out.
+      1. Electron-phonon coupling: since the atoms in a real material vibrate
+         around their equilibrium positions, the energies of the electronic
+         states will be smeared out.
 
-      2. Any measurement apparatus will have a finite energy resolution which will further broaden the measured DOS. 
+      2. Any measurement apparatus will have a finite energy resolution which
+         will further broaden the measured DOS. 
       
 
 ### Calculating the DOS
@@ -81,10 +104,13 @@ states plot in three steps.
 Perform a self-consistent calculation as before to produce a converged
 charge density.
 
-!!! example "Task 10.1 - SCF Calculation"
+!!! example "Task 1.1 - SCF Calculation"
     Run `pw.x` using the input file
     [:link:01_C_diamond_scf.in](01_densityofstates/01_C_diamond_scf.in)
     for diamond.
+    ```
+    pw.x < 01_C_diamond_scf.in > 01_C_diamond_scf.out
+    ```
 
 #### Step 2 - NSCF Calculation
 Take the density calculated in the previous step and use it to
@@ -137,10 +163,13 @@ K_POINTS automatic #(3)!
     conduction band minimum at the gamma point, so it is good to ensure it's
     explicitly included in the grid.
 
-!!! example "Task 10.2 - NSCF Calculation"
+!!! example "Task 1.2 - NSCF Calculation"
     Run `pw.x` using the input file
-    [:link:02_C_diamond_scf.in](01_densityofstates/02_C_diamond_nscf.in)
+    [:link:02_C_diamond_nscf.in](01_densityofstates/02_C_diamond_nscf.in)
     for diamond.
+    ```
+    pw.x < 02_C_diamond_nscf.in > 02_C_diamond_nscf.out
+    ```
 
 #### Step 3 - Density of States Calculation
 
@@ -158,57 +187,77 @@ file for `dos.x` and contains just a `DOS` section:
 
 1.  `degauss` specifies the Gaussian broadening (in Rydberg) to use in the
     density of states calculation.
-2.  `DeltaE` specifies the spacing between energies at which the DOS is calculated, in eV.
+2.  `DeltaE` specifies the spacing between energies at which the DOS is
+    calculated, in eV.
 
 !!! note
-    We have picked similar values for `degauss` and `DeltaE` (after converting them to the same units). In fact if `degauss` is not specified, and no broadening scheme is 
-    used in the DFT calculation, `degauss` will take the value of `DeltaE` by
-    default. You can check the documentation [:link:
+    We have picked similar values for `degauss` and `DeltaE` (after converting
+    them to the same units). In fact if `degauss` is not specified, and no
+    broadening scheme is used in the DFT calculation, `degauss` will take the
+    value of `DeltaE` by default. You can check the documentation [:link:
     INPUT_DOS](https://www.quantum-espresso.org/Doc/INPUT_DOS.html) for more
     details.
 
-!!! example "Task 10.3 - Plotting Density of States"
+!!! example "Task 1.3 - Plotting Density of States"
     Run `dos.x` using the input file
     [:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in)
     for diamond.
+    ```
+    dos.x < 03_C_diamond_dos.in > 03_C_diamond_dos.out
+    ```
 
 The final step produces a file named `pwscf.dos` by default. This is a simple
-text file you can plot. It has three columns:
+text file you can plot. It has three columns: Energy (eV), Density of States
+(states/eV), and Integrated Density of States (states) up until that energy. And
+in the first line, the estimated Fermi energy is also given.
 
-1. Energy (eV)
-2. Density of States (states/eV)
-3. Integrated Density of States (states)
+```python
+#  E (eV)   dos(E)     Int dos(E) EFermi =   13.180 eV 
+  -9.334 0.2778E-06  0.2778E-07
+  -9.234  0.1274E-05  0.1552E-06
+  -9.134  0.5226E-05  0.6778E-06
+  -9.034  0.1919E-04  0.2597E-05
+  ...
+```
 
 It is customary to shift the x-axis in the plot such that the Fermi energy
 or valence band maximum is at 0. A value for the Fermi level is given in
-the file header of `pwscf.dos`. This value is determined in a simple
-way from the integrated density of states. Sometimes, it may be worth calculating the Fermi level in
-a separate calculation using a relatively small broadening if you're studying a
-metallic system (as we shall see later). For semiconductors and insulators
-you can determine the valence band maximum energy from the output file. 
+the file header of `pwscf.dos`. This value is determined in a simple way from
+the integrated density of states. Sometimes, it may be worth calculating the
+Fermi level in a separate calculation using a relatively small broadening if
+you're studying a metallic system (as we shall see later). For semiconductors
+and insulators you can determine the valence band maximum energy from the output
+file. 
 
 The directory `03_densityofstates` contains a python script that can be used to
 plot the shifted DOS together with the integrated DOS.
 
-!!! example "Task 10.4 - Density of States Calculation"
+!!! example "Task 1.4 - Density of States Calculation"
     Plot the density of states using the script provided.
+    ```
+    python plotdos_shifted.py
+    ```
 
     ??? success "DOS Plot"
         <figure markdown="span">
           ![Diamond primitive cell](assets/dos.png){ width="500" }
         </figure>
 
-    Now try re-running Tasks 3 and 4 with different `degauss` values and see
+    Now try re-running Tasks 1.3 and 1.4 with different `degauss` values and see
     how the DOS plots change. Does the change match your expectations?
 
 ------------------------------------------------------------------------------
 
 ## Metals
 
-Metals have a Fermi surface in k-space which separates the occupied from the unoccupied Kohn-Sham states. The shape of the Fermi surface can be quite complicated and is not known a priori. This means
-that in contrast to insulators or semiconductors where every k-point has the
-same number of **occupied** states, **in a metal the number of occupied states
-can vary from k-point to k-point**. This makes it more difficult to calculate the electron density which involves a summation of the squared magnitudes of the wavefunctions of all **occupied states**. 
+Metals have a Fermi surface in k-space which separates the occupied from the
+unoccupied Kohn-Sham states. The shape of the Fermi surface can be quite
+complicated and is not known a priori. This means that in contrast to insulators
+or semiconductors where every k-point has the same number of **occupied**
+states, **in a metal the number of occupied states can vary from k-point to
+k-point**. This makes it more difficult to calculate the electron density which
+involves a summation of the squared magnitudes of the wavefunctions of all
+**occupied states**. 
 
 
 ### Tackling Discontinuities
@@ -217,30 +266,43 @@ Generally, there are two things that we typically do for metals to help with the
 convergence of the SCF calculation:
 
 1.  Use a denser k-point grid than you would need for a semiconductor or
-    insulator. This allows us to better resolve where the Fermi surface is located.
+    insulator. This allows us to better resolve where the Fermi surface is
+    located.
     
 2.  Use a smearing scheme for the calculation of the **occupation number** of
-    Kohn-Sham states at each k-point. Instead of having integer occupation numbers and a sharp jump of the occupation number as we cross the Fermi surface, we now allow the occupation numbers to vary continuously from fully occupied to completely empty in the vicinity of the Fermi surface.
+    Kohn-Sham states at each k-point. Instead of having integer occupation
+    numbers and a sharp jump of the occupation number as we cross the Fermi
+    surface, we now allow the occupation numbers to vary continuously from fully
+    occupied to completely empty in the vicinity of the Fermi surface.
 
-    One way to obtain smeared occupation numbers is to calculate them using the Fermi-Dirac distribution $f_T(\epsilon_{n\mathbf{k}})$ at a finite temperature $T$
+    One way to obtain smeared occupation numbers is to calculate them using the
+    Fermi-Dirac distribution $f_T(\epsilon_{n\mathbf{k}})$ at a finite
+    temperature $T$
 
     $$
     f_T(E) = 1/(\exp((E-E_F)/k_B T) + 1),
     $$
 
-    where $E_F$ denotes the Fermi energy which is the energy of the highest occupied Kohn-Sham state. We can calculate the Fermi level using the condition that the sum over all occupation numbers must be equal to the total number of electrons $N_e$ in the crystal
+    where $E_F$ denotes the Fermi energy which is the energy of the highest
+    occupied Kohn-Sham state. We can calculate the Fermi level using the
+    condition that the sum over all occupation numbers must be equal to the
+    total number of electrons $N_e$ in the crystal
 
     $$
     N_e = \sum_n \sum_\mathbf{k} f_T(\epsilon_{n\mathbf{k}}).
     $$
 
-    At low temperatures, the Fermi-Dirac distribution becomes a discontinous step function. So we must choose the temperature to be sufficiently high to ensure smooth occupation numbers near the Fermi surface (using the tag `degauss` in the input file). It is worth noting that other smearing methods,
-    such as Gaussian smearing.
+    At low temperatures, the Fermi-Dirac distribution becomes a discontinous
+    step function. So we must choose the temperature to be sufficiently high to
+    ensure smooth occupation numbers near the Fermi surface (using the tag
+    `degauss` in the input file). It is worth noting that other smearing
+    methods, such as Gaussian smearing.
 
     Using a smearing scheme for the occupation numbers helps significantly in
     achieving a smooth SCF convergence for metals, as otherwise a small change
-    in the energy of a KS state from one self-consistent iteration to the next one could lead to a very large
-    change in its occupation number and to the electron density. We set the smearing scheme (for both DOS and occupation
+    in the energy of a KS state from one self-consistent iteration to the next
+    one could lead to a very large change in its occupation number and to the
+    electron density. We set the smearing scheme (for both DOS and occupation
     function) and width with the `occupations` and `degauss` variables in the
     input file.
 
@@ -298,15 +360,15 @@ K_POINTS automatic
       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401).
 
 
-!!! example "Task 10.5 - Occupation Smearing for Metals"
+!!! example "Task 2 - Smearing for Metals"
 
     First, run the `pw.x` calculation with the supplied input file in
     [:link:02_aluminium/Al.in](02_aluminium/Al.in).
     
     Then, take a look at the `pwscf.xml` file and find the various `ks_energies`
     entries towards the end. These give the various k-points used in the
-    calculation as well as the KS energies and **occupations** of each state for this
-    k-point. 
+    calculation as well as the KS energies and **occupations** of each state for
+    this k-point. 
 
     ??? success "Example" 
         ```
@@ -327,26 +389,54 @@ K_POINTS automatic
          ... 
         ```
 
-    For a metal the default number of bands that are used in the SCF calculation is at least four more
-    than are needed to accommodate all electrons (even without us
-    setting the `nband` tag). The pseudopotential we have used for aluminium has 3 valence
-    electrons, which could be accommodated in two 
-    bands. Adding the four extra bands, this gives a total of 6 bands which are used in the calculation. 
+    For a metal the default number of bands that are used in the SCF calculation
+    is at least four more than are needed to accommodate all electrons (even
+    without us setting the `nband` tag). The pseudopotential we have used for
+    aluminium has 3 valence electrons, which could be accommodated in two bands.
+    Adding the four extra bands, this gives a total of 6 bands which are used in
+    the calculation. 
     
-    Now, try to remove the `occupations` and `degauss` variables from the input
-    file and see what happens when you re-run the calculation.
+    <!-- Now, try to remove the `occupations` and `degauss` variables from the input -->
+    <!-- file and see what happens when you re-run the calculation. -->
+    <!--  -->
+    <!-- ??? success "Example"  -->
+    <!--     The calculation will fail with the following error message: -->
+    <!--     ``` -->
+    <!--     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--          Error in routine electrons (1): -->
+    <!--          charge is wrong: smearing is needed -->
+    <!--     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% -->
+    <!--     ``` -->
 
-    ??? success "Example" 
-        The calculation will fail with the following error message:
-        ```
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-             Error in routine electrons (1):
-             charge is wrong: smearing is needed
-        %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        ```
+     Now, try to play around with the `degauss` value and see how the
+     occupations change. Does it match your expectations?
 
-     Also, try to play around with the `degauss` value and see how the occupations
-     change. Does it match your expectations?
+Now you know how to use smearing to help with the convergence of a metal, you
+can obtain the density of states and band structure of a metal just as easy. 
+
+!!! example "Task 4 - DOS of Aluminium"
+
+    Try calculating the density of states of Aluminium, can you find an energy
+    gap? Where does the Fermi level lie?
+
+
+!!! example "Task 5 - Band Structure of Aluminium"
+
+     Try calculate the band structure of Aluminium following the path of:
+     ```python
+     # Path here goes: Γ X U|K Γ L W X
+     K_POINTS crystal_b
+     0.0000000000     0.0000000000     0.0000000000 30    Γ
+     0.5000000000     0.0000000000     0.5000000000 30    X 
+     0.6250000000     0.2500000000     0.6250000000 00    U 
+     0.3750000000     0.3750000000     0.7500000000 30    K 
+     0.0000000000     0.0000000000     0.0000000000 30    Γ
+     0.5000000000     0.5000000000     0.5000000000 30    L 
+     0.5000000000     0.2500000000     0.7500000000 30    W 
+     0.5000000000     0.0000000000     0.5000000000 00    X 
+     ```
+     Remember you can always refer back to [lab04](../lab04/readme.md) for
+     reference.
 
 ------------------------------------------------------------------------------
 
