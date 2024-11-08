@@ -27,7 +27,7 @@ $$
 $$
 
 where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
-k-point $\mathbf{k}$ and the integral is over the first Brillouin zone.
+k-point $\mathbf{k}$ and the sum is over the first Brillouin zone. Note that the sum over k-points can be replaced by an integral if the grid is sufficiently fine.
 
 For a molecular system, the DOS consists of a series of discrete peaks at the
 energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the
