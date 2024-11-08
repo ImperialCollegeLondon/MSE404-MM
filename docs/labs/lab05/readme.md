@@ -32,7 +32,7 @@ k-point $\mathbf{k}$ and the sum is over the first Brillouin zone. Note that the
 For a molecular system, the DOS consists of a series of discrete peaks at the
 energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the
 $\Gamma$ point) for DFT calculations of isolated molecules. In contrast, for DFT
-calculations of crystals, we use many k-points to samples the first Brillouin
+calculations of crystals, we use many k-points to sample the first Brillouin
 zone and in this case the discrete peaks merge to form a continous curve. For
 example, here are graphs of the DOS of a water molecule (isolated molecule) and
 carbon diamond (periodic crystal):
@@ -280,11 +280,11 @@ convergence of the SCF calculation:
     temperature $T$
 
     $$
-    f_T(E) = 1/(\exp((E-E_F)/k_B T) + 1),
+    f_T(E) = 2/(\exp((E-E_F)/k_B T) + 1),
     $$
 
     where $E_F$ denotes the Fermi energy which is the energy of the highest
-    occupied Kohn-Sham state. We can calculate the Fermi level using the
+    occupied Kohn-Sham state and the factor of 2 results from the Pauli principle. We can calculate the Fermi level using the
     condition that the sum over all occupation numbers must be equal to the
     total number of electrons $N_e$ in the crystal
 
