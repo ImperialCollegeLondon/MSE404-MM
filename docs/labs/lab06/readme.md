@@ -312,7 +312,7 @@ up in the usual way for a metallic system.
             The total energy becomes -55.53839616 Ry. Lower than the spin
             degenerate case.
 
-    4. Try setting the total magnetization to62.0. How does the final energy
+    4. Try setting the total magnetization to 2.0. How does the final energy
        compare to the previous value?
 
         ??? success "Answer"
@@ -320,9 +320,15 @@ up in the usual way for a metallic system.
             cases.
 
 From this we could test many guesses for the total magnetization, and find
-the value which gives the lowest overall total energy. However, we can instead
-pass an option that tells quantum espresso to automatically find the best
-value. This is done by setting the `starting_magnetization` input variable.
+the value which gives the lowest overall total energy. Note that here one can
+set the total magnetization to be a fractional number which one cannot do in
+molecules. This is because we have now a periodic metal systems where
+itinerant electrons can also be the media of spin polarization. 
+
+However, finding the ground state total magnetization value can be a trdious job
+and one can instead pass an option that tells quantum espresso to automatically 
+find the best value. This is done by setting the `starting_magnetization` input
+variable.
 
 !!! example "Task 2.2 - Relaxed magnetization"
 
