@@ -63,7 +63,19 @@ K_POINTS automatic #(3)!
     [`A`](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm260)).
 3.  We are using automically generated k-point grid with a 4$\times$4$\times$4
     grid size, `1 1 1` means to shift the grid by one half of a grid spacing in
-    each direction. 
+    each direction. By default, the k-point grid is generated such that the grid
+    is centered around the origin of the reciprocal lattice vectors ($\Gamma$
+    point).
+
+    ??? note "K-point Shift"
+        The k-point shift is a trick that can speed up the calculation by
+        including less k-points in the calculation. This is because only
+        k-points in the irreducible Brillouin zone are calculated, and shifting
+        the grid can help to sample the entire Brillouin zone with fewer points.
+
+        <figure markdown="span">
+          ![kpt_shift](assets/kpt_shift.png){width="500"}
+        </figure>
 
 ### k-points
 One important difference between periodic crystals and molecules is that the

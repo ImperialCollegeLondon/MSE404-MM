@@ -22,14 +22,20 @@ The electronic density of states (DOS) contains information about the number of
 electronic states with certain energies. Mathematically, it is defined as 
 
 $$ 
-\mathrm{DOS}(E) = \sum_{n} \sum_{\mathbf{k}}
+\mathrm{DOS}(E) = \sum_{n} \sum_{\mathbf{k}} w_{\mathbf{k}}
                   \delta(E - \epsilon_{n\mathbf{k}}),
 $$
 
 where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
-k-point $\mathbf{k}$ and the sum is over the first Brillouin zone. Note that the
-sum over k-points can be replaced by an integral if the grid is sufficiently
-fine.
+k-point $\mathbf{k}$, $w_{\mathbf{k}}$ is the k-point weight to keep the total
+integrated DOS to be the number of bands. I.e., 
+
+$$
+\int_{-\infty}^{\infty} \mathrm{DOS}(E) dE = \#\mathrm{bands}
+$$
+
+Note that the sum over k-points can be replaced by an integral if the grid is
+sufficiently fine.
 
 For a molecular system, the DOS consists of a series of discrete peaks at the
 energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the
@@ -40,7 +46,8 @@ example, here are graphs of the DOS of a water molecule (isolated molecule) and
 carbon diamond (periodic crystal):
 
 <figure markdown="span">
-  ![DOS_m_c](./assets/dos_mol_crystal.svg) </figure>
+  ![DOS_m_c](./assets/dos_mol_crystal.svg) 
+</figure>
 
 
 The shape of the DOS is intimately connected to the band structure of a crystal:
@@ -177,10 +184,20 @@ K_POINTS automatic #(3)!
 
 #### Step 3 - Density of States Calculation
 
-From the Kohn-Sham energies calculated on the dense k-point
-grid we then calculate the density of states using `dos.x`.
+From the Kohn-Sham energies calculated on the dense k-point grid we then
+calculate the density of states using `dos.x`.
 [:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in) is the input
-file for `dos.x` and contains just a `DOS` section:
+file for `dos.x` and contains just a `DOS` section. What this input file
+instruct `dos.x` to do is to discritise an [:link:energy
+range](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm33) using a
+interval of
+[:link:`DeltaE`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm37) and
+at each energy calculate the DOS using [:link:the formula given
+above](#density-of-states). Each delta function is replaced using a gaussian
+function (which can be replace by other functions using
+[:link:`ngauss`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm26) tag)
+with a width of
+[:link:`degauss`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm30).
 
 ```python
  &DOS
@@ -232,6 +249,16 @@ Fermi level in a separate calculation using a relatively small broadening if
 you're studying a metallic system (as we shall see later). For semiconductors
 and insulators you can determine the valence band maximum energy from the output
 file. 
+
+??? note "Fermi Energy From The Integrated Density of States"
+    The integrated density of states is the number of states up to a certain
+    energy. I.e., $\int_{-\infty}^{E_1} DOS(E) d(E)$. One can easily found the
+    Fermi energy by looking at the energy where the integrated density of states
+    is equal to the number of electrons in the system. However, it is worth
+    noting that since we are using a smearing scheme and a denser k-point grid
+    in the NSCF step (which is not the case for the SCF calculation), the Fermi
+    energy calculated in this way may not be accurate. For accurate Fermi
+    energy, one should always refer to the output of the SCF calculation.
 
 The directory `03_densityofstates` contains a python script that can be used to
 plot the shifted DOS together with the integrated DOS.
@@ -296,10 +323,10 @@ convergence of the SCF calculation:
     highest occupied Kohn-Sham state and the factor of 2 results from the Pauli
     principle. We can calculate the Fermi level using the condition that the sum
     over all occupation numbers must be equal to the total number of electrons
-    $N_e$ in the crystal
+    $N_e$ in the cell($w_\mathbf{k}$ is the weight of the k-point):
 
     $$
-    N_e = \sum_n \sum_\mathbf{k} f_T(\epsilon_{n\mathbf{k}}).
+    N_e = \sum_n \sum_\mathbf{k} w_\mathbf{k} f_T(\epsilon_{n\mathbf{k}}).
     $$
 
     At low temperatures, the Fermi-Dirac distribution becomes a discontinous
@@ -328,7 +355,7 @@ Aluminium has an FCC crystal structure with one atom per unit cell, which
 we know how to deal with at this point. The thing about Aluminium that makes it
 more complicated within DFT is that it is a metal.
 
-Here is an example input file for a calculation of Aluminium:
+Here is an example input file for a SCF calculation of Aluminium:
 
 ```python hl_lines="11-13"
  &CONTROL
