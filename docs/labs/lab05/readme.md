@@ -27,7 +27,9 @@ $$
 $$
 
 where $\epsilon_{n\mathbf{k}}$ are the Kohn-Sham eigenvalues for band $n$ and
-k-point $\mathbf{k}$ and the sum is over the first Brillouin zone. Note that the sum over k-points can be replaced by an integral if the grid is sufficiently fine.
+k-point $\mathbf{k}$ and the sum is over the first Brillouin zone. Note that the
+sum over k-points can be replaced by an integral if the grid is sufficiently
+fine.
 
 For a molecular system, the DOS consists of a series of discrete peaks at the
 energies of the molecular Kohn-Sham orbitals, since we only use one k-point (the
@@ -215,7 +217,7 @@ in the first line, the estimated Fermi energy is also given.
 
 ```python
 #  E (eV)   dos(E)     Int dos(E) EFermi =   13.180 eV 
-  -9.334 0.2778E-06  0.2778E-07
+  -9.334  0.2778E-06  0.2778E-07
   -9.234  0.1274E-05  0.1552E-06
   -9.134  0.5226E-05  0.6778E-06
   -9.034  0.1919E-04  0.2597E-05
@@ -268,27 +270,33 @@ Generally, there are two things that we typically do for metals to help with the
 convergence of the SCF calculation:
 
 1.  Use a denser k-point grid than you would need for a semiconductor or
-    insulator. This allows us to better resolve where the Fermi surface is
-    located.
+    insulator. This allows us to have a better description of the complex Fermi
+    surface that metals have.
     
 2.  Use a smearing scheme for the calculation of the **occupation number** of
-    Kohn-Sham states at each k-point. Instead of having integer occupation
-    numbers and a sharp jump of the occupation number as we cross the Fermi
-    surface, we now allow the occupation numbers to vary continuously from fully
-    occupied to completely empty in the vicinity of the Fermi surface.
+    Kohn-Sham states at each k-point. Instead of having a integer occupation
+    number of each band (0 or 1), we now allow a fractional occupation number so
+    that the occupation number varies smoothly across k-points. 
+
+    ??? note "Charge Sloshing Effect"
+        Without occupation smearing, each band is either fully occupied or
+        unoccupied. At each step of the SCF loop, bands may switch between being
+        occupied and occupied, leading to a large change in the electron
+        density which can slow down the convergence of the SCF calculation.
 
     One way to obtain smeared occupation numbers is to calculate them using the
     Fermi-Dirac distribution $f_T(\epsilon_{n\mathbf{k}})$ at a finite
     temperature $T$
 
     $$
-    f_T(E) = 2/(\exp((E-E_F)/k_B T) + 1),
+    f_T(E) = \frac{2}{e^\frac{E-E_F}{k_B T} + 1},
     $$
 
-    where $E_F$ denotes the Fermi energy which is the energy of the highest
-    occupied Kohn-Sham state and the factor of 2 results from the Pauli principle. We can calculate the Fermi level using the
-    condition that the sum over all occupation numbers must be equal to the
-    total number of electrons $N_e$ in the crystal
+    where $E_F$ denotes the Fermi energy which we set to the energy of the
+    highest occupied Kohn-Sham state and the factor of 2 results from the Pauli
+    principle. We can calculate the Fermi level using the condition that the sum
+    over all occupation numbers must be equal to the total number of electrons
+    $N_e$ in the crystal
 
     $$
     N_e = \sum_n \sum_\mathbf{k} f_T(\epsilon_{n\mathbf{k}}).
@@ -447,7 +455,7 @@ can obtain the density of states and band structure of a metal just as easy.
      reference. Remember to change the number of bands to and the Fermi energy
      in the plotting script.
 
-    ??? success "Band structure plot"
+    ??? success "Band Structure Plot"
         <figure markdown="span">
           ![Diamond primitive cell](assets/Al_bands.png){ width="500" }
         </figure>
