@@ -136,7 +136,7 @@ k-points. The input file for this calculation can be found at
     nat =  2
     ntyp = 1
     ecutwfc = 60.0
-    # Add 4 conduction bands also
+    # Add 4 conduction bands
     nbnd = 8 #(2)!
  /
 
@@ -158,10 +158,12 @@ K_POINTS automatic #(3)!
     non-self-consistent calculation.
 2.  `nbnd = 8` specifies that we want to calculate 8 bands.
 3.  `K_POINTS automatic` specifies that we are using an automatically generated
-    k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and 
-    we have removed the shift. Many systems have a valence band maximum or
-    conduction band minimum at the gamma point, so it is good to ensure it's
-    explicitly included in the grid.
+    k-point grid. We've increased the k-point sampling to a 20x20x20 grid, and
+    we have removed the shift (without a shift, Quantum Espresso uses the
+    convention that the gide always includes the origin, for more information
+    see [:link:this](https://www.c2x.org.uk/mp_kpoints.html)). Many systems have
+    a valence band maximum or conduction band minimum at the gamma point, so it
+    is good to ensure it's explicitly included in the grid.
 
 !!! example "Task 1.2 - NSCF Calculation"
     Run `pw.x` using the input file
@@ -360,7 +362,7 @@ K_POINTS automatic
       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401).
 
 
-!!! example "Task 2 - Smearing for Metals"
+!!! example "Task 2.1 - Smearing for Metals"
 
     First, run the `pw.x` calculation with the supplied input file in
     [:link:02_aluminium/Al.in](02_aluminium/Al.in).
@@ -414,13 +416,19 @@ K_POINTS automatic
 Now you know how to use smearing to help with the convergence of a metal, you
 can obtain the density of states and band structure of a metal just as easy. 
 
-!!! example "Task 4 - DOS of Aluminium"
+!!! example "Task 2.2 - DOS of Aluminium"
 
-    Try calculating the density of states of Aluminium, can you find an energy
-    gap? Where does the Fermi level lie?
+    Try calculating the density of states of Aluminium by following Tasks 1.1 to
+    1.4. Remember to change the Fermi energy in the python script to the correct
+    value. Can you find an energy gap? Where does the Fermi level lie?
+
+    ??? success "DOS Plot"
+        <figure markdown="span">
+          ![Diamond primitive cell](assets/Al_dos.png){ width="500" }
+        </figure>
 
 
-!!! example "Task 5 - Band Structure of Aluminium"
+!!! example "Task 2.3 - Band Structure of Aluminium"
 
      Try calculate the band structure of Aluminium following the path of:
      ```python
@@ -435,8 +443,14 @@ can obtain the density of states and band structure of a metal just as easy.
      0.5000000000     0.2500000000     0.7500000000 30    W 
      0.5000000000     0.0000000000     0.5000000000 00    X 
      ```
-     Remember you can always refer back to [lab04](../lab04/readme.md) for
-     reference.
+     You can always refer back to [lab04](../lab04/readme.md) for
+     reference. Remember to change the number of bands to and the Fermi energy
+     in the plotting script.
+
+    ??? success "Band structure plot"
+        <figure markdown="span">
+          ![Diamond primitive cell](assets/Al_bands.png){ width="500" }
+        </figure>
 
 ------------------------------------------------------------------------------
 
