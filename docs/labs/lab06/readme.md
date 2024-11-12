@@ -36,23 +36,24 @@ example of this is the O2 molecule.
 ![MO](assets/Mo_diagram.svg){: style="width:250px" align=right}
 
 In this case, we have a system with two interacting oxygen atoms. Each oxygen
-has 8 electrons in total, with the configuration `1s2 2s2 2p4` (the 1s orbital
+has 8 electrons in total, with the configuration `1s2 2s2 2p4`, the 1s orbital
 will be contained within the pseudopotential for the DFT calculations done
-here, so you will have 6 electrons from each oxygen atom). 
+here, so you will have 6 electrons from each oxygen atom. 
 
 For a single oxygen, from Hund's rule the three p-orbitals should be filled
 singly before being filled in pairs, so that one of the p-orbitals will have two
 electrons, and the other two should have one each. However, if we assume doubly
 occupied orbitals, we'll have the two p-orbitals with two electrons and one that
 is empty. This means a calculation where we assume a set of doubly occupied
-bands will have trouble converging to the ground state of the system. For the
-molecule the situation is similar, but the s and p-orbitals from each atom
-combine to form bonding and anti-bonding $\sigma$ and $\pi$ orbitals.
+bands will have trouble converging to the ground state of the system. 
+
+For the molecule the situation is similar, but the s and p-orbitals from each
+atom combine to form bonding and anti-bonding $\sigma$ and $\pi$ orbitals.
 
 The directory `01_O2` contains an input file to calculate the total energy of
 the system at the measured bond length. Here the calculation has been set up
 exactly as you've seen in the past (i.e., assuming doubly degenerate band
-occupation without smearing or spin polarization:
+occupation without smearing or spin polarization):
 
 ```python
  &CONTROL
@@ -86,6 +87,7 @@ K_POINTS gamma
     Try running the calculation in this directory. Does it converge?
     
     ??? success "Answer"
+
         While it's possible that the system may randomly meet the convergence
         criteria in the self-consistent cycle, this calculation will most likely
         not converge. If you look at the estimate accuracy at the end of each
@@ -96,9 +98,9 @@ K_POINTS gamma
         ground state of the system should be when there is one electron in each
         of them.
 
-To get around this, we can use a metallic occupation scheme with a small
-smearing width. This will allow the system to converge to the correct ground
-state. The relevant input variables are the ones highlighed below:
+To help converge the system, we can use a metallic occupation scheme with a
+small smearing width. This will allow the system to converge to a ground state.
+The relevant input variables are the ones highlighed below:
 
 ```python hl_lines="12-14"
  &CONTROL
@@ -138,11 +140,8 @@ K_POINTS gamma
 
     - Does the calculation now converge?
 
-    <!-- ??? success "Answer" -->
-    <!--     Yes, the calculation should now converge. -->
-
-    - Take a look at the file `pwscf.xml` in the calculation directory, and
-      try to find the occupations of each band at each k-point. Are these as
+    - Take a look at the file `pwscf.xml` in the calculation directory, and try
+      to find the occupations of each band at each k-point. Are these as
       expected?
 
     ??? success "Answer"
@@ -157,9 +156,9 @@ K_POINTS gamma
         ```
 
 While treating this system as a metal may help converging the calculation, it
-may not necessarily reach the ground state since the spin-degress of freedom is
-constrained. Instead, we can do a spin polarized calculation by adding `nspin`
-and `tot_magnetization` variables to the input file (highlighted below):
+may not necessarily reach the true ground state since the spin-degree of freedom
+is constrained. Instead, we can do a spin polarized calculation by adding
+`nspin` and `tot_magnetization` variables to the input file (highlighted below):
 
 ```python hl_lines="12-13"
  &CONTROL
@@ -212,7 +211,7 @@ K_POINTS gamma
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             ```
 
-    2. Setting the total magnetization to 0, which would be the case if we 
+    2. Setting the total magnetization to 0.0, which would be the case if we 
        don't have any net magnetization in the molecule, as both spins point in
        opposite directions. What is the final energy?
 
@@ -226,27 +225,30 @@ K_POINTS gamma
         ??? success "Answer"
             The calculation converges to an energy of -63.29338911 Ry. The
             energy becomes lower with this configuration and the orbital
-            energies become different between spin channels.
+            energies become different between spin channels. Note that the
+            eigenvalues and occupations are written in the `pwscf.xml` file and
+            the spin up values are written first, followed by the spin down 
+            values.
             ```
                   <ks_energies>
                     <k_point weight="1.00000000000000">0.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000</k_point>
                     <npw>26462</npw>
                     <eigenvalues size="16">
-             -1.025922874232402E+000 -7.812538236389854E-001 -4.590520636167327E-001
-             -4.198711506107195E-001 -3.871387741292614E-001
-             -2.912685945326537E-001 -2.532555221576769E-001 -1.076727247566867E-001
-             -1.025922792354764E+000 -7.812537346931661E-001
-             -4.590520549643138E-001 -4.198710925526331E-001 -3.871386455493686E-001
-             -2.912685126157339E-001 -2.532553593136832E-001
-             -1.076726566570645E-001
+             -1.050830548259423E+000 -8.119807870761847E-001 -4.770004419270685E-001
+             -4.341811684674406E-001 -4.341811560749695E-001
+             -3.082114385895908E-001 -3.082114249408998E-001 -1.280528718472738E-001
+             -9.970063621108551E-001 -7.461771608702750E-001
+             -4.381689137303877E-001 -3.691144532629034E-001 -3.691144467746303E-001
+             -2.318554649322491E-001 -2.318554571437267E-001
+             -8.403816145565962E-002
                     </eigenvalues>
                     <occupations size="16">
               1.000000000000000E+000  1.000000000000000E+000  1.000000000000000E+000
               1.000000000000000E+000  1.000000000000000E+000
-              1.000000000000000E+000  0.000000000000000E+000  0.000000000000000E+000
+              1.000000000000000E+000  1.000000000000000E+000  0.000000000000000E+000
               1.000000000000000E+000  1.000000000000000E+000
               1.000000000000000E+000  1.000000000000000E+000  1.000000000000000E+000
-              1.000000000000000E+000  0.000000000000000E+000
+              0.000000000000000E+000  0.000000000000000E+000
               0.000000000000000E+000
                     </occupations>
                   </ks_energies>
@@ -256,14 +258,15 @@ Finally, comparing the energy of the spin polarized calculation with the spin
 degnerate metal calculation, we can see that the spin polarized calculation
 gives a lower energy.
 
-!!! pied-piper "Fun facts"
-    O2 in its singlet state can be dangerous (see e.g. 
-    [:link:`this paper`](https://www.sciencedirect.com/science/article/pii/S1383574211001189)),
+!!! pied-piper "Fun fact"
+
+    O2 in its singlet state can be dangerous (see e.g. [:link:`this
+    paper`](https://www.sciencedirect.com/science/article/pii/S1383574211001189)),
     so treating the spin correctly is important!
 
 
 Iron :material-hammer:
-----
+----------------------
 
 Now that you've seen how including spin polarization can allow us a correctly
 describe the ground state of a molecular system, the next step is to use it to
@@ -293,7 +296,7 @@ up in the usual way for a metallic system.
        with `tot_magnetization = 0.0` first, and compare your total energy to
        that obtained using doubly degenerate bands. 
 
-        !!! note "Note" 
+        !!! Warning "Warning" 
             While in the case of the O2 above, we were able to get our
             calculations to at least converge by using a metallic occupation
             instead of using spin polarization, in the case of iron, it will
@@ -321,9 +324,9 @@ up in the usual way for a metallic system.
 
 From this we could test many guesses for the total magnetization, and find
 the value which gives the lowest overall total energy. Note that here one can
-set the total magnetization to be a fractional number which one cannot do in
+set the total magnetization to be a fractional number which is not physical for
 molecules. This is because we have now a periodic metal systems where
-itinerant electrons can also be the media of spin polarization. 
+itinerant electrons can also be a media to host spin polarization. 
 
 However, finding the ground state total magnetization value can be a trdious job
 and one can instead pass an option that tells quantum espresso to automatically 
@@ -358,8 +361,12 @@ variable.
         ??? success "Answer"
             You can find the relevant input file in the directory
             `02_Fe/extra_bandstructure`. The band structure should look similar
-            to the following: <figure markdown="span"> ![Diamond primitive
-            cell](assets/Iron_bands.png){ width="500" } </figure>
+            to the following: 
+            <figure markdown="span"> 
+            ![Diamond primitive cell](assets/Iron_bands.png){ width="500" } 
+            </figure>
+            You can find `README.md` in the directory for more information on
+            how to reproduce this plot.
 
 ------------------------------------------------------------------------------
 
