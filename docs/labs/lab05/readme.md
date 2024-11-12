@@ -55,6 +55,17 @@ bands with a strong dispersion (i.e. the Kohn-Sham energies change rapidly along
 a path in k-space) result in low DOS spread over a large interval, whereas less
 dispersive (i.e. flatter) bands result in high DOS in a smaller energy interval. 
 
+??? note "Van Hove Singularity"
+    While the DOS is a continuous function, there can be sharp peaks in the DOS
+    that **breaks the smoothness** of the curve. These are called Van Hove
+    singularities and they occur when the band structure has a saddle point or
+    an inflection point. They are important because they can lead to interesting
+    properties in optical absorption spectra of materials.
+
+    <figure markdown="span">
+      ![van hove](./assets/van_hove.svg){ width="500" }
+    </figure>
+
 For insulators and semiconductors, the DOS is zero inside the band gap, as there
 are no Kohn-Sham states in that energy range. Hence, the DOS allows us to
 determine the band gap of a crystal (unlike a band structure plot which only
@@ -188,16 +199,17 @@ From the Kohn-Sham energies calculated on the dense k-point grid we then
 calculate the density of states using `dos.x`.
 [:link:03_C_diamond_dos.in](01_densityofstates/03_C_diamond_dos.in) is the input
 file for `dos.x` and contains just a `DOS` section. What this input file
-instruct `dos.x` to do is to discritise an [:link:energy
-range](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm33) using a
+instruct `dos.x` to do is to discritise an energy range
+[`Emin`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm33) and
+[`Emax`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm34) using an
 interval of
-[:link:`DeltaE`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm37) and
-at each energy calculate the DOS using [:link:the formula given
+[`DeltaE`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm37) and at
+each energy calculate the DOS using [:link:the formula given
 above](#density-of-states). Each delta function is replaced using a gaussian
 function (which can be replace by other functions using
-[:link:`ngauss`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm26) tag)
-with a width of
-[:link:`degauss`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm30).
+[`ngauss`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm26) tag) with
+a width of
+[`degauss`](https://www.quantum-espresso.org/Doc/INPUT_DOS.html#idm30).
 
 ```python
  &DOS
