@@ -241,7 +241,7 @@ Iron :material-hammer:
 
 Now that you've seen how including spin polarization has allowed us to correctly
 describe the ground state of a molecular system, the next step is to use it to
-describe a magnetic crystal.
+describe a magnetic crystal. In contrast to a molecule, where the Kohn-Sham wavefunctions of all states are fully contained in the unit cell of our DFT calculation, the Kohn-Sham wavefunctions of electrons in crystals are delocalized over many unit cells. In other words: each unit cell only contains a small fraction of the electron which occupies a certain Bloch Kohn-Sham state. As a consequence of this, the difference of the total number of up-spin and down-spin electrons in each unit cell does not have to be an integer number. Also, it is much harder for crystal to estimate the total magnetization of each unit cell as we have done for the oxygen molecule. 
 
 One of the most common magnetic crystals is iron, so we'll study this material. The
 directory `02_Fe` contains an input file for iron. Note this is a BCC crystal structure
@@ -252,10 +252,10 @@ up in the usual way for a metallic system.
 !!! example "Task 2.1 - Fixed Magnetization"
 
     1. Run this calculation and check everything worked as expected. What is the
-       final energy?
+       final total energy?
 
         ??? success "Answer"
-            The final energy should be -55.52528610 Ry.
+            The final total energy should be -55.52528610 Ry.
 
     2. Now make a copy of the calculation directory and in this new directory, modify the
        input file to allow for spin polarization. Try running the calculation
@@ -263,8 +263,8 @@ up in the usual way for a metallic system.
        the one obtained using doubly degenerate bands. 
 
         !!! Warning "Warning" 
-            While in the case of the O2 above, we were able to get our
-            calculations to at least converge by using a metallic occupation
+            While in the case of the O2 molecule discussed above, we were able to get our
+            calculations to converge by smearing the occupancies and not using spin polarization
             instead of using spin polarization, in the case of iron, it will
             still be a metal when you use spin polarization, so you should not
             remove the input variables associated with this. 
@@ -274,12 +274,11 @@ up in the usual way for a metallic system.
             one obtained with the doubly degenerate bands. This is because these
             two calculations are essentially identical.
 
-    3. Now try setting the total magnetization to 1.0 and see how total energy
-       changes: Which is the more energetically favourable configuration?
+    3. Now try setting the total magnetization to 1.0 and see how the total energy
+       changes: is it lower than the result of the non-magnetic calculation?
 
         ??? success "Answer"
-            The total energy becomes -55.53839616 Ry. Lower than the spin
-            degenerate case.
+            The total energy becomes -55.53839616 Ry. It is lower than the result obtained without spin polarization.
 
     4. Try setting the total magnetization to 2.0. How does the final energy
        compare to the previous value?
@@ -288,22 +287,13 @@ up in the usual way for a metallic system.
             The total energy becomes -55.56226730 Ry. Lower than all previous
             cases.
 
-From this we could test many guesses for the total magnetization, and find
-the value which gives the lowest overall total energy. Note that here one can
-set the total magnetization to be a fractional number which is not physical for
-molecules. This is because we have now a periodic metal systems where
-itinerant electrons can also be a media to host spin polarization. 
-
-However, finding the ground state total magnetization value can be a trdious job
-and one can instead pass an option that tells quantum espresso to automatically 
-find the best value. This is done by setting the `starting_magnetization` input
-variable.
+We could keep going like this and try out many different values for the total magnetization to see which one has the lowest total energy (as discussed above, the total magnetization in the unit cell does not have to be an integer). Instead of doing this yourself, Quantum Espresso can do it for you: this is achieved by setting the `starting_magnetization` input variable.
 
 !!! example "Task 2.2 - Relaxed magnetization"
 
     1. Make another copy of the `02_Fe` directory, and this time set `nspin =
        2`, and `starting_magnetization = 1.0` (do not include the
-       `tot_magnetization` variable as this fixes a value). Run the calculation
+       `tot_magnetization` variable). Run the calculation
        and see what the final total magnetization per cell is. See if you can
        find a measured value for iron to compare to.
 
