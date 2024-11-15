@@ -26,9 +26,9 @@ The Oxygen Molecule
 
 An oxygen molecule has an even number of electrons. So you might expect that a certain number of Kohn-Sham states are filled with two electrons and therefore the total number of up-spin electrons is equal to the total number of down-spin electrons. This is, however, not true. 
 
-When the two oxygen atoms are sufficiently close to each other so that their atomic orbitals start to overlap, new states - called molecular orbitals - are formed. These are called $\sigma_s$, $\sigma_s^*$, $\sigma_z$, $\pi_x$, $\pi_y$ and so on. As a consequence of the symmetry properties that the molecule possesses, some of the molecular orbitals have the same energies. In Quantum Mechanics, such wavefunctions are called degenerate. You can see from the molecular orbital diagram below that the $\pi_x$ and $\pi_y$ orbitals are degenerate and also the $\pi_x^*$ and the $\pi_y^*$ orbitals have the same energy.   
-
 ![MO](assets/Mo_diagram.svg){: style="width:250px" align=right}
+
+When the two oxygen atoms are sufficiently close to each other so that their atomic orbitals start to overlap, new states - called molecular orbitals - are formed. These are called $\sigma_s$, $\sigma_s^*$, $\sigma_z$, $\pi_x$, $\pi_y$ and so on. As a consequence of the symmetry properties that the molecule possesses, some of the molecular orbitals have the same energies. In Quantum Mechanics, such wavefunctions are called degenerate. You can see from the molecular orbital diagram below that the $\pi_x$ and $\pi_y$ orbitals are degenerate and also the $\pi_x^*$ and the $\pi_y^*$ orbitals have the same energy.   
 
 When we fill these molecular orbitals with electrons, we end up with two electrons that we can distribute in the $\pi_x^*$ and $\pi_y^*$ orbitals. It turns out that the repulsive interaction between electrons favors a state in which the two electrons sit in different molecular orbitals, but have the same spin. This is known as Hund's Rule. Note that a similar situation occurs in an isolated oxygen atom.
 
@@ -299,14 +299,8 @@ We could keep going like this and try out many different values for the total ma
             ```
             This value is in good agreement with the experimental value of 2.15 Bohr mag/cell.
     
-    2. Try to use the input files and scripts from the previous labs to generate
+    2. Use the input files and scripts in the directory `extra_bandstructure` to generate
        a plot of the electronic band structure of BCC Fe.
-
-        - Plot the spin-up and spin-down bands in different colours.
-        - Indicate the Fermi energy using a horizontal line.
-        - As the Brillouin zone is different to the ones you have calculated so
-          far you'll need to select a few sensible high-symmetry points yourself
-          to plot with :slight_smile:.
 
         ??? success "Answer"
             You can find the relevant input file in the directory
