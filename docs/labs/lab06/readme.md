@@ -18,40 +18,22 @@ your home directory.
 Spin Polarization
 -----------------
 
-Up until now we have been assuming that we always have electronic states which
-could be occupied by two electrons. Essentially we have been ignoring the
-electron spin. If you want to examine, for example, a magnetic system then the
-spin of the electrons is important. It can also be important in modelling atomic
-or molecular systems. We'll cover different examples of this in this lab.
+Until now we have assumed that the electronic states are the same for up-spin and down-spin electrons: in other words, we assumed that each state can be occupied by two electrons. In a magnetic system, however, the electronic wavefunctions (and the corresponding Kohn-Sham energies) can be different for electrons with different spins. 
 
 
 The Oxygen Molecule
 -------------------
 
-If a system is not necessarily magnetic we might imagine that representing 
-it with some set of fully occupied, doubly degenerate bands will work. However,
-in some cases including spin polarization can lead to important differences. One
-example of this is the O2 molecule.
+An oxygen molecule has an even number of electrons. So you might expect that a certain number of Kohn-Sham states are filled with two electrons and therefore the total number of up-spin electrons is equal to the total number of down-spin electrons. This is, however, not true. 
+
+When the two oxygen atoms are sufficiently close to each other so that their atomic orbitals start to overlap, new states - called molecular orbitals - are formed. These are called $\sigma_s$, $\sigma_s^*$, $\sigma_z$, $\pi_x$, $\pi_y$ and so on. As a consequence of the symmetry properties that the molecule possesses, some of the molecular orbitals have the same energies. In Quantum Mechanics, such wavefunctions are called degenerate. You can see from the molecular orbital diagram below that the $\pi_x$ and $\pi_y$ orbitals are degenerate and also the $\pi_x^*$ and the $\pi_y^*$ orbitals have the same energy.   
 
 ![MO](assets/Mo_diagram.svg){: style="width:250px" align=right}
 
-In this case, we have a system with two interacting oxygen atoms. Each oxygen
-has 8 electrons in total, with the configuration `1s2 2s2 2p4`, the 1s orbital
-will be contained within the pseudopotential for the DFT calculations done
-here, so you will have 6 electrons from each oxygen atom. 
-
-For a single oxygen, from Hund's rule the three p-orbitals should be filled
-singly before being filled in pairs, so that one of the p-orbitals will have two
-electrons, and the other two should have one each. However, if we assume doubly
-occupied orbitals, we'll have the two p-orbitals with two electrons and one that
-is empty. This means a calculation where we assume a set of doubly occupied
-bands will have trouble converging to the ground state of the system. 
-
-For the molecule the situation is similar, but the s and p-orbitals from each
-atom combine to form bonding and anti-bonding $\sigma$ and $\pi$ orbitals.
+When we fill these molecular orbitals with electrons, we end up with two electrons that we can distribute in the $\pi_x^*$ and $\pi_y^*$ orbitals. It turns out that the repulsive interaction between electrons favors a state in which the two electrons sit in different molecular orbitals, but have the same spin. This is known as Hund's Rule. Note that a similar situation occurs in an isolated oxygen atom.
 
 The directory `01_O2` contains an input file to calculate the total energy of
-the system at the measured bond length. Here the calculation has been set up
+the oxygen molecule at the experimentally measured bond length. Here the calculation has been set up
 exactly as you've seen in the past (i.e., assuming doubly degenerate band
 occupation without smearing or spin polarization):
 
@@ -94,12 +76,9 @@ K_POINTS gamma
         iteration in the output, it will likely vary from step to step, rather
         than steadily decreasing as in a well-behaved calculation.
         
-        The situation we have is similar to a metal: we have two bands and the
-        ground state of the system should be when there is one electron in each
-        of them.
+  
 
-To help converge the system, we can use a metallic occupation scheme with a
-small smearing width. This will allow the system to converge to a ground state.
+To help converge the system, we can use smear the occupancies (as we do in a DFT calculation for a metal). This will allow the system to converge to a ground state.
 The relevant input variables are the ones highlighed below:
 
 ```python hl_lines="12-14"
@@ -145,8 +124,7 @@ K_POINTS gamma
       expected?
 
     ??? success "Answer"
-        The occupations should be fractional for the highest occupied valence
-        band which is not physical for a molecule.
+        There are a few states which are completely filled with electrons and then there are two states which are half-filled (i.e. one electron per state). The last state is almost empty.
         ```
                 <occupations size="8">
           9.999997613058770E-001  9.999680732750561E-001  9.800308333633008E-001
@@ -156,8 +134,7 @@ K_POINTS gamma
         ```
 
 While treating this system as a metal may help converging the calculation, it
-may not necessarily reach the true ground state since the spin-degree of freedom
-is constrained. Instead, we can do a spin polarized calculation by adding
+may not necessarily reach the true ground state (i.e. the state with the lowest total energy) since we have imposed that there is an equal number of up-spin and down-spin electrons. To allow different numbers of spin-up and spin-down electrons, we can perform a spin-polarized calculation by adding the
 `nspin` and `tot_magnetization` variables to the input file (highlighted below):
 
 ```python hl_lines="12-13"
@@ -192,8 +169,7 @@ K_POINTS gamma
 1.    `nspin`: this is 1 by default so no spin polarization is taken into 
       account. To perform a spin polarized calculation it should be set to 2.
 2.    `tot_magnetization`: this is difference between the number of spin-up and
-      spin-down electrons in the cell. If we want a single spin up electron
-      we can set this to `1.0`.
+      spin-down electrons in the cell.
 
 !!! example "Task 1.3 - Assuming Spin Polarized Metal"
 
