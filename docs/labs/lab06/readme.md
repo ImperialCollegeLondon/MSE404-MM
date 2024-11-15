@@ -239,19 +239,14 @@ You have now seen that allowing for different numbers of up-spin and down-spin e
 Iron :material-hammer:
 ----------------------
 
-Now that you've seen how including spin polarization can allow us a correctly
+Now that you've seen how including spin polarization has allowed us to correctly
 describe the ground state of a molecular system, the next step is to use it to
-describe a magnetic crystal system.
+describe a magnetic crystal.
 
-In a magnetic crystal there is a net spin polarization in the unit cell. This
-means that we'll probably have an odd number of electrons, and the energy of the
-system when we include a net spin polarization is lower than the energy when we
-don't.
-
-One of the most common magnetic crystal is iron, so we'll examine this. The
-directory `02_Fe` contains an input file for iron. Note this is a BCC structure
-(as set by `ibrav = 3` in the input file), whereas most of the crystals
-structures you have examined previously were FCC. The calculation has been set
+One of the most common magnetic crystals is iron, so we'll study this material. The
+directory `02_Fe` contains an input file for iron. Note this is a BCC crystal structure
+(as set by `ibrav = 3` in the input file), whereas most of the crystal
+structures you have studied so far in the labs have been FCC. The calculation has been set
 up in the usual way for a metallic system.
 
 !!! example "Task 2.1 - Fixed Magnetization"
@@ -262,10 +257,10 @@ up in the usual way for a metallic system.
         ??? success "Answer"
             The final energy should be -55.52528610 Ry.
 
-    2. Now make a copy of the calculation directory and in this, modify the
-       calculation to turn on spin polarization. Try running the calculation
+    2. Now make a copy of the calculation directory and in this new directory, modify the
+       input file to allow for spin polarization. Try running the calculation
        with `tot_magnetization = 0.0` first, and compare your total energy to
-       that obtained using doubly degenerate bands. 
+       the one obtained using doubly degenerate bands. 
 
         !!! Warning "Warning" 
             While in the case of the O2 above, we were able to get our
