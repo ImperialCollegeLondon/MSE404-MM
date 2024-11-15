@@ -179,7 +179,7 @@ K_POINTS gamma
 
         ??? success "Answer"
             The calculation will not run because it needs to know how to set the
-            number of electrons in each spin channels.
+            number of electrons with each spin.
             ```
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
                 Error in routine iosys (1):
@@ -187,23 +187,20 @@ K_POINTS gamma
             %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
             ```
 
-    2. Setting the total magnetization to 0.0, which would be the case if we 
-       don't have any net magnetization in the molecule, as both spins point in
-       opposite directions. What is the final energy?
+    2. Set the total magnetization to 0.0, which would be the case if we 
+       don't have any net magnetization in the molecule, i.e. the two spins in the $\pi_x^*$ and $\pi_y^*$ orbitals point in
+       opposite directions. What is the final total energy?
 
         ??? success "Final energy"
-            The calculation converges to an energy of -63.25520699 Ry.
+            The calculation converges to a total energy of -63.25520699 Ry.
 
-    3. Setting the total magnetization to 2.0, which corresponds
-       to both spins pointing in the same direction. Is the energy lower? How do
-       the orbital energies vary?
+    3. Set the total magnetization to 2.0, which corresponds
+       to both spins pointing in the same direction. Is the total energy lower? Are the Kohn-Sham energies the same for up-spin electrons and down-spin electrons?
 
         ??? success "Answer"
-            The calculation converges to an energy of -63.29338911 Ry. The
-            energy becomes lower with this configuration and the orbital
-            energies become different between spin channels. Note that the
-            eigenvalues and occupations are written in the `pwscf.xml` file and
-            the spin up values are written first, followed by the spin down 
+            The calculation converges to a total energy of -63.29338911 Ry. This is lower than for the configuration in which the spins point in the same direction. The Kohn-Sham energies are different for up-spin and down-spin electrons: the
+            Kohn-Sham eigenvalues and occupations are written in the `pwscf.xml` file with the
+            the spin-up values printed first, followed by the spin-down 
             values.
             ```
                   <ks_energies>
@@ -230,15 +227,13 @@ K_POINTS gamma
                   </ks_energies>
             ```
 
-Finally, comparing the energy of the spin polarized calculation with the spin
-degnerate metal calculation, we can see that the spin polarized calculation
-gives a lower energy.
+You have now seen that allowing for different numbers of up-spin and down-spin electrons can sometimes lower the total energy of the material.
 
 !!! pied-piper "Fun fact"
 
-    O2 in its singlet state can be dangerous (see e.g. [:link:`this
+    O2 can exist in its non-magnetic state, but it this state it is actually quite dangerous (see e.g. [:link:`this
     paper`](https://www.sciencedirect.com/science/article/pii/S1383574211001189)),
-    so treating the spin correctly is important!
+    so treating the spin correctly is important for your health!
 
 
 Iron :material-hammer:
