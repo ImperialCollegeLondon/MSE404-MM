@@ -1,5 +1,6 @@
  &CONTROL
     pseudo_dir = '.'
+    verbosity = 'high'
  /
 
  &SYSTEM

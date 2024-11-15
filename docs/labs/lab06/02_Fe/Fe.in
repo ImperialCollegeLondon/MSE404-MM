@@ -1,6 +1,7 @@
  &CONTROL
     pseudo_dir = '.'
     prefix = 'Fe'
+    verbosity = 'high'
  /
 
  &SYSTEM

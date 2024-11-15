@@ -369,9 +369,10 @@ more complicated within DFT is that it is a metal.
 
 Here is an example input file for a SCF calculation of Aluminium:
 
-```python hl_lines="11-13"
+```python hl_lines="12-14"
  &CONTROL
     pseudo_dir = '.'
+    verbosity = 'high' #(1)!
  /
 
  &SYSTEM
@@ -380,9 +381,9 @@ Here is an example input file for a SCF calculation of Aluminium:
     nat =  1
     ntyp = 1
     ecutwfc = 18.0
-    occupations = 'smearing' #(1)!
-    smearing = 'fermi-dirac' #(2)!
-    degauss = 0.1d0 #(3)!
+    occupations = 'smearing' #(2)!
+    smearing = 'fermi-dirac' #(3)!
+    degauss = 0.1d0 #(4)!
  /
 
  &ELECTRONS
@@ -398,13 +399,15 @@ K_POINTS automatic
   8 8 8 1 1 1
 ```
 
-1.    The `occupations` variable is set to `smearing` to tell Quantum Espresso
+1.    The `verbosity` variable is set to `high` to give more information about
+      the SCF calculation, including occupation of the bands at each k-point.
+2.    The `occupations` variable is set to `smearing` to tell Quantum Espresso
       to use a smearing scheme [:link:input 
       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm362).
-2.    The `smearing` variable is set to `fermi-dirac` to tell Quantum Espresso
+3.    The `smearing` variable is set to `fermi-dirac` to tell Quantum Espresso
       to use a Fermi-Dirac smearing scheme. [:link:input
       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm404). 
-3.    The `degauss` variable is set to 0.1d0 to set the width of the smearing.
+4.    The `degauss` variable is set to 0.1d0 to set the width of the smearing.
       see [:link:input
       description](https://www.quantum-espresso.org/Doc/INPUT_PW.html#idm401).
 
@@ -414,27 +417,24 @@ K_POINTS automatic
     First, run the `pw.x` calculation with the supplied input file in
     [:link:02_aluminium/Al.in](02_aluminium/Al.in).
     
-    Then, take a look at the `pwscf.xml` file and find the various `ks_energies`
-    entries towards the end. These give the various k-points used in the
-    calculation as well as the KS energies and **occupations** of each state for
-    this k-point. 
+    Then, take a look at the output file. Can you find the Kohn-Sham eigenvalues
+    at each k-point and the corrresponding **occupations** number.
 
     ??? success "Example" 
         ```
-              <ks_energies>
-                <k_point weight="7.812500000000000E-003">-6.250000000000000E-002  6.250000000000000E-002  6.250000000000000E-002</k_point>
-                <npw>59</npw>
-                <eigenvalues size="6">
-          1.315972343567215E-001  1.505697520824042E+000  1.607697079464305E+000
-          1.607697714947740E+000  1.834366371282428E+000
-          1.952726961146777E+000
-                </eigenvalues>
-                <occupations size="6">
-          9.999990177787399E-001  1.181697427742303E-006  1.536561074875367E-007
-          1.536541545820267E-007  1.650917762173208E-009
-          1.547598926179030E-010
-                </occupations>
-              </ks_energies>
+          k =-0.0625 0.0625 0.0625 (    59 PWs)   bands (ev):
+
+     3.5809  40.9721  43.7477  43.7477  49.9157  53.1364
+
+     occupation numbers 
+     1.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+
+          k =-0.1875 0.1875-0.0625 (    58 PWs)   bands (ev):
+
+     4.7127  35.0485  40.5915  44.7949  50.9368  50.9459
+
+     occupation numbers 
+     1.0000   0.0001   0.0000   0.0000   0.0000   0.0000
          ... 
         ```
 
