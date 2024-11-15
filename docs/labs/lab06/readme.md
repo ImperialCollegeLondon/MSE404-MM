@@ -241,7 +241,7 @@ Iron :material-hammer:
 
 Now that you've seen how including spin polarization has allowed us to correctly
 describe the ground state of a molecular system, the next step is to use it to
-describe a magnetic crystal. In contrast to a molecule, where the Kohn-Sham wavefunctions of all states are fully contained in the unit cell of our DFT calculation, the Kohn-Sham wavefunctions of electrons in crystals are delocalized over many unit cells. In other words: each unit cell only contains a small fraction of the electron which occupies a certain Bloch Kohn-Sham state. As a consequence of this, the difference of the total number of up-spin and down-spin electrons in each unit cell does not have to be an integer number. Also, it is much harder for crystal to estimate the total magnetization of each unit cell as we have done for the oxygen molecule. 
+describe a magnetic crystal. In contrast to a molecule, where the Kohn-Sham wavefunctions of all states are fully contained in the unit cell of our DFT calculation, the Kohn-Sham wavefunctions of electrons in crystals are delocalized over many unit cells. In other words: each unit cell only contains a small fraction of the electron which occupies a certain Bloch Kohn-Sham state. As a consequence of this, the difference of the total number of up-spin and down-spin electrons in each unit cell does not have to be an integer number. Also, it is much harder to estimate the total magnetization of each unit cell of a crystal. 
 
 One of the most common magnetic crystals is iron, so we'll study this material. The
 directory `02_Fe` contains an input file for iron. Note this is a BCC crystal structure
@@ -251,7 +251,7 @@ up in the usual way for a metallic system.
 
 !!! example "Task 2.1 - Fixed Magnetization"
 
-    1. Run this calculation and check everything worked as expected. What is the
+    1. Run this calculation and check everything works as expected. What is the
        final total energy?
 
         ??? success "Answer"
@@ -263,11 +263,7 @@ up in the usual way for a metallic system.
        the one obtained using doubly degenerate bands. 
 
         !!! Warning "Warning" 
-            While in the case of the O2 molecule discussed above, we were able to get our
-            calculations to converge by smearing the occupancies and not using spin polarization
-            instead of using spin polarization, in the case of iron, it will
-            still be a metal when you use spin polarization, so you should not
-            remove the input variables associated with this. 
+            Note that iron remains a metal in its magnetic configuration. So you need keep the input variables associated with smearing the occupancies even if you are running a spin-polarized calculation for iron.
 
         ??? success "Answer"
             The total energy becomes -55.52528589 Ry. Almost identical to the
@@ -294,30 +290,27 @@ We could keep going like this and try out many different values for the total ma
     1. Make another copy of the `02_Fe` directory, and this time set `nspin =
        2`, and `starting_magnetization = 1.0` (do not include the
        `tot_magnetization` variable). Run the calculation
-       and see what the final total magnetization per cell is. See if you can
-       find a measured value for iron to compare to.
+       and see what the final total magnetization per cell is.
 
         ??? success "Answer"
             The total magnetization becomes larger than 2.0.
             ```
             total magnetization       =     2.21 Bohr mag/cell
             ```
-            This is becuase we are allowing the spin to fully relax in the
-            system.
+            This value is in good agreement with the experimental value of 2.15 Bohr mag/cell.
     
-    2. See if you can use what we covered in previous labs to calculate and make
+    2. Try to use the input files and scripts from the previous labs to generate
        a plot of the electronic band structure of BCC Fe.
 
         - Plot the spin-up and spin-down bands in different colours.
-        - Indicate the Fermi energy on your plot in some sensible way.
+        - Indicate the Fermi energy using a horizontal line.
         - As the Brillouin zone is different to the ones you have calculated so
           far you'll need to select a few sensible high-symmetry points yourself
           to plot with :slight_smile:.
 
         ??? success "Answer"
             You can find the relevant input file in the directory
-            `02_Fe/extra_bandstructure`. The band structure should look similar
-            to the following: 
+            `02_Fe/extra_bandstructure`. The band structure should look like this: 
             <figure markdown="span"> 
             ![Diamond primitive cell](assets/Iron_bands.png){ width="500" } 
             </figure>
@@ -332,9 +325,7 @@ Summary
 In this lab you have seen:
 
 <!-- - How to treat a metallic system. -->
-- How to do a DFT calculation including spin polarization.
-- How some systems need to be done with spin polarization to converge to the
-  correct ground state.
-- How to use spin polarized calculations to find the correct magnetization of a
-  magnetic system by letting the code find the total magnetization that produces
-  the lowest overall total energy.
+- how to do a DFT calculation including spin polarization.
+- how some materials can lower their ground state energy by becoming magnetic.
+- how to use spin-polarized calculations to find the correct magnetization of a
+  magnetic crystal.
