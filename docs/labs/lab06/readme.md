@@ -35,7 +35,7 @@ electrons. This is, however, not true.
 
 ![MO](assets/Mo_diagram.svg){: style="width:250px" align=right}
 
-When the two oxygen atoms are sufficiently close toeach other so that their
+When the two oxygen atoms are sufficiently close to each other so that their
 atomic orbitals start to overlap, new states - called molecular orbitals - are
 formed. These are called $\sigma_s$, $\sigma_s^*$, $\sigma_z$, $\pi_x$, $\pi_y$
 and so on. As a consequence of the symmetry properties that the molecule
@@ -98,9 +98,9 @@ K_POINTS gamma
         
   
 
-To help converge the system, we can use smear the occupancies (as we do in a DFT
-calculation for a metal). This will allow the system to converge to a ground
-state. The relevant input variables are the ones highlighed below:
+To help converge the system, we can smear the occupancies (as we do in a DFT
+calculation for a metal). This will allow the system to converge. The relevant
+input variables are the ones highlighed below:
 
 ```python hl_lines="13-15"
  &CONTROL
@@ -161,10 +161,13 @@ K_POINTS gamma
 
 While treating this system as a metal may help converging the calculation, it
 may not necessarily reach the true ground state (i.e. the state with the lowest
-total energy) since we have imposed that there is an equal number of up-spin and
-down-spin electrons. To allow different numbers of spin-up and spin-down
-electrons, we can perform a spin-polarized calculation by adding the `nspin` and
-`tot_magnetization` variables to the input file (highlighted below):
+total energy). This is because we have imposed that there is an equal number of
+up-spin and down-spin electrons, and treating the system as an metal allows the
+electrons to occupy higher energy states. A better way to describe the system is
+to allow different numbers of spin-up and spin-down electrons (i.e., doing a
+spin-polarized calculation), we can perform a spin-polarized calculation by
+adding the `nspin` and `tot_magnetization` variables to the input file
+(highlighted below):
 
 ```python hl_lines="13-14"
  &CONTROL
