@@ -136,6 +136,7 @@ Now that we have seen how to calculate the atomic forces associated with a parti
         
 
     ```
+
     - Final atomic positions 
     - Final total force 
     - Final bond lengths are the same 
