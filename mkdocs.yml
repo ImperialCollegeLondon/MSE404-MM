@@ -116,8 +116,8 @@ nav:
     - Lab 4 - Crystals and the Electronic Band Structure: labs/lab04/readme.md
     - Lab 5 - Metals and the Density of States: labs/lab05/readme.md
     - Lab 6 - Spin Polarization and Magnetic Systems: labs/lab06/readme.md
-    - Lab 7 - Forces, Stresses and Structures: labs/lab07/readme.md
-    - Lab 8 - Vibrational Frequencies and Normal Modes: labs/lab08/readme.md
+    - Lab 7 - Structural Optimisation: labs/lab07/readme.md
+    - Lab 8 - Vibrational Normal Modes and Phonons: labs/lab08/readme.md
     - Lab 9 - Finite Temperature Properties: labs/lab09/readme.md
   # - Extra labs:
   #   - Ex Lab 1: labs/extras/labs/using_total_energies/readme.md
