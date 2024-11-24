@@ -206,7 +206,7 @@ The animation below visualises the motion of the atoms during the relaxation. Yo
 
 
 ## Ground state structure of crystals 
-We have seen how the stablest structures of molecules can be found by minimising the atomic forces in DFT. In principle, it is straightforward to apply the idea for the optimisation of the structures of crystals. However, an additional consideration arises from optimising the lattice constant of the crystal alongside the atomic positions within the unit cell. This leads to the need for a few more quantities. 
+We have seen how the stablest structures of molecules can be determined by finding the atomic positions for which the forces vanish. In contrast to a molecule, the atomic structure of a crystal is specified by the atomic positions of the atoms inside the unit cell and also by the shape and size of the unit cell. To find the stablest atomic structure of a crystal, a few additional concepts are needed.
 
 ### Stress and pressure in crystals
 Mathematically, the stress is a rank-2 tensor, i.e. a matrix, $\sigma_{ij}$, defined through the relation  
@@ -220,7 +220,7 @@ $$
 
     This is also why it is a matrix, you need to specify two pieces of information before reading the stress tensor. You need to decide which distortion direction, and which component of the induced force you would like to know from the stress tensor. 
 
-Whereas stress describes the force induced on a crystal due to a distortion along a certain direction, the pressure, $P$, of a crystal measures the change in total energy due to contraction or expansion. The pressure is defined as the negative of the first derivative of the PES against the volume, $V$. It measures the tendency of the crystal to expand or contract. Mathematically,  
+Whereas stress describes the force induced on a crystal due to a distortion along a certain direction, the pressure, $P$, of a crystal measures the change in total energy due to contraction or expansion. The pressure is defined as the negative of the derivative of the PES with respect to the volume, $V$. It measures the tendency of the crystal to expand or contract. Mathematically,  
 
 $$
 P = -\frac{dU}{dV}.
@@ -229,7 +229,7 @@ $$
 ??? tip "Tip: what does it mean to have a structure with a negative or positive pressure?"
     If the pressure is negative, the crystal structure is unstable and will contract. If the pressure is positive, the crystal structure is also unstable but it will expand. The structure is only stable when the pressure is close to zero, as first derivatives of the PES vanish at the equilibrium structure.  
 
-Having introduced these useful quantities, we can try to calculate these quantities using Quantum Espresso. In the following tasks, we will look at carbon diamond. The unit cell of this crystal contains two carbon atoms. We will first run a single-point calculation of this crystal.  
+Having introduced these useful quantities, we can try to calculate these quantities using Quantum Espresso. In the following tasks, we will look at carbon diamond. The unit cell of this crystal contains two carbon atoms. We will first run a single-point calculation for this crystal.  
 
 !!! example "Task 3 - calculating stress and pressure of crystals"
     - Go to the directory `03_cd_strpr`. Read the input file `CD_scf.in`. The important parts are shown below.  
@@ -253,11 +253,11 @@ Having introduced these useful quantities, we can try to calculate these quantit
         
         ```
         1. This tells Quantum Espresso to print the stress.  
-        2. The fractional coordinates are used for atomic positions. This allows Quantum Espresso to speed up calculations with symmetry detection.     
-        3. The k-grid is specified now for a crystal calculation. We have chosen the optimal k-grid for you.   
+        2. Fractional (or crystal) coordinates are used to specify the atomic positions.      
+        3. A k-grid must be specified since we are modelling a crystal.    
 
     - Run `pw.x < CD_scf.in > CD.out`. 
-    - Once the job has finished, look for the line saying "total   stress". You should see something like this:
+    - Once the job has finished, look for the line saying "total   stress" in the output file. You should see something like this:
         ```python 
              Computing stress (Cartesian axis) and pressure
         
@@ -277,16 +277,15 @@ Having introduced these useful quantities, we can try to calculate these quantit
 
     - Is the lattice constant optimised? Why? If not, does it want to expand or contract? 
     ??? success "Answer"
-        No. The evidence is that $P$ is 1321.92 kbar, which is very large (atmospheric pressure is only 1 bar). Since the sign is positive, it wants to expand. 
+        No. The evidence is that $P$ is 1321.92 kbar, which is very large (atmospheric pressure is only 1 bar). Since the sign is positive, the lattice wants to expand. 
 
     !!! note "Note"
-        Sometimes, when simulating molecules (or 2D crystals) with a large supercell, the stresses can substantially negative. This happens when we use a large vacuum in the simulation box. So the components of the stress along the directions of vacuum is large. These stress components are meaningless.   
-
+        When simulating molecules (or 2D crystals), we use a large supercell with lots of vacuum to avoid artificial interactions between periodic images. When you calculate the stress for such a supercell, you often find that it is large and negative along the direction which separates the periodic images. Of course, this stress is not physically meaningful and should be ignored.  
 
 ### Optimizing lattice parameters of unit cells
 We will now carry out the structural optimisation in carbon diamond to find the equilibrium lattice parameter.      
 !!! note "Note on choice of plane-wave cutoff"
-    In doing this you should keep in mind that it can take a higher energy-cut off to converge the force or equivalently the stress as we saw at the start of this lab. Also, if you recall the number of planewaves depends on the cell volume, so if during the course of the calculation we change the volume we may also change the number of plane waves, or if we fix the number of plane waves we are changing the effective energy cut-off (the latter for Quantum Espresso, but different codes will handle this differently). So you need to be quite careful about this when optimizing lattice vectors.
+    Keep in mind that you might need a higher plane-wave cutoff to converge the force or the stress (as we saw at the start of this lab). Also, the number of plane waves in your calculation depends on the unit cell volume. So if during the course of the calculation we change the unit cell volume, we also change the number of plane waves; or if we fix the number of plane waves, we are changing the plane-wave cut-off (Quantum Espresso does the latter, but different DFT codes handle this differently). So you need to be quite careful when optimizing lattice vectors.
 
 !!! example "Task 4 - Optimising the unit cell"
     - Go to the directory `04_cd_opt` and read the input file `CD_opt.in`. You'll notice in addition to the inputs mentioned, there's also a fairly high energy cut-off, and we've lowered the SCF convergence threshold from the default. Run this now with `pw.x`.
@@ -328,12 +327,12 @@ We will now carry out the structural optimisation in carbon diamond to find the 
     C                0.2500000000        0.2500000000        0.2500000000
     End final coordinates
     ```
-        1. Quantum Espresso expresses the Cartesian components of the new lattice vectors in units of the original lattice parameter $A_0$ (called `alat` here). See the tip box below for how to calculate the new lattice constant.   
+        1. Quantum Espresso expresses the Cartesian components of the new lattice vectors in units of the original lattice parameter $a_0$ (called `alat` here). See the tip box below for how to calculate the new lattice constant.   
 
-    ??? success "Tip on calculating the new lattice vectors" 
-        The most general way to do this is to calculate the magnitude of each lattice vector. For example, the lattice constant along $\mathbf{A}_1$ is $A_0\times\sqrt{a_{1x}^2+a_{1y}^2+a_{1z}^2}$. Here $a_{1x}=-0.534$, $a_{1y}=0$, $a_{1z}=0.534$, and $A_0=6.236$ Bohrs. Using this method for the remaining two lattice vectors, you should find that the lattice constants are the same along the three directions.  
+    ??? success "Tip on calculating the new lattice constant" 
+        The most general way to do this is to calculate the magnitude of each lattice vector. For example, the lattice constant along $\mathbf{a}_1$ is $a_0\times\sqrt{a_{1x}^2+a_{1y}^2+a_{1z}^2}$. Here $a_{1x}=-0.534$, $a_{1y}=0$, $a_{1z}=0.534$, and $a_0=6.236$ Bohrs. Using this method for the remaining two lattice vectors, you should find that the lattice constants are the same along the three directions.  
 	
-        However, for `ibrav=2`, there is a simpler way. You can simply calculate the ratio of the new and old Cartesian components of the lattice vectors, and multiply that by the original lattice constant. For example, $a_{1x}^{\mathrm{new}}/a_{1x}^{\mathrm{old}}\times A_0$, here $a_{1x}^{\mathrm{old}}=-0.5$. There are of course many ways to do this, you can calculate for example $a_{2y}^{\mathrm{new}}/a_{2y}^{\mathrm{old}}\times A_0$. This method will work for any `ibrav` except `ibrav=0`. 
+        However, for `ibrav=2`, there is a simpler way. You can simply calculate the ratio of the new and old Cartesian components of the lattice vectors, and multiply that by the original lattice constant. For example, $a_{1x}^{\mathrm{new}}/a_{1x}^{\mathrm{old}}\times a_0$, here $a_{1x}^{\mathrm{old}}=-0.5$. 
      
 
 
@@ -347,17 +346,17 @@ We will now carry out the structural optimisation in carbon diamond to find the 
           The pressure is 0.2 kbar, which is very small.  
 
 !!! warning "A word on the final pressure in the output file" 
-    The final pressure at the end of the optimisation might appear large. This is because at the end of the optimization, an `scf` calculation is automatically performed starting from the optimized structure. This is needed Quantum Espresso fixes the basis set as that for the original input structure during the calculation, so if the structure has changed a lot, you may calculate a different stress when starting from the relaxed structure. You will be able to see from the final stress or pressure whether you should rerun your calculation. This artificial pressure due to the inadequacy of the plane-wave basis size is called the Pulay stress. You can look it up if interested. 
+    The final pressure at the end of the optimisation might appear large. This is because at the end of the optimization, an `scf` calculation is automatically performed for the optimized structure. In this calculation, Quantum Espresso uses the same plane-wave basis as for the initial starting structure. If the structure has changed a lot, you may calculate a different stress when starting from the relaxed structure. You will be able to see from the final stress or pressure whether you should rerun your calculation. This artificial pressure due to the inadequacy of the plane-wave basis size is called the Pulay stress. You can look it up if interested. 
 
 
 ### Bulk modulus of crystals 
-With the PES, we can calculate the bulk modulus, B, which measures the resistance of a material to bulk compression. Mathematically, it is defined as the negative of the second derivative of the PES against the volume multiplied by the volume.  
+From the PES, we can calculate the bulk modulus, B, which measures how difficult it is to compress the material. Mathematically, it is defined as the negative of the second derivative of the PES with respect to volume multiplied by the volume:  
 
 $$
 B = -V\frac{d^2U}{dV^2}.
 $$
 
-Whereas Quantum Espresso prints the stress and pressure for you, it does not calculate the bulk modulus. You will need to distort the unit cell volume manually yourself and run multiple `pw.x` calculations to obtain the PES against the unit cell volume. In particular, you will need to change the cell parameter `A` to alter the cell volume. Let's do this in the following task. 
+Whereas Quantum Espresso prints the stress and pressure for you, it does not automatically calculate the bulk modulus. You will need to distort the unit cell volume manually yourself and run multiple `pw.x` calculations to obtain the PES as function of the unit cell volume. In particular, you will need to change the cell parameter `A` to change the cell volume. Let's do this in the following task. 
 
 !!! example "Task 5 - calculating the bulk modulus using the PES"
      - Go to the directory `05_cd_bm`. You should find an input file called `CD_0.000.in`. This is the reference input file representing a diamond structure with a relaxed lattice parameter.  
@@ -366,7 +365,7 @@ Whereas Quantum Espresso prints the stress and pressure for you, it does not cal
 
      - Edit the lattice constant in each input file so that the new lattice constant is $A'=(1+i)A$.
      
-     - Run `pw.x` for each `CD_i.in`. Note that we carry out a relaxation for each unit-cell volume because in principle the equilibrium positions of each atom might change.  
+     - Run `pw.x` for each `CD_i.in`. Note that we carry out a relaxation for each unit cell volume because in principle the equilibrium positions of the atom can be different for different lattice constants.  
      
      - After the jobs are finished, create a file named `data.txt`, with the first column containing all the unit cell volumes $V$ in Bohr^3, and the second column containing the total energies in Ry. 
 
@@ -383,7 +382,7 @@ Whereas Quantum Espresso prints the stress and pressure for you, it does not cal
     - How is the bulk modulus calculated? What is its value for this structure? 
        
         ??? success "Answer"
-            A parabola with the equation $ax^2+bx+c$ is first fitted to the data points. The second derivative of this parabola is then simply $2a$. Therefore, the bulk modulus per volume at this structure is $-2aV_{0}$. Here $V_0=\frac{1}{2^{3/2}}A_0^3$ with $A_0=3.52Å$. The bulk modulus obtained from the code is -472 GPa. Compared to a literature value of -443 GPa (from Wikipedia), this is in very good agreement. 
+            A parabola with the equation $ax^2+bx+c$ is first fitted to the data points. The second derivative of this parabola is then simply $2a$. Therefore, the bulk modulus per volume at this structure is $-2aV_{0}$. Here $V_0=\frac{1}{2^{3/2}}a_0^3$ with $a_0=3.52Å$. The bulk modulus obtained from the code is -472 GPa. Compared to a literature value of -443 GPa (from Wikipedia), this is in very good agreement. 
 
     - Read the output file for `i`=0.01. How many relaxation steps does it take for the calculation to finish? 
 
