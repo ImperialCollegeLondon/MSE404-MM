@@ -1,37 +1,34 @@
 Structural Optimisation
 ===============================
-For this week and the next, we will focus on predicting the structural properties of materials. These include finding the stablest structure of molecules and crystals, and calculating the vibrational patterns in molecules and crystals.
-
-In this week, we will learn how to calculate the key quantities for describing the stability of the structures of molecules and crystals. You will have learnt them from the lectures, and we will give a brief review for them in this lab before the calculations to refresh your memory. We will begin by briefly reviewing the very important potential energy surface (PES). 
+This week, we will focus on predicting the atomic structure of materials and molecules. In particular, we will study techniques that allow us to find the atomic structure with the lowest energy. We will begin by briefly reviewing the very important concept of a potential energy surface (PES). 
 
 ## The potential energy surface
-The potential energy surface (PES) is the surface obtained by plotting the total energy of a molecule or crystal against different atomic positions. It is commonly denoted as $U(\{\mathbf{R}\})$, where $\mathbf{R}$ represents the set of atomic positions of all atoms. Many useful quantities associated with a given structure, such as the atomic forces in a molecule, the stress and pressure in a crystal unit cell can be calculated by evaluating the relevant derivatives of the PES.  
+The potential energy surface (PES) gives the total energy of a molecule or crystal (excluding the kinetic energy of the nuclei, hence the name **potential** energy surface) as function of the nuclear positions. It is commonly denoted as $U(\{\mathbf{R}\})$, where $\mathbf{R}$ represents the set of nuclear positions. Many useful quantities, such as the forces acting on the nuclei or the stress in a crystal, can be calculated by evaluating the relevant derivatives of the PES.  
 
 ## Ground state structure of molecules 
-The ground state structure of a molecule simply refers to the structure with the lowest total energy. This structure is also called the optimal, equilibrium, or stablest structure of the molecule. Mathematically, this structure is associated with the **global** minimum of the PES. Therefore, the atomic forces in this structure will all vanish.  
+The ground state structure of a molecule simply refers to the structure with the lowest total energy. This atomic structure is also called the optimal, equilibrium, or stablest structure of the molecule. Mathematically, this structure is associated with the **global** minimum of the PES. Therefore, the atomic forces in this structure will all vanish.  
 
-Most DFT codes, like Quantum Espresso, moves the atoms around based on the atomic forces until the atomic forces "vanish", i.e. become lower than some cutoff. This process is called **relaxation** or **structural optimisation**. The resulting structure obtained from this procedure is called a relaxed structure. 
+Most DFT codes, like Quantum Espresso, move the nuclei by moving them in the direction of the forces that act on them until the atomic forces "vanish", i.e. become lower than some cutoff value. This process is called **relaxation** or **structural optimisation**. The resulting structure obtained from this procedure is called the relaxed structure. 
 
-In the first part of the lab, we will demonstrate how to calculate the atomic forces and find the optimal structure of a molecule in Quantum Espresso. 
+In the first part of the lab, we will demonstrate how to calculate the forces and find the optimal structure of a molecule in Quantum Espresso. 
 
 !!! danger "Danger: metastable structures"
-    When relaxing large molecules, there might be other **local** minima in the PES. These local minima are associated with structures which are higher in the total energy, but the atomic forces also vanish. These structures are called **metastable** structures.
+    When relaxing large molecules, there might be other **local** minima in the PES. These local minima are associated with atomic structures which are higher in the total energy, but the the forces also vanish. These structures are called **metastable** structures.
 
-    When finding the stablest structures using DFT, there is always a possibility that your calculation is "trapped" in one of these metastable structures. Whereas this is less likely to happen for small molecules, this can happen with large molecules. You will have to be careful! 
+    When searching for the stablest structures using DFT, there is always a possibility that your calculation is "trapped" in one of these metastable structures. Whereas this is less likely to happen for small molecules, this can happen with large molecules. You will have to be careful! 
 
 !!! Question
     How can we reduce the risk of mistaking a metastable structure as the ground state structure? 
     ??? success "Answer"
-        After obtaining a relaxed structure, add some small and random displacement to the atoms, then redo the relaxation. This will likely bring your molecule to a stabler structure if there is any.  
+        After obtaining a relaxed structure, add some small (but not too small) random displacement to the nuclei and then redo the relaxation. If the displacement is sufficiently large, your structure can now relax to a different minimum of the PES. 
 
 ### Forces in molecules
-The force acting on an atom, $\mathbf{F}$, is defined as the first derivative of the PES, $U$, with respect to the position of that atom, $\mathbf{R}$. Mathematically,
+The force acting on a nucleus, $\mathbf{F}$, is defined as the first derivative of the PES, $U$, with respect to the position of that nucleus, $\mathbf{R}$. Mathematically,
 $$
 \mathbf{F} = -\nabla_\mathbf{R} U.
 $$
-It is worth noting that, in order to calculate the atomic forces efficiently, the Hellmann-Feynman Theorem is often invoked in most DFT codes. 
 
-In following tasks, we will go through how the atomic forces are calculated using Quantum Espresso. We have prepared a distorted methane molecule, $\mathrm{CH_4}$, where one of the hydrogen atoms (the one sitting on the z-axis above the $\mathrm{C}$ atom) is pushed closer to the carbon atom than others. 
+In following tasks, we will go through how the atomic forces are calculated in Quantum Espresso. We have prepared a distorted methane molecule, $\mathrm{CH_4}$, where one of the hydrogen atoms (the one sitting on the z-axis above the $\mathrm{C}$ atom) is pushed closer to the carbon atom than others. 
 
 This is how the distorted methane molecule looks like. The white atoms are the hydrogen atoms, and the black atom is the carbon atom. Notice how the top hydrogen atom is so close to the carbon atom that it gets merged into the carbon atom in the visualisation.  
 
@@ -52,9 +49,9 @@ This is how the distorted methane molecule looks like. The white atoms are the h
 
     ```
         1. `tprnfor` asks Quantum Espresso to print the forces.
-        2.  We have to carry out $\Gamma$-point calculations for a molecule. 
+        2.  We only use the $\Gamma$-point since we are modelling a molecule. 
     - Run the command `pw.x < CH4.in > CH4.out`.
-    - When the output file is out, search for the line saying `Forces acting on atoms`. This should be written just before the timing information. 
+    - When the calculation is finished, search the output file for the line saying `Forces acting on atoms`. This should be written just before the timing information. 
 
     - You should find a section that looks like the following: 
     ```python 
@@ -78,7 +75,7 @@ This is how the distorted methane molecule looks like. The white atoms are the h
         Ry/Bohr. 1 Ry/Bohr is equivalent to 25.7 eV/Å, check this yourself!
 
     ??? Note  "Understanding the units better"
-        In this task, the $z$-component of the force acting on the $\mathrm{H}$ atom is 22.80 Ry/Bohr. In the linear approximation, this means drifting the $\mathrm{H}$ atom in the positive $z$-direction by 0.01 Bohr should lead to a reduction in total energy of about 0.28 Ry, or 3.81 eV. This is a large gain in energy. The band gap of common LED semiconductors, such as GaAs, is 1.42 eV. This is because the covalent bond is strong, and the size of compression is large. So pushing the H atom away from the C atom by any small amount will lead to large gain in energy.  
+        In this task, the $z$-component of the force acting on the $\mathrm{H}$ atom is 22.80 Ry/Bohr. This means that moving the $\mathrm{H}$ atom along the positive $z$-direction by 0.01 Bohr reduces the total energy by about 0.28 Ry, or 3.81 eV. This is a large gain in energy. This is because the covalent bond is strong, and the size of compression is large. So pushing the H atom away from the C atom by any small amount will lead to a large gain in energy.  
 
 !!! Note 
     The `Total force` listed here is the square root of the sum of _all_ of the force components squared
