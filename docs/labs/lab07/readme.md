@@ -87,11 +87,11 @@ This is how the distorted methane molecule looks like. The white atoms are the h
     If the `Total SCF correction` is comparable to the `Total force` it usually means you need to try to better converge the SCF cycle (via `conv_thr`).
 
 ### Convergence test 
-Just as we have to check the convergence of the total energy against the PW cutoff, we have to check the convergence of the atomic forces against the PW cutoff too. This will be quite time costly so we will not be doing that today. We will instead just show you the convergence curve for the methane molecule below. 
+Just as we have to check the convergence of the total energy against the plane-wave cutoff, we have to check the convergence of the atomic forces against the plane-wave cutoff, too. Note that you might need a different cutoff to convergence the forces than for the total energy! To save a bit of time, we simply show you the result of such a convergence study for the methane molecule below. 
 
 ![conv_curve](./conv_curve.png){width=400}
 
-In the figure, $\delta_E=(E^{\mathrm{tot}}_{\mathrm{best}}-E^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/E^{\mathrm{tot}}_{\mathrm{best}}$, the fractional difference in total energy you have calculated in lab 3, and $\delta_F=(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/F^{\mathrm{tot}}_{\mathrm{best}}$, the same fractional difference for the total force (we have scaled the energy curve by a factor of 10 for visual clarity). You will notice that the size of $\delta_E$ is much smaller than $\delta_F$. This is because the total force converges slower with respect to the PW cutoff compared to the total energy. So if your goal is to find the stablest structure, make sure the total force is converged in addition to the total energy.   
+In the figure, $\delta_E=(E^{\mathrm{tot}}_{\mathrm{best}}-E^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/E^{\mathrm{tot}}_{\mathrm{best}}$, the fractional difference in total energy you have calculated in lab 3, and $\delta_F=(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/F^{\mathrm{tot}}_{\mathrm{best}}$, the same fractional difference for the total force (we have scaled the energy curve by a factor of 10 for visual clarity). You will notice that the magnitude of $\delta_E$ is much smaller than that of  $\delta_F$. This shows that the total force converges slower with respect to the plane-wave cutoff than to the total energy. So if you want to find the stablest structure of a material or molecule, make sure the force is converged with respect to the plane-wave cutoff! 
 
 
 <!-- !!! example "Task 2 - Examining convergence" 
@@ -118,7 +118,7 @@ In the figure, $\delta_E=(E^{\mathrm{tot}}_{\mathrm{best}}-E^{\mathrm{tot}}_{\ma
     
 
 ### Optimisation of molecular geometry 
-Now that we have seen how to calculate the atomic forces associated with a particular structure, we can use Quantum Espresso to optimise the structure of molecules.
+Now that we have seen how to calculate the forces associated with a particular atomic structure, we can use Quantum Espresso to optimise the structure of molecules.
 
 !!! example "Task 2 - Optimising the molecular structure"
     - Go to the directory `02_ch4_opt`. 
@@ -147,9 +147,9 @@ Now that we have seen how to calculate the atomic forces associated with a parti
      / 
     ...
     ```
-        1. Tells Quantum Espresso to carry out structure optimisation.   
+        1. Tells Quantum Espresso to carry out a structure optimisation.   
         2. Set convergence criterion for forces in units of Ry/Bohr.   
-        3. You'll need to add an `IONS` section to the input. This is needed when `calculation=relax`. There are many other variables you can add for the IONS section. These include the algorithm of relaxation etc. If you are interested, you can look up the input description of `pw.x`.
+        3. You'll need to add an `IONS` section to the input. This is needed when `calculation=relax`. There are many other variables you can add for the IONS section. These include the algorithm of relaxation. If you are interested, you can read about it in the input description of `pw.x`.
 
 
     - Run `pw.x < CH4_opt.in > CH4_opt.out`.  
@@ -190,15 +190,15 @@ Now that we have seen how to calculate the atomic forces associated with a parti
     ```
         1. The latest number of scf cycles is shown after each scf cycle. 
         2. The latest number of relaxation steps is shown after each relaxation step. Here, a relaxation step is called a "bfgs step" in our calculation. This is just the name of our relaxation algorithm.
-        3. The forces on each atom is almost zero. 
-        4. The total number of scf cycles is 18, and the number of relaxations steps taken is 15. Note that there tends to be more scf cycles than relaxations steps in geometrical optimisation.  
-        5. Final atomic coordinates 
+        3. The components of the force on each atom are almost zero. 
+        4. The total number of scf cycles is 18, and the number of relaxation steps taken is 15. 
+        5. Atomic coordinates of the relaxed structure. 
     
 
     ??? success "What is the equilibrium bond length?"
         By taking the difference between the $z$-coordinates of atoms 2 and 1, the bond length is found to be 1.10 Å. The experimental value is 1.09 Å so this is in good agreement. You can check that all the bond lengths are the same.  
 
-The animation below visualises the displacement of the atoms during the relaxation. You can clearly see how in the first step, the top hydrogen atom is pushed away from the carbon atom. In the rest of the steps, all atoms vibrate until they reach their equilibrium position.  
+The animation below visualises the motion of the atoms during the relaxation. You can clearly see how in the first step, the top hydrogen atom is pushed away from the carbon atom.   
 ![rel_gif](./ch4.gif){width=400}
 
 !!! note "Interlude"
