@@ -32,7 +32,7 @@ In following tasks, we will go through how the atomic forces are calculated in Q
 
 This is how the distorted methane molecule looks like. The white atoms are the hydrogen atoms, and the black atom is the carbon atom. Notice how the top hydrogen atom is so close to the carbon atom that it gets merged into the carbon atom in the visualisation.  
 
-![ch4_comp](./CH4_vis0.png){width=400}
+![ch4_comp](assets/CH4_vis0.png){width=400}
 
 !!! example "Task 1 - Examining atomic forces in the output file"
     - Go to the directory `01_ch4_scf`. 
@@ -89,7 +89,7 @@ This is how the distorted methane molecule looks like. The white atoms are the h
 ### Convergence test 
 Just as we have to check the convergence of the total energy against the plane-wave cutoff, we have to check the convergence of the atomic forces against the plane-wave cutoff, too. Note that you might need a different cutoff to convergence the forces than for the total energy! To save a bit of time, we simply show you the result of such a convergence study for the methane molecule below. 
 
-![conv_curve](./conv_curve.png){width=400}
+![conv_curve](assets/conv_curve.png){width=400}
 
 In the figure, $\delta_E=(E^{\mathrm{tot}}_{\mathrm{best}}-E^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/E^{\mathrm{tot}}_{\mathrm{best}}$, the fractional difference in total energy you have calculated in lab 3, and $\delta_F=(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/F^{\mathrm{tot}}_{\mathrm{best}}$, the same fractional difference for the total force (we have scaled the energy curve by a factor of 10 for visual clarity). You will notice that the magnitude of $\delta_E$ is much smaller than that of  $\delta_F$. This shows that the total force converges slower with respect to the plane-wave cutoff than to the total energy. So if you want to find the stablest structure of a material or molecule, make sure the force is converged with respect to the plane-wave cutoff! 
 
@@ -199,7 +199,7 @@ Now that we have seen how to calculate the forces associated with a particular a
         By taking the difference between the $z$-coordinates of atoms 2 and 1, the bond length is found to be 1.10 Å. The experimental value is 1.09 Å so this is in good agreement. You can check that all the bond lengths are the same.  
 
 The animation below visualises the motion of the atoms during the relaxation. You can clearly see how in the first step, the top hydrogen atom is pushed away from the carbon atom.   
-![rel_gif](./ch4.gif){width=400}
+![rel_gif](assets/ch4.gif){width=400}
 
 !!! note "Interlude"
     A short break you should take, tired if you are. 
@@ -261,10 +261,10 @@ Having introduced these useful quantities, we can try to calculate these quantit
         ```python 
              Computing stress (Cartesian axis) and pressure
         
-                  total   stress  (Ry/bohr**3)                   (kbar)     P=     1321.92
-           0.00898623  -0.00000000  -0.00000000         1321.92       -0.00       -0.00
-           0.00000000   0.00898623   0.00000000            0.00     1321.92        0.00
-          -0.00000000   0.00000000   0.00898623           -0.00        0.00     1321.92
+                  total   stress  (Ry/bohr**3)                   (kbar)     P=     1325.29
+           0.00900912  -0.00000000   0.00000000         1325.29       -0.00        0.00
+           0.00000000   0.00900912   0.00000000            0.00     1325.29        0.00
+           0.00000000   0.00000000   0.00900912            0.00        0.00     1325.29
         ```
     
     - What are the units for the stress tensor?
@@ -273,11 +273,11 @@ Having introduced these useful quantities, we can try to calculate these quantit
 
     - What is the total pressure? 
     ??? success "Answer"
-        1321.92 kbar. Note that kbar is one of the common units for pressure.  
+        1325.29 kbar. Note that kbar is one of the common units for pressure.  
 
     - Is the lattice constant optimised? Why? If not, does it want to expand or contract? 
     ??? success "Answer"
-        No. The evidence is that $P$ is 1321.92 kbar, which is very large (atmospheric pressure is only 1 bar). Since the sign is positive, the lattice wants to expand. 
+        No. The evidence is that $P$ is 1325.29 kbar, which is very large (atmospheric pressure is only 1 bar). Since the sign is positive, the lattice wants to expand. 
 
     !!! note "Note"
         When simulating molecules (or 2D crystals), we use a large supercell with lots of vacuum to avoid artificial interactions between periodic images. When you calculate the stress for such a supercell, you often find that it is large and negative along the direction which separates the periodic images. Of course, this stress is not physically meaningful and should be ignored.  
@@ -317,8 +317,8 @@ We will now carry out the structural optimisation in carbon diamond to find the 
          new unit-cell volume =     73.86018 a.u.^3 (    10.94495 Ang^3 )
          density =      3.64456 g/cm^3
     
-    CELL_PARAMETERS (alat=  6.23609621)
-      -0.534007441  -0.000000000   0.534007441  #(1)!
+    CELL_PARAMETERS (alat=  6.23609621)  #(1)!
+      -0.534007441  -0.000000000   0.534007441 
       -0.000000000   0.534007441   0.534007441
       -0.534007441   0.534007441   0.000000000
     
@@ -338,15 +338,16 @@ We will now carry out the structural optimisation in carbon diamond to find the 
 
     - What is the final lattice constant? 
     ??? success "Answer" 
-        Using any of the methods from the tip box, the new lattice constant is 6.66 Bohrs, which is 3.52 Å. This is in excellent agreement with the experimental value of 3.57 Å (from Wikipedia).  
+        Using any of the methods from the tip box, the new lattice constant is 6.66 Bohrs, which is 3.53 Å. This is in excellent agreement with the experimental value of 3.57 Å (from Wikipedia).  
         
 
     - How can you check if the lattice parameter is fully relaxed? 
     ??? success "Answer" 
-          The pressure is 0.2 kbar, which is very small.  
+          The pressure is 0.32 kbar, which is very small.  
 
 !!! warning "A word on the final pressure in the output file" 
-    The final pressure at the end of the optimisation might appear large. This is because at the end of the optimization, an `scf` calculation is automatically performed for the optimized structure. In this calculation, Quantum Espresso uses the same plane-wave basis as for the initial starting structure. If the structure has changed a lot, you may calculate a different stress when starting from the relaxed structure. You will be able to see from the final stress or pressure whether you should rerun your calculation. This artificial pressure due to the inadequacy of the plane-wave basis size is called the Pulay stress. You can look it up if interested. 
+    The final pressure at the end of the optimisation might appear large occasionally. This is because Quantum Espresso uses the basis set for the original input unit cell to calculate the pressure of the relaxed unit cell. However, if your cell has changed drastically, the adequate basis set for the relaxed unit cell should be recalculated based on the new lattice constant. So you should run a new scf calculation in that case. The artificial pressure due to the inadequacy of the plane-wave basis size is called the Pulay stress. You can look it up if interested.
+ 
 
 
 ### Bulk modulus of crystals 
@@ -377,12 +378,12 @@ Whereas Quantum Espresso prints the stress and pressure for you, it does not aut
     - What does the PES look like? 
        
         ??? success "Answer"
-            ![BM](./bm.png){width=600,align=center}
+            ![BM](assets/bm.png){width=600,align=center}
 
     - How is the bulk modulus calculated? What is its value for this structure? 
        
         ??? success "Answer"
-            A parabola with the equation $ax^2+bx+c$ is first fitted to the data points. The second derivative of this parabola is then simply $2a$. Therefore, the bulk modulus per volume at this structure is $-2aV_{0}$. Here $V_0=\frac{1}{2^{3/2}}a_0^3$ with $a_0=3.52Å$. The bulk modulus obtained from the code is -472 GPa. Compared to a literature value of -443 GPa (from Wikipedia), this is in very good agreement. 
+            A parabola with the equation $ax^2+bx+c$ is first fitted to the data points. The second derivative of this parabola is then simply $2a$. Therefore, the bulk modulus per volume at this structure is $-2aV_{0}$. Here $V_0=\frac{1}{2^{3/2}}A_0^3$ with $A_0=3.53Å$. The bulk modulus obtained from the code is -459 GPa. Compared to a literature value of -443 GPa (from Wikipedia), this is in very good agreement. 
 
     - Read the output file for `i`=0.01. How many relaxation steps does it take for the calculation to finish? 
 
