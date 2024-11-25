@@ -201,9 +201,6 @@ Now that we have seen how to calculate the forces associated with a particular a
 The animation below visualises the motion of the atoms during the relaxation. You can clearly see how in the first step, the top hydrogen atom is pushed away from the carbon atom.   
 ![rel_gif](assets/ch4.gif){width=400}
 
-!!! note "Interlude"
-    A short break you should take, tired if you are. 
-
 
 ## Ground state structure of crystals 
 We have seen how the stablest structures of molecules can be determined by finding the atomic positions for which the forces vanish. In contrast to a molecule, the atomic structure of a crystal is specified by the atomic positions of the atoms inside the unit cell and also by the shape and size of the unit cell. To find the stablest atomic structure of a crystal, a few additional concepts are needed.
