@@ -35,7 +35,7 @@ def main():
     plt.figure(figsize=(10.5, 6))
     plt.plot(vgrid, c+b*vgrid+a*vgrid**2,c='orange')
     plt.scatter(vs, etot)
-    plt.xlabel(r"$V (\mathrm{Bohr}^3)$",fontsize=fontsize)
+    plt.xlabel(r"$V  (\mathrm{\AA}^3)$",fontsize=fontsize)
     plt.ylabel("Total Energy (Ry)",fontsize=fontsize)
     plt.xticks(fontsize=fontsize)
     plt.yticks(fontsize=fontsize)
