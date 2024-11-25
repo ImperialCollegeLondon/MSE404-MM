@@ -32,7 +32,9 @@ In following tasks, we will go through how the atomic forces are calculated in Q
 
 This is how the distorted methane molecule looks like. The white atoms are the hydrogen atoms, and the black atom is the carbon atom. Notice how the top hydrogen atom is so close to the carbon atom that it gets merged into the carbon atom in the visualisation.  
 
-![ch4_comp](assets/CH4_vis0.png){width=400}
+<figure markdown="span">
+  ![ch4_comp](assets/CH4_vis0.png){width=300}
+</figure>
 
 !!! example "Task 1 - Examining atomic forces in the output file"
     - Go to the directory `01_ch4_scf`. 
@@ -41,11 +43,11 @@ This is how the distorted methane molecule looks like. The white atoms are the h
      &CONTROL
         pseudo_dir = '.'  
         disk_io = 'none'  
-        tprnfor = .true.   #(1)!
+        tprnfor = .true. #(1)!
      /
     ...
     
-    K_POINTS gamma         #(2)!
+    K_POINTS gamma #(2)!
 
     ```
         1. `tprnfor` asks Quantum Espresso to print the forces.
@@ -89,7 +91,9 @@ This is how the distorted methane molecule looks like. The white atoms are the h
 ### Convergence test 
 Just as we have to check the convergence of the total energy against the plane-wave cutoff, we have to check the convergence of the atomic forces against the plane-wave cutoff, too. Note that you might need a different cutoff to convergence the forces than for the total energy! To save a bit of time, we simply show you the result of such a convergence study for the methane molecule below. 
 
-![conv_curve](assets/conv_curve.png){width=400}
+<figure markdown="span">
+  ![conv_curve](assets/conv_curve.png){width=400}
+</figure>
 
 In the figure, $\delta_E=(E^{\mathrm{tot}}_{\mathrm{best}}-E^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/E^{\mathrm{tot}}_{\mathrm{best}}$, the fractional difference in total energy you have calculated in lab 3, and $\delta_F=(F^{\mathrm{tot}}_{\mathrm{best}}-F^{\mathrm{tot}}_{\mathrm{PW_cutoff}})/F^{\mathrm{tot}}_{\mathrm{best}}$, the same fractional difference for the total force (we have scaled the energy curve by a factor of 10 for visual clarity). You will notice that the magnitude of $\delta_E$ is much smaller than that of  $\delta_F$. This shows that the total force converges slower with respect to the plane-wave cutoff than to the total energy. So if you want to find the stablest structure of a material or molecule, make sure the force is converged with respect to the plane-wave cutoff! 
 
@@ -125,11 +129,11 @@ Now that we have seen how to calculate the forces associated with a particular a
     - Read the input file `CH4_opt.in`, the important parts are shown below. 
     ```python
      &CONTROL
-        calculation = 'relax'   #(1)! 
+        calculation = 'relax' #(1)! 
         pseudo_dir = '.'
         disk_io = 'none'
         tprnfor = .true.
-        forc_conv_thr = 1.0D-4    #(2)!
+        forc_conv_thr = 1.0D-4 #(2)!
      /
     
      &SYSTEM
@@ -143,7 +147,7 @@ Now that we have seen how to calculate the forces associated with a particular a
      &ELECTRONS
      /
     
-     &IONS        #(3)!
+     &IONS #(3)!
      / 
     ...
     ```
@@ -157,14 +161,14 @@ Now that we have seen how to calculate the forces associated with a particular a
     ```python
      ...
 
-     number of scf cycles    =  17  #(1)!
-     number of bfgs steps    =  15  #(2)!
+     number of scf cycles    =  17 #(1)!
+     number of bfgs steps    =  15 #(2)!
      
      ... 
 
      Forces acting on atoms (cartesian axes, Ry/au):
 
-     atom    1 type  1   force =    -0.00000168    0.00000000    0.00000028   #(3)! 
+     atom    1 type  1   force =    -0.00000168    0.00000000    0.00000028 #(3)! 
      atom    2 type  2   force =     0.00000060    0.00000000    0.00009975
      atom    3 type  2   force =    -0.00001049    0.00000000   -0.00003770
      atom    4 type  2   force =     0.00000578    0.00000471   -0.00003116
@@ -174,7 +178,7 @@ Now that we have seen how to calculate the forces associated with a particular a
 
     ... 
 
-     bfgs converged in  18 scf cycles and  15 bfgs steps  #(4)! 
+     bfgs converged in  18 scf cycles and  15 bfgs steps #(4)! 
         
     Begin final coordinates
     
@@ -199,7 +203,10 @@ Now that we have seen how to calculate the forces associated with a particular a
         By taking the difference between the $z$-coordinates of atoms 2 and 1, the bond length is found to be 1.10 Å. The experimental value is 1.09 Å so this is in good agreement. You can check that all the bond lengths are the same.  
 
 The animation below visualises the motion of the atoms during the relaxation. You can clearly see how in the first step, the top hydrogen atom is pushed away from the carbon atom.   
-![rel_gif](assets/ch4.gif){width=400}
+
+<figure markdown="span">
+  ![rel_gif](assets/ch4.gif){width=300}
+</figure>
 
 
 ## Ground state structure of crystals 
@@ -236,16 +243,16 @@ Having introduced these useful quantities, we can try to calculate these quantit
             prefix = 'CD'
             disk_io = 'low'
             tprnfor = .true.
-            tstress = .true.    #(1)!
+            tstress = .true. #(1)!
          /
         
         ... 
 
-        ATOMIC_POSITIONS crystal   #(2)!
+        ATOMIC_POSITIONS crystal #(2)!
          C 0.00 0.00 0.00
          C 0.25 0.25 0.25
         
-        K_POINTS automatic        #(3)!
+        K_POINTS automatic #(3)!
         8 8 8 0 0 0
         
         ```
@@ -291,15 +298,15 @@ We will now carry out the structural optimisation in carbon diamond to find the 
         pseudo_dir = '.'
         prefix = 'CD'
         disk_io = 'low'
-        calculation = 'vc-relax'    #(1)!
-        etot_conv_thr = 1.0D-9     #(2)!
-        forc_conv_thr = 1.0D-6     #(3)!
+        calculation = 'vc-relax' #(1)!
+        etot_conv_thr = 1.0D-9 #(2)!
+        forc_conv_thr = 1.0D-6 #(3)!
      /
      ...
-     &IONS              #(4)!
+     &IONS #(4)!
      /
     
-     &CELL     #(5)!
+     &CELL #(5)!
      /
     ``` 
         1. Tells Quantum Espresso to do a variable-cell (vc) relaxation. 
@@ -314,7 +321,7 @@ We will now carry out the structural optimisation in carbon diamond to find the 
          new unit-cell volume =     73.86018 a.u.^3 (    10.94495 Ang^3 )
          density =      3.64456 g/cm^3
     
-    CELL_PARAMETERS (alat=  6.23609621)  #(1)!
+    CELL_PARAMETERS (alat=  6.23609621) #(1)!
       -0.534007441  -0.000000000   0.534007441 
       -0.000000000   0.534007441   0.534007441
       -0.534007441   0.534007441   0.000000000
