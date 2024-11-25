@@ -334,7 +334,7 @@ We will now carry out the structural optimisation in carbon diamond to find the 
         1. Quantum Espresso expresses the Cartesian components of the new lattice vectors in units of the original lattice parameter $a_0$ (called `alat` here). See the tip box below for how to calculate the new lattice constant.   
 
     ??? success "Tip on calculating the new lattice constant" 
-        The most general way to do this is to calculate the magnitude of each lattice vector. For example, the lattice constant along $\mathbf{a}_1$ is $a_0\times\sqrt{a_{1x}^2+a_{1y}^2+a_{1z}^2}$. Here $a_{1x}=-0.534$, $a_{1y}=0$, $a_{1z}=0.534$, and $a_0=6.236$ Bohrs. Using this method for the remaining two lattice vectors, you should find that the lattice constants are the same along the three directions.  
+        The most general way to do this is to calculate the magnitude of each lattice vector. For example, the lattice constant along $\mathbf{a}_1$ is $\frac{a_0}{\sqrt{2}}\times\sqrt{a_{1x}^2+a_{1y}^2+a_{1z}^2}$. Here $a_{1x}=-0.534$, $a_{1y}=0$, $a_{1z}=0.534$, and $a_0=6.236$ Bohrs. Using this method for the remaining two lattice vectors, you should find that the lattice constants are the same along the three directions.  
 	
         However, for `ibrav=2`, there is a simpler way. You can simply calculate the ratio of the new and old Cartesian components of the lattice vectors, and multiply that by the original lattice constant. For example, $a_{1x}^{\mathrm{new}}/a_{1x}^{\mathrm{old}}\times a_0$, here $a_{1x}^{\mathrm{old}}=-0.5$. 
      
@@ -366,7 +366,7 @@ Whereas Quantum Espresso prints the stress and pressure for you, it does not aut
 !!! example "Task 5 - calculating the bulk modulus using the PES"
      - Go to the directory `05_cd_bm`. You should find an input file called `CD_0.000.in`. This is the reference input file representing a diamond structure with a relaxed lattice parameter.  
 
-     - Create 9 copies of this input file, named `CD_i.in`, where `i` runs from -0.01 to 0.01 in steps of 0.002. Here `i` is going to be the fractional change in the lattice constant. 
+     - Create 10 copies of this input file, named `CD_i.in`, where `i` runs from -0.01 to 0.01 in steps of 0.002. Here `i` is going to be the fractional change in the lattice constant. 
 
      - Edit the lattice constant in each input file so that the new lattice constant is $A'=(1+i)A$.
      
