@@ -99,12 +99,22 @@ We will walk though how to find the normal modes of a methane molecule using Qua
 
 The first step is to carry out a single-point calculation using the equilibrium structure of methane. 
 !!! example "Task 1a - run `pw.x`"
-    - Read the input file `01_CH4_scf.in`. The variables are still the usual ones that you have seen in the previous labs. 
 
-    - Note however that we have explicity ask for an unshifted 1x1x1 k-grid, which simply means we are asking for a $\Gamma$-point calculation. This is written to allow Quantum Espresso to use some optimisation routine. 
+    - Read the input file `01_CH4_scf.in`. The variables are still the usual ones that you have seen in the previous labs.  
+    ```python 
+    ATOMIC_POSITIONS angstrom
+     C  0.0           0.0           0.0
+     H  0.634532333   0.634532333   0.634532333  #(1)!
+     H -0.634532333  -0.634532333   0.634532333
+     H  0.634532333  -0.634532333  -0.634532333
+     H -0.634532333   0.634532333  -0.634532333
     
-    - The position of the $\mathrm{H}$ atoms have optimised and rotated so that the magnitude of their $x,y,z$-coordinates are the same. Again this is for allowing Quantum Espresso to pull some optimisation tricks. 
-    
+    K_POINTS automatic
+    1 1 1  0 0 0   #(2)!
+    ```
+        1. The position of the $\mathrm{H}$ atoms have optimised and rotated so that the magnitude of their $x,y,z$-coordinates are the same. This is for allowing Quantum Espresso to pull some optimisation tricks. See the extra notes below if you are interested.  
+        2. We have explicity ask for an unshifted 1x1x1 k-grid, which simply means we are asking for a $\Gamma$-point calculation. This is written to allow Quantum Espresso to use some optimisation routine. 
+     
     - Now run `pw.x < 01_CH4_scf.in > pw.out`.
 
 ### Step 2: run the `ph.x` calculation
@@ -126,7 +136,8 @@ The second step is to carry out the DFPT calculation using `ph.x`. Two additiona
         4. This is the first new item. 'asr' here stands for the Acoustic Sum Rule. The acoustic sum rule prevents the frequencies of the normal modes from going negative, which most of the time are erroneous numerical artefacts. This will be explained at the end of the lab if you are interested. 
         5. This is the second new item. It restricts the normal mode calculation to the $\Gamma$-point. We will explain what this means later in the lab. But you are encouraged make a guess!  
 
-    - If you are interested, refer to the `INPUT_PH.txt` file of the quantum espresso documentation. Alternatively, you can look up   [Phonon](https://www.quantum-espresso.org/Doc/INPUT_PH.html)
+    !!! warning "Help file of `ph.x`"
+        If you are interested in the input variables of `ph.x`, you can look up   [Phonon](https://www.quantum-espresso.org/Doc/INPUT_PH.html)
 
     - Run `ph.x < 02_CH4_ph.in > ph.out`. 
 
@@ -185,7 +196,10 @@ There are two major output files from a `ph.x` calculation. The first one is the
     ??? success "What are the degeneracies of each distinct frequency?"
         In the order of increasing energy, it is 3, 3, 3, 2, 1, 3. It is typical to find degenerate energy levels in symmetrical molecules.  
 
-https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html
+!!! note "Visualising the normal modes"
+    If you are interested in how the normal modes look like, you can visit this [link](https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html). On this website, you can visualise any normal modes, and their displacement vectors, according to their frequencies. These frequencies should be close to what you have obtained in Task 1b.  
+    You will see symbols like $T_2$ and $A_1$ next to each mode. These symboles are intended for vibrational spectroscopists to identify the normal modes. 
+    Notice how the degenerate normal modes are called the same names and have almost the same vibration pattern. This is the physical significance of having degenerate normal modes, they will be rotational images of one another most of the time. 
 
 ??? note "Notes - why do the three lowest normal modes always have zero frequency?"
     These normal modes corresponds to the rigid translations of the molecule, i.e. drifting the molecule without distorting any chemical bonds. Therefore, there should not be any molecular vibrations, hence the zero vibrational frequency. You can check that for the first three normal modes, the displacements of all atoms are the same, implying rigid translation of the molecule. In fact, the three modes are simply rigid translations along the $y$, $x$, and $z$-directions respectively (check this yourself!).   
@@ -200,7 +214,10 @@ https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html
 <!--        ??? tip "Extra notes: what does the symbols `T_2  G_15 P_4   I+R` mean? (For your interest only)" -->
 <!--            The first symbol tell us the degeneracy of this normal mode. The symbols `G_15 P_4` is the label of this normal mode in a language familiar to vibrational spectroscopists. Lastly, the symbol `I+R` tells us that both **I**nfrared and **R**aman spectroscopy can detect this normal mode.  -->
 ??? tip "Extra notes - symmetry reduction in Quantum Espresso (for the interested)"
-     The purpose of symmetry reduction in Quantum Espresso is to minimise the number of calculations required. In the case of molecular normal mode calculations, it is about minimising the number of DFPT calculations. This is a powerful procedure because many molecules demonstrates symmetry. The code is much better able to detect the symmetry of the molecule. This is very important for calculations of the vibrations. If the code understands that all the hydrogen atoms are equivalent by symmetry, it only needs to calculate the derivatives of the energy with respect to one of the hydrogen positions, and then it can populate the full dynamical matrix based on the symmetry of the system.
+     The purpose of symmetry reduction in Quantum Espresso is to minimise the number of calculations required. In the case of molecular normal mode calculations, it is about minimising the number of DFPT calculations. This is a powerful procedure because many molecules demonstrates symmetry. 
+    
+    In the above task, by placing the center of the molecule at the origin, and giving the H atoms the same $x,y$ coordinates except for the sign, the code understands that all the hydrogen atoms are equivalent by rotations. Then, it only needs to calculate the derivatives of the energy with respect to one of the hydrogen positions, and populate the full dynamical matrix based on the symmetry of the system.
+
      Quantum Espresso tells you what symmetries has been identified in the molecule in `ph.out` in a rather specific notation. It is written in a convention more familiar to the vibrational spectroscopy community. You can look up Raman spectroscopy and Mulliken symbols if you are interested.
         
     
@@ -210,20 +227,28 @@ https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html
 Now that you have run your first normal mode calculation, let's practice it on another molecule called CFC. It is a major green gas molecule. It has a similar structure as the methane molecule, but the H atoms are replaced by three Cl and one F atoms. 
 
 !!! example "Task 3 - normal modes of the CFC molecule"
-    - Go to the directory ... . There should be two input files. One for `pw.x` and one for `ph.x`. Note that in our input file, the first atom is the C atom, the second to fourth atoms are the Cl atoms, and the fifth atom is the F atom. 
+    - Go to the directory `02_CFC`. There should be two input files. One for `pw.x` and one for `ph.x`. Note that in our input file, the first atom is the C atom, the second to fourth atoms are the Cl atoms, and the fifth atom is the F atom. 
 
-    - Run `pw.x` on ... and `ph.x` on ... 
+    - Run `pw.x < 01_CCl3F_scf.in > pw.out` and `ph.x < 02_CCl3F_ph.in > ph.out`. Inspect the `matdyn` file after the calculation has finished.   
 
     ??? success "What is the highest frequency of the normal modes?"
-        The highest frequency mode is ... , 
+        The highest frequency mode is 29.9 THz.  
 
-    ??? success "Which three modes are dominated by the vibration of the CF bond?"
-        Modes 13, 14, and 15. In these modes, the displacements of the F atom are much larger than the the Cl atoms. So these are the modes where the vibration of the CF bond dominates the normal mode. 
+    ??? success "Which mode is dominated by the vibration of the CF bond?"
+        Mode 15. In this mode, the displacements of the C and F atoms are much larger than the the Cl atoms. So these are the modes where the vibration of the CF bond dominates the normal mode. 
 
-    ??? success "Is the highest vibrational frequency of the CFC molecule lower or higher than that of the methane molecule? Why is this the case?" 
-        It is lower than that of the methane molecule. It corresponds to the normal mode where the C-F bond dominates the vibration. We can do a back-of-the-envelope estimation of this oscillation frequency. The oscillation frequency of the C-F bond, $\omega_{\mathrm{CF}}$, can be estimated from the oscillation frequency of the C-H bond, $\omega_{\mathrm{CH}}$, with the equation $\frac{\omega_{\mathrm{CF}}}{\omega_{\mathrm{CH}}}=\sqrt{\frac{k_\mathrm{CF}}{k_\mathrm{CH}}\frac{m_H}{m_F}}$ . The $k$'s denotes the spring constant associated with each chemical bond.
+    ??? success "In which mode does the CF bond don't vibrate at all?"
+        Mode 4.  
+
+    ??? success "Is the highest vibrational frequency of the CFC molecule lower or higher than that of the methane molecule?" 
+        It is lower than that of the methane molecule. 
+ 
+    ??? success "Optional task: how can we estimate the oscillation frequency of the highest energy mode? " 
+        Mode 15 corresponds to the normal mode where the CF bond dominates the vibration. The oscillation frequency of the CF bond, $\omega_{\mathrm{CF}}$, can be estimated from the oscillation frequency of the CH bond, $\omega_{\mathrm{CH}}$, with the equation $\frac{\omega_{\mathrm{CF}}}{\omega_{\mathrm{CH}}}=\sqrt{\frac{k_\mathrm{CF}}{k_\mathrm{CH}}\frac{m_H}{m_F}}$ . The $k$'s denotes the spring constant associated with each chemical bond, and $m$ denotes the atomic masses. In other words, the higher the mass, the slower the oscillation. The stronger the spring constant, the faster the oscillation. 
+
+        $m_H$ is about 20 times smaller than $m_F$, and the binding energy of the CF bond is about 1.3 times that of the CH bond. Therefore, we can expect the increase in mass to be the dominating factor in the reduction of the oscillation frequencies. Hence, the highest oscillation frequency is reduced in CFC.  
         
-        We can replace the ratio of spring constants with the ratio of bonding energies of each bond for a crude estimate. Here $E_{\mathrm{CH}}=$, and $E_{\mathrm{CF}}=$ (from Wikipedia), and the atomic masses of H and F atoms are 1 and 19 respectively. Using $\omega_{\mathrm{CH}}=$ from the previous task we obtain $\omega_{\mathrm{CF}}=$ . This is close to the frequencies of the 13th, 14th and 15th modes.  
+        In fact, as a back-of-the-envelope calculation, we can replace the ratio of spring constants with the ratio of binding energies of each bond for a crude estimate. Here $E_{\mathrm{CH}}=413 \mathrm{kJ}$, and $E_{\mathrm{CF}}=544 \mathrm{kJ}$ (from Wikipedia), and the atomic masses of H and F atoms are 1 and 19 respectively. Using $\omega_{\mathrm{CH}}=90.89 \mathrm{THz}$ from the previous task we obtain $\omega_{\mathrm{CF}}=24.0 \mathrm{THz}$ . This is of the same magnitude as the frequency of the 15th mode. 
 
 
 ## Vibrations in crystals: basic theory
@@ -238,7 +263,7 @@ q=\frac{2\pi}{\lambda},
 $$
 where $\lambda$ is the wavelength of the phonon. 
 
-Similar to electrons (or any other quantum mehcanical particle), the momentum of the phonon is simply $\hbar\mathbf{q}$. So some textbooks will also call $\mathbf{q}$ the momentum of the phonon for simplicity.  
+Similar to electrons (or any other quantum mechanical particle), the momentum of the phonon is simply $\hbar\mathbf{q}$. So some textbooks will also call $\mathbf{q}$ the momentum of the phonon for simplicity.  
 
 !!! warning "Using different symbols for the wavevectors of electrons and phonons"
     Starting from now, we will use $\mathbf{q}$ to denote the wavevector of a phonon and $\mathbf{k}$ to denote the wavevector of an electron to avoid confusion. 
