@@ -139,7 +139,7 @@ The second step is to carry out the DFPT calculation using `ph.x`. Two additiona
     !!! warning "Help file of `ph.x`"
         If you are interested in the input variables of `ph.x`, you can look up   [Phonon](https://www.quantum-espresso.org/Doc/INPUT_PH.html)
 
-    - Run `ph.x < 02_CH4_ph.in > ph.out`. 
+    - Run `ph.x < 02_CH4_ph.in > ph.out`. This will probably take a few minutes. 
 
     - You have successfully finished your first normal mode calculation!  
 
@@ -201,7 +201,7 @@ There are two major output files from a `ph.x` calculation. The first one is the
     You will see symbols like $T_2$ and $A_1$ next to each mode. These symboles are intended for vibrational spectroscopists to identify the normal modes. 
     Notice how the degenerate normal modes are called the same names and have almost the same vibration pattern. This is the physical significance of having degenerate normal modes, they will be rotational images of one another most of the time. 
 
-??? note "Notes - why do the three lowest normal modes always have zero frequency?"
+??? tip "Extra notes - why do the three lowest normal modes always have zero frequency?"
     These normal modes corresponds to the rigid translations of the molecule, i.e. drifting the molecule without distorting any chemical bonds. Therefore, there should not be any molecular vibrations, hence the zero vibrational frequency. You can check that for the first three normal modes, the displacements of all atoms are the same, implying rigid translation of the molecule. In fact, the three modes are simply rigid translations along the $y$, $x$, and $z$-directions respectively (check this yourself!).   
 
 <!--??? notes "Extra notes: reading `ph.out` file" -->
@@ -229,7 +229,7 @@ Now that you have run your first normal mode calculation, let's practice it on a
 !!! example "Task 3 - normal modes of the CFC molecule"
     - Go to the directory `02_CFC`. There should be two input files. One for `pw.x` and one for `ph.x`. Note that in our input file, the first atom is the C atom, the second to fourth atoms are the Cl atoms, and the fifth atom is the F atom. 
 
-    - Run `pw.x < 01_CCl3F_scf.in > pw.out` and `ph.x < 02_CCl3F_ph.in > ph.out`. Inspect the `matdyn` file after the calculation has finished.   
+    - Run `pw.x < 01_CCl3F_scf.in > pw.out` and `ph.x < 02_CCl3F_ph.in > ph.out`. Inspect the `matdyn` file after the calculation has finished. This will probably take a few minutes. 
 
     ??? success "What is the highest frequency of the normal modes?"
         The highest frequency mode is 29.9 THz.  
@@ -244,11 +244,11 @@ Now that you have run your first normal mode calculation, let's practice it on a
         It is lower than that of the methane molecule. 
  
     ??? success "Optional task: how can we estimate the oscillation frequency of the highest energy mode? " 
-        Mode 15 corresponds to the normal mode where the CF bond dominates the vibration. The oscillation frequency of the CF bond, $\omega_{\mathrm{CF}}$, can be estimated from the oscillation frequency of the CH bond, $\omega_{\mathrm{CH}}$, with the equation $\frac{\omega_{\mathrm{CF}}}{\omega_{\mathrm{CH}}}=\sqrt{\frac{k_\mathrm{CF}}{k_\mathrm{CH}}\frac{m_H}{m_F}}$ . The $k$'s denotes the spring constant associated with each chemical bond, and $m$ denotes the atomic masses. In other words, the higher the mass, the slower the oscillation. The stronger the spring constant, the faster the oscillation. 
+        Mode 15 corresponds to the normal mode where the CF bond dominates the vibration. We can perform a back-of-the-envelope calculation to estimate the oscillation frequency of the CF bond, $\omega_{\mathrm{CF}}$, from the oscillation frequency of the CH bond, $\omega_{\mathrm{CH}}$, with the equation $\frac{\omega_{\mathrm{CF}}}{\omega_{\mathrm{CH}}}=\sqrt{\frac{k_\mathrm{CF}}{k_\mathrm{CH}}\frac{m_H}{m_F}}$ . The $k$'s denotes the spring constant associated with each chemical bond, and $m$ denotes the atomic masses. In other words, the higher the mass, the slower the oscillation. The stronger the spring constant, the faster the oscillation. 
 
-        $m_H$ is about 20 times smaller than $m_F$, and the binding energy of the CF bond is about 1.3 times that of the CH bond. Therefore, we can expect the increase in mass to be the dominating factor in the reduction of the oscillation frequencies. Hence, the highest oscillation frequency is reduced in CFC.  
+        $m_H$ is about 20 times smaller than $m_F$, and the binding energy of the CF bond is about 1.3 times that of the CH bond (from Wikipedia). Therefore, we can expect the increase in mass to be the dominating factor in the reduction of the oscillation frequencies. Hence, the highest oscillation frequency is reduced in CFC.  
         
-        In fact, as a back-of-the-envelope calculation, we can replace the ratio of spring constants with the ratio of binding energies of each bond for a crude estimate. Here $E_{\mathrm{CH}}=413 \mathrm{kJ}$, and $E_{\mathrm{CF}}=544 \mathrm{kJ}$ (from Wikipedia), and the atomic masses of H and F atoms are 1 and 19 respectively. Using $\omega_{\mathrm{CH}}=90.89 \mathrm{THz}$ from the previous task we obtain $\omega_{\mathrm{CF}}=24.0 \mathrm{THz}$ . This is of the same magnitude as the frequency of the 15th mode. 
+        In fact, if we replace the ratio of spring constants with the ratio of binding energies of each bond for a crude estimate, using $m_{\mathrm{H}} = 1$ and $m_{\mathrm{F}} = 19 $, and $\omega_{\mathrm{CH}}=90.89 \mathrm{THz}$ from the previous task we obtain $\omega_{\mathrm{CF}} = 24.0 \mathrm{THz}$ . This is of the same magnitude as the frequency of the 15th mode. 
 
 
 ## Vibrations in crystals: basic theory
@@ -305,7 +305,7 @@ We will now go through the calculations using carbon diamond as an example.
         - Again the variable `ecutrho` is set tighter. 
         - The prefix is defined explicitly as `'CD'`. This is useful when you run multiple calculations in different directories.
         - Other variables should be familiar to you.  
-    - Run `pw.x` using this input file and save the output. Check that the job is completed. 
+    - Run `pw.x < 01_CD_scf.in > pw.out`. 
     - The other output files generated will be in `CD.save` since we set the prefix.
 
 ### Step 2: run the `ph.x` calculation 
@@ -324,6 +324,7 @@ We will now go through the calculations using carbon diamond as an example.
         2. Switch on the acoustic sum rule.
         3. `ldisp = .true.` tells Quantum Espresso to perform dynamical matrix calculation over a grid of q-points.
         4. `nq1`, `nq2` and `nq3` define our q-point grid. This is the coarser grid. 
+    - Run `ph.x < 02_CD_ph.in > ph.out`. This will probably take a few minutes. 
     - This will produce a number of dynamical matrices. They have the same format as the `matdyn` file for the methane molecule. It will specify the $\mathbf{q}$-points at which the dynamical matrix is being evaluated within the file too. 
     - Note that one file could contain multiple $\mathbf{q}$-points because the dynamical matrices is the same at these $\mathbf{q}$-points due to symmetry. 
 
@@ -332,8 +333,9 @@ Next we'll be generating the real space force constants from our grid of dynamic
 
 !!! example "Task 4c - run `q2r.x`"
     !!! warning "Help file of `q2r.x`"
-        `q2r.x` doesn't have a help file like the other codes. You need to inspect the source file in `PHonon/PH/q2r.f90` if you download a copy of the quantum espresso source code. The inputs are all described in a comment at the top of this file. On the mt-student server you can see this file at `/opt/build/quantum-espresso/q-e-qe-6.3/PHonon/PH/q2r.f90` [**replace this**].
-    - Read the `q2r.x` input file. 
+        If you are interested in the input variables of `q2r.x`, visit this [link](https://www.quantum-espresso.org/Doc/INPUT_Q2R.html) for the help file. 
+
+    - Read the `03_CD_q2r.in` input file. 
     ```bash
      &input
        fildyn = 'matdyn'     #(1)!
@@ -345,9 +347,8 @@ Next we'll be generating the real space force constants from our grid of dynamic
         2. `zasr` decides how the acoustic sum rule is enforced. If the ASR is not enforced, the lowest frequency phonons at the $\Gamma$-point will not have zero frequencies. This is not a physical behaviour, as we will explain later.    
         3. `filefrc` is the name of the FILE for writing the FoRCe constants in real space.
     
-    - Run `q2r.x` with this input file now and save the output. This will run
-      almost instantly.
-    - This will produce the output file `CD444.fc` has the force constants for each pair of atoms in a 4x4x4 supercell. You do not need to know how to read this file now.
+    - Run `q2r.x < 03_CD_q2r.in > q2r.out`. This will run almost instantly.
+    - This will produce the output file `CD444.fc` containing the force constant matrix for each pair of atoms in a 4x4x4 supercell. So this is $K(\mathrm{R})$. You do not need to know how to read this file now.
 
 
 ### Step 4: run the `matdyn.x` calculation
@@ -355,7 +356,8 @@ Now we want to use this to generate our normal mode dispersion. We'll be doing t
 
 !!! example "Task 4d - run `matdyn.x`"
     !!! warning "Help file of `matdyn.x`"
-        As with `q2r.x` this doesn't have a doc file describing its input variables. But you can check the comments at the top of its source file to get their details. On the mt-student server this is at `/opt/build/quantum-espresso/q-e-qe-6.3/PHonon/PH/matdyn.f90` [**change this**].
+        If you are interested in the input variables of `matdyn.x`, visit this [link](https://www.quantum-espresso.org/Doc/INPUT_MATDYN.html).
+
     - Read the input file `04_CD_matdyn-bands.in`.
     ```bash 
      &input
@@ -381,25 +383,25 @@ Now we want to use this to generate our normal mode dispersion. We'll be doing t
         4. `dos=.false.` to tell it we're not calculating a density of states 
         5. `q_in_band_form=.true.` to tell it we want to calculate bands between high-symmetry points.
         6. The number of high-symmetry points which marks the high-symmetry path for calculating the phonon band structure. 
-        7. The list of high-symmetry poinst with the number of points to calculate along each line, in the same way as we did for the electronic band structure.
+        7. The list of high-symmetry points with the number of points to calculate along each line, in the same way as we did for the electronic band structure.
     
-    
-    - Run `matdyn.x` using this input file now and save the output. Again this
-      is very fast.
-    - There's very little actual output from the code itself, but it will generate
-      the files `CD-bands.freq` and `CD-bands.freq.gp`. Both of which contain
-      the frequencies along the lines we requested.
+    - Run `matdyn.x < > matdyn.out`. Again this is very fast.
+    - There's very little actual output from the code itself, but it will generate the files `CD-bands.freq` and `CD-zands.freq.gp`. Both of which contain sthe frequencies along the lines we requested.
     
 ### Step 5: plotting the phonon band structure 
 Finally, we want to generate a plot of these frequencies. We could do that directly with the previous output: `CD-bands.freq.gp` is a multicolumn space separated list of the frequencies in cm-1.
 
 !!! example "Task 5 - plotting the phonon band structure"
-    Once you've done this, a Python script `VISUAL_PHONON_BAND.py` has been provided for generating the phonon band structure. If you are interested in how the plotting is done, you can read the script. 
+    Once you've done this, a Python script `PHONON_BAND.py` has been provided for generating the phonon band structure. If you are interested in how the plotting is done, you can read the script. 
 
-    ??? success "What does the phonon band structure look like?"    
+    ??? success "What does the phonon band structure look like?"
+         
+        <figure markdown="span">
+          ![rel_gif](assets/bands.png){width=300}
+        </figure>
 
     ??? success "How many normal modes are there at each q-point?"
-
+        6 normal modes. Again this is because there are 2 atoms in the unit cell so there are $3\times2=6$ normal modes. 
 
     <!--??? success "Inspect the phonon band structure along $\Gamma-L$, which two phonon bands become degenerate?"-->
     <!--    The two lowest energy phonon bands. Degenerate bands tend to appear in crystals with some symmetry. -->
@@ -415,8 +417,21 @@ Finally, we want to generate a plot of these frequencies. We could do that direc
         4. You can then cancel further running of this code with `ctrl+c`. Note it has output the location of the high-symmetry points along its x-axis. -->
 
 !!! example "Task 6 - visualising the phonons"
-    - Go to the website https://interactivephonon.materialscloud.io/. This is a website for visualising phonons.
+    - Go to the [website](https://interactivephonon.materialscloud.io/). This is a website for visualising phonons.
 
+    - Use `01_CD_scf.in` for the 'pw.x input file', `pw.out` for the 'pw.x output file', and `matdyn.modes` files for 'matdyn.modes file (generated by matdyn.x)'. 
+
+    - Click 'Calculate phonon dispersion' and the visualisation should come up. 
+	
+    - You can select the phonon mode to visualise by clicking on the phonon band structure on the right. 
+
+    - Now click on the lowest phonon band at the $\Gamma$ point. Firstly, you will notice that the three lowest phonon bands have their frequencies becoming zero. Secondly, all atoms displace in-phase. These three lowest phonon modes are called the **acoustic modes**. 
+
+    - Now click on the highest phonon band at the $\Gamma$ point. You will notice how the atoms in each unit cell vibrate in anti-phase. These phonon modes are called the **optical modes**. In general, they have higher energy because there is larger relative displacements between the atoms. 
+
+    - In both cases above, you will notice that periodicity of the phonon is one unit cell. This is always the case. At the $\Gamma$ point, there are no modulation in the amplitude of vibrations from one unit cell to another.  
+
+    - Now click on any other phonon away from the $\Gamma$ point, notice how there is now modulation in the amplitude from one unit cell to another. You can increase the number of supercells to fully visualise the phonon. 
 
 ??? tip "Extra notes - what trick is being played by Quantum Espresso? (for those interested in the math)"
     Quantum Espresso calculate the function $D(\mathbf{q})$ at a coarse set of $\mathbf{q}$-points first. using the inverse Fourier transform, the force constant matrix in real space $K(\mathbf{R})$ is obtained. This is done with `q2r.x`. Then $K(\mathbf{R})$ is Fourier transformed again into the $\mathbf{q}$-space so that we can evaluate what $D(\mathbf{q})$ is over a denser grid of $\mathbf{q}$-points. This is done with `matdyn.x`. 
@@ -425,9 +440,9 @@ Finally, we want to generate a plot of these frequencies. We could do that direc
 
 
 ??? tip "Extra notes - what is the acoustic sum rule? (for those interested in the physics)"
-    The acoustic sum rule (ACS) states that the frequencies of acoustic phonon modes must be zero. This is due to the translational symmetry of crystals. Since the acoustic phonon modes at the $\Gamma$ point simply corresponds to rigid translation of the entire crystal, there must not be any relative displacements between the atoms from one unit cell to another. Hence, the vibration frequencies have to be zero. This rule is implemented in many different ways. You can look it up if interested. 
+    The acoustic sum rule (ASR) states that the frequencies of acoustic phonon modes at the $\Gamma$ point must be zero. This is due to the translational symmetry of crystals. Since the acoustic phonon modes at the $\Gamma$ point simply corresponds to rigid translation of the entire crystal, there must not be any relative displacements between the atoms from one unit cell to another. Hence, the vibration frequencies have to be zero. This rule is implemented in many different ways. You can look it up if interested. 
 
-    For molecular calculations, switching on the ACS guarantees the lower energy modes corresponds to translations and have zero oscillation frequency, as we have seen earlier in the lab. 
+    For molecular calculations, switching on the ASR guarantees the lower energy modes corresponds to translations and have zero oscillation frequency, as we have seen earlier in the lab. 
 
 
 ------------------------------------------------------------------------------
