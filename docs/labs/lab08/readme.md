@@ -385,7 +385,7 @@ Now we want to use this to generate our normal mode dispersion. We'll be doing t
         6. The number of high-symmetry points which marks the high-symmetry path for calculating the phonon band structure. 
         7. The list of high-symmetry points with the number of points to calculate along each line, in the same way as we did for the electronic band structure.
     
-    - Run `matdyn.x < > matdyn.out`. Again this is very fast.
+    - Run `matdyn.x < 04_CD_matdyn-bands.in > matdyn.out`. Again this is very fast.
     - There's very little actual output from the code itself, but it will generate the files `CD-bands.freq` and `CD-zands.freq.gp`. Both of which contain sthe frequencies along the lines we requested.
     
 ### Step 5: plotting the phonon band structure 
