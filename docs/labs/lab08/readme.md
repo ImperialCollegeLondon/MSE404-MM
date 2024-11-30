@@ -65,23 +65,19 @@ $$
 ### Vibrational normal modes
 The normal modes of vibrations are the eigenvectors of the dynamical matrix $\mathbf{D}$, as discussed in the lectures. The corresponding eigenvalues are the squares of the vibration frequencies. The number of normal modes of any molecule can be calculated easily: if there are $N$ atoms in the molecule, there will be $3N$ normal modes. 
 
-## Vibrations in molecules: Quantum Espresso (overview) 
-Density functional theory can be used for calculating the dynamical matrix $\mathbf{D}$ of molecules. This requires the use of density functional perturbation theory (DFPT), which you have been introduced to in the lectures. Now we can try to run our first normal mode calculation with Quantum Espresso. 
+## Vibrations of molecules: Quantum Espresso (overview) 
+Density-functional theory can be used to calculate the dynamical matrix $\mathbf{D}$ of molecules. Quantum Espresso uses density-functional perturbation theory (DFPT) to do this. 
 
-!!! warning "Heads-up"
-     The way Quantum Espresso finds normals modes of molecules invokes extra rules and theories. These theories are beyond the scope of this course, but their use in Quantum Espresso means that there are a number of items you have to be careful of when preparing input files and understanding the output files. 
-
-    In this lab, we will cover the necessary items which you **must** include in the input files, otherwise the calculation will not give you physical results. We will only outline briefly why these items have to be added, and leave the theoretical details as extra notes for the interested (and the mathematically bold!).  
 
 ## Vibrations in molecules: Quantum Espresso (calculation)
-We will walk though how to find the normal modes of a methane molecule using Quantum Espresso in the following tasks. You will learn how to use an additional module called `ph.x`, for calculating the normal modes of a molecule. This is a two-step calculation. 
+We first calculate the vibrational properties of a methane molecule. You will learn how to use the programme `ph.x` for calculating the normal modes of a molecule. This calculation requires two steps:
 
 ### Step 1: run the `pw.x` calculation
 
-The first step is to carry out a single-point calculation using the equilibrium structure of methane. 
+The first step is to carry out a standard DFT calculation using the equilibrium structure of methane. 
 !!! example "Task 1a - run `pw.x`"
 
-    - Read the input file `01_CH4_scf.in`. The variables are still the usual ones that you have seen in the previous labs.  
+    - Read the input file `01_CH4_scf.in`. You should be familiar with all the input variables.  
     ```python 
     ATOMIC_POSITIONS angstrom
      C  0.0           0.0           0.0
@@ -93,16 +89,16 @@ The first step is to carry out a single-point calculation using the equilibrium 
     K_POINTS automatic
     1 1 1  0 0 0   #(2)!
     ```
-        1. The position of the $\mathrm{H}$ atoms have optimised and rotated so that the magnitude of their $x,y,z$-coordinates are the same. This is for allowing Quantum Espresso to pull some optimisation tricks. See the extra notes below if you are interested.  
-        2. We have explicity ask for an unshifted 1x1x1 k-grid, which simply means we are asking for a $\Gamma$-point calculation. This is written to allow Quantum Espresso to use some optimisation routine. 
+        1. The positions of the $\mathrm{H}$ atoms have been relaxed. We provide the atomic positions in a very symmetric way. This is useful for Quantum Espresso as it can exploit the symmetries of molecules to speed up the calculation. See extra notes below to learn more about this if you are interested.  
+        2. As we are dealing with a molecule, we only use the $\Gamma$-point.
      
     - Now run `pw.x < 01_CH4_scf.in > pw.out`.
 
 ### Step 2: run the `ph.x` calculation
-The second step is to carry out the DFPT calculation using `ph.x`. Two additional items appear when you go through the input file for `ph.x`. We will explain them as you go.  
+The second step is to carry out the DFPT calculation using `ph.x`. 
 
 !!! example "Task 1b - run `ph.x`"
-    - A second input file for calling the additional `ph.x` module is needed. This has been prepared and is named `02_CH4_ph.in`. Let's take a look at it: 
+    - Take a look at the input file for the `ph.x` module. It is called `02_CH4_ph.in`:
     ```bash 
         phonons of CH4 (gamma only)  #(1)!
          &INPUTPH   #(2)!
@@ -113,25 +109,25 @@ The second step is to carry out the DFPT calculation using `ph.x`. Two additiona
     ```
         1. The first line can be any informative comment that helps yourself. 
         2. This is a new card required for performing `ph.x` calculations
-        3. This is the scf convergence criterion for this normal mode calculation. Notice how it is much stricter than usual.  
-        4. This is the first new item. 'asr' here stands for the Acoustic Sum Rule. The acoustic sum rule prevents the frequencies of the normal modes from going negative, which most of the time are erroneous numerical artefacts. This will be explained at the end of the lab if you are interested. 
-        5. This is the second new item. It restricts the normal mode calculation to the $\Gamma$-point. We will explain what this means later in the lab. But you are encouraged make a guess!  
+        3. This is the scf convergence criterion for this normal mode calculation. Notice that it is very strict compared to what we usually use in standard DFT calculations.  
+        4. 'asr' stands for the Acoustic Sum Rule. This rule is used to correct the dynamical matrix in order to avoid negative vibration frequencies. This will be explained at the end of the lab if you are interested. 
+        5. This tells the code the wavevector of the vibrations. As we are dealing with a molecule, we are only interested in the $\Gamma$-point.
 
     !!! warning "Help file of `ph.x`"
-        If you are interested in the input variables of `ph.x`, you can look up   [Phonon](https://www.quantum-espresso.org/Doc/INPUT_PH.html)
+        If you are interested in the input variables of `ph.x`, you can read about them   [here](https://www.quantum-espresso.org/Doc/INPUT_PH.html)
 
     - Run `ph.x < 02_CH4_ph.in > ph.out`. This will probably take a few minutes. 
 
-    - You have successfully finished your first normal mode calculation!  
+    - You have successfully finished your first vibrational calculation!  
 
 ### Output files of ph.x 
-There are two major output files from a `ph.x` calculation. The first one is the `.out` file, which will tell you information about the DFPT calculations. It is not the most important for understanding the normal modes of the methane molecule so we will leave it out. The second file is the `matdyn` file which contains the dynamical matrix. This is the most important file for finding the normal modes.  
+There are two important output files created by the `ph.x` calculation. The first one is the `.out` file, which provides some information about the DFPT calculations. The second file is the `matdyn` file which contains the dynamical matrix. Let's take a look at it!  
 
 !!! example "Task 2 - Reading the dynamical matrix from Quantum Espresso"
-    - The most important part for us begins with ` Dynamical  Matrix in cartesian axes`. The important sections are shown below.  
+    - The most important section of the file begins with ` Dynamical  Matrix in cartesian axes`. 
 
 
-    - Let's go through this file bit by bit.  
+    - Let's go through this file step by step:  
     ```python
          q = (    0.000000000   0.000000000   0.000000000 ) #(1)!
     
@@ -157,10 +153,10 @@ There are two major output files from a `ph.x` calculation. The first one is the
      (  0.353554  0.000000  0.000093  0.000000 -0.353553  0.000000 ) 
     ```
         1. Tells us that this is a vibrational $\Gamma$ point calculation. 
-        2. The matrix shown below is going to be $D_{1{\alpha}2{\beta}}=\frac{1}{\sqrt{M_{1}M_{2}}}K_{1{\alpha}2{\beta}}$. I.e. the dynamical matrix associated with the displacements of atoms 1 and 2 along Cartesian directions $\alpha$ and $\beta$. 
-        3. These entries are $D_{1x2x}$, $D_{1x2y}$, and $D_{1x2z}$ respectively. Note that the entries on the second, fourth, and sixth columns are the imaginary parts of the entry.  
-        4. These entries are $D_{1y2x}$, $D_{1y2y}$, and $D_{1y2z}$ respectively. 
-        5. These entries are $D_{1z2x}$, $D_{1z2y}$, and $D_{1z2z}$ respectively. 
+        2. The matrix shown below is $D_{1{\alpha}2{\beta}}=\frac{1}{\sqrt{M_{1}M_{2}}}K_{1{\alpha}2{\beta}}$, i.e. the dynamical matrix associated with the displacements of atoms 1 and 2 along Cartesian directions $\alpha$ and $\beta$. 
+        3. These entries are $D_{1x2x}$, $D_{1x2y}$, and $D_{1x2z}$, respectively. Note that the entries oin the second, fourth, and sixth columns are the imaginary parts of the dynamical matrix.  
+        4. These entries are $D_{1y2x}$, $D_{1y2y}$, and $D_{1y2z}$, respectively. 
+        5. These entries are $D_{1z2x}$, $D_{1z2y}$, and $D_{1z2z}$, respectively. 
         6. The entries of the diagonalised dynamical matrix will be found below this line. 
         7. The vibration frequency of the seventh normal mode. 
         8. The displacement of each atom in the seventh normal mode. This line says that the displacement of the C atom (i.e. atom 1) is (0,-0.447,0). Note that the numbers on the second, fourth, and sixth columns are the imaginary parts of the displacements. So if these numbers are not zero, you need to check your calculation. 
