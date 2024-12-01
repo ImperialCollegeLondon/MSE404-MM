@@ -59,22 +59,14 @@ $$
     $$
     where $x$ is the displacement and $\omega$ is the oscillation frequency. By comparing this equation to $\omega^2\mathbf{v}=\mathbf{D}\mathbf{v}$, we see that $\mathbf{D}$ plays the same role as $k/m$ - it measures the ratio of the strength of the spring constant of the atomic forces to the mass of the vibrating object. 
 
-    In other words, it measures how difficult it is to move the atoms with masses $M_I$ due to the atomic forces induced by the displacement. In fact, the units of the entries of $\mathbf{D}$ are the same as the units of $k/m$. 
 
-
-### Vibrational normal modes
-The normal modes of vibrations are the eigenvectors of the dynamical matrix $\mathbf{D}$, as discussed in the lectures. The corresponding eigenvalues are the squares of the vibration frequencies. The number of normal modes of any molecule can be calculated easily: if there are $N$ atoms in the molecule, there will be $3N$ normal modes. 
-
-## Vibrations of molecules: Quantum Espresso (overview) 
+## Vibrations of molecules with Quantum Espresso
 Density-functional theory can be used to calculate the dynamical matrix $\mathbf{D}$ of molecules. Quantum Espresso uses density-functional perturbation theory (DFPT) to do this. 
-
-
-## Vibrations in molecules: Quantum Espresso (calculation)
 We first calculate the vibrational properties of a methane molecule. You will learn how to use the programme `ph.x` for calculating the normal modes of a molecule. This calculation requires two steps:
 
 ### Step 1: run the `pw.x` calculation
 
-The first step is to carry out a standard DFT calculation using the equilibrium structure of methane. 
+The first step is to carry out a standard DFT calculation for the equilibrium structure of methane. 
 !!! example "Task 1a - run `pw.x`"
 
     - Read the input file `01_CH4_scf.in`. You should be familiar with all the input variables.  
@@ -107,7 +99,7 @@ The second step is to carry out the DFPT calculation using `ph.x`.
          /
         0.0 0.0 0.0    #(5)!
     ```
-        1. The first line can be any informative comment that helps yourself. 
+        1. The first line can be any informative comment. 
         2. This is a new card required for performing `ph.x` calculations
         3. This is the scf convergence criterion for this normal mode calculation. Notice that it is very strict compared to what we usually use in standard DFT calculations.  
         4. 'asr' stands for the Acoustic Sum Rule. This rule is used to correct the dynamical matrix in order to avoid negative vibration frequencies. This will be explained at the end of the lab if you are interested. 
@@ -116,9 +108,9 @@ The second step is to carry out the DFPT calculation using `ph.x`.
     !!! warning "Help file of `ph.x`"
         If you are interested in the input variables of `ph.x`, you can read about them   [here](https://www.quantum-espresso.org/Doc/INPUT_PH.html)
 
-    - Run `ph.x < 02_CH4_ph.in > ph.out`. This will probably take a few minutes. 
+    - Run `ph.x < 02_CH4_ph.in > ph.out`. This will take a few minutes. 
 
-    - You have successfully finished your first vibrational calculation!  
+    - You have successfully performed your first vibrational calculation!  
 
 ### Output files of ph.x 
 There are two important output files created by the `ph.x` calculation. The first one is the `.out` file, which provides some information about the DFPT calculations. The second file is the `matdyn` file which contains the dynamical matrix. Let's take a look at it!  
@@ -152,15 +144,15 @@ There are two important output files created by the `ph.x` calculation. The firs
      (  0.353554  0.000000  0.000093  0.000000  0.353553  0.000000 ) 
      (  0.353554  0.000000  0.000093  0.000000 -0.353553  0.000000 ) 
     ```
-        1. Tells us that this is a vibrational $\Gamma$ point calculation. 
+        1. This tells us the wave vector of the vibration. Here, this is the $\Gamma$ point. 
         2. The matrix shown below is $D_{1{\alpha}2{\beta}}=\frac{1}{\sqrt{M_{1}M_{2}}}K_{1{\alpha}2{\beta}}$, i.e. the dynamical matrix associated with the displacements of atoms 1 and 2 along Cartesian directions $\alpha$ and $\beta$. 
-        3. These entries are $D_{1x2x}$, $D_{1x2y}$, and $D_{1x2z}$, respectively. Note that the entries oin the second, fourth, and sixth columns are the imaginary parts of the dynamical matrix.  
+        3. These entries are $D_{1x2x}$, $D_{1x2y}$, and $D_{1x2z}$, respectively. The entries in the second, fourth, and sixth columns are the imaginary parts of the dynamical matrix.  
         4. These entries are $D_{1y2x}$, $D_{1y2y}$, and $D_{1y2z}$, respectively. 
         5. These entries are $D_{1z2x}$, $D_{1z2y}$, and $D_{1z2z}$, respectively. 
-        6. The entries of the diagonalised dynamical matrix will be found below this line. 
+        6. The results obtained from diagonalizing the dynamical matrix can be found below this line. 
         7. The vibration frequency of the seventh normal mode. 
-        8. The displacement of each atom in the seventh normal mode. This line says that the displacement of the C atom (i.e. atom 1) is (0,-0.447,0). Note that the numbers on the second, fourth, and sixth columns are the imaginary parts of the displacements. So if these numbers are not zero, you need to check your calculation. 
-        9. Similar to the previous line, this line says that the displacement of the H atom (i.e. atom 2) is (0,-0.447,0). 
+        8. The polarization vector of each atom in the seventh normal mode. This line says that the polarization vector of the C atom (i.e. atom 1) is (0,-0.447,0). The numbers in the second, fourth, and sixth columns are the imaginary parts of the polarization vector. 
+        9. Similar to the previous line, this line says that the polarization vector of one of the H atoms (atom 2) is (0,-0.447,0). 
 
     - So everything you want to know about the normal modes of a molecule will be contained in the `matdyn` file. Answer the following questions by reading this file. 
 
@@ -171,15 +163,15 @@ There are two important output files created by the `ph.x` calculation. The firs
         The distinct frequencies are 0.01 THz, 2.37 THz, 37.37 THz, 44.29 THz, 87.07 THz, and 90.89 THz. Note that there are always three normal modes with nearly zero frequencies. 
 
     ??? success "What are the degeneracies of each distinct frequency?"
-        In the order of increasing energy, it is 3, 3, 3, 2, 1, 3. It is typical to find degenerate energy levels in symmetrical molecules.  
+        In the order of increasing energy, the degeneracies (i.e. the number of normal modes with the same frequency) are 3, 3, 3, 2, 1, 3. One finds such degeneracies in molecules that have a symmetrical shape. 
 
 !!! note "Visualising the normal modes"
-    If you are interested in how the normal modes look like, you can visit this [link](https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html). On this website, you can visualise any normal modes, and their displacement vectors, according to their frequencies. These frequencies should be close to what you have obtained in Task 1b.  
+    If you are interested in how the normal modes look like, you can visit this [link](https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html). On this website, you can see all the different vibrations of the methane molecule. These vibratyional frequencies should be close to what you have obtained in Task 1b.  
     You will see symbols like $T_2$ and $A_1$ next to each mode. These symboles are intended for vibrational spectroscopists to identify the normal modes. 
-    Notice how the degenerate normal modes are called the same names and have almost the same vibration pattern. This is the physical significance of having degenerate normal modes, they will be rotational images of one another most of the time. 
+    Notice how the degenerate normal modes have the same symbols and very similar vibration patterns.
 
 ??? tip "Extra notes - why do the three lowest normal modes always have zero frequency?"
-    These normal modes corresponds to the rigid translations of the molecule, i.e. drifting the molecule without distorting any chemical bonds. Therefore, there should not be any molecular vibrations, hence the zero vibrational frequency. You can check that for the first three normal modes, the displacements of all atoms are the same, implying rigid translation of the molecule. In fact, the three modes are simply rigid translations along the $y$, $x$, and $z$-directions respectively (check this yourself!).   
+    These normal modes corresponds to the rigid translations of the molecule, i.e. movements of the molecule without distorting any chemical bonds. If no bonds are distorted, the molecule will not vibrate and the vibrational frequency should be zero. You can inspect the polarization vectors of these normal modes: there are the same for all atoms. In fact, the three modes are simply rigid translations along the $y$, $x$, and $z$-directions, respectively.   
 
 <!--??? notes "Extra notes: reading `ph.out` file" -->
 <!--    The `ph.out` file contains quite a few information. Most of them are for your reference only and will be more useful for vibrational spectroscopy experiments. The following is what you will find: -->
@@ -190,12 +182,8 @@ There are two important output files created by the `ph.x` calculation. The firs
     
 <!--        ??? tip "Extra notes: what does the symbols `T_2  G_15 P_4   I+R` mean? (For your interest only)" -->
 <!--            The first symbol tell us the degeneracy of this normal mode. The symbols `G_15 P_4` is the label of this normal mode in a language familiar to vibrational spectroscopists. Lastly, the symbol `I+R` tells us that both **I**nfrared and **R**aman spectroscopy can detect this normal mode.  -->
-??? tip "Extra notes - symmetry reduction in Quantum Espresso (for the interested)"
-     The purpose of symmetry reduction in Quantum Espresso is to minimise the number of calculations required. In the case of molecular normal mode calculations, it is about minimising the number of DFPT calculations. This is a powerful procedure because many molecules demonstrates symmetry. 
-    
-    In the above task, by placing the center of the molecule at the origin, and giving the H atoms the same $x,y$ coordinates except for the sign, the code understands that all the hydrogen atoms are equivalent by rotations. Then, it only needs to calculate the derivatives of the energy with respect to one of the hydrogen positions, and populate the full dynamical matrix based on the symmetry of the system.
-
-     Quantum Espresso tells you what symmetries has been identified in the molecule in `ph.out` in a rather specific notation. It is written in a convention more familiar to the vibrational spectroscopy community. You can look up Raman spectroscopy and Mulliken symbols if you are interested.
+??? tip "Extra notes - symmetry reduction in Quantum Espresso"
+     Quantum Espresso can exploit the symmetries of the molecule to reduce the number of the (rather costly) DFPT calculations: by placing the center of the molecule at the origin and giving the H atoms the same $x,y$ coordinates except for the sign, the code understands that the methane molecule has certain rotational symmetries. Quantum Espresso uses this knowledge and only calculates the derivatives of the total energy with respect to one of the hydrogen positions (instead of all four of them). Quantum Espresso prints out the symmetries it has found in `ph.out`. 
         
     
 <!--    4.  The number of normal modes identified, and some information on how the frequency of that normal mode is calculated. This is really for reference only. You will see something like `Representation     7      1 modes - Calculated using symmetry` -->
