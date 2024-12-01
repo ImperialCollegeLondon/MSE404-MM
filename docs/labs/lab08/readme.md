@@ -217,48 +217,24 @@ Now that you have run your first normal mode calculation, let's practice it on a
 
 
 ## Vibrations in crystals: basic theory
-We have seen how vibration patterns in molecules are quantised in energy and possess similar symmetries to that of the molecule. What about vibrations in crystals?
-
-Vibrations in crystals are simliar to those in molecules with one important difference. First of all, the atoms in each unit cell essentially behaves like a "molecule". They therefore vibrate along specific normal modes too. But the one important difference between crystals and molecule is that the vibrations between neighbouring unit cells **couple**. This leads to a collective vibration where atoms from multiple unit cells vibrate along the same normal mode, but the amplitude of vibration from one unit cell to another is modulated by a wave packet. Essentially we get a "Mexican wave" of vibrations across multiple unit cells. Such a collective vibration of atoms across multiple unit cells is called a __phonon__. 
-
-### Phonons 
-A phonon is a collective wave of atomic vibrations over multiple unit cells. Each phonon is described by two labels: the branch $\nu$ and its wavevector $\mathbf{q}$. The branch refers to the unit cell normal mode along which all atoms vibrate. The wavevector describes the propagation direction of the phonon and its spatial periodicity. The magnitude of the wavevector is given by
+Similar to electrons in crystals (whose wavefunctions are described by Bloch's theorem), vibrations in crystals have a wave-like character. Each vibration in a crystal is described by two labels: its wavevector $\mathbf{q}$ and its band index $\nu$ (similar to electrons in crystals which are described by a wavevector $\mathbf{k}$ and a band index $n$). The wavevector describes the propagation direction of the vibration and its spatial periodicity. The magnitude of the wavevector is given by
 $$
 q=\frac{2\pi}{\lambda},
 $$
-where $\lambda$ is the wavelength of the phonon. 
+where $\lambda$ is the wavelength of the vibrational wave. These vibrational wave are often called phonons. 
 
-Similar to electrons (or any other quantum mechanical particle), the momentum of the phonon is simply $\hbar\mathbf{q}$. So some textbooks will also call $\mathbf{q}$ the momentum of the phonon for simplicity.  
-
-!!! warning "Using different symbols for the wavevectors of electrons and phonons"
-    Starting from now, we will use $\mathbf{q}$ to denote the wavevector of a phonon and $\mathbf{k}$ to denote the wavevector of an electron to avoid confusion. 
-
-### Phonon band structure 
-While the branch and wavevector of a phonon tell us about the spatial pattern of the atomic vibrations, they do not tell us about the temporal features, namely the frequencies, $\omega$, at which the atoms vibrate. The relationship between $\omega$ and $\{\nu,\mathbf{q}\}$ is called the __phonon band structure__, __dispersion relation__, or __dispersion curve__. It is commonly denoted as $\omega_\nu(\mathbf{q})$. It is very important because it summarises the relationship between the spatial and temporal properties of all phonons in one plot.  
-
-More important quantities can be obtained from the phonon band structure. For example, the energy of the phonon, is simply given by  
-$$
-E_\nu(\mathbf{q})=\hbar\omega_{\nu}(\mathbf{q}).
-$$
-More examples related to the thermodynamical properties will be discussed in the next lab. 
-
-### Dynamical matrix as a function of $\mathbf{q}$
-Calculating the phonon band structure requires the dynamical matrix too, just like how we needed it for the finding the normal modes of molecules. In particular, we need to calculate the dynamical matrix for every wavevector $\mathbf{q}$. We will not go into the details. All you need to know here is that the dynamical matrix is going to be different for phonons with different wavevectors, and Quantum Espresso will calculate them for us.  
+Similar to the band structure of electrons in a crystal, the frequencies $\omega_\nu(\mathbf{q})$ of phonons give rise to a band structure. 
 
 
 ## Vibrations in crystals: Quantum Espresso (overview)
-We will now learn how to calculate phonon band structures using Quantum Espresso. The overall procedure is similar to calculating the vibrational modes of molecules, with a few additional steps. 
+We will now learn how to calculate phonon band structures using Quantum Espresso. This requires the calculation of the dynamical matrix for a set of wavevectors $\mathbf{q}$ in the first Brillouin zone. As these calculations are quite time-consuming, Quantum Espresso uses a few numerical tricks (such as performing calculations for the force constants on a coarse grid of $\mathbf{q}$-points and then interpolating to a finer grid). This requires a few additional steps compared to the calculation for a molecule.
 
-The additional steps are required for reducing the computational cost. This calculation is very expensive in principle. This is because we need to calculate a new dynamical matrix $\mathbf{D}(\mathbf{q})$ for every phonon wavevector $\mathbf{q}$ for the entire phonon band structure. Quantum Espresso works around this problem smartly. We will not go into how it does it here. Essentially, it allows us to calculate the dynamical matrices for a smaller set of wavevectors, and use that to calculate the phonon band structure over a denser grid of wavevectors. 
+The calculation has five stages: 
 
-Before going through the actual procedure, there are two things we need to tell you. Firstly, the workaround requires the use of two additional modules, `q2r.x` and `matdyn.x`. Secondly, there are two $\mathbf{q}$-grids that we need to specify. The first $\mathbf{q}$-grid is the one for which we calculate the dynamical matrices for. This grid is coarse. The second $\mathbf{q}$-grid is the one over which we calculate the phonon band structure. This grid is dense. Let's now begin our overview of the procedure.
-
-The calculation has five stages. 
-
-1. Perform a self-consistent calculation of the density and wavefunction. The module for this is `pw.x` as usual. 
-2. Calculate the dynamical matrix on a coarser grid of wavevectors. The module for this is `ph.x`, which is the one we have used for molecules. 
-3. Obtain a set of real space force constant matrices $\mathbf{K}(\mathbf{R})$ based on the dynamical matrices $\mathbf{D}(\mathbf{q})$ obtained in the last step. The module for this is `q2r.x`.  
-4. Obtain the dynamical matrix over a denser grid of wavevectors. The module for this is `matdyn.x`.
+1. Perform a self-consistent calculation of the electrons density and the Kohn-Sham wavefunctions. The module for this is `pw.x` as usual. 
+2. Calculate the dynamical matrix on a coarse grid of wavevectors. The module for this is `ph.x`, which is the one we have used for molecules. 
+3. Obtain a set of force constant matrices $\mathbf{K}(\mathbf{R})$ in real space by Fourier transforming the dynamical matrices $\mathbf{D}(\mathbf{q})$ obtained in the last step. The module for this is `q2r.x`.  
+4. Obtain the dynamical matrix over a denser grid of wavevectors by Fourier interpolation. The module for this is `matdyn.x`.
 5. Generate the phonon band structure plot. This will be done using Python. 
 
 ## Vibrations in crystals: Quantum Espresso (calculation)
@@ -269,9 +245,9 @@ We will now go through the calculations using carbon diamond as an example.
     - Read the input file `01_CD_scf.in`. 
         - Again the variable `ecutrho` is set tighter. 
         - The prefix is defined explicitly as `'CD'`. This is useful when you run multiple calculations in different directories.
-        - Other variables should be familiar to you.  
+        - All other variables should be familiar to you.  
     - Run `pw.x < 01_CD_scf.in > pw.out`. 
-    - The other output files generated will be in `CD.save` since we set the prefix.
+    - The other output files generated will be in the `CD.save` directory since we specified the prefix.
 
 ### Step 2: run the `ph.x` calculation 
 !!! example "Task 4b - run `ph.x`"
@@ -286,15 +262,15 @@ We will now go through the calculations using carbon diamond as an example.
       /
     ```
         1. We have specified the same prefix as in the scf input file.
-        2. Switch on the acoustic sum rule.
+        2. Use the acoustic sum rule.
         3. `ldisp = .true.` tells Quantum Espresso to perform dynamical matrix calculation over a grid of q-points.
         4. `nq1`, `nq2` and `nq3` define our q-point grid. This is the coarser grid. 
-    - Run `ph.x < 02_CD_ph.in > ph.out`. This will probably take a few minutes. 
-    - This will produce a number of dynamical matrices. They have the same format as the `matdyn` file for the methane molecule. It will specify the $\mathbf{q}$-points at which the dynamical matrix is being evaluated within the file too. 
-    - Note that one file could contain multiple $\mathbf{q}$-points because the dynamical matrices is the same at these $\mathbf{q}$-points due to symmetry. 
+    - Run `ph.x < 02_CD_ph.in > ph.out`. This will take a few minutes. 
+    - The calculation produces a number of dynamical matrices. They have the same format as the `matdyn` file for the methane molecule. The file also contains information about the $\mathbf{q}$-points at which the dynamical matrix is evaluated. 
+    - Note that one file can contain dynamical matrices of several $\mathbf{q}$-points if these $\mathbf{q}$-points are related by a symmetry of the crystal. 
 
 ### Step 3: run the `q2r.x` calculation
-Next we'll be generating the real space force constants from our grid of dynamical matrices using the `q2r.x` module.
+Next we will generate the real-space force constants from the dynamical matrices calculated on a coarse grid in the first Brillouin zone using the `q2r.x` module.
 
 !!! example "Task 4c - run `q2r.x`"
     !!! warning "Help file of `q2r.x`"
@@ -308,16 +284,16 @@ Next we'll be generating the real space force constants from our grid of dynamic
        flfrc = 'CD444.fc'    #(3)! 
      /
     ```
-        1. `fildyn` is the name of the FILe for writing the DYNamical matrix from `ph.x`. 
-        2. `zasr` decides how the acoustic sum rule is enforced. If the ASR is not enforced, the lowest frequency phonons at the $\Gamma$-point will not have zero frequencies. This is not a physical behaviour, as we will explain later.    
-        3. `filefrc` is the name of the FILE for writing the FoRCe constants in real space.
+        1. `fildyn` is the name of the file for reading the dyamical matrices obtained from `ph.x`. 
+        2. `zasr` decides how the acoustic sum rule is enforced. If the ASR is not enforced, the lowest frequency phonons at the $\Gamma$-point will not have zero frequencies (as they should).   
+        3. `filefrc` specifies the output file name.
     
     - Run `q2r.x < 03_CD_q2r.in > q2r.out`. This will run almost instantly.
-    - This will produce the output file `CD444.fc` containing the force constant matrix for each pair of atoms in a 4x4x4 supercell. So this is $K(\mathrm{R})$. You do not need to know how to read this file now.
+    - This calculation produces the output file `CD444.fc` containing the force constant matrix for each pair of atoms in a 4x4x4 supercell. So this is $K(\mathrm{R})$. 
 
 
 ### Step 4: run the `matdyn.x` calculation
-Now we want to use this to generate our normal mode dispersion. We'll be doing this with the `matdyn.x` code.
+Now we want to use this to generate phonon band structure of diamond. For this, we will use the `matdyn.x` code.
 
 !!! example "Task 4d - run `matdyn.x`"
     !!! warning "Help file of `matdyn.x`"
@@ -342,22 +318,22 @@ Now we want to use this to generate our normal mode dispersion. We'll be doing t
      0.250 0.500 0.750 30
      0.500 0.500 0.500 0
     ```
-        1. `asr` to again tell it to try to force the acoustic modes at gamma to go to zero.
-        2. `flfrc` to  give it the name of the file with the real space force constants from the `q2r.x` calculation.
-        3. `flfrq` to give it the name of the output file to store its calculated frequencies.
-        4. `dos=.false.` to tell it we're not calculating a density of states 
-        5. `q_in_band_form=.true.` to tell it we want to calculate bands between high-symmetry points.
-        6. The number of high-symmetry points which marks the high-symmetry path for calculating the phonon band structure. 
+        1. `asr` tells the code to enforce the acoustic sum rule.
+        2. `flfrc` to  give it the name of the file with the real-space force constants from the `q2r.x` calculation.
+        3. `flfrq` to give it the name of the output file to store the calculated frequencies.
+        4. `dos=.false.` tells the code we're not calculating the density of states 
+        5. `q_in_band_form=.true.` tells the code we want to calculate bands between high-symmetry points.
+        6. The number of high-symmetry points on the path. 
         7. The list of high-symmetry points with the number of points to calculate along each line, in the same way as we did for the electronic band structure.
     
-    - Run `matdyn.x < 04_CD_matdyn-bands.in > matdyn.out`. Again this is very fast.
-    - There's very little actual output from the code itself, but it will generate the files `CD-bands.freq` and `CD-zands.freq.gp`. Both of which contain sthe frequencies along the lines we requested.
+    - Run `matdyn.x < 04_CD_matdyn-bands.in > matdyn.out`. Again, this is very fast.
+    - The code generates the output files `CD-bands.freq` and `CD-zands.freq.gp`. Both of which contain the frequencies along the path we requested.
     
 ### Step 5: plotting the phonon band structure 
-Finally, we want to generate a plot of these frequencies. We could do that directly with the previous output: `CD-bands.freq.gp` is a multicolumn space separated list of the frequencies in cm-1.
+Finally, we want to generate a graph of these frequencies. For this, we will use the output file `CD-bands.freq.gp` which contains frequencies in units of cm-1.
 
 !!! example "Task 5 - plotting the phonon band structure"
-    Once you've done this, a Python script `PHONON_BAND.py` has been provided for generating the phonon band structure. If you are interested in how the plotting is done, you can read the script. 
+    A python script `PHONON_BAND.py` has been provided for generating the phonon band structure. If you are interested in how the plotting is done, you can read the script. 
 
     ??? success "What does the phonon band structure look like?"
          
@@ -366,7 +342,7 @@ Finally, we want to generate a plot of these frequencies. We could do that direc
         </figure>
 
     ??? success "How many normal modes are there at each q-point?"
-        6 normal modes. Again this is because there are 2 atoms in the unit cell so there are $3\times2=6$ normal modes. 
+        There are 2 atoms in the unit cell so there are $3\times2=6$ normal modes. 
 
     <!--??? success "Inspect the phonon band structure along $\Gamma-L$, which two phonon bands become degenerate?"-->
     <!--    The two lowest energy phonon bands. Degenerate bands tend to appear in crystals with some symmetry. -->
@@ -397,11 +373,6 @@ Finally, we want to generate a plot of these frequencies. We could do that direc
     - In both cases above, you will notice that periodicity of the phonon is one unit cell. This is always the case. At the $\Gamma$ point, there are no modulation in the amplitude of vibrations from one unit cell to another.  
 
     - Now click on any other phonon away from the $\Gamma$ point, notice how there is now modulation in the amplitude from one unit cell to another. You can increase the number of supercells to fully visualise the phonon. 
-
-??? tip "Extra notes - what trick is being played by Quantum Espresso? (for those interested in the math)"
-    Quantum Espresso calculate the function $D(\mathbf{q})$ at a coarse set of $\mathbf{q}$-points first. using the inverse Fourier transform, the force constant matrix in real space $K(\mathbf{R})$ is obtained. This is done with `q2r.x`. Then $K(\mathbf{R})$ is Fourier transformed again into the $\mathbf{q}$-space so that we can evaluate what $D(\mathbf{q})$ is over a denser grid of $\mathbf{q}$-points. This is done with `matdyn.x`. 
-
-    Essentially we evaluate the dynamical matrix accurately at a few q-points, then estimate the rest using Fourier transformations. So instead of needing to carry out the DFPT calculation over a dense grid of $\mathbf{q}$-points, which will be computationally expensive, we can get away with a fewer number of DFPT calculations.  
 
 
 ??? tip "Extra notes - what is the acoustic sum rule? (for those interested in the physics)"
