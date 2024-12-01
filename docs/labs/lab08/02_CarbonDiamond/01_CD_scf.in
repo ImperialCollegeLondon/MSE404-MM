@@ -6,11 +6,11 @@
 
  &SYSTEM
     ibrav =  2
-    A = 3.567
+    A = 3.502
     nat = 2
     ntyp = 1
-    ecutwfc = 60.0
-    ecutrho = 400.0
+    ecutwfc = 40.0
+    ecutrho = 240.0
  /
 
  &ELECTRONS

@@ -1,8 +1,0 @@
- &input
-    asr='simple'
-    flfrc='CD444.fc'
-    flfrq='CD-dos.freq'
-    dos=.true.,
-    nk1=20,nk2=20,nk3=20
-    fldos='CD-q20.dos'
- /
