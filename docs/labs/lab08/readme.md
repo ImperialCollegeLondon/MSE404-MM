@@ -150,8 +150,8 @@ There are two important output files created by the `ph.x` calculation. The firs
         4. These entries are $D_{1y2x}$, $D_{1y2y}$, and $D_{1y2z}$, respectively. 
         5. These entries are $D_{1z2x}$, $D_{1z2y}$, and $D_{1z2z}$, respectively. 
         6. The results obtained from diagonalizing the dynamical matrix can be found below this line. 
-        7. The vibration frequency of the seventh normal mode. 
-        8. The polarization vector of each atom in the seventh normal mode. This line says that the polarization vector of the C atom (i.e. atom 1) is (0,-0.447,0). The numbers in the second, fourth, and sixth columns are the imaginary parts of the polarization vector. 
+        7. The vibration frequency of the fourth normal mode. 
+        8. The polarization vector of each atom in the fourth normal mode. This line says that the polarization vector of the C atom (i.e. atom 1) is (0,-0.447,0). The numbers in the second, fourth, and sixth columns are the imaginary parts of the polarization vector. 
         9. Similar to the previous line, this line says that the polarization vector of one of the H atoms (atom 2) is (0,-0.447,0). 
 
     - So everything you want to know about the normal modes of a molecule will be contained in the `matdyn` file. Answer the following questions by reading this file. 
