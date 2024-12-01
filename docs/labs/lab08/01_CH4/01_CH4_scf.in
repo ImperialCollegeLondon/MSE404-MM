@@ -7,8 +7,8 @@
     A = 10.0
     nat = 5
     ntyp = 2
-    ecutwfc = 25.0
-    ecutrho = 200.0
+    ecutwfc = 50.0
+    ecutrho = 300.0
  /
 
  &ELECTRONS
