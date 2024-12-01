@@ -188,33 +188,6 @@ There are two important output files created by the `ph.x` calculation. The firs
     
 <!--    4.  The number of normal modes identified, and some information on how the frequency of that normal mode is calculated. This is really for reference only. You will see something like `Representation     7      1 modes - Calculated using symmetry` -->
 
-### Another example: the CFC molecule
-Now that you have run your first normal mode calculation, let's practice it on another molecule called CFC. It is a major green gas molecule. It has a similar structure as the methane molecule, but the H atoms are replaced by three Cl and one F atoms. 
-
-!!! example "Task 3 - normal modes of the CFC molecule"
-    - Go to the directory `02_CFC`. There should be two input files. One for `pw.x` and one for `ph.x`. Note that in our input file, the first atom is the C atom, the second to fourth atoms are the Cl atoms, and the fifth atom is the F atom. 
-
-    - Run `pw.x < 01_CCl3F_scf.in > pw.out` and `ph.x < 02_CCl3F_ph.in > ph.out`. Inspect the `matdyn` file after the calculation has finished. This will probably take a few minutes. 
-
-    ??? success "What is the highest frequency of the normal modes?"
-        The highest frequency mode is 29.9 THz.  
-
-    ??? success "Which mode is dominated by the vibration of the CF bond?"
-        Mode 15. In this mode, the displacements of the C and F atoms are much larger than the the Cl atoms. So these are the modes where the vibration of the CF bond dominates the normal mode. 
-
-    ??? success "In which mode does the CF bond don't vibrate at all?"
-        Mode 4.  
-
-    ??? success "Is the highest vibrational frequency of the CFC molecule lower or higher than that of the methane molecule?" 
-        It is lower than that of the methane molecule. 
- 
-    ??? success "Optional task: how can we estimate the oscillation frequency of the highest energy mode? " 
-        Mode 15 corresponds to the normal mode where the CF bond dominates the vibration. We can perform a back-of-the-envelope calculation to estimate the oscillation frequency of the CF bond, $\omega_{\mathrm{CF}}$, from the oscillation frequency of the CH bond, $\omega_{\mathrm{CH}}$, with the equation $\frac{\omega_{\mathrm{CF}}}{\omega_{\mathrm{CH}}}=\sqrt{\frac{k_\mathrm{CF}}{k_\mathrm{CH}}\frac{m_H}{m_F}}$ . The $k$'s denotes the spring constant associated with each chemical bond, and $m$ denotes the atomic masses. In other words, the higher the mass, the slower the oscillation. The stronger the spring constant, the faster the oscillation. 
-
-        $m_H$ is about 20 times smaller than $m_F$, and the binding energy of the CF bond is about 1.3 times that of the CH bond (from Wikipedia). Therefore, we can expect the increase in mass to be the dominating factor in the reduction of the oscillation frequencies. Hence, the highest oscillation frequency is reduced in CFC.  
-        
-        In fact, if we replace the ratio of spring constants with the ratio of binding energies of each bond for a crude estimate, using $m_{\mathrm{H}} = 1$ and $m_{\mathrm{F}} = 19 $, and $\omega_{\mathrm{CH}}=90.89 \mathrm{THz}$ from the previous task we obtain $\omega_{\mathrm{CF}} = 24.0 \mathrm{THz}$ . This is of the same magnitude as the frequency of the 15th mode. 
-
 
 ## Vibrations in crystals: basic theory
 Similar to electrons in crystals (whose wavefunctions are described by Bloch's theorem), vibrations in crystals have a wave-like character. Each vibration in a crystal is described by two labels: its wavevector $\mathbf{q}$ and its band index $\nu$ (similar to electrons in crystals which are described by a wavevector $\mathbf{k}$ and a band index $n$). The wavevector describes the propagation direction of the vibration and its spatial periodicity. The magnitude of the wavevector is given by
@@ -366,19 +339,15 @@ Finally, we want to generate a graph of these frequencies. For this, we will use
 	
     - You can select the phonon mode to visualise by clicking on the phonon band structure on the right. 
 
-    - Now click on the lowest phonon band at the $\Gamma$ point. Firstly, you will notice that the three lowest phonon bands have their frequencies becoming zero. Secondly, all atoms displace in-phase. These three lowest phonon modes are called the **acoustic modes**. 
+    - Now click on the lowest phonon band at the $\Gamma$ point. Firstly, you will notice that the frequencies of the three lowest phonon bands become zero. Secondly, all atoms move in-phase. These three lowest phonon modes are called **acoustic modes**. 
 
-    - Now click on the highest phonon band at the $\Gamma$ point. You will notice how the atoms in each unit cell vibrate in anti-phase. These phonon modes are called the **optical modes**. In general, they have higher energy because there is larger relative displacements between the atoms. 
+    - Now click on the highest phonon band at the $\Gamma$ point. You will notice how the atoms in each unit cell move in anti-phase. These phonon modes are called the **optical modes**. 
 
-    - In both cases above, you will notice that periodicity of the phonon is one unit cell. This is always the case. At the $\Gamma$ point, there are no modulation in the amplitude of vibrations from one unit cell to another.  
+    - In both cases above, you will notice that periodicity of the atomic displacements is one unit cell. This is because we are at the $\Gamma$ point.
+    
+    - Now click on any other phonon away from the $\Gamma$ point. Notice how there is now a modulation of the amplitude from one unit cell to another. You can increase the number of supercells to fully visualise the phonon. 
 
-    - Now click on any other phonon away from the $\Gamma$ point, notice how there is now modulation in the amplitude from one unit cell to another. You can increase the number of supercells to fully visualise the phonon. 
 
-
-??? tip "Extra notes - what is the acoustic sum rule? (for those interested in the physics)"
-    The acoustic sum rule (ASR) states that the frequencies of acoustic phonon modes at the $\Gamma$ point must be zero. This is due to the translational symmetry of crystals. Since the acoustic phonon modes at the $\Gamma$ point simply corresponds to rigid translation of the entire crystal, there must not be any relative displacements between the atoms from one unit cell to another. Hence, the vibration frequencies have to be zero. This rule is implemented in many different ways. You can look it up if interested. 
-
-    For molecular calculations, switching on the ASR guarantees the lower energy modes corresponds to translations and have zero oscillation frequency, as we have seen earlier in the lab. 
 
 
 ------------------------------------------------------------------------------
@@ -388,19 +357,5 @@ Summary
 
 In this lab we have seen
 
-- For a molecule:
-    - How to use the `pw.x` code to calculate a converged density and
-      wavefunction and then use these with the `ph.x` code to calculate the
-      vibrational modes using DFPT.
-- For a crystal:
-    - How to use the `pw.x` code to calculate a converged density and
-      wavefunction.
-    - How to use these with the `ph.x` code to calculate the phonon modes on
-      a grid of wavevectors.
-    - How to transform these to obtain real-space force constants using the
-      `q2r.x` code.
-    - How to use the real-space force constants to obtain a phonon mode
-      bandstructure along lines between high-symmetry points in the
-      Brillouin zone.
-    - How to plot the bandstructure with gnuplot in a similar way to how we
-      plot the electronic bandstructure in a previous lab.
+- how to use the `ph.x` code to calculate the vibrational properties of a molecule.
+- how to calculate the phonon band structure of a crystal.
