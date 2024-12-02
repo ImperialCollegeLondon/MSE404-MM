@@ -68,7 +68,7 @@ We first calculate the vibrational properties of a methane molecule. You will le
 
 The first step is to carry out a standard DFT calculation for the equilibrium structure of methane. 
 !!! example "Task 1a - run `pw.x`"
-
+    - Go to the directory `01_CH4`. 
     - Read the input file `01_CH4_scf.in`. You should be familiar with all the input variables.  
     ```python 
     ATOMIC_POSITIONS angstrom
@@ -215,6 +215,7 @@ We will now go through the calculations using carbon diamond as an example.
 
 ### Step 1: run the `pw.x` calculation
 !!! example "Task 4a - run `pw.x`"
+    - Go to the directory `02_CarbonDiamond`.
     - Read the input file `01_CD_scf.in`. 
         - Again the variable `ecutrho` is set tighter. 
         - The prefix is defined explicitly as `'CD'`. This is useful when you run multiple calculations in different directories.
