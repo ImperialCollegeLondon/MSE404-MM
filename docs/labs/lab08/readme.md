@@ -102,7 +102,7 @@ The second step is to carry out the DFPT calculation using `ph.x`.
         1. The first line can be any informative comment. 
         2. This is a new card required for performing `ph.x` calculations
         3. This is the scf convergence criterion for this normal mode calculation. Notice that it is very strict compared to what we usually use in standard DFT calculations.  
-        4. 'asr' stands for the Acoustic Sum Rule. This rule is used to correct the dynamical matrix in order to avoid negative vibration frequencies. This will be explained at the end of the lab if you are interested. 
+        4. 'asr' stands for the Acoustic Sum Rule. This rule is used to correct the dynamical matrix in order to avoid negative vibration frequencies. 
         5. This tells the code the wavevector of the vibrations. As we are dealing with a molecule, we are only interested in the $\Gamma$-point.
 
     !!! warning "Help file of `ph.x`"
@@ -137,12 +137,12 @@ There are two important output files created by the `ph.x` calculation. The firs
          q = (    0.000000000   0.000000000   0.000000000 ) 
     
      ************************************************************************** #(6)! 
-         freq (    4) =       2.365513 [THz] =      78.905014 [cm-1] #(7)!
-     (  0.000000  0.000000  0.000092  0.000000  0.000000  0.000000 ) #(8)!
-     ( -0.353554  0.000000  0.000093  0.000000  0.353553  0.000000 ) #(9)!
-     ( -0.353554  0.000000  0.000093  0.000000 -0.353553  0.000000 ) 
-     (  0.353554  0.000000  0.000093  0.000000  0.353553  0.000000 ) 
-     (  0.353554  0.000000  0.000093  0.000000 -0.353553  0.000000 ) 
+         freq (    4) =       2.236301 [THz] =      74.594963 [cm-1]  #(7)!
+     ( -0.000000  0.000000 -0.000000  0.000000  0.000001  0.000000 )  #(8)!
+     (  0.353553  0.000000 -0.353553  0.000000  0.000001  0.000000 )  #(9)!
+     ( -0.353553  0.000000  0.353553  0.000000  0.000001  0.000000 ) 
+     ( -0.353553  0.000000 -0.353553  0.000000  0.000001  0.000000 ) 
+     (  0.353553  0.000000  0.353553  0.000000  0.000001  0.000000 ) 
     ```
         1. This tells us the wave vector of the vibration. Here, this is the $\Gamma$ point. 
         2. The matrix shown below is $D_{1{\alpha}2{\beta}}=\frac{1}{\sqrt{M_{1}M_{2}}}K_{1{\alpha}2{\beta}}$, i.e. the dynamical matrix associated with the displacements of atoms 1 and 2 along Cartesian directions $\alpha$ and $\beta$. 
@@ -166,12 +166,12 @@ There are two important output files created by the `ph.x` calculation. The firs
         In the order of increasing energy, the degeneracies (i.e. the number of normal modes with the same frequency) are 3, 3, 3, 2, 1, 3. One finds such degeneracies in molecules that have a symmetrical shape. 
 
 !!! note "Visualising the normal modes"
-    If you are interested in how the normal modes look like, you can visit this [link](https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html). On this website, you can see all the different vibrations of the methane molecule. These vibratyional frequencies should be close to what you have obtained in Task 1b.  
-    You will see symbols like $T_2$ and $A_1$ next to each mode. These symboles are intended for vibrational spectroscopists to identify the normal modes. 
+    If you are interested in how the normal modes look like, you can visit this [link](https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html). On this website, you can see all the different vibrations of the methane molecule. These vibrational frequencies should be close to what you have obtained in Task 1b.  
+    You will see symbols like $T_2$ and $A_1$ next to each mode. These symbols are intended for vibrational spectroscopists to identify the normal modes. 
     Notice how the degenerate normal modes have the same symbols and very similar vibration patterns.
 
 ??? tip "Extra notes - why do the three lowest normal modes always have zero frequency?"
-    These normal modes corresponds to the rigid translations of the molecule, i.e. movements of the molecule without distorting any chemical bonds. If no bonds are distorted, the molecule will not vibrate and the vibrational frequency should be zero. You can inspect the polarization vectors of these normal modes: there are the same for all atoms. In fact, the three modes are simply rigid translations along the $y$, $x$, and $z$-directions, respectively.   
+    These normal modes correspond to the rigid translations of the molecule, i.e. movements of the molecule without distorting any chemical bonds. If no bonds are distorted, the molecule will not vibrate and the vibrational frequency should be zero. You can inspect the polarization vectors of these normal modes: there are the same for all atoms. In fact, the three modes are simply rigid translations along the $y$, $x$, and $z$-directions, respectively.   
 
 <!--??? notes "Extra notes: reading `ph.out` file" -->
 <!--    The `ph.out` file contains quite a few information. Most of them are for your reference only and will be more useful for vibrational spectroscopy experiments. The following is what you will find: -->
@@ -301,7 +301,7 @@ Now we want to use this to generate phonon band structure of diamond. For this, 
         7. The list of high-symmetry points with the number of points to calculate along each line, in the same way as we did for the electronic band structure.
     
     - Run `matdyn.x < 04_CD_matdyn-bands.in > matdyn.out`. Again, this is very fast.
-    - The code generates the output files `CD-bands.freq` and `CD-zands.freq.gp`. Both of which contain the frequencies along the path we requested.
+    - The code generates the output files `CD-bands.freq` and `CD-bands.freq.gp`. Both of which contain the frequencies along the path we requested.
     
 ### Step 5: plotting the phonon band structure 
 Finally, we want to generate a graph of these frequencies. For this, we will use the output file `CD-bands.freq.gp` which contains frequencies in units of cm-1.
