@@ -312,7 +312,7 @@ Finally, we want to generate a graph of these frequencies. For this, we will use
     ??? success "What does the phonon band structure look like?"
          
         <figure markdown="span">
-          ![rel_gif](assets/bands.png){width=300}
+          ![band](assets/bands.png){width=300}
         </figure>
 
     ??? success "How many normal modes are there at each q-point?"
