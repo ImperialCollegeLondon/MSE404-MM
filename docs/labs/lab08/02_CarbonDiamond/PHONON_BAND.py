@@ -54,6 +54,6 @@ for j in range(1,bands.shape[-1]):
     plt.plot(qpoints,bands[:,j],c='purple')
 plt.xticks(qmarker_pos,qmarker_lab,fontsize=fontsize)
 plt.yticks(fontsize=fontsize)
-plt.ylabel(r'$\mathrm{cm}^{-1}$',fontsize=fontsize)
+plt.ylabel(r'$\omega (\mathrm{cm}^{-1})$',fontsize=fontsize)
 plt.savefig('bands', dpi=300, bbox_inches="tight",pad_inches=0.01)
 plt.show()

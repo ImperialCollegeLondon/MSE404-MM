@@ -137,12 +137,12 @@ There are two important output files created by the `ph.x` calculation. The firs
          q = (    0.000000000   0.000000000   0.000000000 ) 
     
      ************************************************************************** #(6)! 
-         freq (    4) =       2.236301 [THz] =      74.594963 [cm-1]  #(7)!
-     ( -0.000000  0.000000 -0.000000  0.000000  0.000001  0.000000 )  #(8)!
-     (  0.353553  0.000000 -0.353553  0.000000  0.000001  0.000000 )  #(9)!
-     ( -0.353553  0.000000  0.353553  0.000000  0.000001  0.000000 ) 
-     ( -0.353553  0.000000 -0.353553  0.000000  0.000001  0.000000 ) 
-     (  0.353553  0.000000  0.353553  0.000000  0.000001  0.000000 ) 
+         freq (    4) =       2.365513 [THz] =      78.905014 [cm-1]  #(7)!
+     (  0.000000  0.000000  0.000092  0.000000  0.000000  0.000000 )  #(8)!
+     ( -0.353554  0.000000  0.000093  0.000000  0.353553  0.000000 )  #(9)!
+     ( -0.353554  0.000000  0.000093  0.000000 -0.353553  0.000000 ) 
+     (  0.353554  0.000000  0.000093  0.000000  0.353553  0.000000 ) 
+     (  0.353554  0.000000  0.000093  0.000000 -0.353553  0.000000 ) 
     ```
         1. This tells us the wave vector of the vibration. Here, this is the $\Gamma$ point. 
         2. The matrix shown below is $D_{1{\alpha}2{\beta}}=\frac{1}{\sqrt{M_{1}M_{2}}}K_{1{\alpha}2{\beta}}$, i.e. the dynamical matrix associated with the displacements of atoms 1 and 2 along Cartesian directions $\alpha$ and $\beta$. 
@@ -160,7 +160,7 @@ There are two important output files created by the `ph.x` calculation. The firs
         15, since there are 15 frequencies in the file. This is expected because there are 5 atoms so the number of normal modes is $5\times3=15$.  
 
     ??? success "What are the **distinct** frequencies (up to 2 decimal places)?"
-        The distinct frequencies are 0.01 THz, 2.37 THz, 37.37 THz, 44.29 THz, 87.07 THz, and 90.89 THz. Note that there are always three normal modes with nearly zero frequencies. 
+        The distinct frequencies are -0.01 THz, 2.37 THz, 37.37 THz, 44.29 THz, 87.07 THz, and 90.89 THz. Note that there are always three normal modes with nearly zero frequencies. However, they are slightly negative in our calculations because of numerical accuracies. You can increase the PW cutoff to reduce them, but the `ph.x` calculation will take longer.  
 
     ??? success "What are the degeneracies of each distinct frequency?"
         In the order of increasing energy, the degeneracies (i.e. the number of normal modes with the same frequency) are 3, 3, 3, 2, 1, 3. One finds such degeneracies in molecules that have a symmetrical shape. 
@@ -217,7 +217,7 @@ We will now go through the calculations using carbon diamond as an example.
 !!! example "Task 4a - run `pw.x`"
     - Go to the directory `02_CarbonDiamond`.
     - Read the input file `01_CD_scf.in`. 
-        - Again the variable `ecutrho` is set tighter. 
+        - Note that the variable `ecutrho` is set tighter for DFPT calculation of phonons. 
         - The prefix is defined explicitly as `'CD'`. This is useful when you run multiple calculations in different directories.
         - All other variables should be familiar to you.  
     - Run `pw.x < 01_CD_scf.in > pw.out`. 
