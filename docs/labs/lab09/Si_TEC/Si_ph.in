@@ -1,8 +1,0 @@
-phonons of silicon on a grid
- &INPUTPH
-  prefix = 'Siyyyy'
-  fildyn = 'Siyyyy-matdyn'
-  asr = .true.
-  ldisp = .true.
-  nq1=4, nq2=4, nq3=4
- /
