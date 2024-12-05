@@ -10,7 +10,7 @@ Our approach will be to use the type of density functional theory (DFT) and dens
 The phonon density of states is obtained by counting how many phonon modes exist at each frequency. In order to do this, we first need to gather as much information as possible about the phonon modes by calculating the frequency of each mode in a grid of $\mathbf{q}$ points.
 
 
-### Step 1. Phonon calculations on a fine-grid
+### Phonon calculations on a fine-grid
 
 In [Lab08](../lab08/readme.md) you already learned most of the steps you need to follow to perform phonon calculations on a grid. The only difference is the input file for `matdyn.x`.
 
@@ -109,20 +109,16 @@ To know what the density of states actually looks like, let's now plot it.
         If you compare against the band structure you calculated in the previous lab, you will see that the density of states is larger when the bands are flatter. If the bands are flatter, it means there are more phonon states per unit frequency, which directly translates to a larger density of states.
          
          
-
-
-    
-
 We will utilize the density of states to compute several thermodynamic properties using python in the next step.
 
-## Example: Total energy at temperature T
+## Total energy at temperature T
 One of the simplest and most important quantities that can be obtained from information about vibrations is the phonon energy. The total energy due to phonons can be written as
 
 $$ E(T) = \int_{0}^{+\infty} \hbar\omega \rho(\omega)\left(\frac{1}{2} + n_{BE}(\hbar\omega,T)\right)d\omega $$
 
 where the factor $n_{BE}(E,T) = \frac{1}{\exp(E/k_\mathrm{B} T)-1}$ is recognized as the Bose-Einstein occupation factor. Notice how the total energy requires considering the contribution of every energy $E$ weighed by the phonon density of states and the Bose-Einstein occupation factor.
 
-### Step 2. Performing the integral using python
+### Performing the integral using python
 This integral will be calculated numerically using python. Let's begin by analysing the python script which performs this calculation.
 
 !!! example "energy.py"
