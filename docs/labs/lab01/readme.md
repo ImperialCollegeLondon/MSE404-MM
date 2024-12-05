@@ -345,7 +345,15 @@ Once you're done, exit the session by closing the terminal and then pressing *OK
 
 ![text](images/22exit.PNG){: width="600" }
 
-## 14. Summary
+## 14. IMPORTANT - Disk quota limitations
+The `matmod` server is shared among all the students. To prevent any one student from using up too much storage, each student is limited to `1GB` of storage in their **home** directory. This is not a lot, considering that many DFT calculations will store files consisting of several hundreds of `MB`. To get around this, `matmod` provides another directory called `data` inside your home directory which has a much higher storage capacity. As you progress throught the DFT course, please use the `data` directory instead of the `home` directory to perform your calculations. 
+
+If you come across any of the following problems, it's probably because you ran out of space in your `home` directory:
+- You get a disk storage error when creating new files or running DFT calculations.
+- You cannot run `gedit` because you get an error instead of the window showing up.
+- When you login, you get a message concerning XAuthority.
+
+## 15. Summary
 
 There are a lot of commands to remember from this week's lab. You can always
 refer back to this week, but to make things easier in future weeks you might
