@@ -176,16 +176,16 @@ The integral will be evaluated numerically using python. Let's begin by analysin
 
 
 ## Heat capacity at constant volume
-Using this type of approach, we are not limited to only computing the total energy. Some key quantities we can calculate are the heat capacity, the entropy and the Helmholtz free energy (For reference, see [Wikipedia](https://en.wikipedia.org/wiki/Quasi-harmonic_approximation) and the reference therein).
+There are many other properties of materials, such as the entropy, the pressure or the Helmholtz free energy (for reference, see [Wikipedia](https://en.wikipedia.org/wiki/Quasi-harmonic_approximation) and the reference therein) which we can calculate with this technique. 
 
-The specific heat at constant volume tells us how much energy is required to increase the temperature of a system by a given amount. It can be obtained from the total energy calculations by differentiating with respect to temperature:
+The specific heat at constant volume tells us how much energy is required to increase the temperature of a material by a given amount. It can be obtained from the total energy by differentiating with respect to temperature:
 
 $$C_V(T) = \left(\frac{\partial E}{\partial T} \right )_{const\ V}
  = k_B \int_{0}^{+\infty} \left(\frac{\hbar\omega}{k_B T}\right)^2 \rho(\omega)\frac{\exp(\hbar\omega/k_B T)}{\left[ \exp(\hbar\omega/k_B T)-1\right]^2} d\omega$$
 
 !!! example "Task 5 - Plot the specific heat as a function of temperature"
-    - Create a new program `heat_capacity.py` that calculates the heat capacity of Carbon Diamond by doing the necessary modifications to the `energy.py` program.
-    - Calculate the heat capacity for the same temperatures as you did for the energy in the previous task.
+    - Create a new program `heat_capacity.py` that calculates the heat capacity of Carbon Diamond by modifying the `energy.py` program.
+    - Calculate the heat capacity for the same temperatures as you did for the energy in the previous task and create a graph of your results.
 
 ### Analysing the heat capacity
 At high temperatures, the heat capacity approaches a constant. This is the [Dulong-Petit](https://en.wikipedia.org/wiki/Dulong%E2%80%93Petit_law) law, followed (approximately) by most materials. At low temperatures, the heat capacity is proportional to $T^3$, as predicted by the [Debye model](https://en.wikipedia.org/wiki/Debye_model).
