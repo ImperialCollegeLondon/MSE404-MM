@@ -110,14 +110,14 @@ To know what the density of states actually looks like, let's now plot it.
 We will utilize the density of states to compute several thermodynamic properties using python in the next step.
 
 ## Total energy at temperature T
-One of the simplest and most important quantities that can be obtained from information about vibrations is the phonon energy. The total energy due to phonons can be written as
+An important quantity that can be obtained from phonon density of states is the total energy of the vibrations at temperature $T$. This is given by
 
 $$ E(T) = \int_{0}^{+\infty} \hbar\omega \rho(\omega)\left(\frac{1}{2} + n_{BE}(\hbar\omega,T)\right)d\omega $$
 
-where the factor $n_{BE}(E,T) = \frac{1}{\exp(E/k_\mathrm{B} T)-1}$ is recognized as the Bose-Einstein occupation factor. Notice how the total energy requires considering the contribution of every energy $E$ weighed by the phonon density of states and the Bose-Einstein occupation factor.
+where the factor $n_{BE}(E,T) = \frac{1}{\exp(E/k_\mathrm{B} T)-1}$ is the Bose-Einstein occupation factor. The physical meaning of this equation is the following: for each frequency $\omega$, we have to add up the energy of each phonon mode (given by $\hbar \omega (1/2 + n_{BE})$) and multiply this by the number of phonon modes with the same frequency (given by the phonon density of states).
 
 ### Performing the integral using python
-This integral will be calculated numerically using python. Let's begin by analysing the python script which performs this calculation.
+The integral will be evaluated numerically using python. Let's begin by analysing the python script which performs this calculation.
 
 !!! example "energy.py"
     - In the `01_CarbonDiamond` folder you will find the `energy.py` python script which performs the energy integration. The script reads in the the phonon density of states and the temperature and prints out the total energy at that temperature. Note that some constants are deliberately missing from this file, denoted by `???`.
@@ -146,31 +146,30 @@ This integral will be calculated numerically using python. Let's begin by analys
 
     print(total_energy)
     ```
-        1. Replace ??? by the relevant physical constant (or constants) with your choice of units
-        2. Replace ??? by the relevant physical constant (or constants) with your choice of units
+        1. Replace ??? by the correct physical constant (in the correct units)
+        2. Replace ??? by the correct physical constant (in the correct units)
         3. Numerical integration requires specifying the numerical discretization step
-        4. If the frequency is too small, it will cause numerical problems because of a division by a very small number inside the Bose-Einstein occupation factor. Since we're summing over a large number of terms, these ignored terms will have a residual contribution and can be safely ignored
+        4. If the frequency is too small, it will cause numerical problems because of a division by a very small number inside the Bose-Einstein occupation factor. We do not include the contribution from such frequencies in our calculations (convince yourself that this only produces a very small error).
         5. The first row of the `CD.dos` file is a header and should be ignored
         6. The temperature should be in Kelvin
 
 
-Note that this program ignores very small frequencies due to the possibility of dividing by zero.
 
 
 !!! example "Task 3 - Plot the energy as function of temperature"
-    1. Go back to the lecture notes and determine what are the physical constants which are missing in the program above. Modify the `energy.py` so it has the correct constants **(Note: physical constants can be expressed in many different units. Feel free to use whichever units you think best express these quantities, just remember to be consistent!)**
+    1. Take another look at the mathematical formula for $E(T)$ above and determine which physical constants need to be specified in the program above. Modify `energy.py` so that it has the correct constants **(Note: Carefully think about which units should be used!)**
 
         ??? success "Answer" 
             `constant1=0.0366 K/cm^-1`<br>
             `constant2=6.58e-16 eV s`
     2. Run this program using the phonon density of states obtained in the previous section, for a temperature of 1 Kelvin (1K): `python energy.py CD.dos 1` 
-    3. Repeat the previous step for the following list of temperatures in Kelvin `(1, 2, 3, 4, 5, 6, 8, 10, 15, 20, 30, 50, 70, 100)` and plot it using your favourite tools to get a graph of energy as a function of temperature
+    3. Repeat the previous step for the following list of temperatures in Kelvin: `(1, 2, 3, 4, 5, 6, 8, 10, 15, 20, 30, 50, 70, 100)` and plot the results using your favourite tools to generate a graph of energy as a function of temperature
 
 ### Analysing the energy
 
 !!! example "Task 4 - Analyse the plot"
-    ??? success "As the temperature decreases, the energy drops, but eventually it starts stabilizing and never drops below a certain value. Why?"  
-        Answer: As the temperature drops, the phonons lose their thermal energy, but there's still a contribution to their energy coming from the zero-point energy ($\hbar \omega /2$) of each mode 
+    ??? success "As the temperature decreases, the energy of the vibrations decreases as well, but eventually it approaches a constant value. Why?"  
+        Answer: As the temperature drops, the phonons lose their thermal energy, but there's still a contribution to their energy coming from the zero-point motion ($\hbar \omega /2$) of each mode 
     ??? success "As the temperature increases, the energy increases linearly with temperature. Why?"
         Answer: For sufficiently large temperatures, the system starts behaving classically, so the amount of energy it can store is proportional to the temperature and the constant of proportionality is the heat capacity.
 
