@@ -1,0 +1,5 @@
+ &input
+   fildyn = 'matdyn'
+   zasr = 'simple'
+   flfrc = 'CD444.fc'
+ /
