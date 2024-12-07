@@ -1,23 +1,21 @@
 # Finite Temperature Properties
 
-Everything we've done so far has in fact been for systems at effectively zero temperature. And even at zero temperature, we haven't taken into account the zero-point motion of the atoms and have treated them as purely classical objects residing at fixed positions.
+At finite temperatures, the atoms in a material vibrate around their equilibrium positions (as long as the temperature is not so high that the material starts to melt) and this thermal motion of the atoms gives rise to changes in the properties of the material, such as its bulk modulus or its electric conductivity. In this lab, you will learn how to calculate finite temperature properties of materials using DFT. In fact, we will treat to motion of the atoms quantum-mechanically and include effects, such as the zero point motion.
 
-In actuality, there will be an effect from the zero-point motion of the atoms, and as temperature increases the atoms will vibrate with larger amplitude and this can lead to changes in many properties of a material with temperature. You will learn how the thermodynamic properties of a material can be computed from first principles and be able to predict properties such as the total energy and the heat capacity.
-
-Our approach will be to use the type of density functional theory (DFT) and density functional perturbation theory (DFPT) calculations you've already seen, and spend more time analysing the output to produce materials properties. To get the finite temperature properties, we need to get a list of the phonon modes available to the system. The more phonon modes we include in this list, the more accurate the calculation will be, but this comes at the cost of increased computational time. Once the phonon mode list has been obtained, we use it to compute the phonon density of states, which can then be used to obtain the thermodynamical quantity of interest. This will be done using [python](https://www.python.org/).
+The vibrational properties of a material are a key input into the calculation of its finite-temperature properties. We will again use density-functional perturbation theory (DFPT) to calculate the frequencies of the vibrations and use the information to construct the phonon density of states from which we will calculate the total energy and the specific heat of the material. This will be done using [python](https://www.python.org/). In this lab, we will focus on the finite-temperature properties of diamond.
 
 ## Phonon density of states
-The phonon density of states is obtained by counting how many phonon modes exist at each frequency. In order to do this, we first need to gather as much information as possible about the phonon modes by calculating the frequency of each mode in a grid of $\mathbf{q}$ points.
+The phonon density of states is obtained by counting how many phonon modes exist at each frequency. To do this, we first need to the frequencies of the the phonon modes. Recall that in a crystal the phonon modes are labeled by a wave vector $\mathbf{q}$ in the first Brillouin zone and a band index $\nu$.
 
 
-### Phonon calculations on a fine-grid
+### Phonon calculations on a fine grid
 
-In [Lab08](../lab08/readme.md) you already learned most of the steps you need to follow to perform phonon calculations on a grid. The only difference is the input file for `matdyn.x`.
+In [Lab08](../lab08/readme.md) you already learned most of the steps you need to follow to perform phonon calculations on a grid of wave vectors. The only difference is the input file for `matdyn.x`.
 
 !!! example "Task 1 - Calculate the dynamical matrix on a fine grid"
     - Copy the lab09 file into your `data` directory and go to the `01_CarbonDiamond` directory. 
-    - Using what you learned from [Lab08](../lab08/readme.md), follow the necessary steps to compute the force constant matrix.
-    - Take a look at the `05_CD_matdyn-fine.in` input file. You will notice a few differences relative to the previous lab.
+    - Using what you learned in [Lab08](../lab08/readme.md) and follow the necessary steps to compute the force constant matrix.
+    - Take a look at the `05_CD_matdyn-fine.in` input file. You will notice a few differences compared to the input file from last week's lab.
     ```bash
     &input
         asr='simple'
@@ -33,9 +31,9 @@ In [Lab08](../lab08/readme.md) you already learned most of the steps you need to
           2. Do not use symmetry operations to speed up the calculation. This makes it easier to parse the output file
           3. Calculate the density of phonon states
 
-    - Run `matdyn.x` with this input file. It'll take a bit longer than the band calculation as it is explicitly computing without invoking the symmetry.
+    - Run `matdyn.x` with this input file. It'll take a bit longer than the phonon band calculation as it is doing calculations for a lot of wave vectors.
 
-After `matdyn.x` finishes executing, it will generate two important files: `CD-fine.freq` and `CD.dos`. Take a look at the contents of each file. 
+After `matdyn.x` finishes, it will generate two important output files: `CD-fine.freq` and `CD.dos`. Take a look at the contents of each file. 
 
 
 !!! example "CD-fine.freq file"
@@ -56,7 +54,7 @@ After `matdyn.x` finishes executing, it will generate two important files: `CD-f
           2. Specifies the $\mathbf{q}=(0,0,0)$ point.
           3. There are six frequencies on this line, one for each band of the $\mathbf{q}=(0,0,0)$ point.
 
-Now that you have obtained the phonon vibrational frequencies for a set of $\mathbf{q}$ points, the phonon density of states is calculated by counting how many phonon modes exist for a given frequency range. For example, if you want to know how many phonon modes exist between frequency $\omega$ and $\omega+d\omega$, this quantity is given by $\rho(\omega)d\omega$:
+Now that you have obtained the phonon vibrational frequencies for a set of $\mathbf{q}$ points, the phonon density of states is calculated by counting how many phonon modes exist for a given frequency range. For example, if you want to know how many phonon modes exist between frequencies $\omega$ and $\omega+d\omega$, the answer is $\rho(\omega)d\omega$:
 
 $$ \text{number of phonon modes between } \omega \text{ and } \omega+d\omega=\rho(\omega)d\omega $$
 
@@ -64,7 +62,7 @@ The density of phonon states is calculated via the following expression:
 
 $$ \rho(\omega) = \sum_{\mathbf{q}\nu}\delta\left(\omega-\omega(\mathbf{q}\nu)\right)$$
 
-where $\delta(...)$ is the Dirac delta function, $\mathbf{q} \nu$ denotes phonon mode $\nu$ at vector $\mathbf{q}$ and $\omega(\mathbf{q}\nu)$ is the frequency of that phonon mode. You can find the result of this calculation in the `CD.dos` file computed by `matdyn.x`.
+where $\delta(...)$ is the Dirac delta function, $\mathbf{q} \nu$ denotes phonon mode $\nu$ at vector $\mathbf{q}$ and $\omega(\mathbf{q}\nu)$ is the frequency of that phonon mode. You can find the result of this calculation in the `CD.dos` file.
 
 !!! example "CD.dos file"
     - The `CD.dos` file is organized as follows
@@ -106,7 +104,7 @@ To know what the density of states actually looks like, let's now plot it.
         </figure>
 
     ??? success "How is the density of states related to the band structure?"
-        If you compare against the band structure you calculated in the previous lab, you will see that the density of states is larger when the bands are flatter. If the bands are flatter, it means there are more phonon states per unit frequency, which directly translates to a larger density of states.
+        If you compare this result against the phonon band structure you calculated in the last lab, you will see that the density of states is larger when the bands are flatter. If the bands are flatter, it means there are more phonon states per unit frequency, which directly translates to a larger density of states.
          
          
 We will utilize the density of states to compute several thermodynamic properties using python in the next step.
