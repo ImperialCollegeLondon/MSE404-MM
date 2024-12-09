@@ -161,9 +161,16 @@ The integral will be evaluated numerically using python. Let's begin by analysin
 
         ??? success "Answer" 
             `constant1=0.0366 K/cm^-1`<br>
-            `constant2=6.58e-16 eV s`
+            `constant2=3.143e-05 eV s`
     2. Run this program using the phonon density of states obtained in the previous section, for a temperature of 1 Kelvin (1K): `python energy.py CD.dos 1` 
     3. Repeat the previous step for the following list of temperatures in Kelvin: `(1, 2, 3, 4, 5, 6, 8, 10, 15, 20, 30, 50, 70, 100)` and plot the results using your favourite tools to generate a graph of energy as a function of temperature
+
+
+??? success "What do the energy and heat capacity look as a function of temperature?"
+        
+    <figure markdown="span">
+        ![band](assets/energy_cv.png){width=600}
+    </figure>
 
 ### Analysing the energy
 
