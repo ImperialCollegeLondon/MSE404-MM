@@ -267,7 +267,7 @@ diff 01_methane/CH4.in 02_ethane/C2H6.in
         - Ethane has 14 electrons in the calculation, therefore 7 doubly occupied states and 7 eigenvalues.
         - Ethene has 12 electrons in the calculation, therefore 6 doubly occupied states and 6 eigenvalues.
 
-    - A common mistake in DFT calculations is the use of incorrect units. In the example `03_ethene`, the atomic positions are defined in Bohr. Try changing the units in ATOMIC_SPECIES from bohr to angstrom. Rerun pw.x. What happens?
+    - A common mistake in DFT calculations is the use of incorrect units. In the example `03_ethene`, the atomic positions are defined in Bohr. Try changing the units in ATOMIC_POSITIONS from bohr to angstrom. Rerun pw.x. What happens?
 
     ??? success "Answer"
         Convergence was not achieved in 100 iterations.
