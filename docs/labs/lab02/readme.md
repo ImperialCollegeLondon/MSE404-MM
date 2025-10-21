@@ -272,16 +272,16 @@ diff 01_methane/CH4.in 02_ethane/C2H6.in
     ??? success "Answer"
         Convergence was not achieved in 100 iterations.
 
-As mentioned above, we can do some post-processing of our DFT calculation to write desired quantities, like the electron charge density, or the probability density $|\psi|^2$ (wavefunctions) etc. to files in a suitable format for visualisation / plotting. A comprehensive list of quantities Quantum Espresso can generate via the build-in post-processing tool `pp.x` can be found [here](https://www.quantum-espresso.org/Doc/INPUT_PP.html#idm74). This is used in a very similar way to `pw.x`:
+As mentioned above, we can do some post-processing of our DFT calculation to write desired quantities, like the electron charge density, or the probability density $|\psi|^2$ (wavefunctions) etc. to files in a suitable format for visualisation / plotting. A comprehensive list of quantities Quantum Espresso can generate via the built-in post-processing tool `pp.x` can be found [here](https://www.quantum-espresso.org/Doc/INPUT_PP.html#idm74). This is used in a very similar way to `pw.x`:
 
 ```bash
 pp.x < pp.in > pp.out
 ```
 
 !!! example "Task 7 - Post Processing and Visualisation"
-    We now want to do some post-processing on our ethane molecule. Specifically we wish to visualise the charge density and one of the Kohn-Sham states our electrons are occupying. Since we are calculating ethane at the gamma point, the wavefunction can be made purely real, and this allows us to plot the sign of the wavefunction as well.
+    We now want to perform some post-processing on our ethane molecule. Specifically we wish to visualise the charge density and one of the Kohn-Sham states our electrons are occupying. Since we are calculating ethane at the gamma point, the wavefunction can be made purely real, and this allows us to plot the sign of the wavefunction as well.
 
-    - Return to the `02-ethane/` directory and run the post-processing for the charge density using `pp.x` on the `pp_chg.in`. The `.cube` file produced can directly be visualised using VESTA.
+    - Return to the `02-ethane/` directory and run the post-processing for the charge density using `pp.x` on the `pp_chg.in` file. The `.cube` file produced can directly be visualised using VESTA.
 
     - Now try to visualise one of the Kohn-Sham states using `pp_wfc.in`. The `.cube` file produced can be visualised directly using VESTA. Try to plot the next band and visualise it. Why is this state higher in energy?
 
