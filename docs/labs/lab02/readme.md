@@ -165,7 +165,7 @@ we can look at the output file. Output files are generally structured as follows
     - What accuracy is your calculation converged to?
 
     ??? success "Answer"
-        0.00000066 Ry. This is found on the line:
+        0.00000064 Ry. This is found on the line:
         ```bash
         estimated scf accuracy    <       0.00000064 Ry
         ```
