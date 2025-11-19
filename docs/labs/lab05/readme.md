@@ -226,8 +226,10 @@ a width of
 !!! note
     We have picked similar values for `degauss` and `DeltaE` (after converting
     them to the same units). In fact if `degauss` is not specified, and no
-    broadening scheme is used in the DFT calculation, `degauss` will take the
-    value of `DeltaE` by default. You can check the documentation [:link:
+    broadening scheme is used in the NSCF calculation, `degauss` will take the
+    value of `DeltaE` by default, and when `degauss` is used in NSCF
+    calculation, by default that value will be used. You can check the
+    documentation [:link:
     INPUT_DOS](https://www.quantum-espresso.org/Doc/INPUT_DOS.html) for more
     details.
 
@@ -360,6 +362,12 @@ convergence of the SCF calculation:
         have a read at [:link:this
         paper](https://doi.org/10.1103/PhysRevB.107.195122). 
     
+    It is importatant to note that the smearing used for the occupation numbers
+    can be different from the smearing used for the DOS plot. The former is
+    needed to help with the convergence of the SCF calculation for metals,
+    whereas the latter is used because the result of the SCF caculation are
+    descrete Kohn-Sham energy levels (at each k-point), and the only way to
+    produce a smooth DOS plot is to again use a smearing scheme.
 
 ### Example: Aluminium
 
@@ -506,5 +514,6 @@ Summary
 
 In this tutorial, we have learned:
 
+- What is the electronic density of states (DOS).
 - How to use the `dos.x` code from the Quantum Espresso package.
 - How to treat a metallic system.

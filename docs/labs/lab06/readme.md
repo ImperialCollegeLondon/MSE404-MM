@@ -288,7 +288,8 @@ One of the most common magnetic crystals is iron, so we'll study this material.
 The directory `02_Fe` contains an input file for iron. Note this is a BCC
 crystal structure (as set by `ibrav = 3` in the input file), whereas most of the
 crystal structures you have studied so far in the labs have been FCC. The
-calculation has been set up in the usual way for a metallic system.
+calculation has been set up in the usual way for a spin polarized (`nspin=2`)
+metallic system (with smearing).
 
 !!! example "Task 2.1 - Fixed Magnetization"
 
@@ -339,10 +340,9 @@ achieved by setting the `starting_magnetization` input variable.
 
 !!! example "Task 2.2 - Relaxed magnetization"
 
-    1. Make another copy of the `02_Fe` directory, and this time set `nspin =
-       2`, and `starting_magnetization = 1.0` (do not include the
-       `tot_magnetization` variable). Run the calculation
-       and see what the final total magnetization per cell is.
+    1. Make another copy of the `02_Fe` directory, and this time set
+       `starting_magnetization = 1.0` (remove `tot_magnetization`). Run the
+       calculation and see what the final total magnetization per cell is.
 
         ??? success "Answer"
 
