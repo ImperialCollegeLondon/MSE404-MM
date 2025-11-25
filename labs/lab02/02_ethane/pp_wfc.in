@@ -1,0 +1,11 @@
+&inputpp
+	plot_num = 7,
+	kpoint = 1,
+	kband = 1, ! change for a different band.
+	lsign = .true.
+/
+&plot
+	iflag = 3,
+	output_format = 6,
+	fileout = 'psi_band1.cube'
+/

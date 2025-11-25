@@ -1,0 +1,1058 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Additional Material: Optical Properties and Time-Dependent Density Functional Theory - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#additional-material-optical-properties-and-time-dependent-density-functional-theory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Additional Material: Optical Properties and Time-Dependent Density Functional Theory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#optical-spectrum-of-methane" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optical Spectrum of Methane
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#charge-density-response" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Charge Density Response
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#convergence" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Convergence
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#extra-li2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extra - Li2
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="additional-material-optical-properties-and-time-dependent-density-functional-theory">Additional Material: Optical Properties and Time-Dependent Density Functional Theory</h1>
+<p>Among the most useful class of properties to be able to predict for a molecule
+or crystal are its optical properties. These can be used to find the
+frequencies of optical radiation that will be absorbed or emitted, based on
+its electronic structure. This can be used to find, for example, what colour
+a dye molecule will have in a solvent.</p>
+<p>There are several ways these properties could be calculated starting from
+density functional theory. The method we'll look at in this lab is
+time-dependent density functional theory (TDDFT). A TDDFT code could be used
+to calculate the evolution of the electrons under the effect of the
+oscillating electric field associated with the presence of a photon. This
+would be a fairly intensive calculation, and would need to be repeated at many
+different energies to build up the full optical spectrum.</p>
+<p>The set of codes that comes with the quantum espresso package, turboTDDFT,
+actually use time-dependent density functional <em>perturbation</em> theory (TDDFPT)
+to calculate optical spectra of molecules. This calculates the response of the
+system to the oscillating electric field associated with an incoming photon
+using perturbation theory (polarizability), in a similar way to how DFPT finds
+the response of the system to perturbations of the atomic positions. It then
+uses this to find the susceptibility as a function of photon energy. The code
+also uses an approach known as the Liouville-Lanczos method which allows it to
+calculate the full optical spectrum for a wide energy range, at a very
+moderate cost.</p>
+<p>Typically if you want to understand what energy of photon will be absorbed,
+you might expect you would need to know the difference between the energy of
+the occupied and empty states: when a photon is absorbed it excites an
+electron from an occupied state to an empty state higher in energy by an
+amount equal to the photon energy. The turboTDDFT codes use a clever approach
+to avoid the need for including a large number of additional empty states in
+the calculation. This involves instead using the projection operator on to the
+occupied states. Details of this are given in a paper outlining the methods
+used in the turboTDDFT code. This is distributed with the quantum espresso
+package. You can find it on the mt-student server in
+<code>/opt/share/quantum-espresso/doc-6.3/turboTDDFT-CPC.pdf</code>. There are also
+slides on the quantum espresso website outlining the approach and making a
+comparison to the more basic TDDFT method at
+https://www.quantum-espresso.org/resources/tutorials/shanghai-2013/TDDFT_Talk_Gebauer.handouts.pdf</p>
+<p>Despite the various advantages offered by the approaches used in this code,
+this will still be the most intensive calculation you'll have done so far.
+However it is much faster than would be the case if we needed to manually
+look at many photon energies and including many empty states in our DFT
+calculation.</p>
+<p>You should also keep in mind that this approach is for <em>fixed nuclear
+positions</em> and does not include the effect of interatomic vibrations which may
+also couple to an incoming photon, either directly if the energy range is
+similar, or indirectly if, for example, a photon creates an excited electron
+and vibration simultaneously. Generally by looking in a particular energy
+range, the dominant effects will be from one mechanism or another. For
+example, the homo-lumo gap in methane is around 10 eV in LDA-DFT, while the
+highest energy atomic vibrations are around 0.4 eV. This means that if we're
+looking at the effect of photons in the 10-50 eV range (vacuum UV to extreme
+UV), the effect of the atomic vibrations will be minor. But we don't
+immediately have the spectrum across all energy ranges.</p>
+<p>As with some of the other more advanced calculations we looked at, we'll be
+doing this calculation in several stages:</p>
+<ol>
+<li>A self consistent calculation of the molecule is performed. We can do this
+   in the same way as previously. No special inputs are needed.</li>
+<li>We'll use the <code>turbo_lanczos.x</code> code which does the TDDFPT calculation
+   using the aforementioned Liouville-Lanczos method. This is the first, and
+   more computationally intensive step in calculating the polarizability. It
+   calculates the components of a tridiagonal matrix that will be used in a
+   subsequent code, for each optical polarization direction.</li>
+<li>We'll use the <code>turbo_spectrum.x</code> code to take the tridiagonal matrix
+   generated in the previous step, generate the polarizability and from it
+   find both the susceptibility tensor and the oscillator strength as a
+   function of photon energy.<ul>
+<li>The susceptibility tensor relates the electric field to the induced
+   electric polarization</li>
+<li>the oscillator strength gives the probability of absorption or emission
+   of photons.</li>
+</ul>
+</li>
+</ol>
+<h2 id="optical-spectrum-of-methane">Optical Spectrum of Methane</h2>
+<p>The directory <a href="CH4"><code>CH4</code></a> contains a set of example inputs to perform
+this calculation for a methane molecule.</p>
+<ul>
+<li>Start by examining the <code>pw.x</code> input file
+  <a href="../CH4/01_CH4_scf.in"><code>01_CH4_scf.in</code></a>. You'll see that we have set this up as
+  usual. We have specified both the <code>prefix = CH4</code> and <code>outdir = './out'</code> as
+  this calculation generates many intermediate files, so it will be easier to
+  keep them all together. We have also set the positions such that the C atom
+  is at the centre of the cell. This will make some subsequent visualization a
+  little easier.</li>
+<li>Run <code>pw.x</code> with this input file and examine the output to ensure it worked
+  as expected.</li>
+<li>Next take a look at the <code>turbo_lanczos.x</code> input file
+  <a href="../CH4/02_CH4_tl.in"><code>02_CH4_tl.in</code></a>. This is fairly short. As usual, we have
+  accepted the default values for most of the input parameters. You can see
+  the full list of inputs in the <code>INPUT_LANCZOS.txt</code> file in the quantum
+  espresso documentation directory. We have specified two sections in the
+  input file:<ul>
+<li><code>LR_INPUT</code> where we set the <code>prefix</code> and <code>outdir</code> to match the scf
+  calculation, and</li>
+<li><code>LR_CONTROL</code> where we set<ul>
+<li><code>itermax = 400</code> which tells it how many elements of the Lanczos
+  chain to calculate (elements of the tridiagonal matrix). While in
+  principle more elements will give us a more accurate result, the
+  subsequent code can extrapolate these to a very high number. Usually
+  on the order of 500 to 1000 is sufficient to calculate explicitly,
+  though we'll look at how this converges later. It is connected to
+  how well the spectral features can be resolved in your calculation.</li>
+<li><code>ipol = 4</code> which tells it to calculate the response in all 3
+  directions: x, y and z.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Run <code>turbo_lanczos.x</code> with this input file. It will likely take somewhere
+  around five minutes on the mt-student server. If you follow the output as it
+  is generated, you will see it calculating each of the 400 requested
+  iterations in turn for each of the three polarization directions.</li>
+<li>Finally take a look at the <code>turbo_spectrum.x</code> input file
+  <a href="../CH4/03_CH4_ts.in"><code>03_CH4_ts.in</code></a>. We need to set a few more things here.
+  As before, you can see a full description of all the input parameters that
+  can be used with this code in <code>INPUT_SPECTRUM.txt</code> in the quantum espresso
+  documentation directory. It has a single section: <code>LR_INPUT</code>. Again we set
+  the prefix and outdir to match the previous calculations. Then we have:<ul>
+<li><code>itermax0</code> which needs to match the number of iterations calculated
+  explicitly by <code>turbo_lanczos.x</code>.</li>
+<li><code>itermax</code> which says how many iterations in total to calculate. Those
+  not explicitly calculated are generated using an extrapolation scheme.</li>
+<li><code>extrapolation</code> sets the approach used in the extrapolation.</li>
+<li><code>espil</code> sets a broadening to use (in Ry). Very small wiggles will appear
+  in the output spectrum if this is too small, and if it is too large it
+  may obscure important features.</li>
+<li><code>units</code> sets the output units. We use <code>1</code> here we means the output
+  energies are in eV (rather than Ry by default).</li>
+<li><code>start</code>, <code>end</code> and <code>increment</code> specify the range of energies to output
+  and the spacing between them (in the units specified by the <code>units</code>
+  input).</li>
+<li><code>ipol</code> specifies the polarization direction. We set this to <code>4</code> again
+  for all three cartesian directions.</li>
+</ul>
+</li>
+<li>Run <code>turbo_spectrum.x</code> with this input file. This is quite a quick
+  calculation, and should finish in 10 to 20 seconds. The output file mainly
+  contains the stages of the calculation.</li>
+<li>The main output is instead in the file <code>CH4.plot_chi.dat</code> which will be
+  generated. This lists each energy value and its corresponding susceptibility
+  tensor and oscillator strength.</li>
+</ul>
+<p>Take a look at the file <code>CH4.plot_chi.dat</code> now. You'll see the file is not
+really amenable for plotting.</p>
+<ul>
+<li>First we can extract the oscillator strength with the following awk command:</li>
+</ul>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1">awk<span class="w"> </span><span class="s1">&#39;/S\(E\)=/{print $2, $3}&#39;</span><span class="w"> </span>CH4.plot_chi.dat<span class="w"> </span>&gt;<span class="w"> </span>ostrength.dat
+</span></code></pre></div></td></tr></table></div>
+This will print the second and third character on every line containing the
+text <code>S(E)=</code> (we need to use a <code>\</code> to escape the parentheses). This extracts
+the oscillator strength as a function of energy (in eV since we set <code>units =
+1</code> in the <code>turbo_spectrum.x</code> input file).</p>
+<ul>
+<li>Plot the file containing the oscillator strength as a function of energy in
+  gnuplot so you can see where the peaks in absorption are.</li>
+</ul>
+<p>It's also interesting to look at the susceptibility. As the system is
+isotropic, the polarizability, and hence susceptibility in each of the three
+Cartesian directions is the same. This means looking at the <code>_11</code> component
+alone is sufficient. This is a complex number, and we should look at both
+the real and imaginary parts.</p>
+<ul>
+<li>Parse the energy, the real and the imaginary part of the susceptibility
+  (from the 11 component of chi in the <code>plot_chi.dat</code> file) and plot both the
+  real and imaginary parts together in gnuplot.<ul>
+<li>If you parse this to a file with three columns: x, y1, y2, you can plot
+  them together in gnuplot as
+  <code>plot "file" with lines, "file" using 1:3 with lines</code>.</li>
+<li>You can plot several plots together by separating them with commas, and
+  you can use the keyword <code>using</code> to specify the columns to plot (it is
+  <code>1:2</code> by default).</li>
+</ul>
+</li>
+</ul>
+<h2 id="charge-density-response">Charge Density Response</h2>
+<p>It can also be interesting to examine how the charge density actually varies
+in response to a photon at a given energy (and hence frequency) and
+polarization. In particular it's useful to look at the response to photons at
+the energy where the highest peak in the oscillator strength is.</p>
+<p>This can be done using an additional flag and input section in a
+<code>turbo_lanczos.x</code> calculation, following a previous <code>turbo_lanczos.x</code>
+calculation for all polarization directions.</p>
+<p>Take a look at the input file <a href="../CH4/04_CH4_tl.in"><code>04_CH4_tl.in</code></a>. In this
+file we have set the <code>LR_CONTROL</code> section inputs:</p>
+<ul>
+<li><code>itermax = 400</code> which matches what we had previously.</li>
+<li><code>charge_response = 1</code> which turns on the calculation of the charge response.</li>
+<li><code>ipol = 1</code> which set the polarization of the calculated charge response to
+  be along the x-direction.</li>
+</ul>
+<p>Then we have added an addition section <code>LR_POST</code>, which is needed whenever
+<code>charge_response</code> is set to 1. Here we have set the following:</p>
+<ul>
+<li><code>omeg = 1.08</code> which set's the energy of the photon for which we want to
+  calculate the response. This is in Ry, and corresponds to 14.7 eV which is
+  roughly where the peak of the oscillator strength is for this level of
+  (under)convergence.</li>
+<li><code>epsil = 0.02</code> this is an energy broadening to use when calculating the
+  response (in Ry).</li>
+<li><code>w_T_npol = 3</code> which says that we calculated the response to all three
+  polarization directions in our previous calculation.</li>
+<li><code>plot_type = 3</code> which selects the output file to be in the gaussian cube
+  format. This can be opened with xcrysden.<ul>
+<li>Note: it seems there may a bug with this output for the version compiled
+  on the mt-student server such that for particular choices of energy
+  cut-off, box-size and output format, the output file is cut off before
+  the end and can't be plot. For the values chosen here, it should work
+  hopefully work correctly.</li>
+</ul>
+</li>
+</ul>
+<p>Run <code>turbo_lanczos.x</code> with this input file. It'll take a couple of minutes to
+finish. Once completed you'll see <em>either</em> a pair of files named
+<code>CH4-absorbtive-pol1.cube</code> and <code>CH4-dispersive-pol1.cube</code> have been created,
+<em>or</em> a single file named <code>CH4-summed-rho-pol1.cube</code>. The former are generated
+where the code determines the energy <code>omeg</code> (including the broadening <code>epsil</code>)
+you are calculating at corresponds to a resonance where there is a peak in the
+spectrum, and the latter is output otherwise. In our case we should be within
+the broadening of a resonance peak and so two files should be output.</p>
+<p>Open <code>xcrysden</code>, which we used to look at crystal and molecular structures in
+the extra section at the end of lab 2, (don't forget to load the module). Use
+this to open one of the generated files by navigating through File -&gt; Open
+Structure -&gt; Gaussian98 Cube File, and selecting the file. You can look at the
+regions where the charge density is increased and decreased in response to the
+oscillating electric field of the photon by going to Tools -&gt; Data Grid, click
+OK. Then select an appropriate Isovalue in the menu that appears, tick the
+<code>Render +/- isovalue</code> box, and click <code>Submit</code>. To find a good isovalue you can
+repeat this process with different values within the listed maximum and
+minimum on the grid till you see something interesting; the menu will stay
+visible after you click submit.</p>
+<h2 id="convergence">Convergence</h2>
+<p>The calculated spectrum is quite sensitive to both the box size, the
+plane-wave energy cut off, and the number of elements of the Lanczos chain
+explicitly calculated, as set by the <code>itermax</code> variable in the
+<code>turbo_lanczos.x</code> input file. (And subsequently used as <code>itermax0</code> in the
+<code>turbo_spectrum.x</code> input file). These are all somewhat somewhat underconverged
+in the input file given to you earlier so that the calculation would complete
+in a reasonable time. And are somewhat connected to each other: e.g. the
+spectrum may be converged at a higher value of <code>itermax</code> for a higher value of
+<code>ecutwfc</code> so that testing convergence can be time consuming.</p>
+<p>Underconverging your spectra can lead to the appearance of spurious peaks and
+shoulders and to changes in the locations of different peaks. So you will
+always need to explicitly check the convergence of your spectra with respect
+to these parameters.</p>
+<p>As it would take quite a few heavy calculations to for you to test this, the
+oscillator strengths for methane for various box sizes, energy cut-offs and
+values of <code>itermax</code>
+have been pre-calculated in the <a href="CH4_convergence"><code>CH4_convergence</code></a>
+directory. For the various files here, in the filename the box dimension in
+Angstrom is indicated by the number following <code>A</code>, the plane-wave energy
+cut-off in Ry is indicated by the number following <code>e</code>, and the value of
+itermax is indicated by the number following <code>i</code>.
+Try plotting and comparing combinations of these in gnuplot to see how the
+spectrum changes as these parameters are changed.</p>
+<blockquote>
+<p>Note: if you are testing the convergence with respect to <code>itermax</code>, you can
+generate output from <code>turbo_spectrum.x</code> where <code>itermax0</code> is any value <em>up to</em>
+the value chosen for <code>itermax</code> in the <code>turbo_lanczos.x</code> calculation. So for
+example, if you have calculated a spectrum with <code>itermax = 500</code> in
+<code>turbo_lanczos.x</code>, you can quickly generate output for say 400 by setting
+<code>itermax0 = 400</code> in <code>turbo_spectrum.x</code>, rather than doing a full recalculation
+with a lower value of <code>itermax</code> in <code>turbo_lanczos.x</code> which would be far more
+time consuming.</p>
+</blockquote>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>In this lab you have seen how to use the turboTDDFT codes for performing and
+analysing TDDFT from the quantum espresso package to</p>
+<ul>
+<li>calculate the optical spectrum of a molecule by<ul>
+<li>Performing a self-consistent DFT calculation with <code>pw.x</code>.</li>
+<li>using the <code>turbo_lanczos.x</code> code to perform a TDDFPT calculation as
+  the first step in calculating the polarizability.</li>
+<li>using the <code>turbo_spectrum.x</code> code to generate the polarizability and
+  find both the susceptibility tensor and oscillator strength as a
+  function of photon energy.</li>
+</ul>
+</li>
+<li>You have also used <code>turbo_spectrum.x</code> to calculate the charge density
+  response of a molecule and visualised it with <code>xcrysden</code>.</li>
+</ul>
+<hr />
+<h2 id="extra-li2"><em>Extra - Li2</em></h2>
+<p>If you want to practice this type of calculation a bit more, the directory
+<a href="Li2"><code>Li2</code></a> contains a pseudopotential for lithium. You can use this
+to do the following set of calculations:</p>
+<ul>
+<li>Find the optimal bond length for an Li2 molecule by relaxing the atomic
+  positions as shown in previous labs.</li>
+<li>Calculate the oscillator strength as a function of energy.</li>
+<li>You will likely need to play around with the values of the energy range to
+  use in the <code>turbo_spectrum.x</code> calculation to find the best values to
+  show the main peaks.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

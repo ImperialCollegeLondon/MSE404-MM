@@ -1,0 +1,952 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Charged system and excited states - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#charged-system-and-excited-states" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Charged system and excited states
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#ionization-potential-and-electron-affinity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ionization potential and electron affinity
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Ionization potential and electron affinity">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#excited-states-and-band-gap-problem-titanium-dioxide-rutile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Excited states and band-gap problem - Titanium dioxide (Rutile)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Excited states and band-gap problem - Titanium dioxide (Rutile)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="charged-system-and-excited-states">Charged system and excited states</h1>
+<p><strong>Reminder</strong> Don't forget to copy the <code>lab09</code> folder from <code>/opt/Courses/MSE404/lab09</code>
+to your home directory.</p>
+<p>In this lab we're going to see how properties of charged systems can be obtained with DFT,
+and how to improve the description of excited states (remember DFT is formally a theory that
+allows us to compute ground state and excited states properties by knowing the ground
+state density only!).</p>
+<h2 id="ionization-potential-and-electron-affinity">Ionization potential and electron affinity</h2>
+<p>As a first step, we will look at how to compute ionization energies
+and electron affinities in molecules, specifically
+carbon monoxide (CO). To do this, we will employ the <span class="arithmatex">\(\Delta\)</span>SCF method, i.e. we will perform
+SCF calculations for the neutral molecule (with <span class="arithmatex">\(N\)</span> electrons) and the charged molecule (<span class="arithmatex">\(N\pm 1\)</span> electrons)
+at the geometry of the neutral molecule and compute the difference in the total energies (<span class="arithmatex">\(E_{N} \pm E_{N+1}\)</span>).
+In doing so, we are neglecting the effect of geometry relaxation in the charged system, and therfore the difference in<br />
+nuclear-nuclear repulsion energies, that would be different in two different geometries. However, photoemission is
+a fast process and therefore the neglect of relaxations in the charged state is often justified when comparing to 
+experiments.</p>
+<p>Due to the long-range nature of the Coulomb interaction, electrostatic sums on an infinite lattice, or equivalently, 
+in a system subject to periodic boundary conditions (PBC), are not always absolutely convergent and in fact 
+the sum is divergent if the system is charged, which makes the above-mentioned energy differences ill-defined. 
+When using PBC, one can simulate an isolated molecule using a supercell with enough vacuum space. However, the energy calculated for a finite 
+supercell differs from that of an infinite supercell, because of the spurious interactions 
+of the charged system and its periodic images (as we have seen already this is also true for 
+neutral system with no permanent dipole, but in this case the electrostatic sum is absolutely 
+convergent and one can get away with a relatively small supercell size).</p>
+<p>In DFT code with PBC, charged systems are usually addressed by introducing a compensating 
+uniform jellium background, such that the total charge of the supercell is zero. This is of course an approximation 
+and it's only justified in the <span class="arithmatex">\(L\rightarrow\infty\)</span> limit, where <span class="arithmatex">\(L\)</span> is the linear dimension 
+of the supercell. Hence, one way to study charged systems within DFT is to compute the total 
+energy for increasing values of the supercell size and extrapolating from these the 
+value at <span class="arithmatex">\(L\rightarrow\infty\)</span>. </p>
+<p>More refined methods have been developed to treat charged
+systems within PBC and small supercells, such as the Makov-Payne method and Martyna-Tuckerman method, 
+which we will also use in this lab. The Makov-Payne method applies a cell size-dependent correction to the total energy
+based on an asymptotic analysis of the total energy of charged system with respect to the supercell size. This allows to
+get a faster convergence with respect to the supercell size. The Martyna-Tuckerman
+method, on the other hand, introduces a cut-off in real space beyond which interactions are set to zero. As a rule of thumb, the supercell 
+should be more than twice as large as the size of the molecule for this to be a good approximation.</p>
+<p>In Quantum ESPRESSO you can enable the calculation of charged systems by setting
+<code>tot_charge = +1</code>, if one electron is removed, or <code>tot_charge = -1</code>, if one electron
+is added, and so on, in the <code>SYSTEM</code> section of the input file. When having an odd number
+of electrons (e.g. an unpaired electron) we also need to perform a spin-polarised calculation, since
+we now have a different number of electrons in the two spin-channels. This can be done by
+setting <code>nspin=2</code>. Finally, we need to specify the occupation of the Kohn-Sham states. In molecules,
+with non-dengerate HOMO-LUMO, we want that each KS state is either fully occupied or empty. This can be
+achieved by setting <code>occupations=fixed</code>.</p>
+<p>The molecular orbitals diagram for the CO molecule can be found at <a href="https://www.chemtube3d.com/orbitalsco/">this website</a> </p>
+<h3 id="task"><em>Task</em></h3>
+<p>Compute the ionization energy of carbon monoxide. You can find input files and annotated scripts in the
+<a href="01_carbon_monoxide/"><code>01_carbon_monoxide</code></a> folder.</p>
+<ul>
+<li>Inspect the <code>CO_neutral.in</code> (neutral) and <code>CO_charged_p1.in</code> (positively charged, one electron removed) template files</li>
+<li>Use the <code>run_cell.sh</code> bash script to run SCF calculations for increasingly large cell sizes. 
+  The script generates a text file <code>&lt;template_name&gt;_etot_v_box.dat</code> with two columns: first column is the linear 
+  dimension of the cubic cell in angstroms and second column is total energy in Rydberg.</li>
+<li>The script can be used both for the neutral and the charged system. You will have to modify the <code>template</code> 
+  variable in the script accordingly. Run the script for both neutral and charged system.</li>
+<li>Check it is converged for all cell sizes. </li>
+<li>After running the script for the neutral and charged molecule, create a text file with two columns, with first 
+  column being the linear dimension of the cell in angstroms and second column being the difference 
+  between total energies of charged and neutral molecule in Rydberg.</li>
+<li>Use the <code>deltaE_v_box.gnu</code> gnuplot file to do a linear fit (<span class="arithmatex">\(f(x) = a + bx\)</span>) of <span class="arithmatex">\(E_{N-1}-E_{N}\)</span> vs <span class="arithmatex">\(1/L\)</span>. Modify the 
+  script such that it reads the file you have generated in the previous point. In the script you will have to substitute
+  <code>FILENAME</code> with the name of your file.
+  Run the script by typing <code>gnuplot deltaE_v_box.gnu</code>. 
+  This should generate a plot with and  you should get the resulting <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> parameters as well as the standard 
+  error from the fitting displayed in the terminal
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1">Final<span class="w"> </span><span class="nb">set</span><span class="w"> </span>of<span class="w"> </span>parameters<span class="w">            </span>Asymptotic<span class="w"> </span>Standard<span class="w"> </span><span class="nv">Error</span>
+</span><span id="__span-0-2"><span class="o">=======================</span><span class="w">            </span><span class="o">==========================</span>
+</span><span id="__span-0-3"><span class="nv">a</span><span class="w">               </span><span class="o">=</span><span class="w"> </span><span class="m">14</span>.19<span class="w">            </span>+/-<span class="w"> </span><span class="m">0</span>.01085<span class="w">      </span><span class="o">(</span><span class="m">0</span>.07643%<span class="o">)</span>
+</span><span id="__span-0-4"><span class="nv">b</span><span class="w">               </span><span class="o">=</span><span class="w"> </span>-22.8611<span class="w">         </span>+/-<span class="w"> </span><span class="m">0</span>.1496<span class="w">       </span><span class="o">(</span><span class="m">0</span>.6543%<span class="o">)</span>
+</span><span id="__span-0-5">
+</span><span id="__span-0-6">correlation<span class="w"> </span>matrix<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>fit<span class="w"> </span>parameters:
+</span><span id="__span-0-7"><span class="w">                </span>a<span class="w">      </span>b<span class="w">      </span>
+</span><span id="__span-0-8">a<span class="w">               </span><span class="m">1</span>.000<span class="w"> </span>
+</span><span id="__span-0-9">b<span class="w">              </span>-0.972<span class="w">  </span><span class="m">1</span>.000
+</span></code></pre></div></td></tr></table></div></li>
+<li>Extract the value for <span class="arithmatex">\(L\rightarrow\infty\)</span>, i.e. <span class="arithmatex">\(1/L=0\)</span>. The experimental value is <span class="arithmatex">\(14.01\)</span> eV. How does it compare with
+  the DFT result?</li>
+</ul>
+<h3 id="task_1"><em>Task</em></h3>
+<p>Compute the electron affinity of carbon monoxide. 
+- Re-do the same steps of previous task replacing <code>CO_charged_p1.in</code> with
+<code>CO_charged_m1.in</code>. 
+- For the calculation of the electron affinity we have changed the occupations from <code>fixed</code> to <code>smearing</code>. 
+From the diagram of molecular orbitals of CO, can you explain why?
+- The experimental value is <span class="arithmatex">\(1.326\)</span> eV. How does this compare with the DFT result?</p>
+<h3 id="task_2"><em>Task</em></h3>
+<p>Compute the electron affinity and ionization energy using the Makov-Payne method and Martyna-Tuckerman method to treat 
+the charged system at a relatively small cell size. In <a href="02_carbon_monoxide/"><code>02_carbon_monoxide</code></a> folder copy the input files of the 
+charged systems and set the supercell size to 16 Angstroms. The cartesian coordinates for the C and O atoms are
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="w"> </span>C<span class="w">  </span><span class="m">8</span>.000<span class="w"> </span><span class="m">8</span>.000<span class="w"> </span><span class="m">7</span>.436
+</span><span id="__span-1-2"><span class="w"> </span>O<span class="w">  </span><span class="m">8</span>.000<span class="w"> </span><span class="m">8</span>.000<span class="w"> </span><span class="m">8</span>.564
+</span></code></pre></div></td></tr></table></div>
+To use these methods, we need to add <code>assume_isolated='mp'</code> for Makov-Payne and <code>assume_isolated='mt'</code> for Martyna-Tuckerman
+in the <code>SYSTEM</code> section.</p>
+<p>Run <code>pw.x</code> with these input files and compare the ionization energy and electron affinity with that of 
+an infinite supercell from the extrapolation. </p>
+<h2 id="excited-states-and-band-gap-problem-titanium-dioxide-rutile">Excited states and band-gap problem - Titanium dioxide (Rutile)</h2>
+<p>It is well known that in insulators and semiconductors the fundamental band gap is underestimated by DFT with
+local (LDA) and semilocal (GGA) exchange-correlation (XC) functionals. This can be related to local and semilocal
+XC functionals being unable to remove spurious self-interactions arising from the Hartree term. For instance, if 
+we consider a simple one-electron system like the hydrogen atom, one can easily see that the Hartree energy
+<span class="arithmatex">\(E_{H}[n] = \frac{1}{2} \int \frac{n(\mathbf{r})n(\mathbf{r}')}{|\mathbf{r}-\mathbf{r'}|} d^3r d^3r'\)</span> implies
+an unphysical self-interaction of the electron with itself. This contribution should be compensated by the
+XC term, but an exact cancellation is not possible with local and semilocal functionals. This means that a percentage
+of this spurious contribution remains and pushes up the energies of the occupied states. At the same time, unoccupied
+states do not contribute to the total density and therefore no self-interaction term arises from them. As a net result,
+the gap between occupied and unoccupied states is reduced.</p>
+<p>To ameliorate this problem several so-called hybrid XC functionals have been proposed. These are non-local XC functionals
+based on the electron density and Kohn-Sham orbitals as well, i.e. <span class="arithmatex">\(E_{XC}^{hyb} [n(\mathbf{r}),{\phi_{KS}(\mathbf{r})}]\)</span>.
+The main idea, is to add to the (semi)local XC functionals a percentage of the exact exchange term, which is a functional
+of the KS orbitals. In fact, from Hartree-Fock 
+theory it is well known that there is a perfect cancellation between the Hartree and the Exchange terms for the self-interaction.</p>
+<p>In this part we are going to compute the band structure of titanium dioxide (rutile phase) with a semilocal XC functional (PBE) and 
+we will see how using the <code>B3LYP</code> hybrid XC functional improves the band gap compared to the experimental value. You are not going to
+explicitely run a DFT calculation with a hybrid functional as this is quite computationally demanding, particularly with a plane-wave
+basis set (can you think of why?)</p>
+<p>The B3LYP energy functional is a very popular hybrid functional and it is obtained by: <span class="arithmatex">\(E_{XC}^{B3LYP} = (1-a)E_{X}^{LSDA} + a E_{X}^{HF} + b \Delta E_{X}^{B88} + (1-c)E_{C}^{LSDA} + c E_{C}^{LYP}\)</span>, where the subscrpits <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(C\)</span> mean exchange and correlation, respectively. The superscripts, on the other hand, identify the different functional forms, for instance <span class="arithmatex">\(HF\)</span> means Hartree-Fock, <span class="arithmatex">\(LSDA\)</span> means local spin-density approximation, <span class="arithmatex">\(B88\)</span> Becke88 functional and <span class="arithmatex">\(LYP\)</span> the Lee-Young-Parr functional. The three parameters in B3LYP have the following values <span class="arithmatex">\(a=0.2\)</span>, <span class="arithmatex">\(b=0.72\)</span> and <span class="arithmatex">\(c=0.81\)</span>. Finally <span class="arithmatex">\(\Delta E\)</span> means a gradient correction to the functional. You can see that in B3LYP one introduces a fraction (0.2) of the Hartree-Fock exchange, which is a non-local functional.</p>
+<p>The rutile phase of TiO2 is a direct wide-gap semiconductor, with an experimental bandgap of <span class="arithmatex">\(3.3\)</span> eV. The unit cell is tetragonal with 
+<code>a=4.58</code> Ang and <code>c=2.95</code> Ang and contains six atoms, two Ti atoms and four O atoms. You can visualise the structure using <code>xcrysden</code> as usual.</p>
+<h3 id="task_3"><em>Task</em></h3>
+<ul>
+<li>Let's first calculate the rutile band structure with a semilocal XC functional (PBE). In <a href="03_rutile/"><code>03_rutile</code></a> folder you will
+find an input file <code>01_rutile_scf.in</code> for a SCF calculation and two pseudopotential files <code>Ti.pbe-sp-van_ak.UPF</code> and <code>O.pbe-van_ak.UPF</code>.
+Copy these two files into your <code>pseudo</code> folder and run <code>pw.x</code> to obtain the ground state density.</li>
+<li>Next, let's compute the band structure on a high-symmetry path by running a non-scf calculation. You will have to use the <code>01_rutile_nscf.in</code>
+input file.</li>
+<li>Finally, let's plot the bands with <code>bands.x</code> as you have done in <a href="https://mse404.gitlab.io/labs/lab04/">Lab 4</a>. You will have to use <code>01_rutile_bands.in</code> and plot the result with <code>gnuplot</code>. At which high-symmetry point is the direct band gap found?</li>
+<li>Go back to the output of the non-scf calculation and compute the band gap from the lowest unoccupied state and highest occupied states at <span class="arithmatex">\(\Gamma\)</span>.
+You should get a band gap of <span class="arithmatex">\(1.9\)</span> eV, which is <span class="arithmatex">\(~1/3\)</span> smaller than the experimental value.</li>
+<li>Now look at the output file <code>02_rutile_scf.in</code>, which has been obtained with the B3LYP XC functional. At the end of the file you can check the 
+difference between the lowest unoccupied state and the highest occupied state. This calculation is not fully converged but you can see that the band gap is now much closer to the experimental value.</li>
+</ul>
+<hr />
+<h2 id="summary">Summary</h2>
+<ul>
+<li>In this lab we've looked at how to treat charged molecules with DFT and periodic
+  boundary conditions. We have also looked at how ionization energies and electron
+  affinities can be computed with <span class="arithmatex">\(\Delta\)</span>SCF.</li>
+<li>We've also looked at how more refined methods can help with the convergence
+  of the total energy with respect to the cell size for charged molecules, e.g.
+  the Makov-Payne method and Martyna-Tuckerman method.</li>
+<li>In the second part we have looked at hybrid exchange-correlation functionals and
+  how these can improve the description of excited states and ameliorate the 
+  band-bap problem in insulators and semiconductors.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

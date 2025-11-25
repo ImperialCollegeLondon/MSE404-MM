@@ -1,0 +1,1214 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../lab08/readme/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Lab 9 - Finite Temperature Properties - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#finite-temperature-properties" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 9 - Finite Temperature Properties
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phonon-density-of-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phonon density of states
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phonon density of states">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phonon-calculations-on-a-fine-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phonon calculations on a fine grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#total-energy-at-temperature-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total energy at temperature T
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Total energy at temperature T">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performing-the-integral-using-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performing the integral using python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysing-the-energy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysing the energy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heat-capacity-at-constant-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heat capacity at constant volume
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Heat capacity at constant volume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysing-the-heat-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysing the heat capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#phonon-density-of-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phonon density of states
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Phonon density of states">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#phonon-calculations-on-a-fine-grid" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Phonon calculations on a fine grid
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#total-energy-at-temperature-t" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total energy at temperature T
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Total energy at temperature T">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#performing-the-integral-using-python" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performing the integral using python
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#analysing-the-energy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysing the energy
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#heat-capacity-at-constant-volume" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Heat capacity at constant volume
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Heat capacity at constant volume">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#analysing-the-heat-capacity" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Analysing the heat capacity
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="finite-temperature-properties">Finite Temperature Properties</h1>
+<p>At finite temperatures, the atoms in a material vibrate around their equilibrium positions (as long as the temperature is not so high that the material starts to melt) and this thermal motion of the atoms gives rise to changes in the properties of the material, such as its bulk modulus or its electric conductivity. In this lab, you will learn how to calculate finite temperature properties of materials using DFT. In fact, we will treat to motion of the atoms quantum-mechanically and include effects, such as the zero point motion.</p>
+<p>The vibrational properties of a material are a key input into the calculation of its finite-temperature properties. We will again use density-functional perturbation theory (DFPT) to calculate the frequencies of the vibrations and use the information to construct the phonon density of states from which we will calculate the total energy and the specific heat of the material. This will be done using <a href="https://www.python.org/">python</a>. In this lab, we will focus on the finite-temperature properties of diamond.</p>
+<h2 id="phonon-density-of-states">Phonon density of states</h2>
+<p>The phonon density of states is obtained by counting how many phonon modes exist at each frequency. To do this, we first need to the frequencies of the the phonon modes. Recall that in a crystal the phonon modes are labeled by a wave vector <span class="arithmatex">\(\mathbf{q}\)</span> in the first Brillouin zone and a band index <span class="arithmatex">\(\nu\)</span>.</p>
+<h3 id="phonon-calculations-on-a-fine-grid">Phonon calculations on a fine grid</h3>
+<p>In <a href="../../lab08/readme/">Lab08</a> you already learned most of the steps you need to follow to perform phonon calculations on a grid of wave vectors. The only difference is the input file for <code>matdyn.x</code>.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 1 - Calculate the dynamical matrix on a fine grid</p>
+<ul>
+<li>Copy the lab09 file into your <code>data</code> directory and go to the <code>01_CarbonDiamond</code> directory. </li>
+<li>Using what you learned in <a href="../../lab08/readme/">Lab08</a> and follow the necessary steps to compute the force constant matrix.</li>
+<li>
+<p>Take a look at the <code>05_CD_matdyn-fine.in</code> input file. You will notice a few differences compared to the input file from last week's lab.
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><span class="p">&amp;</span>input
+</span><span id="__span-0-2"><span class="w">    </span><span class="nv">asr</span><span class="o">=</span><span class="s1">&#39;simple&#39;</span>
+</span><span id="__span-0-3"><span class="w">    </span><span class="nv">flfrc</span><span class="o">=</span><span class="s1">&#39;CD444.fc&#39;</span>
+</span><span id="__span-0-4"><span class="w">    </span><span class="nv">flfrq</span><span class="o">=</span><span class="s1">&#39;CD-fine.freq&#39;</span><span class="w"> </span>
+</span><span id="__span-0-5"><span class="w">    </span><span class="nv">fldos</span><span class="o">=</span><span class="s1">&#39;CD.dos&#39;</span><span class="w"> </span>
+</span><span id="__span-0-6"><span class="w">    </span><span class="nv">nk1</span><span class="o">=</span><span class="m">20</span>,nk2<span class="o">=</span><span class="m">20</span>,nk3<span class="o">=</span><span class="m">20</span><span class="w"> </span><span class="c1">#(1)!</span>
+</span><span id="__span-0-7"><span class="w">    </span><span class="nv">nosym</span><span class="o">=</span>.true.<span class="w"> </span><span class="c1">#(2)!</span>
+</span><span id="__span-0-8"><span class="w">    </span><span class="nv">dos</span><span class="o">=</span>.true.<span class="w"> </span><span class="c1">#(3)!</span>
+</span><span id="__span-0-9">/
+</span></code></pre></div></td></tr></table></div></p>
+<ol>
+<li>Request a 20x20x20 grid</li>
+<li>Do not use symmetry operations to speed up the calculation. This makes it easier to parse the output file</li>
+<li>Calculate the density of phonon states</li>
+</ol>
+</li>
+<li>
+<p>Run <code>matdyn.x</code> with this input file. It'll take a bit longer than the phonon band calculation as it is doing calculations for a lot of wave vectors.</p>
+</li>
+</ul>
+</div>
+<p>After <code>matdyn.x</code> finishes, it will generate two important output files: <code>CD-fine.freq</code> and <code>CD.dos</code>. Take a look at the contents of each file. </p>
+<div class="admonition example">
+<p class="admonition-title">CD-fine.freq file</p>
+<ul>
+<li>The <code>CD-fine.freq</code> file contains the phonon frequencies for all the modes at each <span class="arithmatex">\(\mathbf{q}\)</span> point and is organized as follows
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="o">&amp;</span><span class="n">plot</span> <span class="n">nbnd</span><span class="o">=</span>   <span class="mi">6</span><span class="p">,</span> <span class="n">nks</span><span class="o">=</span><span class="mi">8000</span> <span class="o">/</span>   <span class="c1">#(1)!</span>
+</span><span id="__span-1-2">            <span class="mf">0.000000</span>  <span class="mf">0.000000</span>  <span class="mf">0.000000</span> <span class="c1">#(2)! </span>
+</span><span id="__span-1-3">  <span class="o">-</span><span class="mf">0.0000</span>    <span class="mf">0.0000</span>    <span class="mf">0.0000</span> <span class="mf">1390.4720</span> <span class="mf">1390.4720</span> <span class="mf">1390.4720</span> <span class="c1">#(3)!</span>
+</span><span id="__span-1-4">          <span class="o">-</span><span class="mf">0.050000</span>  <span class="mf">0.050000</span> <span class="o">-</span><span class="mf">0.050000</span>
+</span><span id="__span-1-5">  <span class="mf">96.9791</span>   <span class="mf">96.9791</span>  <span class="mf">162.3473</span> <span class="mf">1387.9266</span> <span class="mf">1387.9266</span> <span class="mf">1391.4163</span>
+</span><span id="__span-1-6">          <span class="o">-</span><span class="mf">0.100000</span>  <span class="mf">0.100000</span> <span class="o">-</span><span class="mf">0.100000</span>
+</span><span id="__span-1-7">  <span class="mf">190.7327</span>  <span class="mf">190.7327</span>  <span class="mf">321.7228</span> <span class="mf">1380.5533</span> <span class="mf">1380.5533</span> <span class="mf">1393.6345</span>
+</span><span id="__span-1-8">          <span class="o">-</span><span class="mf">0.150000</span>  <span class="mf">0.150000</span> <span class="o">-</span><span class="mf">0.150000</span>
+</span><span id="__span-1-9">  <span class="mf">278.1010</span>  <span class="mf">278.1010</span>  <span class="mf">475.2404</span> <span class="mf">1369.1811</span> <span class="mf">1369.1811</span> <span class="mf">1395.4974</span>
+</span><span id="__span-1-10">    <span class="o">...</span> 
+</span></code></pre></div></td></tr></table></div><ol>
+<li>The first line tells you there are six bands per <span class="arithmatex">\(\mathbf{q}\)</span> point and 8000 (20x20x20) <span class="arithmatex">\(\mathbf{q}\)</span> points.</li>
+<li>Specifies the <span class="arithmatex">\(\mathbf{q}=(0,0,0)\)</span> point.</li>
+<li>There are six frequencies on this line, one for each band of the <span class="arithmatex">\(\mathbf{q}=(0,0,0)\)</span> point.</li>
+</ol>
+</li>
+</ul>
+</div>
+<p>Now that you have obtained the phonon vibrational frequencies for a set of <span class="arithmatex">\(\mathbf{q}\)</span> points, the phonon density of states is calculated by counting how many phonon modes exist for a given frequency range. For example, if you want to know how many phonon modes exist between frequencies <span class="arithmatex">\(\omega\)</span> and <span class="arithmatex">\(\omega+d\omega\)</span>, the answer is <span class="arithmatex">\(\rho(\omega)d\omega\)</span>:</p>
+<div class="arithmatex">\[ \text{number of phonon modes between } \omega \text{ and } \omega+d\omega=\rho(\omega)d\omega \]</div>
+<p>The density of phonon states is calculated via the following expression:</p>
+<div class="arithmatex">\[ \rho(\omega) = \sum_{\mathbf{q}\nu}\delta\left(\omega-\omega(\mathbf{q}\nu)\right)\]</div>
+<p>where <span class="arithmatex">\(\delta(...)\)</span> is the Dirac delta function, <span class="arithmatex">\(\mathbf{q} \nu\)</span> denotes phonon mode <span class="arithmatex">\(\nu\)</span> at vector <span class="arithmatex">\(\mathbf{q}\)</span> and <span class="arithmatex">\(\omega(\mathbf{q}\nu)\)</span> is the frequency of that phonon mode. You can find the result of this calculation in the <code>CD.dos</code> file.</p>
+<div class="admonition example">
+<p class="admonition-title">CD.dos file</p>
+<ul>
+<li>The <code>CD.dos</code> file is organized as follows
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"> <span class="c1"># Frequency[cm^-1] DOS PDOS</span>
+</span><span id="__span-2-2"> <span class="o">-</span><span class="mf">1.3637193144E-05</span>  <span class="mf">0.0000000000E+00</span>  <span class="mf">0.0000E+00</span>  <span class="mf">0.0000E+00</span> <span class="c1">#(1)!</span>
+</span><span id="__span-2-3">  <span class="mf">9.9998636281E-01</span>  <span class="mf">1.8451769729E-09</span>  <span class="mf">9.2259E-10</span>  <span class="mf">9.2259E-10</span>
+</span><span id="__span-2-4">  <span class="mf">1.9999863628E+00</span>  <span class="mf">7.3808263018E-09</span>  <span class="mf">3.6904E-09</span>  <span class="mf">3.6904E-09</span>
+</span><span id="__span-2-5">  <span class="mf">2.9999863628E+00</span>  <span class="mf">1.6606947988E-08</span>  <span class="mf">8.3035E-09</span>  <span class="mf">8.3035E-09</span>
+</span><span id="__span-2-6">  <span class="mf">3.9999863628E+00</span>  <span class="mf">2.9523542031E-08</span>  <span class="mf">1.4762E-08</span>  <span class="mf">1.4762E-08</span>
+</span><span id="__span-2-7">    <span class="o">...</span> 
+</span></code></pre></div></td></tr></table></div><ol>
+<li>The first column provides the frequency of oscillation in cm^-1 and the second provides the density of states as states/cm^-1.</li>
+</ol>
+</li>
+</ul>
+</div>
+<p>To know what the density of states actually looks like, let's now plot it.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 2 - Plot the density of states</p>
+<ul>
+<li>
+<p>Look for a python file <code>DOS.py</code> and inspect it. You should see the following code:
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-3-2"><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</span><span id="__span-3-3"><span class="n">dos</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;CD.dos&quot;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#(1)!</span>
+</span><span id="__span-3-4"><span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">dos</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">dos</span><span class="p">[:,</span><span class="mi">1</span><span class="p">])</span> <span class="c1">#(2)!</span>
+</span><span id="__span-3-5"><span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Frequency ($\mathrm</span><span class="si">{cm}</span><span class="s1">^{-1}$)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span><span id="__span-3-6"><span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;DoS (states/$\mathrm</span><span class="si">{cm}</span><span class="s1">^{-1}$)&#39;</span><span class="p">,</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span><span id="__span-3-7"><span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;CD_dos.png&quot;</span><span class="p">)</span> <span class="c1">#(3)!</span>
+</span><span id="__span-3-8"><span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div></p>
+<ol>
+<li>Read the DoS file, skipping the first row. The first row is a header and should not be read as data</li>
+<li>Plot column 0 against column 1</li>
+<li>Save the plot into an image file called <code>CD_dos.png</code></li>
+</ol>
+</li>
+<li>
+<p>Run this script with <code>python DOS.py</code> </p>
+</li>
+</ul>
+<details class="success">
+<summary>What does the density of states look like?</summary>
+<p><figure markdown="span">
+  <img alt="band" src="../assets/CD_dos.png" width="600" />
+</figure></p>
+</details>
+<details class="success">
+<summary>How is the density of states related to the band structure?</summary>
+<p>If you compare this result against the phonon band structure you calculated in the last lab, you will see that the density of states is larger when the bands are flatter. If the bands are flatter, it means there are more phonon states per unit frequency, which directly translates to a larger density of states.</p>
+</details>
+</div>
+<p>We will utilize the density of states to compute several thermodynamic properties using python in the next step.</p>
+<h2 id="total-energy-at-temperature-t">Total energy at temperature T</h2>
+<p>An important quantity that can be obtained from phonon density of states is the total energy of the vibrations at temperature <span class="arithmatex">\(T\)</span>. This is given by</p>
+<div class="arithmatex">\[ E(T) = \int_{0}^{+\infty} \hbar\omega \rho(\omega)\left(\frac{1}{2} + n_{BE}(\hbar\omega,T)\right)d\omega \]</div>
+<p>where the factor <span class="arithmatex">\(n_{BE}(E,T) = \frac{1}{\exp(E/k_\mathrm{B} T)-1}\)</span> is the Bose-Einstein occupation factor. The physical meaning of this equation is the following: for each frequency <span class="arithmatex">\(\omega\)</span>, we have to add up the energy of each phonon mode (given by <span class="arithmatex">\(\hbar \omega (1/2 + n_{BE})\)</span>) and multiply this by the number of phonon modes with the same frequency (given by the phonon density of states).</p>
+<h3 id="performing-the-integral-using-python">Performing the integral using python</h3>
+<p>The integral will be evaluated numerically using python. Let's begin by analysing the python script which performs this calculation.</p>
+<div class="admonition example">
+<p class="admonition-title">energy.py</p>
+<ul>
+<li>In the <code>01_CarbonDiamond</code> folder you will find the <code>energy.py</code> python script which performs the energy integration. The script reads in the the phonon density of states and the temperature and prints out the total energy at that temperature. Note that some constants are deliberately missing from this file, denoted by <code>???</code>.
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</span><span id="__span-4-2"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-4-3">
+</span><span id="__span-4-4"><span class="n">filename</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> 
+</span><span id="__span-4-5"><span class="n">T</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span> <span class="c1">#(6)!</span>
+</span><span id="__span-4-6">
+</span><span id="__span-4-7"><span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#(5)!</span>
+</span><span id="__span-4-8"><span class="n">freqs</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-4-9"><span class="n">dos</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-4-10"><span class="n">constant1</span> <span class="o">=</span> <span class="err">???</span>  <span class="c1">#(1)!</span>
+</span><span id="__span-4-11"><span class="n">constant2</span> <span class="o">=</span> <span class="err">???</span>  <span class="c1">#(2)!</span>
+</span><span id="__span-4-12"><span class="n">dw</span> <span class="o">=</span> <span class="n">freqs</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">freqs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#(3)! </span>
+</span><span id="__span-4-13">
+</span><span id="__span-4-14"><span class="n">total_energy</span> <span class="o">=</span> <span class="mi">0</span>
+</span><span id="__span-4-15"><span class="k">for</span> <span class="n">w</span><span class="p">,</span> <span class="n">rho</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">freqs</span><span class="p">,</span> <span class="n">dos</span><span class="p">):</span>
+</span><span id="__span-4-16">
+</span><span id="__span-4-17">  <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-5</span><span class="p">:</span>
+</span><span id="__span-4-18">    <span class="k">continue</span> <span class="c1">#(4)!</span>
+</span><span id="__span-4-19">
+</span><span id="__span-4-20">  <span class="n">bose</span> <span class="o">=</span> <span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">constant1</span><span class="o">*</span><span class="n">w</span><span class="o">/</span><span class="n">T</span><span class="p">)</span> <span class="o">-</span> <span class="mf">1.0</span><span class="p">)</span>
+</span><span id="__span-4-21">  <span class="n">total_energy</span> <span class="o">+=</span> <span class="n">constant2</span><span class="o">*</span><span class="n">w</span><span class="o">*</span><span class="n">rho</span><span class="o">*</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">+</span> <span class="n">bose</span><span class="p">)</span><span class="o">*</span><span class="n">dw</span>
+</span><span id="__span-4-22">
+</span><span id="__span-4-23"><span class="nb">print</span><span class="p">(</span><span class="n">total_energy</span><span class="p">)</span>
+</span></code></pre></div></td></tr></table></div><ol>
+<li>Replace ??? by the correct physical constant (in the correct units)</li>
+<li>Replace ??? by the correct physical constant (in the correct units)</li>
+<li>Numerical integration requires specifying the numerical discretization step</li>
+<li>If the frequency is too small, it will cause numerical problems because of a division by a very small number inside the Bose-Einstein occupation factor. We do not include the contribution from such frequencies in our calculations (convince yourself that this only produces a very small error).</li>
+<li>The first row of the <code>CD.dos</code> file is a header and should be ignored</li>
+<li>The temperature should be in Kelvin</li>
+</ol>
+</li>
+</ul>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Task 3 - Plot the energy as function of temperature</p>
+<ol>
+<li>
+<p>Take another look at the mathematical formula for <span class="arithmatex">\(E(T)\)</span> above and determine which physical constants need to be specified in the program above. Modify <code>energy.py</code> so that it has the correct constants <strong>(Note: Carefully think about which units should be used!)</strong></p>
+<details class="success">
+<summary>Answer</summary>
+<p><code>constant1=0.0366 K/cm^-1</code><br>
+<code>constant2=3.143e-05 eV s</code></p>
+</details>
+</li>
+<li>
+<p>Run this program using the phonon density of states obtained in the previous section, for a temperature of 1 Kelvin (1K): <code>python energy.py CD.dos 1</code> </p>
+</li>
+<li>Repeat the previous step for the following list of temperatures in Kelvin: <code>(1, 2, 3, 4, 5, 6, 8, 10, 15, 20, 30, 50, 70, 100)</code> and plot the results using your favourite tools to generate a graph of energy as a function of temperature</li>
+</ol>
+</div>
+<details class="success">
+<summary>What do the energy and heat capacity look as a function of temperature?</summary>
+<p><figure markdown="span">
+    <img alt="band" src="../assets/energy_cv.png" width="600" />
+</figure></p>
+</details>
+<h3 id="analysing-the-energy">Analysing the energy</h3>
+<div class="admonition example">
+<p class="admonition-title">Task 4 - Analyse the plot</p>
+<details class="success">
+<summary>As the temperature decreases, the energy of the vibrations decreases as well, but eventually it approaches a constant value. Why?</summary>
+<p>Answer: As the temperature drops, the phonons lose their thermal energy, but there's still a contribution to their energy coming from the zero-point motion (<span class="arithmatex">\(\hbar \omega /2\)</span>) of each mode </p>
+</details>
+<details class="success">
+<summary>As the temperature increases, the energy increases linearly with temperature. Why?</summary>
+<p>Answer: For sufficiently large temperatures, the system starts behaving classically, so the amount of energy it can store is proportional to the temperature and the constant of proportionality is the heat capacity.</p>
+</details>
+</div>
+<h2 id="heat-capacity-at-constant-volume">Heat capacity at constant volume</h2>
+<p>There are many other properties of materials, such as the entropy, the pressure or the Helmholtz free energy (for reference, see <a href="https://en.wikipedia.org/wiki/Quasi-harmonic_approximation">Wikipedia</a> and the reference therein) which we can calculate with this technique. </p>
+<p>The specific heat at constant volume tells us how much energy is required to increase the temperature of a material by a given amount. It can be obtained from the total energy by differentiating with respect to temperature:</p>
+<div class="arithmatex">\[C_V(T) = \left(\frac{\partial E}{\partial T} \right )_{const\ V}
+ = k_B \int_{0}^{+\infty} \left(\frac{\hbar\omega}{k_B T}\right)^2 \rho(\omega)\frac{\exp(\hbar\omega/k_B T)}{\left[ \exp(\hbar\omega/k_B T)-1\right]^2} d\omega\]</div>
+<div class="admonition example">
+<p class="admonition-title">Task 5 - Plot the specific heat as a function of temperature</p>
+<ul>
+<li>Create a new program <code>heat_capacity.py</code> that calculates the heat capacity of Carbon Diamond by modifying the <code>energy.py</code> program.</li>
+<li>Calculate the heat capacity for the same temperatures as you did for the energy in the previous task and create a graph of your results.</li>
+</ul>
+</div>
+<h3 id="analysing-the-heat-capacity">Analysing the heat capacity</h3>
+<p>At high temperatures, the heat capacity approaches a constant. This is the <a href="https://en.wikipedia.org/wiki/Dulong%E2%80%93Petit_law">Dulong-Petit</a> law, followed (approximately) by most materials. At low temperatures, the heat capacity is proportional to <span class="arithmatex">\(T^3\)</span>, as predicted by the <a href="https://en.wikipedia.org/wiki/Debye_model">Debye model</a>.</p>
+<h1 id="summary">Summary</h1>
+<p>In this lab you have learned</p>
+<ul>
+<li>How to compute the phonon density of states</li>
+<li>How to use the phonon density of states to obtain the total phonon energy and the specific heat.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

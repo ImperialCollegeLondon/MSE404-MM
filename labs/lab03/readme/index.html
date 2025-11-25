@@ -1,0 +1,1460 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../lab02/readme/">
+      
+      
+        <link rel="next" href="../../lab04/readme/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Lab 3 - Convergence Testing - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#convergence-tests" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 3 - Convergence Testing
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plane-waves-and-pseudopotentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plane Waves and Pseudopotentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#total-energy-convergence-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total Energy Convergence Threshold
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plane-wave-cutoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plane-wave cutoff
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#box-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Box Size
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Box Size">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bash-scripting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bash Scripting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Plotting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exchange-correlation-energy-functionals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange &amp; Correlation Energy Functionals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-convergence-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        More Convergence Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#plane-waves-and-pseudopotentials" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plane Waves and Pseudopotentials
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#total-energy-convergence-threshold" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Total Energy Convergence Threshold
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#plane-wave-cutoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Plane-wave cutoff
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#box-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Box Size
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Box Size">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bash-scripting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bash Scripting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#python-plotting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Python Plotting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#exchange-correlation-energy-functionals" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exchange &amp; Correlation Energy Functionals
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#more-convergence-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        More Convergence Parameters
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="convergence-tests">Convergence Tests</h1>
+<p>This week we are going to continue on the topic of DFT calculations for isolated molecules. Specifically, we will be focusing on ensuring that our calculations are converged, i.e. that the numerical parameters, such as the plane-wave cutoff, the energy threshold or the box size, are chosen in such a way that physically meaningful results are obtained. Ensuring that convergence is reached is a key step in every DFT study of materials. </p>
+<p>If needed, you can refresh your memory of the Linux command line by referring back to <a href="../../lab01/readme/">Lab 1</a>.</p>
+<hr />
+<h2 id="plane-waves-and-pseudopotentials">Plane Waves and Pseudopotentials</h2>
+<p>As discussed in lecture, the Kohn-Sham wavefunctions are expressed as linear combination of plane waves in Quantum Espresso and the total number of plane waves used in the calculation is a convergence parameter. In the region between the atomic nuclei where chemical bonding takes place, the Kohn-Sham wavefunctions are relatively smooth and therefore not too many plane wave are needed to accurately describe them. However, very close to the atomic nucleus the Kohn-Sham wavefunctions vary rapidly (this is a consequence of the requirement that the valence orbital are orthogonal to the tightly bound core orbitals) and lots of plane waves are needed corresponding to a high plane-wave cutoff. Unfortunately, this would make the calculations very slow...</p>
+<p>To get around this problem, Quantum Espresso uses pseudopotentials. The idea is to combine the atomic nucleus with the tightly bound core electrons (which do not participate in chemical bonding) into an atomic core whose interaction with the valence electrons is described by the pseudopotential. Since there are no more core electrons in the calculations, the valence electrons do not exhibit rapid variations near the nucleus any more and a low plane-wave cutoff can be used. </p>
+<p>In the figure below, you can see the true "all-electron" potential and the resulting "all-electron" wavefunctions (blue-dashed lines) and also the pseudopotential and the corresponding pseudo-wavefunctions (red lines): </p>
+<figure>
+  <img alt="Pseudopotential" src="../assets/pseudopotential.png" width="400" />
+</figure>
+<p>Note that the pseudopotentials are generated from DFT calculations of isolated atoms. These calculations require a choice for the exchange-correlation functional. Therefore, a pseudopotential is always generated for a specific exchange-correlation functional. If you want to try out a different exchange-correlation functional, you have to use a different pseudopotential. </p>
+<p>The beginning (or "header") of pseudopotential files contains important information about how the pseudopotential was generated, such as which state are considered to be core states and which approximation is used for the exchange-correlation energy. </p>
+<p>To start this lab, copy the <code>/opt/MSE404-MM/docs/labs/lab03</code> to your <code>MSE404</code> directory.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 1 - Pseudopotential File</p>
+<p>Navigate to the <code>01_carbon_monoxide/01_convergence_threshold</code> directory. Here you will see an input file <code>CO.in</code> and two pseudopotential files. Open the pseudopotential file for carbon using the <code>less</code> command.</p>
+<ul>
+<li>
+<p>Which approximation is used for the exchange-correlation functional?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>The local density approximation (LDA). This is found at the top of the pseudopotential file:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1">Info: C LDA 2s2 2p2 VonBarth-Car, l=1 local
+</span></code></pre></div></td></tr></table></div>
+</details>
+</li>
+<li>
+<p>Which atomic orbitals are included as valence states and which ones are included in the core?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>The states listed in the pseudopotential file are the valence states. These are:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1">nl pn  l   occ               Rcut            Rcut US             E pseuo
+</span><span id="__span-1-2">2S  0  0  2.00      0.00000000000      0.00000000000      0.00000000000
+</span><span id="__span-1-3">2P  0  1  2.00      0.00000000000      0.00000000000      0.00000000000
+</span></code></pre></div></td></tr></table></div>
+The core state are therefore the 1S state.</p>
+</details>
+</li>
+<li>
+<p>What is the valence charge of the carbon atom core consisting of the nucleus and the core electrons?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>The valence charge is 4. This is state in the line <code>4.00000000000 Z valence</code>:</p>
+</details>
+</li>
+</ul>
+</div>
+<h2 id="total-energy-convergence-threshold">Total Energy Convergence Threshold</h2>
+<p>In a DFT calculation, the Kohn-Sham wavefunctions which minimize the total energy are found using a self-consistent procedure: one starts with an initial guess for the density, constructs the Kohn-Sham potential and then solves the Kohn-Sham equations to obtain the Kohn-Sham wavefunctions. These can then be used to find a new density and this procedure is repeated until self-consistency is achieved. Usually, we monitor the total energy and stop the self-consistent cycle when its change (relative to the previous iteration) is below a certain threshold. This threshold is a convergence parameter and must be chosen sufficiently small such that physically meaningful results are obtained. </p>
+<p>Let's take at a look at the input file for a carbon monoxide (CO) molecule in <code>01_carbon_monoxide/01_convergence_threshold</code>.</p>
+<div class="admonition tip annotate">
+<p class="admonition-title">Tip: In-code annotations</p>
+<p>Click (1) to see notes on the input tags.</p>
+</div>
+<ol>
+<li>This is an annotation</li>
+</ol>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="p">&amp;</span>CONTROL
+</span><span id="__span-2-2"><span class="w">   </span><span class="nv">calculation</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;scf&#39;</span>
+</span><span id="__span-2-3"><span class="w">   </span><span class="nv">disk_io</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;none&#39;</span><span class="w"> </span><span class="c1">#(1)!</span>
+</span><span id="__span-2-4"><span class="w">   </span><span class="nv">pseudo_dir</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;.&#39;</span><span class="w"> </span><span class="c1">#(2)!</span>
+</span><span id="__span-2-5">/
+</span><span id="__span-2-6">
+</span><span id="__span-2-7"><span class="p">&amp;</span>SYSTEM
+</span><span id="__span-2-8"><span class="w">   </span><span class="nv">ibrav</span><span class="w">            </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="c1">#(3)!</span>
+</span><span id="__span-2-9"><span class="w">   </span><span class="nv">A</span><span class="w">                </span><span class="o">=</span><span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="c1">#(4)!</span>
+</span><span id="__span-2-10"><span class="w">   </span><span class="nv">nat</span><span class="w">              </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+</span><span id="__span-2-11"><span class="w">   </span><span class="nv">ntyp</span><span class="w">             </span><span class="o">=</span><span class="w"> </span><span class="m">2</span>
+</span><span id="__span-2-12"><span class="w">   </span><span class="nv">ecutwfc</span><span class="w">          </span><span class="o">=</span><span class="w"> </span><span class="m">20</span>
+</span><span id="__span-2-13">/
+</span><span id="__span-2-14">
+</span><span id="__span-2-15"><span class="p">&amp;</span>ELECTRONS
+</span><span id="__span-2-16"><span class="w">   </span><span class="nv">mixing_beta</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.7
+</span><span id="__span-2-17"><span class="w">   </span><span class="nv">diagonalization</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;david&#39;</span>
+</span><span id="__span-2-18"><span class="w">   </span><span class="nv">conv_thr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>1e-4<span class="w"> </span><span class="c1">#(5)!</span>
+</span><span id="__span-2-19">/
+</span><span id="__span-2-20">
+</span><span id="__span-2-21"><span class="p">&amp;</span>IONS
+</span><span id="__span-2-22">/
+</span><span id="__span-2-23">
+</span><span id="__span-2-24"><span class="p">&amp;</span>CELL
+</span><span id="__span-2-25">/
+</span><span id="__span-2-26">
+</span><span id="__span-2-27">ATOMIC_SPECIES
+</span><span id="__span-2-28">O<span class="w"> </span><span class="m">15</span>.999<span class="w"> </span>O.pz-rrkjus.UPF<span class="w"> </span><span class="c1">#(6)!</span>
+</span><span id="__span-2-29">C<span class="w"> </span><span class="m">12</span>.011<span class="w"> </span>C.pz-vbc.UPF<span class="w"> </span>
+</span><span id="__span-2-30">
+</span><span id="__span-2-31">K_POINTS<span class="w"> </span>gamma
+</span><span id="__span-2-32">
+</span><span id="__span-2-33">ATOMIC_POSITIONS<span class="w"> </span>angstrom
+</span><span id="__span-2-34">O<span class="w"> </span><span class="m">15</span>.0000000000<span class="w"> </span><span class="m">15</span>.0000000000<span class="w"> </span><span class="m">16</span>.1503400000
+</span><span id="__span-2-35">C<span class="w"> </span><span class="m">15</span>.0000000000<span class="w"> </span><span class="m">15</span>.0000000000<span class="w"> </span><span class="m">15</span>.0000000000
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li>This specifies that we don't want any of the charge density or wavefunction information saved in a file. We specify this just to save disk space :-).</li>
+<li>Specifies that the pseudopotentials to use are in the current directory.</li>
+<li>ibrav=1 is the bravais lattice type 'simple cubic'.</li>
+<li>The lattice parameter for the bravais lattice.</li>
+<li>This is the total energy convergence threshold. Successive iterations will have their total energy compared to one another. When this difference is less than the convergence threshold, we deem the total energy to be converged.</li>
+<li>The structure of this line is [element name] [element atomic mass] [name of pseudopotential].</li>
+</ol>
+<div class="admonition tip annotate">
+<p class="admonition-title">Tip: Running Quantum Espressso</p>
+<p>Make sure to have loaded the quantum espresso module and its dependencies using the command:</p>
+<p><code>module load quantum-espresso</code></p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Task 2 - Convergence Threshold</p>
+<p>Make four copies of the <code>CO.in</code> input file named <code>CO_i.in</code>, where i should range from 5 to 8. In each of these files, reduce the order of magnitude of the conv_thr by a factor of 10, i.e. replace <code>conv_thr = 1e-4</code> with <code>conv_thr = 1e-5</code> in <code>CO_5.in</code>, etc. </p>
+<ul>
+<li>
+<p>Run the four input files using <code>pw.x</code> e.g. <code>pw.x &lt; CO_5.in &gt; CO_5.out</code>.</p>
+</li>
+<li>
+<p>What do you expect will happen when you reduce the convergence threshold?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>More iteration in the self-consistent cycle are needed and the calculations take longer. A more accurate value of the total energy is obtained. </p>
+</details>
+</li>
+</ul>
+<p>Quantum Espresso outputs the number of scf cycles it took for convergence to be achieved. Look for this line in the output file: 
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1">convergence<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>achieved<span class="w"> </span><span class="k">in</span><span class="w"> </span>...
+</span></code></pre></div></td></tr></table></div></p>
+<ul>
+<li>
+<p>How many iterations did it take each calculation to converge? Is this what you expected? </p>
+<details class="success">
+<summary>Answer</summary>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1">CO_5.out:<span class="w">     </span>convergence<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>achieved<span class="w"> </span><span class="k">in</span><span class="w">   </span><span class="m">6</span><span class="w"> </span>iterations
+</span><span id="__span-4-2">CO_6.out:<span class="w">     </span>convergence<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>achieved<span class="w"> </span><span class="k">in</span><span class="w">   </span><span class="m">8</span><span class="w"> </span>iterations
+</span><span id="__span-4-3">CO_7.out:<span class="w">     </span>convergence<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>achieved<span class="w"> </span><span class="k">in</span><span class="w">   </span><span class="m">9</span><span class="w"> </span>iterations
+</span><span id="__span-4-4">CO_8.out:<span class="w">     </span>convergence<span class="w"> </span>has<span class="w"> </span>been<span class="w"> </span>achieved<span class="w"> </span><span class="k">in</span><span class="w">  </span><span class="m">11</span><span class="w"> </span>iterations
+</span></code></pre></div></td></tr></table></div>
+</details>
+</li>
+</ul>
+<p>We could have taken advantage of the <code>grep</code> command here. If you don't remember how to use this command, refer back to <a href="../../lab01/readme/">Lab 1</a> for documentation on <code>grep</code>. </p>
+<ul>
+<li>
+<p>Try this again using the <code>grep</code> command.</p>
+<details class="hint">
+<summary>Hint For Using Grep</summary>
+<p><code>grep 'convergence has been achieved in' CO_5.out</code>. </p>
+</details>
+</li>
+</ul>
+</div>
+<h2 id="plane-wave-cutoff">Plane-wave cutoff</h2>
+<p>In the expansion of the Kohn-Sham wavefunctions, only plane waves with wave vectors whose lengths are smaller than that of the maximum wavevector, <span class="arithmatex">\(\bf{G_{\text{max}}}\)</span>, are included. This maximum wave vector is specified through the variable <code>ecutwfc</code> which is the kinetic energy associated with <span class="arithmatex">\(\bf{G_{\text{max}}}\)</span>, i.e. <span class="arithmatex">\(\hbar^2 |\bf{G}_{\text{max}|}^2/{2m}\)</span>. We must ensure that this cutoff is large enough such that physically meaningful results are obtained. </p>
+<p>An example demonstrating the total energy convergence with respect to energy cutoff is shown in the <code>01_carbon_monoxide/02_kinetic_energy_cutoff</code> directory.
+To converge the kinetic energy cutoff we are going to set up a series of input files which are all identical except we systematically increase <strong>only</strong> the value of <code>ecutwfc</code> and record the total energy.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 3 - Kinetic Energy Cutoff</p>
+<p>Navigate to the directory <code>01_carbon_monoxide/02_kinetic_energy_cutoff</code>. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named <code>CO_i.in</code> where i ranges from 20 to 65 in steps of 5. Change the <code>ecutwfc</code> variable in these files to systematically increase from 20 to 65 i.e. set <code>ecutwfc</code> to be equal to the number i.</p>
+<ul>
+<li>
+<p>Use <code>pw.x</code> to perform a DFT calculation for each input files.</p>
+</li>
+<li>
+<p>Check the output file <code>CO_20.out</code>. What is the converged total energy?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><code>!    total energy              =     -42.74125239 Ry</code></p>
+</details>
+</li>
+<li>
+<p>Check the output file <code>CO_30.out</code>. What is the converged total energy? Is this lower than <code>CO_20.out</code>?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><code>!    total energy              =     -43.00067775 Ry</code>.</p>
+<p>This is lower than the total energy in <code>CO_20.out</code>.</p>
+</details>
+</li>
+<li>
+<p>Use <code>grep</code> to extract the total energy from all output files.</p>
+</li>
+</ul>
+<p>These energies are in Ry. Often it is more insightful to convert these values to eV.</p>
+<ul>
+<li>Create a text file named <code>data.txt</code>. Copy your results into this file: the first column should be the kinetic energy cutoff in Ry and the second column should be the total energy in eV.</li>
+</ul>
+<p>Examine the file <code>data.txt</code>.</p>
+<p>You should observe that the total energy decreases as we increase the plane-wave energy cutoff <code>ecutwfc</code>.</p>
+<ul>
+<li>
+<p>At what plane-wave cutoff is the total energy converged to within 0.1 eV of your most accurate result (, i.e. the one obtained for <code>ecutwfc = 65</code>)?</p>
+<details class="success">
+<summary>Result</summary>
+<p>ecutwfc = 55 Ry.</p>
+<p><span class="arithmatex">\(E_{tot}^{65} = -586.30894733 \,\text{eV}\)</span></p>
+<p><span class="arithmatex">\(E_{tot}^{55} = -586.21615168 \,\text{eV}\)</span></p>
+<p><span class="arithmatex">\(\Delta E_{tot} = 0.09279565 \,\text{eV}\)</span></p>
+</details>
+</li>
+<li>
+<p>Plot the total energy against the plane-wave cutoff using the python script <code>plot.py</code> by issuing the command:
+<code>python3 plot.py</code></p>
+<details class="success">
+<summary>Result</summary>
+<p><figure markdown="span">
+<img alt="ecutwfc_plot" src="../assets/co_ecut_conv.png" width="500" />
+</figure></p>
+</details>
+</li>
+</ul>
+<p>We also discussed above that increasing <code>ecutwfc</code> increases the number of plane waves in the expansion of the Kohn-Sham states. This infomation is stored near the beginning of the output file, in a section that looks like:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><span class="w"> </span>G-vector<span class="w"> </span>sticks<span class="w"> </span>info
+</span><span id="__span-5-2"><span class="w"> </span>sticks:<span class="w">   </span>dense<span class="w">  </span>smooth<span class="w">     </span>PW<span class="w">     </span>G-vecs:<span class="w">    </span>dense<span class="w">   </span>smooth<span class="w">      </span>PW
+</span><span id="__span-5-3"><span class="w"> </span>Sum<span class="w">       </span><span class="m">20461</span><span class="w">   </span><span class="m">20461</span><span class="w">   </span><span class="m">5129</span><span class="w">              </span><span class="m">2201421</span><span class="w">  </span><span class="m">2201421</span><span class="w">  </span><span class="m">274961</span>
+</span></code></pre></div></td></tr></table></div>
+<p>The number of plane-waves in our calculation is in the final column PW. </p>
+<ul>
+<li>Look for this line in the <code>CO_20.in</code> and the <code>CO_65.in</code> and verify that the number of plane-waves is significantly higher.</li>
+</ul>
+</div>
+<p>Note that:</p>
+<ul>
+<li>
+<p>Different systems converge differently: You shouldn't expect diamond and silicon to be converged to the same accuracy with the same plane-wave cutoff despite having the same atomic structure and the same number of valence electrons.</p>
+</li>
+<li>
+<p>Different pseudopotentials for the same atomic species will also converge differently. Often (but not always) pseudopotential files will suggest a plane-wave cutoff.</p>
+</li>
+<li>
+<p>Different calculated physical quantities will converge differently. </p>
+<ul>
+<li>If we want to calculate the lattice parameter of a material, don't expect it to be converged to the same accuracy as another parameter, e.g. the bulk modulus.</li>
+</ul>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>You should be particularly careful when calculating parameters that depend on volume, as the number of plane-waves for a given plane-wave cut-off changes when the volume is changed.</p>
+</div>
+<p>Actually, we typically converge the total energy <strong>per atom</strong> (meV/atom) or <strong>per electron</strong> (meV/electron). This is due to the scaling of the total energy with system size (number of atoms/electrons). If we have more atoms in our system, the magnitude of the total energy will naturally be larger i.e. the total energy scales with system size. However, the total energy per atom/electron is a normalised quantity, providing a measure of the total energy that is independent of system size, and thus can be compared between systems to make sure you are converged to the same accuracy.</p>
+<details class="note">
+<summary>Harder To Converge Orbitals</summary>
+<p>We can make educated guesses on how easily structures can converge based on the orbitals they contain. For example, molecules containing elements that have d orbitals require much higher kinetic energy cutoffs. This is due to the localised nature of the d orbitals resulting in steper gradients of the wavefucntion and therefore needing much higher energy Fourier components in the plane-wave expansion of the Kohn-Sham states.</p>
+</details>
+<h2 id="box-size">Box Size</h2>
+<p>Quantum Espresso uses periodic boundary conditions (recall that plane wave can only be used as a basis for periodic functions). Therefore, it is not possible to model a truly isolated molecule with Quantum Espresso. The best we can do is model a periodic crystal of molecules whose unit cell is so large that each molecule is not affected by the presence of all other molecules. The size of the unit cell (aka the box size) is therefore a convergence parameter and we must ensure it is sufficiently large so that physically meaningful results are obtained. Unfortunately, increasing the box size also increases the time of the calculations.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4 - Unit Cell Size</p>
+<p>Navigate to the directory <code>01_carbon_monoxide/03_box_size</code>. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named <code>CO_i.in</code> with i ranging from 10 to 30 in steps of 2. Edit the <code>A</code> variable in these files to systematically increase from 10 to 30, i.e. set <code>A</code> to be equal to the number i. This increases the size of the unit cell, and thus the distance between periodic images of the molecule.</p>
+<ul>
+<li>
+<p>Use <code>pw.x</code> to perform DFT calculations for these input files.</p>
+</li>
+<li>
+<p>Take a look at the output file <code>CO_10.out</code>. What is the energy of the highest occupied molecular orbital (HOMO)?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>The HOMO energy can be extracted from the list of Kohn-Sham energies, or alternatively is printed under <code>highest occupied level</code> in the output file.</p>
+<p><code>highest occupied level (ev):    -9.0118</code></p>
+</details>
+</li>
+<li>
+<p>Now inspect the output file <code>CO_26.out</code>. What is the energy of the highest occupied molecular orbital (HOMO)? How does this compare to the CO_10.out calculation where the distance between periodic images is much smaller?</p>
+<details class="success">
+<summary>Answer</summary>
+<p><code>highest occupied level (ev):    -9.2100</code>.</p>
+</details>
+</li>
+<li>
+<p>Create a text file named <code>data.txt</code>. Place your results here in the format [Unit Cell Size (Å)] [Energy of HOMO (eV)]</p>
+</li>
+<li>
+<p>At what unit cell size is the HOMO converged to within 0.1 eV of your most accurate run (<code>A = 30</code>)?</p>
+<details class="success">
+<summary>Result</summary>
+<p>A = 14.
+This means that CO molecules need to be ~ 14 Å away from one another to have less than 0.1 eV effect on each others HOMO. Note that each CO molecule has a dipole moment which produces a long-ranged potential that affects the other molecules.</p>
+</details>
+</li>
+<li>
+<p>Plot the energy of the HOMO against the unit cell size using the python script <code>plot.py</code> by issuing the command:
+<code>python3 plot.py</code></p>
+<details class="success">
+<summary>Result</summary>
+<p><figure markdown="span">
+<img alt="BoxConvergence" src="../assets/Box_conv.png" width="500" />
+</figure></p>
+</details>
+</li>
+</ul>
+</div>
+<h3 id="bash-scripting">Bash Scripting</h3>
+<p>You have run a lot of DFT calculations in this lab. Running all of these <code>pw.x</code> commands manually is time consuming. To speed things up we can use a small bash script that will automate running these jobs for us. Bash is a programming language (the one we use to interact with the command line), like python. In the same directory <code>01_carbon_monoxide/03_box_size</code> you will find a run.sh bash script. Let's quickly examine it.</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><span class="ch">#!/bin/bash #(1)!</span>
+</span><span id="__span-6-2">
+</span><span id="__span-6-3"><span class="c1"># Run pw.x for each input file sequentially</span>
+</span><span id="__span-6-4"><span class="k">for</span><span class="w"> </span>i<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="o">{</span><span class="m">10</span>..30..2<span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="c1">#(2)!</span>
+</span><span id="__span-6-5"><span class="k">do</span>
+</span><span id="__span-6-6"><span class="w">    </span>pw.x<span class="w"> </span>&lt;<span class="w"> </span>CO_<span class="nv">$i</span>.in<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>CO_<span class="nv">$i</span>.out<span class="w"> </span><span class="c1">#(3)!</span>
+</span><span id="__span-6-7"><span class="k">done</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li>This tells the compiler that the commands below are bash commands.</li>
+<li>Entering a simple for loop going from i=10 to i=30 in steps of 2.</li>
+<li>Issue the command <code>pw.x &lt; CO_$i.in &gt; CO_$i.out.</code></li>
+</ol>
+<p>To use this script, just issue the command;</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1">./run.sh
+</span></code></pre></div></td></tr></table></div>
+<p>Redo Task 4 and verify that you get the same result.</p>
+<h2 id="python-plotting">Python Plotting</h2>
+<p>In Task 3 and 4, we used the code <code>plot.py</code>. This code uses the matplotlib library to plot the results stored in data.txt to visualise the convergence of the total energy as the plane-wave cutoff is increased.
+Later in this course you will use python scripts to plot band structures and density of states. You are encouraged to examine and play around with these python codes to develop your coding skills!</p>
+<p>Let's take a quick look at plot.py from the <code>01_carbon_monoxide/02_kinetic_energy_cutoff</code> directory.</p>
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1"><span class="c1">#############################################################################################################################################</span>
+</span><span id="__span-8-2"><span class="c1">#############################################################################################################################################</span>
+</span><span id="__span-8-3"><span class="c1">#############################################################################################################################################</span>
+</span><span id="__span-8-4"><span class="c1">#        This is a plotting code. Put your data into data.txt in column format. &lt;column 1 = cutoff&gt; &lt;column 2 = total energy&gt;               #</span>
+</span><span id="__span-8-5"><span class="c1">#                           To use this code, issue the command:                                #</span>
+</span><span id="__span-8-6"><span class="c1">#                               python3 plot.py                                     #</span>
+</span><span id="__span-8-7"><span class="c1">#############################################################################################################################################</span>
+</span><span id="__span-8-8"><span class="c1">#############################################################################################################################################</span>
+</span><span id="__span-8-9"><span class="c1">#############################################################################################################################################</span>
+</span><span id="__span-8-10"><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-8-11"><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</span><span id="__span-8-12">
+</span><span id="__span-8-13"><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+</span><span id="__span-8-14">    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;data.txt&quot;</span><span class="p">)</span> <span class="c1">#(1)!</span>
+</span><span id="__span-8-15">
+</span><span id="__span-8-16">    <span class="n">ecut</span><span class="p">,</span> <span class="n">etot</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span> <span class="c1">#(2)!</span>
+</span><span id="__span-8-17">
+</span><span id="__span-8-18">    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span> <span class="c1">#(3)!</span>
+</span><span id="__span-8-19">    <span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">ecut</span><span class="p">,</span> <span class="n">etot</span><span class="p">)</span> <span class="c1">#(4)!</span>
+</span><span id="__span-8-20">    <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Kinetic Energy Cutoff (Ry)&quot;</span><span class="p">)</span>
+</span><span id="__span-8-21">    <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Total Energy (eV)&quot;</span><span class="p">)</span>
+</span><span id="__span-8-22">    <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Total Energy Convergence&quot;</span><span class="p">)</span>
+</span><span id="__span-8-23">    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span> <span class="c1">#(5)!</span>
+</span><span id="__span-8-24">
+</span><span id="__span-8-25"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+</span><span id="__span-8-26">    <span class="n">main</span><span class="p">()</span>
+</span></code></pre></div></td></tr></table></div>
+<ol>
+<li>Loading in the data that is in column format in <code>data.txt</code>.</li>
+<li>The first column is the plane-wave cutoff in Ry and the second column is the corresponding total energy in eV.</li>
+<li>Initialising the size of our figure. This allows you to control the aspect ratio of the plot.</li>
+<li>Scatter plot of ecut vs etot.</li>
+<li>After giving python all of the plotting information, we tell it to plot.</li>
+</ol>
+<h2 id="exchange-correlation-energy-functionals">Exchange &amp; Correlation Energy Functionals</h2>
+<p>Recall that in the Kohn-Sham equations we have a term known as the exange-correlation potential. What approximation we choose for this is a key part of DFT. The functional that we use determines how we approximate the many-body interactions between the electrons.</p>
+<p>As we discussed earlier, the pseudopotentials that we use are built from DFT calculations of single atoms. In these DFT calculations, an exchange-correlation functional was chosen. Thus, pseudopotentials inherently contain an exchange-correlation approximation. </p>
+<p>Choosing an appropriate exchange-correlation functional for the system we want to study is an important consideration in every DFT calculation. This choice can have a big impact the results we obtain from our DFT calculation. </p>
+<details class="note">
+<summary>Levels of approximation</summary>
+<ul>
+<li>There is a hierarchy of exchange-correlation functionals. This is sometimes represented as a ladder called 'Jacob's ladder' whose lowest rung is the LDA with higher rungs being GGAs, meta-GGAs, hybrid functionals and so on.
+<figure markdown="span">
+<img alt="Jacobs-ladder" src="../assets/Jacobs-ladder.png" width="500" />
+</figure></li>
+</ul>
+</details>
+<p>By default, Quantum Espresso determines which exchange-correlation functional it should use from the pseudopotential files as discussed above. It is possible, however, to override this default by using the <code>input_dft</code> variable in the &amp;system section.</p>
+<div class="admonition warning">
+<p class="admonition-title">Mixing Approximations</p>
+<p>It is generally not a good idea to override the default exchange-correlation functional read from the pseudopotential file. However, sometimes it may be difficult to find pseudopotentials for exotic exchange-correlation functionals. </p>
+</div>
+<p>In <code>02_argon</code> we will calculate the total energy as function of bond length for a pair of argon atoms using two different approximations for the exchange-correlation functional: first we will use a standard GGA functional and then we will study the effect of using a correction that accounts for van der Waals interactions.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 5 - Argon Dimer</p>
+<p>Navigate to the directory <code>02_argon/01_pbe</code>. Here you will see an input file <code>Ar2.in</code>, an argon pseudopotential file, and a python plotting code plot.py.</p>
+<ul>
+<li>Find out which approximation for the exchange-correlation functional is used by taking a look at the pseudopotential file.</li>
+</ul>
+<details class="success">
+<summary>Answer</summary>
+<p>This is at the GGA (pbe) level.</p>
+</details>
+<p>Make 10 copies of the input file named Ar2_i.in where i should run from 1 to 10 in steps of 1. In each of these files we want to systematically increase the distance between Ar atoms from 3.2 to 5 in steps of 0.2. Replace <code>xxxx</code> in the ATOMIC_POSITIONS of each file to do this. You should now have files named <code>Ar2_1.in</code>, <code>Ar2_2.in</code> etc with increasing dimer distances. You have been provided with a script <code>run.sh</code> that will automate the running of <code>pw.x</code>.</p>
+<ul>
+<li>
+<p>Run the script <code>run.sh</code>. One finished, store the data in a text file named <code>data.txt</code> in the format: [dimer distance] [total energy].</p>
+</li>
+<li>
+<p>Examine the script <code>plot.py</code>. Read through the python script and try to understand what each line of code is doing.</p>
+</li>
+<li>
+<p>At which distance does the argon dimer have the lowest energy?</p>
+</li>
+</ul>
+<details class="success">
+<summary>Result</summary>
+<p>a = 4.0 Å gives the minimum energy of -86.2547336 Ry</p>
+<p>However, the minimum is very shallow.
+<figure markdown="span">
+<img alt="pbe-dimer" src="../assets/pbe-dimer.png" width="500" />
+</figure></p>
+</details>
+<p>Argon atoms have full electronic shells. Therefore, they cannot form chemical bonds. They only interact with weak van der Waals interactions. The PBE exchange-correlation functional does not describe these interactions well. To capture them, we will have to introduce a special van der Waals correction.</p>
+<p>Navigate to <code>02_vdw</code>.</p>
+<ul>
+<li>Examine the input file Ar2.in. You will see a tag <code>vdw_corr = 'grimme-d3'</code>. This means that we are going to include van der Waals corrections (via a correction term to the total energy).</li>
+</ul>
+<p>Go through the same steps as in <code>01_pbe</code>, making 10 copies of the Ar2.in named Ar2_i.in where i ranges from 1 to 10. Systematically increase the dimer distance over the same range and run the DFT calculations.</p>
+<ul>
+<li>At what distance does the argon dimer have the lowest energy?</li>
+</ul>
+<details class="success">
+<summary>Result</summary>
+<p>a = 3.8 Å gives the minimum energy of -86.25537711 Ry. This is in good agreement with the experimental result of 3.76 Å (see Molecular Physics, 103 (15–16), 2031–2045 (2005)).</p>
+<p><figure markdown="span">
+<img alt="pbe-dimer" src="../assets/pbe-dimer-vdw.png" width="500" />
+</figure></p>
+</details>
+</div>
+<h2 id="more-convergence-parameters">More Convergence Parameters</h2>
+<p>So far we have only been dealing with isolated molecules, and thus we have been running our calculations with no <span class="arithmatex">\(\bf{k}\)</span> dependence. However, if we are dealing with crystals, which are periodic, then we need to sample the Briouillin zone with 'k points'. This will be covered in <a href="../../lab04/readme/">Lab 4</a>. The number of k points used to sample the Briouillin zone should also be converged when dealing with periodic crystals.</p>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>In this lab we gained a deeper understanding of the interrelated concepts of plane waves, pseudopotentials and periodic boundary conditions. We also learned about the importance of converging the results of our calculations with respect to the total energy threshold, the plane-wave cutoff and the box size:</p>
+<ul>
+<li>Convergence of any physical quantity of interest is achieved by systematically varying the relevant convergence parameters and making sure their values are chosen such that physically meaning results are obtained.</li>
+</ul>
+<p>We also learned about the importance of choosing an appropriate exchange-correlation functional for the system we want to study.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1644 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../..">
+      
+      
+        <link rel="next" href="../../lab02/readme/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Lab 1 - Getting Started in Linux - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#getting-started-in-linux" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 1 - Getting Started in Linux
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accessing-the-server-remotely" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accessing the server remotely
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-basic-command-line-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Basic command line usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Basic command line usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-writing-to-and-reading-from-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Writing to and reading from file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-using-a-file-as-argument-to-a-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Using a file as argument to a command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-navigating-the-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Navigating the system
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Navigating the system">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-understanding-the-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Understanding the directory structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-figuring-out-where-you-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Figuring out where you are
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-list-the-contents-of-the-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 List the contents of the directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-creating-new-directories-and-changing-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Creating new directories and changing directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-file-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. File manipulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. File manipulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-copying-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Copying files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-copying-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Copying folders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-moving-and-renaming-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Moving and renaming files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-deleting-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Deleting files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Wildcards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-job-control-terminating-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Job Control - terminating commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-tab-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Tab completion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-loading-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Loading modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-running-your-first-dft-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Running your first DFT calculation!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-pipe-operator-and-filtering-output-with-grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Pipe operator and filtering output with grep
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-uploading-files-to-matmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Uploading files to matmod
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-logging-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Logging out
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-important-disk-quota-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. IMPORTANT - Disk quota limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introduction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-accessing-the-server-remotely" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Accessing the server remotely
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-basic-command-line-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Basic command line usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Basic command line usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-writing-to-and-reading-from-file" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 Writing to and reading from file
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-using-a-file-as-argument-to-a-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 Using a file as argument to a command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-navigating-the-system" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Navigating the system
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="4. Navigating the system">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-understanding-the-directory-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 Understanding the directory structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-figuring-out-where-you-are" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 Figuring out where you are
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-list-the-contents-of-the-directory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 List the contents of the directory
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-creating-new-directories-and-changing-directories" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 Creating new directories and changing directories
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-file-manipulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. File manipulation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. File manipulation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-copying-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 Copying files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-copying-folders" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 Copying folders
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-moving-and-renaming-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 Moving and renaming files
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54-deleting-files" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 Deleting files
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-wildcards" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. Wildcards
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-job-control-terminating-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Job Control - terminating commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-tab-completion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Tab completion
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9-loading-modules" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. Loading modules
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10-running-your-first-dft-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. Running your first DFT calculation!
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11-pipe-operator-and-filtering-output-with-grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. Pipe operator and filtering output with grep
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-uploading-files-to-matmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. Uploading files to matmod
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#13-logging-out" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        13. Logging out
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#14-important-disk-quota-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        14. IMPORTANT - Disk quota limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#15-summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        15. Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="getting-started-in-linux">Getting Started in Linux</h1>
+<h2 id="1-introduction">1. Introduction</h2>
+<p>In this course, you will use a dedicated Linux server to run your calculations, which can be accessed remotely. In this first Lab, you will learn how to:</p>
+<ol>
+<li>access this server remotely with your college credentials</li>
+<li>interact with the server using the Linux command line</li>
+<li>set up your work environment in the terminal</li>
+<li>run your first DFT calculation!</li>
+</ol>
+<p>These steps closely resemble what you would need to do in a real-world scenario. When you’re researching more advanced topics, you will require powerful computers to run your simulations. At Imperial, you could get access to CX1, the local High Performance Computing (HPC) facility containing hundreds of machines. On a national level, you could get access to ARCHER2, the UK national supercomputing service. All these facilities use the Linux operating system, so it is important to get comfortable with the Linux command line because in many situations this will be your only option to interact with those machines. The server you will use in this course is called <code>matmod</code> and it will be your first step into the world of material simulation.</p>
+<h2 id="2-accessing-the-server-remotely">2. Accessing the server remotely</h2>
+<p>The server can be accessed by using PuTTY and XMing, which can be run from the <a href="https://softwarehub.imperial.ac.uk/">Imperial Software Hub</a>. XMing runs in the background in your Windows machine and enables the remote server to display graphics when needed. For the most part, however, you will have to interact with the command line. PuTTY is the program used to establish the connection to the remote server.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 1 - Connecting to the remote server</p>
+<ol>
+<li>Access the <a href="https://softwarehub.imperial.ac.uk/">Imperial Software Hub</a> and first launch Xming, then PuTTY.<br>
+<img alt="text" src="../images/1softwarehub.PNG" width="600" /><br></li>
+<li>In the PuTTY interface, inside the <strong>Connection</strong> tab, enable X11 forwarding. This will allow the server to communicate with Xming to show you graphical data when required.<br>
+<img alt="text" src="../images/5puttyX11.PNG" width="600" /></li>
+<li>In the <strong>Session</strong> tab, under <strong>Host Name</strong>, input the name of the server that you want to access, and save this session by giving it a name under <strong>Saved Sessions</strong> and clicking <strong>Save</strong>. Whenever you want to reconnect with PuTTY, you can simply load this session again. Finally, click <strong>Open</strong>:<br>
+<img alt="text" src="../images/5putty.PNG" width="600" />    </li>
+<li>If this is your first time connecting to this server, you might get a security alert asking whether you want to accept the host key. Press <strong><em>Accept</em></strong>.<br>
+<img alt="text" src="../images/sec_alert.PNG" width="600" /></li>
+<li>A terminal will be presented to you. In order to login, you will have to enter your College username, press <strong><em>Enter</em></strong>, enter your password and press <strong><em>Enter</em></strong> again.<br>
+<img alt="text" src="../images/6terminal.PNG" width="600" /></li>
+</ol>
+<p><strong><em>Note:</em></strong> while we try to ensure students registered for the course have access before the first class, we may not have the most up-to-date information. If it doesn't accept your login details please let me know and we can give you access.<br></p>
+<p><strong><em>Congratulations</em></strong>! You are now connected to <strong><em>matmod</em></strong> and have complete access to its powerful Linux command line.</p>
+</div>
+<h2 id="3-basic-command-line-usage">3. Basic command line usage</h2>
+<p>While using a computer for day-to-day activities, you most likely have become familiar with a Graphical User Interface (GUI), which is a graphical way to interact with the computer. Most Operating Systems (OS) also provide a non-graphical way to interact with the computer through the command line (also usually denoted as the terminal). In this course we will deal exclusively with the Linux command line. The command line offers a completely equivalent way to the GUI to perform tasks, but has several advantages:</p>
+<ul>
+<li>It uses very few system resources. This is especially useful if there are dozens of users using the same machines simultaneously, as in this Lab</li>
+<li>It is extremely flexible. With knowledge of just a few basic operations, it is possible to chain them together to perform complex tasks, or to automate tasks altogether</li>
+</ul>
+<p>In this section, you will learn how to use the command line to perform simple tasks like listing the files inside a directory, creating and copying directories and run simple programs. Most of the programs that you will use in this course will run exclusively in the command line, but you can also use it to run programs with a GUI.</p>
+<p>If you successfully connected to the remote server using PuTTY, you should have a Linux command line in front of you right now.</p>
+<p>The terminal will give you access to a prompt that can be used to interact with the computer. The prompt contains three sections: <code>username @ machine : current working directory $</code>. The commands you write will always be in front of the <code>$</code> symbol.</p>
+<p><img alt="text" src="../images/7terminal.png" width="600" /></p>
+<div class="admonition example">
+<p class="admonition-title">Task 1: launching your first program</p>
+<p>Write the command <code>gedit</code> then press Enter. This might take a few seconds, but then it will open a graphical text editor. The prompt will be unresponsive until this program finishes. This will be the case for most Linux commands. In this case, the program will finish once you close the <code>gedit</code> window. Until the command completes its assigned task, you cannot use the prompt, but once the task is finished, the prompt can be used again.</p>
+<p><img alt="text" src="../images/8gedit.PNG" width="600" /></p>
+<p><strong>Important</strong> Remember to close the <code>gedit</code> window</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Task 2: command line programs</p>
+<p>Not all commands open up graphical interactive windows. Let's now take a look at commands which provide output exclusively in the command line. </p>
+<ol>
+<li>Run the program <code>date</code>, which will print out to the terminal the current date and time. </li>
+<li>You can also provide additional parameters to certain commands to make them do specific tasks. For example, the command <code>echo</code> prints out to the terminal the text that’s written after it. Run the program echo with <code>DFT</code> as a parameter - <code>echo DFT</code>, and check that it prints out the word <code>DFT</code> to the terminal. </li>
+</ol>
+<p><img alt="text" src="../images/9command_program.PNG" width="600" /></p>
+</div>
+<p>In sum, commands in the Linux command line have the following structure</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><span class="nb">command</span><span class="w"> </span>argument1<span class="w"> </span>argument2<span class="w"> </span>...
+</span></code></pre></div></td></tr></table></div>
+<p>where the number of arguments can be virtually arbitrary.</p>
+<h3 id="31-writing-to-and-reading-from-file">3.1 Writing to and reading from file</h3>
+<p>In many circumstances, you might want to save the output of a command to a file so that you can process it later. This can be done with the <strong><em>output redirect</em></strong> symbol <code>&gt;</code>. For example, running 
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1">date<span class="w"> </span>&gt;<span class="w"> </span>file.txt<span class="w"> </span>
+</span></code></pre></div></td></tr></table></div></p>
+<p>in the command line will save the output that you got previously into the file called <code>file.txt</code>. You can check that this file has been created by using gedit.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 3: saving to file</p>
+<ol>
+<li>Run the previous command</li>
+<li>Open it using gedit and check that its contents match your expectation
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1">gedit<span class="w"> </span>file.txt
+</span></code></pre></div></td></tr></table></div></li>
+</ol>
+<p><img alt="text" src="../images/10opengedit2.PNG" width="600" /></p>
+</div>
+<p>While gedit provides all the means necessary to read and write files, it can be very slow when the connection to the server is not stable, or when many people are connected to the server simultaneously. A quicker way to read the contents of a file is by using the <code>cat</code> command. When you provide an argument to the <code>cat</code> command, it will assume that the argument is a file name and will output its contents.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4: Reading from a file</p>
+<p>Run the following command and check that the output matches what you saw with gedit</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1">cat<span class="w"> </span>file.txt
+</span></code></pre></div></td></tr></table></div>
+<p><img alt="text" src="../images/11cat.PNG" width="600" /></p>
+</div>
+<p>If the file is very long, you can also use <code>head file.txt</code> if you just want to print out the first lines of the file, or <code>tail file.txt</code> if you just want to print out the last lines. Alternatively, you can use a more interactive command like <code>less file.txt</code> which will replace the terminal with a file reader that you can scroll through with your mouse wheel or the keyboard arrows. You can exit this file reader by pressing <code>q</code>. Reading the file directly from the command line is often the quickest and most convenient way to get information from a file.</p>
+<h3 id="32-using-a-file-as-argument-to-a-command">3.2 Using a file as argument to a command</h3>
+<p>Some Linux commands can use instructions saved in files to perform their job. For the purposes of this Lab, we will be doing this by using the <strong><em>input redirect</em></strong> feature with the symbol <code>&lt;</code>. </p>
+<div class="admonition example">
+<p class="admonition-title">Task 5 - Files as input</p>
+<p>The command <code>sort</code> sorts the input that is given to it. </p>
+<ol>
+<li>Using gedit, create a file called <code>numbers.txt</code> containing three separate lines with the numbers 3,9 and 1</li>
+<li>Run <code>sort &lt; numbers.txt</code>. This command will print out the sorted list of numbers.</li>
+<li>Save the output of this command into another file <code>numbers_sorted.txt</code> using what you learned previously: <code>sort &lt; numbers.txt &gt; numbers_sorted.txt</code></li>
+<li>Read the contents of this new file using <code>cat</code> and check that the numbers have been sorted</li>
+</ol>
+<p><img alt="text" src="../images/12numbersgedit.PNG" width="600" />
+<img alt="text" src="../images/12numberssorted.PNG" width="600" /></p>
+</div>
+<h2 id="4-navigating-the-system">4. Navigating the system</h2>
+<p>So far, all the commands you have been running were executed inside of your <strong>home</strong> directory. In a GUI, you navigate the system by clicking on folders with the cursor and looking at their contents. In a terminal, everything is done via commands. Instead of clicking on a folder, you issue a command to change your current location to that folder. Instead of visualizing the files as icons inside a folder, you issue a command to show the file names in the current directory.</p>
+<h3 id="41-understanding-the-directory-structure">4.1 Understanding the directory structure</h3>
+<p>The directory (or folder) structure in Linux is defined through the use of the forward slash <code>/</code>. For example, <code>/file1.txt</code> means that <code>file1.txt</code> is inside the root directory, which is represented by a single forward slash <code>/</code>. <code>/directory1/file1.txt</code> means that <code>file1.txt</code> is inside <code>directory1</code> which is inside the root directory <code>/</code>. As a user of the <strong><em>matmod</em></strong> server, your files are located in the directory <code>/home/username</code>, which has a shorthand expression <code>~</code>. This is called the <strong><em>home</em></strong> directory.</p>
+<p><img alt="text" src="../images/13home.PNG" width="600" /></p>
+<h3 id="42-figuring-out-where-you-are">4.2 Figuring out where you are</h3>
+<p>If you want to check what is your current directory, run the command <code>pwd</code>, which stands for <strong><em>print working directory</em></strong>. This will print out something like <code>/home/sjoao</code>, which means that the directory <code>sjoao</code> is located inside the directory <code>home</code>. It also means that you are currently located inside the <code>/home/username</code> folder. This directory <code>/home/sjoao</code> is known as the home directory, and is equivalently represented by a tilde <code>~</code> as a shorthand.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4.1</p>
+<p>Run the command <code>pwd</code> in the command line. Check that this output corresponds to a directory structure as discussed above</p>
+<p><img alt="text" src="../images/14pwd.PNG" width="600" /></p>
+</div>
+<h3 id="43-list-the-contents-of-the-directory">4.3 List the contents of the directory</h3>
+<p>If you want to list the contents of your current directory, run the <strong><em>list</em></strong> command <code>ls</code>. This will print out to the terminal the list of folders and files that exist in the current directory. <strong><em>Note</em></strong>: in the terminal, the digit <strong><em>1</em></strong> and the letter <strong><em>l</em></strong> may look identical, so be sure you write the letter, not the digit.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4.3</p>
+<p>Run the command <code>ls</code> and check that the files that you created in the previous tasks are here.
+<img alt="text" src="../images/15ls.PNG" width="600" /></p>
+</div>
+<h3 id="44-creating-new-directories-and-changing-directories">4.4 Creating new directories and changing directories</h3>
+<p>The command <code>mkdir</code> (which stands for <strong><em>make directory</em></strong>) is used to create new directories inside of the current directory. If you run <code>mkdir newDirectory</code>, you will see that a directory <code>newDirectory</code> has been created. To navigate to that directory, run <code>cd newDirectory</code>. To navigate to its parent directory, run <code>cd ..</code> in the command line. The two dots <code>..</code> stand for <strong><em>parent directory</em></strong>. </p>
+<p>These commands are all relative to the current directory, but you can also use the absolute path. For example, run <code>mkdir ~/newDirectory/dir2</code>. You will see that a directory will be created inside of <strong>newDirectory</strong>, which is inside of your home <code>~</code> directory. To navigate to it directly, you can run <code>cd ~/newDirectory/dir2</code> in just the same way. Running <code>cd ~</code> will place you back into your home directory.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4.4</p>
+<p>Run the commands above and in each step run <code>ls</code> and <code>pwd</code> to better understand the directory structure.
+<img alt="text" src="../images/16folders.PNG" width="600" /></p>
+</div>
+<h2 id="5-file-manipulation">5. File manipulation</h2>
+<h3 id="51-copying-files">5.1 Copying files</h3>
+<p>In the terminal, you copy files by using the <code>cp</code> command, which requires the origin (file to be copied) to be specified as the first argument and destination to be specified as second argument. For example, if you want to copy file <code>~/text.txt</code> (which is located in your home folder) to the directory <code>~/newDirectory/dir2</code>, you can do it in two ways:</p>
+<ol>
+<li>Specify the full paths:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1">cp ~/file.txt  ~/newDirectory/dir2
+</span></code></pre></div></td></tr></table></div></li>
+<li>Navigate to one of the directories and use a relative path:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1">cd ~/newDirectory/dir2
+</span><span id="__span-5-2">cp ~/file.txt .
+</span></code></pre></div></td></tr></table></div>
+The dot <code>.</code> in this last command represents <strong><em>this directory</em></strong>, so the command means: “copy the file <code>~/file.txt</code>, which is located in the home directory into the current directory”. <br>
+<strong><em>Note:</em></strong> if the file already exists in the destination, it will be overwritten. </li>
+</ol>
+<h3 id="52-copying-folders">5.2 Copying folders</h3>
+<p>To copy folders, the only extra thing you need to do is to specify the additional <code>-r</code> argument to <code>cp</code>. For example, you can copy the directory <code>dir2</code>, which has the location <code>~/newDirectory/dir2</code> to the home directory as such:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1">cp -r ~/newDirectory/dir2  ~
+</span></code></pre></div></td></tr></table></div></p>
+<p><strong>Note:</strong> Unlike files, folders are not overwritten. If you copy a folder into the location of another, instead of overwritting, the command will place the source folder inside of the destination folder.</p>
+<div class="admonition example">
+<p class="admonition-title">Task </p>
+<p>Run the commands from the previous two sections and check with <code>ls</code> that the contents of each folder correspond to the expectation.</p>
+</div>
+<h3 id="53-moving-and-renaming-files">5.3 Moving and renaming files</h3>
+<p>The syntax to move files is exactly the same as the one for the <code>cp</code> command. To move a file <code>file.txt</code> from <code>~/newDirectory/dir2</code> to <code>~/newDirectory</code>, run the command
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1">mv ~/newDirectory/dir2/file.txt ~/newDirectory
+</span></code></pre></div></td></tr></table></div>
+You can also move directories in a similar way to <code>cp</code>, but without the additional <code>-r</code> argument. </p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<p>Create a new directory <code>dir3</code> inside the home directory and move <code>~/dir2</code> into <code>dir3</code>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-8-1">cd ~
+</span><span id="__span-8-2">mkdir dir3
+</span><span id="__span-8-3">mv dir2 dir3
+</span></code></pre></div></td></tr></table></div></p>
+</div>
+<p>To rename a file, you also use the <code>mv</code> command. You can think of renaming a file as moving a file into another with a different name. For example, to rename <code>file.txt</code> to <code>data.txt</code>, use <code>mv file.txt data.txt</code></p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<p>Run the previous command and check that the file has the expected name.</p>
+</div>
+<h3 id="54-deleting-files">5.4 Deleting files</h3>
+<p>To delete a file, you use the <code>rm</code> command. For example, if you want to remove file <code>file.txt</code>, use
+<code>rm file.txt</code>. To delete directories, the argument <code>-r</code> has to be provided: <code>rm -r ~/newDirectory/dir2</code><br>
+<strong>Note:</strong> If you run the <code>rm</code> command, the deleted file or directory will be deleted permanently, there is no way to undo it, so make sure you are running the correct command.</p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<p>Run the previous command and check that <code>file.txt</code> and <code>dir2</code> no longer exist.</p>
+</div>
+<h2 id="6-wildcards">6. Wildcards</h2>
+<p>In Linux many commands will accept wild cards as a way to perform their action on a set of files. <code>*</code> is used to represent zero or more characters. The <code>*</code> wildcard is very commonly used and worth remembering.</p>
+<ul>
+<li><code>ls *.txt</code> would list all the files ending in <code>.txt</code> in the current directory.</li>
+<li><code>rm *.o</code> would remove all files ending in <code>.o</code> in the current directory.</li>
+</ul>
+<h2 id="7-job-control-terminating-commands">7. Job Control - terminating commands</h2>
+<p>Sometimes, you will execute a command which does not seem to finish, so you may want to force it to terminate. You can do this by pressing the keys <code>Ctrl+C</code></p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<p>Run <code>gedit</code> and terminate it with <code>Ctrl+C</code>. Make sure that you are pressing the keys <code>Ctrl+C</code> while the terminal window is selected, not the gedit window.</p>
+</div>
+<h2 id="8-tab-completion">8. Tab completion</h2>
+<p>Typing commands in their entirety can be a time-consuming process while interacting with a terminal. Tab completion is a very useful feature of the Linux command line which tries to fill in the commands for you.</p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<p>Try typing <code>ged</code> in a terminal and hitting <code>tab</code>. The full name of the program
+<code>gedit</code> should automatically fill in. If more than one match is possible,
+pressing <code>tab</code> twice will bring up a list of possible matches. Try typing
+<code>ge</code> and pressing tab twice to see this.</p>
+</div>
+<h2 id="9-loading-modules">9. Loading modules</h2>
+<p>Environment modules provide extra functionality to your session by giving you access to additional software packages. The reason why these additional softwares are often not available by default is because they may cause conflict with other softwares. Environment modules ensure that these softwares can be loaded safely without causing conflicts. They are almost always used on HPC systems to make various versions of common version of computational software packages available. The main command to know is <code>module</code>. This command allows you to load and unload different software packages. To load a package, use <code>module load</code> followed by the name of the packages. In this lab, you will need to load the <strong>Quantum Espresso</strong> package:</p>
+<p><div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-9-1">module<span class="w"> </span>load<span class="w"> </span>quantum-espresso
+</span></code></pre></div></td></tr></table></div>
+<img alt="text" src="../images/18module.PNG" width="600" /></p>
+<p>Throughout the course, when running on the server you'll need to remember to load the modules above before you'll be able to use the codes in the Quantum Espresso package. </p>
+<h2 id="10-running-your-first-dft-calculation">10. Running your first DFT calculation!</h2>
+<p>Now that you know the basics of the Linux operating system, it's time to run your first DFT calculation. First, we need to setup a few files and directories. The various files associated with the labs for this course are all available
+in <code>/opt/MSE404-MM/docs/labs</code>.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4.5</p>
+<p>Try changing directories to <code>/opt/MSE404-MM/docs/labs</code> and exploring the folders and taking a look at files that are contained in there. Change back to the home directory once you're done.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<ul>
+<li>In your home directory create the directory <code>MSE404-MM</code>.</li>
+<li>Copy the directory with the input files for this course <code>/opt/MSE404-MM/docs/labs/lab01</code> to the directory you just created <code>~/MSE404-MM</code>. Remember you need to pass an additional flag to <code>cp</code> to copy a directory.</li>
+<li>List the contents of directory <code>~/MSE404-MM/lab01/helium</code> with <code>ls</code><ul>
+<li>You'll see there are three files in the directory you copied.</li>
+<li><code>He.in</code> - an input file for the DFT code you'll be using.</li>
+<li><code>He.pbe-mt_fhi.UPF</code> - a pseudopotential file for helium, which contains information about the interaction between the helium nucleus and the electrons.</li>
+<li>You'll learn more about these types of files in later classes.</li>
+</ul>
+</li>
+</ul>
+<p><img alt="text" src="../images/19MSE.PNG" width="600" /></p>
+</div>
+<p>Now you are finally ready to run the DFT calculation</p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<ul>
+<li>First we need to load the Quantum Espresso module. If you haven't done this already, run <code>module load quantum-espresso</code>.</li>
+<li>Now you'll be able to use the various Quantum Espresso package executables directly. Use <code>cd</code> to go to the helium folder you copied earlier (<code>~/MSE404-MM/lab01/helium</code>)</li>
+<li>The input file there is for the <code>pw.x</code> code. You can pass this file to <code>pw.x</code> with input redirection and save the output to a file with output redirection (otherwise the output will just be in the terminal). To do this type <code>pw.x &lt; He.in &gt; He.out</code>.</li>
+<li>See what files are present in the directory now. As well as the output file we saved, some others were generated.<br>
+<img alt="text" src="../images/20dft.PNG" width="600" /><br></li>
+<li>Take a look through the output file <code>He.out</code> using <code>less</code>. You can use the arrow keys to scroll, <code>g</code> to go to the beginning of the file, <code>G</code> to go to the end of the file and <code>q</code> to exit the reader. We'll discuss the contents of this in next week's lab, but for now skip to the section immediately following the line that reads <code>End of self-consistent calculation</code>:<ul>
+<li>This lists the calculated energy eigenvalues: in helium only the 1s orbital is occupied by two electrons</li>
+<li>Compare the value of the 1s orbital energy to the result you get from the Schroedinger equation when electron-electron interactions are neglected.</li>
+<li>Following this, you can see in the output, the value of the highest occupied energy level in eV, and the total energy in Rydberg. How does the total energy compare to the experimental value of -79.02 eV? How does it compare to the total energy obtained when electron-electron interactions are neglected?</li>
+<li>Congratulate yourself on running your first DFT calculation.</li>
+</ul>
+</li>
+</ul>
+<p><img alt="text" src="../images/21DFT.PNG" width="600" /></p>
+</div>
+<h2 id="11-pipe-operator-and-filtering-output-with-grep">11. Pipe operator and filtering output with grep</h2>
+<p>Running commands may produce a lot of output, making it difficult to find the information you want. The Linux command line provides the option to filter output by using the <code>grep</code> command together with the <code>|</code> operator (pipe operator). The pipe operator passes the output of a command as input to the next command. For example, <code>cat He.out | grep highest</code> will read out the contents of the output file <code>He.out</code> and, instead of printing them to the terminal, will pass them to <code>grep</code>, which will filter it according to the keyword <code>highest</code>. Any line which contains this keyword will then be printed out to the terminal. If no line exists with the keyword, nothing will be printed out.</p>
+<p><img alt="text" src="../images/20grep.PNG" width="600" /></p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<p>Modify the example above to print out all the lines containing the keyword <code>total</code>. Why do you get several outputs now?</p>
+</div>
+<h2 id="12-uploading-files-to-matmod">12. Uploading files to matmod</h2>
+<p>In order to complete your homework assignments, you might want to upload your DFT input files to matmod and use matmod to perform the DFT calculations. In this section, you will learn how to do that. In the Imperial Software Hub, search and run <strong><em>WinSCP</em></strong></p>
+<p><img alt="text" src="../images/23softhub.PNG" width="600" /></p>
+<p>You will be presented with an interface to input the connection details. This is similar to what you have done with PuTTY.</p>
+<p><img alt="text" src="../images/23winscp.PNG" width="600" /></p>
+<p>After the connection is successful, you will be prompted to add the host key to a cache. Press <strong><em>Accept</em></strong></p>
+<p><img alt="text" src="../images/23security.PNG" width="600" /></p>
+<p>Finally, you will be presented with a window with your Windows folders on the left and your matmod folders on the right. Now you can simply drag and drop the files you want into matmod. In this example, we are uploading some file containing instructions, but in your case you might be uploading the DFT input files.</p>
+<p><img alt="text" src="../images/23dragdrop.PNG" width="600" /></p>
+<div class="admonition example">
+<p class="admonition-title">Task</p>
+<ol>
+<li>
+<p>Using WinSCP, upload a file of your choice to matmod.</p>
+</li>
+<li>
+<p>Using the Linux command line you were using previously, check with <code>ls</code> that the file you just uploaded shows up in the correct directory.</p>
+</li>
+</ol>
+</div>
+<h2 id="13-logging-out">13. Logging out</h2>
+<p>Once you're done, exit the session by closing the terminal and then pressing <em>OK</em>. This will close Putty. Finally, go back to the Cloudpaging Player, select Xming, Stop the application and press <em>Yes</em>.</p>
+<p><img alt="text" src="../images/22exit.PNG" width="600" /></p>
+<h2 id="14-important-disk-quota-limitations">14. IMPORTANT - Disk quota limitations</h2>
+<p>The <code>matmod</code> server is shared among all the students. To prevent any one student from using up too much storage, each student is limited to <code>1GB</code> of storage in their <strong>home</strong> directory. This is not a lot, considering that many DFT calculations will store files consisting of several hundreds of <code>MB</code>. To get around this, <code>matmod</code> provides another directory called <code>data</code> inside your home directory which has a much higher storage capacity. As you progress throught the DFT course, please use the <code>data</code> directory instead of the <code>home</code> directory to perform your calculations. </p>
+<p>If you come across any of the following problems, it's probably because you ran out of space in your <code>home</code> directory:
+- You get a disk storage error when creating new files or running DFT calculations.
+- You cannot run <code>gedit</code> because you get an error instead of the window showing up.
+- When you login, you get a message concerning XAuthority.</p>
+<h2 id="15-summary">15. Summary</h2>
+<p>There are a lot of commands to remember from this week's lab. You can always
+refer back to this week, but to make things easier in future weeks you might
+find a cheatsheet useful. If you don't want to make your own, a quick Google
+search of <code>Linux cheat sheet</code> brings up a number of options.</p>
+<p>To run the DFT example in this lab you will need to do the following:</p>
+<ul>
+<li>Make a directory that will hold the material for the MSE404 labs:
+  <code>mkdir ~/MSE404-MM</code>.</li>
+<li>Copy the directory with the inputs for this lab to this directory:
+  <code>cp -r /opt/MSE404-MM/docs/labs/lab01 ~/MSE404-MM</code>.</li>
+<li>Load the modules needed to run Quantum Espresso:
+  <code>module load quantum-espresso</code>.</li>
+<li>Go to the directory with the input files you copied 
+  <code>cd ~/MSE404-MM/lab01/helium</code>.</li>
+<li>Use <code>pw.x</code> to process the input file, saving the output to a file:
+  <code>pw.x &lt; He.in &gt; He.out</code>.</li>
+<li>Take a look through the output file:
+  <code>less He.out</code>.</li>
+<li>Logout of the remote server once you're done.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
