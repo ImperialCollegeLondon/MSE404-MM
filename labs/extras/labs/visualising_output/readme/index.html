@@ -1,0 +1,1187 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Additional Material: Examining the Charge Density and Wavefunction - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#additional-material-examining-the-charge-density-and-wavefunction" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Additional Material: Examining the Charge Density and Wavefunction
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-charge-density" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        The Charge Density
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="The Charge Density">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3d-visualization-with-xcrysden" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D visualization with XCrySDen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2d-visualization-with-gnuplot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2D visualization with GnuPlot
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#visualizing-the-wavefunction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Visualizing the Wavefunction
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Visualizing the Wavefunction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#3d-visualization-with-xcrysden_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3D visualization with XCrySDen
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#task_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projected-density-of-states" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projected Density of States
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projected Density of States">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#task_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Task
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="additional-material-examining-the-charge-density-and-wavefunction">Additional Material: Examining the Charge Density and Wavefunction</h1>
+<p>In this lab we'll look at various ways of visualizing the output from your DFT
+calculations. To do this we'll be using several additional codes from the
+Quantum Espresso package.</p>
+<h2 id="the-charge-density">The Charge Density</h2>
+<p>To start with we'll try to visualise the charge density we have calculated for
+a methane molecule. Take a look at the directory
+<a href="01_chargedensity/01_methane"><code>01_chargedensity/01_methane</code></a>. This is contains
+an <a href="../01_chargedensity/01_methane/CH4.in">input file</a> for methane exactly as
+we've seen before. Note, we've set <code>disk_io = 'low'</code> which is the default
+value for an scf calculation (i.e. we could have omitted this and get the same
+output), as we want to keep the charge density file for analysis.</p>
+<ul>
+<li>Run <code>pw.x</code> with this input file now, and check the output to make sure it
+  all worked as expected. You should have both a <code>pwscf.save</code> directory
+  containing the charge density file and other output, and a <code>pwscf.wfc</code>
+  wavefunction file.</li>
+</ul>
+<p>Now we want to post-process this output into something we can visualise more
+easily. To do that we'll be using the <code>pp.x</code> code from the Quantum Espresso
+suite. This code can read the output files produced by <code>pw.x</code>, extract
+whatever quantity you're interested in and generate output compatible with
+various visualisation programs. There is a help file similar to the <code>pw.x</code>
+available in the Quantum Espresso documentation folder called <code>INPUT_PP.txt</code>.</p>
+<h3 id="3d-visualization-with-xcrysden">3D visualization with XCrySDen</h3>
+<p>There is a <code>pp.x</code> input file for methane called
+<a href="../01_chargedensity/01_methane/CH4_pp.in"><code>CH4_pp.in</code></a>, that contains the
+following:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"> &amp;INPUTPP
+</span><span id="__span-0-2">    filplot = &#39;methane_charge&#39;
+</span><span id="__span-0-3">    plot_num = 0
+</span><span id="__span-0-4"> /
+</span><span id="__span-0-5">
+</span><span id="__span-0-6"> &amp;PLOT
+</span><span id="__span-0-7">    filepp(1) = &#39;methane_charge&#39;
+</span><span id="__span-0-8">    iflag = 3
+</span><span id="__span-0-9">    output_format = 5
+</span><span id="__span-0-10">    fileout = &#39;CH4.rho.xsf&#39;
+</span><span id="__span-0-11"> /
+</span></code></pre></div></td></tr></table></div>
+<p>As you can see, the file format is quite similar to that used by <code>pw.x</code>. It
+contains two sections:</p>
+<ul>
+<li><code>INPUTPP</code> which has inputs controlling what data will be extracted from the
+  <code>pw.x</code> output.<ul>
+<li>If we had chosen non-default directories and names for the output files,
+  we would need to se them here.</li>
+<li><code>filplot</code> specifies a filename that will be used to save the extracted
+  data.</li>
+<li><code>plot_num</code> takes an integer option that specifies what quantity will be
+  extracted. 0 gives us the electronic density. There are many options
+  here, such as potentials and local density of states. See the help
+  file <code>INPUT_PP.txt</code> for details, including info on additional variables
+  that apply depending on this option.</li>
+</ul>
+</li>
+<li><code>PLOT</code> has inputs controlling how the extracted data will be output for
+   visualisation.</li>
+<li><code>filepp(1)</code> gives the name of the first file to read (it's possible to
+     read several files and combine them in various ways, such as to
+     generate charge density difference plots).</li>
+<li><code>iflag</code> gives the dimensionality of the output. We choose 3 here for a
+     3D plot.</li>
+<li><code>output_format</code> gives the type of format you want to have output, usually
+     this is determined by what application you'll be using to visualise the
+     data. It should also be compatible with the value of <code>iflag</code>. We've
+     selected 5 which will give us output compatible with <code>xcrysden</code>.</li>
+<li><code>fileout</code> specifies the name of the plot file. <code>xsf</code> is a default
+     <code>xcrysden</code> extension.</li>
+</ul>
+<p>We can run <code>pp.x</code> in the same way as <code>pw.x</code>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1">pp.x<span class="w"> </span>&lt;<span class="w"> </span>CH4_pp.in<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>CH4_pp.out
+</span></code></pre></div></td></tr></table></div>
+<p>You'll see both a <code>methane_charge</code> and a <code>CH4.rho.xsf</code> file have been
+generated in the calculation directory. The charge file is in a binary format
+so we can't tell much about it. The <code>.xsf</code> file is in a text format so we
+can examine it (and modify it if we want) in a text editor. Take a look and
+you'll see the file simply defines the crystal lattice and basis, then has a
+section with the datagrid as a mesh of points.</p>
+<p>Launch <code>xcrysden</code> (recall you'll need to load the xcrysden module first with
+<code>module load xcrysden</code>), and load the file <code>CH4.rho.xsf</code>. You'll see a big
+cube, which has the carbon at each corner and whichever bound hydrogen
+falls within the cube nearby. This isn't ideal, but let's carry on for the
+moment. There's no sign of the charge density yet. To enable this, go to
+"Tools" -&gt; "Data Grid". You can click "OK" on the menu that appears, and then
+you'll see a menu that controls the data grid plot appearance. Try entering
+say "0.1" for the "Isovalue" and click "Submit". If you zoom into a carbon
+you'll see the cloud of charge around it. Unfortunately, since we have the
+carbon at the origin, this plot is a little hard to see.</p>
+<h3 id="task"><em>Task</em></h3>
+<ul>
+<li>In a new directory <code>01_methane_shift</code>, shift the molecule such that the
+carbon atom is at the centre of the box in the <code>pw.x</code> input file.</li>
+<li>Run the <code>pw.x</code> and <code>pp.x</code> calculations as before.</li>
+<li>Visualise the output in <code>xcrysden</code>.<ul>
+<li>Disable the display of the crystal cell.</li>
+<li>Plot the data grid at an Isovalue of 0.27. You should also enable
+transparency, and increase the degree of the tricubic cpline to 2 or 3.</li>
+<li>Under "Modify" reduce the Ball Factor to reduce their size.</li>
+</ul>
+</li>
+<li>When you're happy with how it looks, save an image by first checking the
+  "File" -&gt; "Print Setup" menu. It's usually worth enabling anti-aliasing
+  here. Then go to "File" -&gt; "Print" and save the output as a png image.</li>
+<li>Why is there no density around the carbon atom?</li>
+</ul>
+<h3 id="2d-visualization-with-gnuplot">2D visualization with GnuPlot</h3>
+<p>The other way to look at this would be as a 2D contour plot, or heat map.
+We can get 2D output suitable for gnuplot by setting the input for <code>pp.x</code> as
+in <a href="../01_chargedensity/01_methane/CH4_pp_gp.in"><code>CH4_pp_gp.in</code></a>:
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"> &amp;INPUTPP
+</span><span id="__span-2-2"> /
+</span><span id="__span-2-3">
+</span><span id="__span-2-4"> &amp;PLOT
+</span><span id="__span-2-5">    filepp(1) = &#39;methane_charge&#39;
+</span><span id="__span-2-6">    iflag = 2
+</span><span id="__span-2-7">    output_format = 7
+</span><span id="__span-2-8">    fileout = &#39;CH4.rho.gpl&#39;
+</span><span id="__span-2-9">    e1(1) = 0.4, e1(2) = 0.0, e1(3) = 0.0
+</span><span id="__span-2-10">    e2(1) = 0.0, e2(2) = 0.0, e2(3) = 0.4
+</span><span id="__span-2-11">    x0(1) = -0.2, x0(2) = 0.0, x0(3) = -0.2
+</span><span id="__span-2-12">    nx = 100, ny = 100
+</span><span id="__span-2-13"> /
+</span></code></pre></div></td></tr></table></div>
+This input file looks a little more involved than previously.</p>
+<ul>
+<li>We've left the <code>INPUTPP</code> section blank as we can simply re-use the
+  <code>methane_charge</code> file we created when we were generating output for
+  xcrysden earlier.</li>
+<li>We've updated <code>iflag</code> and <code>output_format</code> to select 2D output and gnuplot
+  format, and changed the output filename so we'll be able to understand what
+  this file was for in future.</li>
+<li>Now since we've selected 2D output, this means we need to define some
+  region to plot.<ul>
+<li>The <code>e1</code> and <code>e2</code> variables are vectors defining a plane
+  in units of the lattice constant.</li>
+<li><code>x0</code> defines the origin of the plane, again in units of the lattice
+  constant,</li>
+<li><code>nx</code> and <code>ny</code> are how many points to output in the grid.</li>
+<li>We've selected an xz plane which contains the carbon and two hydrogens.
+  Note, we've shifted the origin slightly so that the carbon will be in
+  the centre of the output. You'd need to adjust this to work for the
+  shifted structure in the task above.</li>
+</ul>
+</li>
+</ul>
+<p>Now when we run this with <code>pp.x</code> we (hopefully) get our <code>CH4.rho.gpl</code> data
+file as requested. You can take a look at this file, and you'll see it's a
+text list of numbers with <code>x, y, f(x, y)</code>. So you could use this in any
+plotting program or some other software or code for analysis easily.</p>
+<p>To plot in gnuplot you can set labels and do a heatmap style plot with the
+following gnuplot commands:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1">set title &quot;CH4 Charge Density in y=0 plane&quot;
+</span><span id="__span-3-2">set xlabel &quot;x Position (Bohr)&quot;
+</span><span id="__span-3-3">set ylabel &quot;z Position (Bohr)&quot;
+</span><span id="__span-3-4">set cblabel &quot;Charge Density&quot;
+</span><span id="__span-3-5">plot &quot;CH4.rho.gpl&quot; with image
+</span></code></pre></div></td></tr></table></div>
+<p>Note, the x and y coordinates are output in Bohr atomic units as we've set in
+the plot here.</p>
+<h2 id="visualizing-the-wavefunction">Visualizing the Wavefunction</h2>
+<p>We can also try to visualise the wavefunction we have calculated for
+a methane molecule. Take a look at the directory
+<a href="02_wavefunction/01_methane"><code>02_wavefunction/01_methane</code></a>. This is contains
+an <a href="../02_wavefunction/01_methane/CH4.in">input file</a> for methane exactly as
+we've seen before. Note, we've set <code>disk_io = 'low'</code> which is the default
+value for scf calculations (i.e. we could have omitted this and get the same
+output), as we want to keep the wavefunction output file for analysis.</p>
+<ul>
+<li>Run <code>pw.x</code> with this input file now, and check the output to make sure it
+  all worked as expected. You should have both a <code>pwscf.save</code> directory
+  containing the charge density file and other output, and a <code>pwscf.wfc</code>
+  wavefunction file.</li>
+</ul>
+<p>Now we want to post-process this output into something we can visualise more
+easily. To do that we'll be using the <code>pp.x</code> code from the Quantum Espresso
+suite. This code can read the output files produced by <code>pw.x</code>, extract
+whatever quantity you're interested in and generate output compatible with
+various visualisation programs. There is a help file similar to the <code>pw.x</code>
+available in the Quantum Espresso documentation folder called <code>INPUT_PP.txt</code>.</p>
+<h3 id="3d-visualization-with-xcrysden_1">3D visualization with XCrySDen</h3>
+<p>There is a <code>pp.x</code> input file for methane called
+<a href="../02_wavefunction/01_methane/CH4_pp.in"><code>CH4_pp.in</code></a>, that contains the
+following:</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"> &amp;INPUTPP
+</span><span id="__span-4-2">    filplot = &#39;CH4_wfn&#39;
+</span><span id="__span-4-3">    plot_num = 7
+</span><span id="__span-4-4">    kpoint(1) = 1
+</span><span id="__span-4-5">    kband(1) = 1
+</span><span id="__span-4-6">    kband(4) = 4
+</span><span id="__span-4-7"> /
+</span><span id="__span-4-8">
+</span><span id="__span-4-9"> &amp;PLOT
+</span><span id="__span-4-10">    iflag = 3
+</span><span id="__span-4-11">    output_format = 5
+</span><span id="__span-4-12">    fileout = &#39;.xsf&#39;
+</span><span id="__span-4-13"> /
+</span></code></pre></div></td></tr></table></div>
+<p>As you can see, the file format is quite similar to that used by <code>pw.x</code>. It
+contains two sections:</p>
+<ul>
+<li><code>INPUTPP</code> has inputs controlling what data will be extracted from the
+  <code>pw.x</code> output.<ul>
+<li>If we had chosen non-default directories and names for the output files,
+  we would need to set them here.</li>
+<li><code>filplot</code> as before specifies a filename that will be used to save the
+  extracted data.</li>
+<li><code>plot_num</code> takes an integer option that specifies what quantity will be
+  extracted. 7 gives us the wavefunction. There are many options here,
+  such as potentials and local density of states. See the help file
+  <code>INPUT_PP.txt</code> for details, including info on additional variables that
+  apply depending on this option.</li>
+</ul>
+</li>
+<li><code>kpoint(1)</code> is used to set the k-point index of the wavefunction we want
+     to output. There is only the gamma point in our calculation, so we can
+     set this to 1. For periodic materials where we have a grid of k-points we
+     could also specify <code>kpoint(2)</code> and generate output for a range of
+     k-points.</li>
+<li><code>kband(1)</code> and <code>kband(2)</code> are the lower and upper limits of the bands
+     that we want to output the wavefunction for.</li>
+<li><code>PLOT</code> has inputs controlling how the extracted data will be output for
+  visualisation.</li>
+<li><code>iflag</code> gives the dimensionality of the output. We choose 3 here for a 3D
+     plot.</li>
+<li><code>output_format</code> gives the type of format you want to have output, usually
+     this is determined by what application you'll be using to visualise the
+     data. It should also be compatible with the value of <code>iflag</code>. We've
+     selected 5 which will give us output compatible with <code>xcrysden</code>.</li>
+<li><code>fileout</code> usually specifies the name of the plot file, however for
+     wavefunction output where several files are generated, the text in
+     <code>fileout</code> is appended to the name of each file. <code>xsf</code> is a default
+     <code>xcrysden</code> extension, so we can add this here.</li>
+</ul>
+<p>We can run <code>pp.x</code> in the same way as <code>pw.x</code>:</p>
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1">pp.x<span class="w"> </span>&lt;<span class="w"> </span>CH4_pp.in<span class="w"> </span><span class="p">&amp;</span>&gt;<span class="w"> </span>CH4_pp.out
+</span></code></pre></div></td></tr></table></div>
+<p>You'll see many files have been generated beginning with <code>CH4_wfn</code> followed by
+a k-point and band index. Each has a corresponding <code>.xsf</code> file. The <code>.xsf</code>
+files which we'll be using for visualization are in a text format so we can
+examine them (and modify them if we want) in a text editor. Take a look and
+you'll see the files simply defines the crystal lattice and basis, then have a
+section with the datagrid as a mesh of points.</p>
+<p>Launch <code>xcrysden</code> (recall you'll need to load the xcrysden module first with
+<code>module load xcrysden</code>), and load the file <code>CH4_wfn_K001_B001.xsf</code>. You'll see
+a big cube, which has the carbon at each corner and whichever bound hydrogen
+falls within the cube nearby. This isn't ideal, but let's carry on for the
+moment. There's no sign of a wavefunction yet. To enable this, go to "Tools"
+-&gt; "Data Grid". (Make sure you're x2go window and your xcrysdent window are
+big enough to see this). You can click "OK" on the menu that appears, and then
+you'll see a menu that controls the data grid plot appearance. Try entering
+say "0.02" for the "Isovalue" and click "Submit". If you zoom into a carbon
+you'll see the wavefunction around it. Unfortunately, since we have the
+carbon at the origin, this plot is a little hard to see.</p>
+<h3 id="task_1"><em>Task</em></h3>
+<ul>
+<li>In a new directory <code>01_methane_shift</code>, shift the molecule such that the
+carbon atom is at the centre of the box in the <code>pw.x</code> input file.</li>
+<li>Run the <code>pw.x</code> and <code>pp.x</code> calculations as before.</li>
+<li>Visualise the output in <code>xcrysden</code> for the wavefunctions associated with
+  each of the four bands.<ul>
+<li>Disable the display of the crystal cell.</li>
+<li>Try plotting the data grid at different isovalues. Each wavefunction
+  will have a different range of values that might show interesting
+  features. You can also try enabling
+transparency, and increasing the degree of the tricubic cpline to 2 or 3.</li>
+<li>Under "Modify" try reducing the "Ball Factor" to reduce the visual size
+  of the ions.</li>
+</ul>
+</li>
+<li>When you're happy with how it looks, save an image by first checking the
+  "File" -&gt; "Print Setup" menu. (You'll need to leave the data grid menu
+  open). It's usually worth enabling anti-aliasing here. Then go to "File" -&gt;
+  "Print" and save the output as a png image.</li>
+</ul>
+<h2 id="projected-density-of-states">Projected Density of States</h2>
+<p>Following from the electronic density of states, it can be very useful in
+understanding a material to visualize how the density of states can be
+decomposed into the various states belonging to each atom in the system. To do
+this we can use the <code>projwfc.x</code> tool from the Quantum Espresso package. This
+is used in a similar way to the <code>dos.x</code> tool, although it is not possible to
+use tetrahedra to integrate the DOS, so a broadening must be used.</p>
+<p>A set of example input files for diamond are given in the directory
+<a href="03_projecteddos/01_diamond"><code>03_projecteddos/01_diamond</code></a>. This set of inputs
+follows exactly the same progression as previously, except now for the
+third step we have an input file for <code>projwfc.x</code> rather than for <code>dos.x</code>.
+In this file we have a single <code>PROJWFC</code> section, but we have actually retained
+the same inputs we used previously in the DOS calculation. As usual, you can
+get full details of the various inputs that are available in the help file
+<code>INPUT_PROJWFC.txt</code>.</p>
+<p>Now run these three calculations as before. Again a short script has been
+provided which does this explicitly. Once they have completed you'll see
+we again have generated a <code>pwscf.dos</code> file as before. You can try to plot this
+if you like, and you'll see it's identical to the density of states we
+obtained with the equivalent <code>dos.x</code> calculation. However, we also have a
+number of other files that have been generated, all with names beginning with
+<code>pwscf.pdos_</code> by default. Try looking at <code>pwscf.pdos_tot</code> first. You'll see
+this is a three column file, with energy, density of states, and the total of
+the various decomposed projected density of states. In principle column 2 and
+3 should be the same (and column 2 will reproduce the already calculated
+density of states), but in practice it can be difficult to assign conduction
+band states accurately so there may be some small disagreement there.</p>
+<p>The additional files will the projected density of states for each atom in the
+unit cell and each orbital type (s, p, d etc) present. If you look, for
+example at the file <code>pwscf.pdos_atm#1(C)_wfc#1(s)</code>, you'll see we have three
+columns: energy, a column labelled <code>ldos</code> and a column labelled <code>pdos</code>. For
+s-orbitals we only have one value of the magnetic quantum number ml, so there
+is only one pdos column, and the ldos and pdos columns are equivalent. If you
+look at the file <code>pwscf.pdos_atm#1(C)_wfc#2(p)</code> you'll see we now have 5
+columns: energy, ldos, and 3 pdos columns. ldos gives the sum of the three
+pdos columns, and each pdos column is for a different value of ml (3 for a
+p-orbital).</p>
+<p>In our case, the corresponding files for each of the C atoms in the cell
+should be equivalent as the two atoms in the cell are equivalent. For one
+of the atoms, try plotting the projected density of states of the s-orbital
+and one of the p-orbitals (e.g. try plotting the 3rd column in each file)
+together. Are the states near the top of the valence band more s-like or
+p-like?</p>
+<h3 id="task_2"><em>Task</em></h3>
+<ul>
+<li>Calculate and plot, in whichever way you think best shows the important
+  features and differences, the projected density of states for both silicon
+  and aluminium.</li>
+<li>How do these compare to each other, and the example diamond calculation?</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

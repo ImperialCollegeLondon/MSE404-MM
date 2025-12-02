@@ -1,0 +1,1608 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+        <link rel="prev" href="../../lab07/readme/">
+      
+      
+        <link rel="next" href="../../lab09/readme/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>Lab 8 - Vibrational Normal Modes and Phonons - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vibrational-normal-modes-and-phonons" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Lab 8 - Vibrational Normal Modes and Phonons
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-molecules-basic-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in molecules: basic theory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrations in molecules: basic theory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force-constant-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Force constant matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamical-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamical matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-of-molecules-with-quantum-espresso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations of molecules with Quantum Espresso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrations of molecules with Quantum Espresso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-run-the-pwx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: run the pw.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-the-phx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: run the ph.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-files-of-phx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output files of ph.x
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-crystals-basic-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in crystals: basic theory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-crystals-quantum-espresso-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in crystals: Quantum Espresso (overview)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-crystals-quantum-espresso-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in crystals: Quantum Espresso (calculation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrations in crystals: Quantum Espresso (calculation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-run-the-pwx-calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: run the pw.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-the-phx-calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: run the ph.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-the-q2rx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: run the q2r.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-run-the-matdynx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: run the matdyn.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-plotting-the-phonon-band-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: plotting the phonon band structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-molecules-basic-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in molecules: basic theory
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrations in molecules: basic theory">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#force-constant-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Force constant matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dynamical-matrix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dynamical matrix
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-of-molecules-with-quantum-espresso" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations of molecules with Quantum Espresso
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrations of molecules with Quantum Espresso">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-run-the-pwx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: run the pw.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-the-phx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: run the ph.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-files-of-phx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Output files of ph.x
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-crystals-basic-theory" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in crystals: basic theory
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-crystals-quantum-espresso-overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in crystals: Quantum Espresso (overview)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vibrations-in-crystals-quantum-espresso-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vibrations in crystals: Quantum Espresso (calculation)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Vibrations in crystals: Quantum Espresso (calculation)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#step-1-run-the-pwx-calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 1: run the pw.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-2-run-the-phx-calculation_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 2: run the ph.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-3-run-the-q2rx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 3: run the q2r.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-4-run-the-matdynx-calculation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 4: run the matdyn.x calculation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#step-5-plotting-the-phonon-band-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Step 5: plotting the phonon band structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#summary" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Summary
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="vibrational-normal-modes-and-phonons">Vibrational Normal Modes and Phonons</h1>
+<p>This week we will calculate the vibrational properties of molecules and solids. </p>
+<p>As you have seen in the lecture, the different vibrations that can be observed in molecules and crystals as well as their frequencies can be obtained from the potential energy surface (PES). More specifically, we can expand the PES in a Taylor series around the equilibrium atomic positions and then solve Newton's equation of motion. This procedure involves two important concepts: the force constant matrix and the dynamical matrix. </p>
+<p>Similar to last week, we will give a brief review of these matrices and why they are useful. Then we will learn how to calculate these quantities using Quantum Espresso. Let's now begin our dive into vibrations in molecules. </p>
+<h2 id="vibrations-in-molecules-basic-theory">Vibrations in molecules: basic theory</h2>
+<p>When molecules are excited (e.g. by absorbing infrared radiation or by heating), they gain energy and the atoms start to vibrate around their equilibrium position. </p>
+<h3 id="force-constant-matrix">Force constant matrix</h3>
+<p>The change in total energy due to a small displacement of the atoms around their equilibrium positions, <span class="arithmatex">\(\Delta U\)</span>, can be written as,<br />
+$$
+\Delta U = \frac{1}{2}\sum_{I\alpha J\beta} K_{I\alpha J\beta}u_{I\alpha}u_{J\beta},
+$$
+where <span class="arithmatex">\(u_{I\alpha}\)</span> denotes the <span class="arithmatex">\(\alpha\)</span>-component of the displacement vector of the atom labelled by <span class="arithmatex">\(I\)</span>. The matrix <span class="arithmatex">\(K_{I\alpha J\beta}\)</span> is called the force constant matrix. It is defined by the equation 
+$$
+K_{I\alpha J\beta} = \frac{\partial^2 U}{\partial u_{I\alpha}\partial{u_{J\beta}}}.
+$$
+Note that <span class="arithmatex">\(I\)</span> and <span class="arithmatex">\(J\)</span> both run from <span class="arithmatex">\(1\)</span> to <span class="arithmatex">\(N\)</span>, where <span class="arithmatex">\(N\)</span> is the number of atoms in the molecule, and <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span> run from <span class="arithmatex">\(1\)</span> to <span class="arithmatex">\(3\)</span>, with the convention <span class="arithmatex">\(x\rightarrow1, y\rightarrow2, z\rightarrow3\)</span>.</p>
+<details class="tip">
+<summary>Tip on understanding the indices of <span class="arithmatex">\(\mathbf{K}\)</span></summary>
+<p>We can understand the indices of the matrix <span class="arithmatex">\(\mathbf{K}\)</span> by thinking about its physical meaning. It is called the force constant matrix because its components describe the <span class="arithmatex">\(\alpha\)</span>-component of the force acting on nucleus <span class="arithmatex">\(I\)</span> generated by the motion of nucleus <span class="arithmatex">\(J\)</span> along direction <span class="arithmatex">\(\beta\)</span>. </p>
+</details>
+<details class="tip">
+<summary>Tip on writing down <span class="arithmatex">\(\mathbf{K}\)</span> as a two-dimensional matrix</summary>
+<p>The matrix <span class="arithmatex">\(\mathbf{K}\)</span> can be written as a two-dimensional matrix although its entries are labelled by four indices. We can combine the indices into two pairs: <span class="arithmatex">\(\{I\alpha\}\)</span> and <span class="arithmatex">\(\{J\beta\}\)</span>. In this way we can write <span class="arithmatex">\(\mathbf{K}\)</span> as a <span class="arithmatex">\(3N\times3N\)</span> matrix, where <span class="arithmatex">\(N\)</span> is the number of atoms and the factor of 3 comes from the fact that there are three Cartesian directions, <span class="arithmatex">\(\{x,y,z\}\)</span>.</p>
+</details>
+<details class="question">
+<summary>Optional quick quiz - for your own understanding</summary>
+<div class="admonition question">
+<p class="admonition-title">What does the entry <span class="arithmatex">\(K_{1123}\)</span> physically mean?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>It is the force acting on atom 1 along the <span class="arithmatex">\(x\)</span>-direction when atom 2 (and only atom 2) moves along the <span class="arithmatex">\(z\)</span>-direction </p>
+</details>
+</div>
+<div class="admonition question">
+<p class="admonition-title">What does the entry <span class="arithmatex">\(K_{1111}\)</span> physically mean?</p>
+<details class="success">
+<summary>Answer</summary>
+<p>It is the <span class="arithmatex">\(x\)</span>-component of the force experienced by atom 1 when it moves along the <span class="arithmatex">\(x\)</span>-direction. In most cases this should be positive because atom 1 should experience a restoring force that drives it back to the equilibrium position.  </p>
+</details>
+</div>
+</details>
+<!--!!! note "The force constant matrix is a symmetric matrix"-->
+
+<p>The force constant matrix is useful for calculating the change in the total energy change due to a displacement of the atoms. However, it is not directly related to vibrational properties.</p>
+<h3 id="dynamical-matrix">Dynamical matrix</h3>
+<p>To calculate the vibrational properties, we need another matrix, the dynamical matrix.  </p>
+<p>To obtain vibrational properties, we have to solve the following matrix eigenvalue problem:
+$$
+\omega^2\mathbf{v}=\mathbf{D}\mathbf{v}, 
+$$
+where <span class="arithmatex">\(v_{I\alpha}=\frac{1}{\sqrt{M_I}}u_{I\alpha}\)</span> are the mass-weighted displacements, <span class="arithmatex">\(\omega\)</span> denotes the vibration frequency, and the matrix <span class="arithmatex">\(\mathbf{D}\)</span> is the dynamical matrix given by </p>
+<div class="arithmatex">\[
+D_{I\alpha J\beta}=\frac{1}{\sqrt{M_I M_J}}K_{I\alpha J\beta}. 
+\]</div>
+<details class="tip">
+<summary>Tip: what is the physical meaning of the entries of <span class="arithmatex">\(\mathbf{D}\)</span>?</summary>
+<p>The physical meaning of the entries of <span class="arithmatex">\(\mathbf{D}\)</span> becomes evident when we compare the eigenvalue equation for vibrations to that of a one-dimensional classical spring-mass oscillator, with spring constant <span class="arithmatex">\(k\)</span> and mass <span class="arithmatex">\(m\)</span>, which is 
+$$
+\omega^2x=\frac{k}{m}x,
+$$
+where <span class="arithmatex">\(x\)</span> is the displacement and <span class="arithmatex">\(\omega\)</span> is the oscillation frequency. By comparing this equation to <span class="arithmatex">\(\omega^2\mathbf{v}=\mathbf{D}\mathbf{v}\)</span>, we see that <span class="arithmatex">\(\mathbf{D}\)</span> plays the same role as <span class="arithmatex">\(k/m\)</span> - it measures the ratio of the strength of the spring constant of the atomic forces to the mass of the vibrating object. </p>
+</details>
+<h2 id="vibrations-of-molecules-with-quantum-espresso">Vibrations of molecules with Quantum Espresso</h2>
+<p>Density-functional theory can be used to calculate the dynamical matrix <span class="arithmatex">\(\mathbf{D}\)</span> of molecules. Quantum Espresso uses density-functional perturbation theory (DFPT) to do this. 
+We first calculate the vibrational properties of a methane molecule. You will learn how to use the programme <code>ph.x</code> for calculating the normal modes of a molecule. This calculation requires two steps:</p>
+<h3 id="step-1-run-the-pwx-calculation">Step 1: run the <code>pw.x</code> calculation</h3>
+<p>The first step is to carry out a standard DFT calculation for the equilibrium structure of methane. </p>
+<div class="admonition example">
+<p class="admonition-title">Task 1a - run <code>pw.x</code></p>
+<ul>
+<li>Go to the directory <code>01_CH4</code>. </li>
+<li>
+<p>Read the input file <code>01_CH4_scf.in</code>. You should be familiar with all the input variables.<br />
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><span class="n">ATOMIC_POSITIONS</span> <span class="n">angstrom</span>
+</span><span id="__span-0-2"> <span class="n">C</span>  <span class="mf">0.0</span>           <span class="mf">0.0</span>           <span class="mf">0.0</span>
+</span><span id="__span-0-3"> <span class="n">H</span>  <span class="mf">0.634532333</span>   <span class="mf">0.634532333</span>   <span class="mf">0.634532333</span>  <span class="c1">#(1)!</span>
+</span><span id="__span-0-4"> <span class="n">H</span> <span class="o">-</span><span class="mf">0.634532333</span>  <span class="o">-</span><span class="mf">0.634532333</span>   <span class="mf">0.634532333</span>
+</span><span id="__span-0-5"> <span class="n">H</span>  <span class="mf">0.634532333</span>  <span class="o">-</span><span class="mf">0.634532333</span>  <span class="o">-</span><span class="mf">0.634532333</span>
+</span><span id="__span-0-6"> <span class="n">H</span> <span class="o">-</span><span class="mf">0.634532333</span>   <span class="mf">0.634532333</span>  <span class="o">-</span><span class="mf">0.634532333</span>
+</span><span id="__span-0-7">
+</span><span id="__span-0-8"><span class="n">K_POINTS</span> <span class="n">automatic</span>
+</span><span id="__span-0-9"><span class="mi">1</span> <span class="mi">1</span> <span class="mi">1</span>  <span class="mi">0</span> <span class="mi">0</span> <span class="mi">0</span>   <span class="c1">#(2)!</span>
+</span></code></pre></div></td></tr></table></div></p>
+<ol>
+<li>The positions of the <span class="arithmatex">\(\mathrm{H}\)</span> atoms have been relaxed. We provide the atomic positions in a very symmetric way. This is useful for Quantum Espresso as it can exploit the symmetries of molecules to speed up the calculation. See extra notes below to learn more about this if you are interested.  </li>
+<li>As we are dealing with a molecule, we only use the <span class="arithmatex">\(\Gamma\)</span>-point.</li>
+</ol>
+</li>
+<li>
+<p>Now run <code>pw.x &lt; 01_CH4_scf.in &gt; pw.out</code>.</p>
+</li>
+</ul>
+</div>
+<h3 id="step-2-run-the-phx-calculation">Step 2: run the <code>ph.x</code> calculation</h3>
+<p>The second step is to carry out the DFPT calculation using <code>ph.x</code>. </p>
+<div class="admonition example">
+<p class="admonition-title">Task 1b - run <code>ph.x</code></p>
+<ul>
+<li>Take a look at the input file for the <code>ph.x</code> module. It is called <code>02_CH4_ph.in</code>:
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="w">    </span>phonons<span class="w"> </span>of<span class="w"> </span>CH4<span class="w"> </span><span class="o">(</span>gamma<span class="w"> </span>only<span class="o">)</span><span class="w">  </span><span class="c1">#(1)!</span>
+</span><span id="__span-1-2"><span class="w">     </span><span class="p">&amp;</span>INPUTPH<span class="w">   </span><span class="c1">#(2)!</span>
+</span><span id="__span-1-3"><span class="w">      </span><span class="nv">tr2_ph</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span>.0d-15<span class="w">  </span><span class="c1">#(3)!</span>
+</span><span id="__span-1-4"><span class="w">      </span><span class="nv">asr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>.true.<span class="w">   </span><span class="c1">#(4)!</span>
+</span><span id="__span-1-5"><span class="w">     </span>/
+</span><span id="__span-1-6"><span class="w">    </span><span class="m">0</span>.0<span class="w"> </span><span class="m">0</span>.0<span class="w"> </span><span class="m">0</span>.0<span class="w">    </span><span class="c1">#(5)!</span>
+</span></code></pre></div></td></tr></table></div><ol>
+<li>The first line can be any informative comment. </li>
+<li>This is a new card required for performing <code>ph.x</code> calculations</li>
+<li>This is the scf convergence criterion for this normal mode calculation. Notice that it is very strict compared to what we usually use in standard DFT calculations.  </li>
+<li>'asr' stands for the Acoustic Sum Rule. This rule is used to correct the dynamical matrix in order to avoid negative vibration frequencies. </li>
+<li>This tells the code the wavevector of the vibrations. As we are dealing with a molecule, we are only interested in the <span class="arithmatex">\(\Gamma\)</span>-point.</li>
+</ol>
+</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Help file of <code>ph.x</code></p>
+<p>If you are interested in the input variables of <code>ph.x</code>, you can read about them   <a href="https://www.quantum-espresso.org/Doc/INPUT_PH.html">here</a></p>
+</div>
+<ul>
+<li>
+<p>Run <code>ph.x &lt; 02_CH4_ph.in &gt; ph.out</code>. This will take a few minutes. </p>
+</li>
+<li>
+<p>You have successfully performed your first vibrational calculation!  </p>
+</li>
+</ul>
+</div>
+<h3 id="output-files-of-phx">Output files of ph.x</h3>
+<p>There are two important output files created by the <code>ph.x</code> calculation. The first one is the <code>.out</code> file, which provides some information about the DFPT calculations. The second file is the <code>matdyn</code> file which contains the dynamical matrix. Let's take a look at it!  </p>
+<div class="admonition example">
+<p class="admonition-title">Task 2 - Reading the dynamical matrix from Quantum Espresso</p>
+<ul>
+<li>
+<p>The most important section of the file begins with <code>Dynamical  Matrix in cartesian axes</code>. </p>
+</li>
+<li>
+<p>Let's go through this file step by step:<br />
+<div class="language-python highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1">     <span class="n">q</span> <span class="o">=</span> <span class="p">(</span>    <span class="mf">0.000000000</span>   <span class="mf">0.000000000</span>   <span class="mf">0.000000000</span> <span class="p">)</span> <span class="c1">#(1)!</span>
+</span><span id="__span-2-2">
+</span><span id="__span-2-3">     <span class="o">...</span> 
+</span><span id="__span-2-4">
+</span><span id="__span-2-5">    <span class="mi">1</span>    <span class="mi">2</span>  <span class="c1">#(2)! </span>
+</span><span id="__span-2-6"> <span class="o">-</span><span class="mf">0.24917799</span>   <span class="mf">0.00000000</span>    <span class="o">-</span><span class="mf">0.17192431</span>   <span class="mf">0.00000000</span>    <span class="o">-</span><span class="mf">0.17192431</span>   <span class="mf">0.00000000</span>  <span class="c1">#(3)! </span>
+</span><span id="__span-2-7"> <span class="o">-</span><span class="mf">0.17192431</span>   <span class="mf">0.00000000</span>    <span class="o">-</span><span class="mf">0.24917799</span>   <span class="mf">0.00000000</span>    <span class="o">-</span><span class="mf">0.17192431</span>   <span class="mf">0.00000000</span>  <span class="c1">#(4)!</span>
+</span><span id="__span-2-8"> <span class="o">-</span><span class="mf">0.17192431</span>   <span class="mf">0.00000000</span>    <span class="o">-</span><span class="mf">0.17192431</span>   <span class="mf">0.00000000</span>    <span class="o">-</span><span class="mf">0.24917799</span>   <span class="mf">0.00000000</span>  <span class="c1">#(5)!</span>
+</span><span id="__span-2-9">
+</span><span id="__span-2-10">     <span class="o">...</span> 
+</span><span id="__span-2-11">
+</span><span id="__span-2-12">     <span class="n">Diagonalizing</span> <span class="n">the</span> <span class="n">dynamical</span> <span class="n">matrix</span>
+</span><span id="__span-2-13">
+</span><span id="__span-2-14">     <span class="n">q</span> <span class="o">=</span> <span class="p">(</span>    <span class="mf">0.000000000</span>   <span class="mf">0.000000000</span>   <span class="mf">0.000000000</span> <span class="p">)</span> 
+</span><span id="__span-2-15">
+</span><span id="__span-2-16"> <span class="o">**************************************************************************</span> <span class="c1">#(6)! </span>
+</span><span id="__span-2-17">     <span class="n">freq</span> <span class="p">(</span>    <span class="mi">4</span><span class="p">)</span> <span class="o">=</span>       <span class="mf">2.365513</span> <span class="p">[</span><span class="n">THz</span><span class="p">]</span> <span class="o">=</span>      <span class="mf">78.905014</span> <span class="p">[</span><span class="n">cm</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1">#(7)!</span>
+</span><span id="__span-2-18"> <span class="p">(</span>  <span class="mf">0.000000</span>  <span class="mf">0.000000</span>  <span class="mf">0.000092</span>  <span class="mf">0.000000</span>  <span class="mf">0.000000</span>  <span class="mf">0.000000</span> <span class="p">)</span>  <span class="c1">#(8)!</span>
+</span><span id="__span-2-19"> <span class="p">(</span> <span class="o">-</span><span class="mf">0.353554</span>  <span class="mf">0.000000</span>  <span class="mf">0.000093</span>  <span class="mf">0.000000</span>  <span class="mf">0.353553</span>  <span class="mf">0.000000</span> <span class="p">)</span>  <span class="c1">#(9)!</span>
+</span><span id="__span-2-20"> <span class="p">(</span> <span class="o">-</span><span class="mf">0.353554</span>  <span class="mf">0.000000</span>  <span class="mf">0.000093</span>  <span class="mf">0.000000</span> <span class="o">-</span><span class="mf">0.353553</span>  <span class="mf">0.000000</span> <span class="p">)</span> 
+</span><span id="__span-2-21"> <span class="p">(</span>  <span class="mf">0.353554</span>  <span class="mf">0.000000</span>  <span class="mf">0.000093</span>  <span class="mf">0.000000</span>  <span class="mf">0.353553</span>  <span class="mf">0.000000</span> <span class="p">)</span> 
+</span><span id="__span-2-22"> <span class="p">(</span>  <span class="mf">0.353554</span>  <span class="mf">0.000000</span>  <span class="mf">0.000093</span>  <span class="mf">0.000000</span> <span class="o">-</span><span class="mf">0.353553</span>  <span class="mf">0.000000</span> <span class="p">)</span> 
+</span></code></pre></div></td></tr></table></div></p>
+<ol>
+<li>This tells us the wave vector of the vibration. Here, this is the <span class="arithmatex">\(\Gamma\)</span> point. </li>
+<li>The matrix shown below is <span class="arithmatex">\(D_{1{\alpha}2{\beta}}=\frac{1}{\sqrt{M_{1}M_{2}}}K_{1{\alpha}2{\beta}}\)</span>, i.e. the dynamical matrix associated with the displacements of atoms 1 and 2 along Cartesian directions <span class="arithmatex">\(\alpha\)</span> and <span class="arithmatex">\(\beta\)</span>. </li>
+<li>These entries are <span class="arithmatex">\(D_{1x2x}\)</span>, <span class="arithmatex">\(D_{1x2y}\)</span>, and <span class="arithmatex">\(D_{1x2z}\)</span>, respectively. The entries in the second, fourth, and sixth columns are the imaginary parts of the dynamical matrix.  </li>
+<li>These entries are <span class="arithmatex">\(D_{1y2x}\)</span>, <span class="arithmatex">\(D_{1y2y}\)</span>, and <span class="arithmatex">\(D_{1y2z}\)</span>, respectively. </li>
+<li>These entries are <span class="arithmatex">\(D_{1z2x}\)</span>, <span class="arithmatex">\(D_{1z2y}\)</span>, and <span class="arithmatex">\(D_{1z2z}\)</span>, respectively. </li>
+<li>The results obtained from diagonalizing the dynamical matrix can be found below this line. </li>
+<li>The vibration frequency of the fourth normal mode. </li>
+<li>The polarization vector of each atom in the fourth normal mode. This line says that the polarization vector of the C atom (i.e. atom 1) is (0,0,0). The numbers in the second, fourth, and sixth columns are the imaginary parts of the polarization vector. </li>
+<li>Similar to the previous line, this line says that the polarization vector of one of the H atoms (atom 2) is (-0.353554,0,0.353553). </li>
+</ol>
+</li>
+<li>
+<p>So everything you want to know about the normal modes of a molecule will be contained in the <code>matdyn</code> file. Answer the following questions by reading this file. </p>
+</li>
+</ul>
+<details class="success">
+<summary>How many normal modes are there? Is this what we should expect?</summary>
+<p>15, since there are 15 frequencies in the file. This is expected because there are 5 atoms so the number of normal modes is <span class="arithmatex">\(5\times3=15\)</span>.  </p>
+</details>
+<details class="success">
+<summary>What are the <strong>distinct</strong> frequencies (up to 2 decimal places)?</summary>
+<p>The distinct frequencies are -0.01 THz, 2.37 THz, 37.37 THz, 44.29 THz, 87.07 THz, and 90.89 THz. Note that there are always three normal modes with nearly zero frequencies. However, they are slightly negative in our calculations because of numerical accuracies. You can increase the PW cutoff to reduce them, but the <code>ph.x</code> calculation will take longer.  </p>
+</details>
+<details class="success">
+<summary>What are the degeneracies of each distinct frequency?</summary>
+<p>In the order of increasing energy, the degeneracies (i.e. the number of normal modes with the same frequency) are 3, 3, 3, 2, 1, 3. One finds such degeneracies in molecules that have a symmetrical shape. </p>
+</details>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Visualising the normal modes</p>
+<p>If you are interested in how the normal modes look like, you can visit this <a href="https://people.chem.ucsb.edu/laverman/GauchoSpace/methane_vib.html">link</a>. On this website, you can see all the different vibrations of the methane molecule. These vibrational frequencies should be close to what you have obtained in Task 1b.<br />
+You will see symbols like <span class="arithmatex">\(T_2\)</span> and <span class="arithmatex">\(A_1\)</span> next to each mode. These symbols are intended for vibrational spectroscopists to identify the normal modes. 
+Notice how the degenerate normal modes have the same symbols and very similar vibration patterns.</p>
+</div>
+<details class="tip">
+<summary>Extra notes - why do the three lowest normal modes always have zero frequency?</summary>
+<p>These normal modes correspond to the rigid translations of the molecule, i.e. movements of the molecule without distorting any chemical bonds. If no bonds are distorted, the molecule will not vibrate and the vibrational frequency should be zero. You can inspect the polarization vectors of these normal modes: there are the same for all atoms. In fact, the three modes are simply rigid translations along the <span class="arithmatex">\(y\)</span>, <span class="arithmatex">\(x\)</span>, and <span class="arithmatex">\(z\)</span>-directions, respectively.   </p>
+</details>
+<!--??? notes "Extra notes: reading `ph.out` file" -->
+<!--    The `ph.out` file contains quite a few information. Most of them are for your reference only and will be more useful for vibrational spectroscopy experiments. The following is what you will find: -->
+
+<!--    1.  The frequencies of each normal mode in THz and $\mathrm{cm^{-1}}$. This is the most important for us. This will be written for example as `freq (    7) =      37.362598 [THz] =    1246.282111 [cm-1]`. -->
+<!--    2.  The iterations performed for the DFPT calculations. This will be useful for monitoring and improving convergence of the calculations. -->
+<!--    3.  The symmetry of each normal mode. This is more relevant for vibrational spectroscopy. This will be written for example as `freq (   7-   9) =       1246.3  [cm-1]   -->
+<!--        ??? tip "Extra notes: what does the symbols `T_2  G_15 P_4   I+R` mean? (For your interest only)" -->
+<!--            The first symbol tell us the degeneracy of this normal mode. The symbols `G_15 P_4` is the label of this normal mode in a language familiar to vibrational spectroscopists. Lastly, the symbol `I+R` tells us that both **I**nfrared and **R**aman spectroscopy can detect this normal mode.  -->
+<details class="tip">
+<summary>Extra notes - symmetry reduction in Quantum Espresso</summary>
+<p>Quantum Espresso can exploit the symmetries of the molecule to reduce the number of the (rather costly) DFPT calculations: by placing the center of the molecule at the origin and giving the H atoms the same <span class="arithmatex">\(x,y\)</span> coordinates except for the sign, the code understands that the methane molecule has certain rotational symmetries. Quantum Espresso uses this knowledge and only calculates the derivatives of the total energy with respect to one of the hydrogen positions (instead of all four of them). Quantum Espresso prints out the symmetries it has found in <code>ph.out</code>. </p>
+</details>
+<!--    4.  The number of normal modes identified, and some information on how the frequency of that normal mode is calculated. This is really for reference only. You will see something like `Representation     7      1 modes - Calculated using symmetry` -->
+
+<h2 id="vibrations-in-crystals-basic-theory">Vibrations in crystals: basic theory</h2>
+<p>Similar to electrons in crystals (whose wavefunctions are described by Bloch's theorem), vibrations in crystals have a wave-like character. Each vibration in a crystal is described by two labels: its wavevector <span class="arithmatex">\(\mathbf{q}\)</span> and its band index <span class="arithmatex">\(\nu\)</span> (similar to electrons in crystals which are described by a wavevector <span class="arithmatex">\(\mathbf{k}\)</span> and a band index <span class="arithmatex">\(n\)</span>). The wavevector describes the propagation direction of the vibration and its spatial periodicity. The magnitude of the wavevector is given by
+$$
+q=\frac{2\pi}{\lambda},
+$$
+where <span class="arithmatex">\(\lambda\)</span> is the wavelength of the vibrational wave. These vibrational wave are often called phonons. </p>
+<p>Similar to the band structure of electrons in a crystal, the frequencies <span class="arithmatex">\(\omega_\nu(\mathbf{q})\)</span> of phonons give rise to a band structure. </p>
+<h2 id="vibrations-in-crystals-quantum-espresso-overview">Vibrations in crystals: Quantum Espresso (overview)</h2>
+<p>We will now learn how to calculate phonon band structures using Quantum Espresso. This requires the calculation of the dynamical matrix for a set of wavevectors <span class="arithmatex">\(\mathbf{q}\)</span> in the first Brillouin zone. As these calculations are quite time-consuming, Quantum Espresso uses a few numerical tricks (such as performing calculations for the force constants on a coarse grid of <span class="arithmatex">\(\mathbf{q}\)</span>-points and then interpolating to a finer grid). This requires a few additional steps compared to the calculation for a molecule.</p>
+<p>The calculation has five stages: </p>
+<ol>
+<li>Perform a self-consistent calculation of the electrons density and the Kohn-Sham wavefunctions. The module for this is <code>pw.x</code> as usual. </li>
+<li>Calculate the dynamical matrix on a coarse grid of wavevectors. The module for this is <code>ph.x</code>, which is the one we have used for molecules. </li>
+<li>Obtain a set of force constant matrices <span class="arithmatex">\(\mathbf{K}(\mathbf{R})\)</span> in real space by Fourier transforming the dynamical matrices <span class="arithmatex">\(\mathbf{D}(\mathbf{q})\)</span> obtained in the last step. The module for this is <code>q2r.x</code>.  </li>
+<li>Obtain the dynamical matrix over a denser grid of wavevectors by Fourier interpolation. The module for this is <code>matdyn.x</code>.</li>
+<li>Generate the phonon band structure plot. This will be done using Python. </li>
+</ol>
+<h2 id="vibrations-in-crystals-quantum-espresso-calculation">Vibrations in crystals: Quantum Espresso (calculation)</h2>
+<p>We will now go through the calculations using carbon diamond as an example. </p>
+<h3 id="step-1-run-the-pwx-calculation_1">Step 1: run the <code>pw.x</code> calculation</h3>
+<div class="admonition example">
+<p class="admonition-title">Task 4a - run <code>pw.x</code></p>
+<ul>
+<li>Go to the directory <code>02_CarbonDiamond</code>.</li>
+<li>Read the input file <code>01_CD_scf.in</code>. <ul>
+<li>Note that the variable <code>ecutrho</code> is set tighter for DFPT calculation of phonons. </li>
+<li>The prefix is defined explicitly as <code>'CD'</code>. This is useful when you run multiple calculations in different directories.</li>
+<li>All other variables should be familiar to you.  </li>
+</ul>
+</li>
+<li>Run <code>pw.x &lt; 01_CD_scf.in &gt; pw.out</code>. </li>
+<li>The other output files generated will be in the <code>CD.save</code> directory since we specified the prefix.</li>
+</ul>
+</div>
+<h3 id="step-2-run-the-phx-calculation_1">Step 2: run the <code>ph.x</code> calculation</h3>
+<div class="admonition example">
+<p class="admonition-title">Task 4b - run <code>ph.x</code></p>
+<ul>
+<li>Read the input file <code>02_CD_ph.in</code>.
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1">phonons<span class="w"> </span>of<span class="w"> </span>Carbon<span class="w"> </span>diamond<span class="w"> </span>on<span class="w"> </span>a<span class="w"> </span>grid<span class="w"> </span>
+</span><span id="__span-3-2"><span class="w"> </span><span class="p">&amp;</span>INPUTPH
+</span><span id="__span-3-3"><span class="w">  </span><span class="nv">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CD&#39;</span>,<span class="w">         </span><span class="c1">#(1)!</span>
+</span><span id="__span-3-4"><span class="w">  </span><span class="nv">asr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>.true.<span class="w">           </span><span class="c1">#(2)! </span>
+</span><span id="__span-3-5"><span class="w">  </span><span class="nv">ldisp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>.true.<span class="w">         </span><span class="c1">#(3)!</span>
+</span><span id="__span-3-6"><span class="w">  </span><span class="nv">nq1</span><span class="o">=</span><span class="m">4</span>,<span class="w"> </span><span class="nv">nq2</span><span class="o">=</span><span class="m">4</span>,<span class="w"> </span><span class="nv">nq3</span><span class="o">=</span><span class="m">4</span><span class="w">    </span><span class="c1">#(4)!</span>
+</span><span id="__span-3-7"><span class="w">  </span>/
+</span></code></pre></div></td></tr></table></div><ol>
+<li>We have specified the same prefix as in the scf input file.</li>
+<li>Use the acoustic sum rule.</li>
+<li><code>ldisp = .true.</code> tells Quantum Espresso to perform dynamical matrix calculation over a grid of q-points.</li>
+<li><code>nq1</code>, <code>nq2</code> and <code>nq3</code> define our q-point grid. This is the coarser grid. </li>
+</ol>
+</li>
+<li>Run <code>ph.x &lt; 02_CD_ph.in &gt; ph.out</code>. This will take a few minutes. </li>
+<li>The calculation produces a number of dynamical matrices. They have the same format as the <code>matdyn</code> file for the methane molecule. The file also contains information about the <span class="arithmatex">\(\mathbf{q}\)</span>-points at which the dynamical matrix is evaluated. </li>
+<li>Note that one file can contain dynamical matrices of several <span class="arithmatex">\(\mathbf{q}\)</span>-points if these <span class="arithmatex">\(\mathbf{q}\)</span>-points are related by a symmetry of the crystal. </li>
+</ul>
+</div>
+<h3 id="step-3-run-the-q2rx-calculation">Step 3: run the <code>q2r.x</code> calculation</h3>
+<p>Next we will generate the real-space force constants from the dynamical matrices calculated on a coarse grid in the first Brillouin zone using the <code>q2r.x</code> module.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4c - run <code>q2r.x</code></p>
+<div class="admonition warning">
+<p class="admonition-title">Help file of <code>q2r.x</code></p>
+<p>If you are interested in the input variables of <code>q2r.x</code>, visit this <a href="https://www.quantum-espresso.org/Doc/INPUT_Q2R.html">link</a> for the help file. </p>
+</div>
+<ul>
+<li>
+<p>Read the <code>03_CD_q2r.in</code> input file. 
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="w"> </span><span class="p">&amp;</span>input
+</span><span id="__span-4-2"><span class="w">   </span><span class="nv">fildyn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;matdyn&#39;</span><span class="w">     </span><span class="c1">#(1)!</span>
+</span><span id="__span-4-3"><span class="w">   </span><span class="nv">zasr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;simple&#39;</span><span class="w">       </span><span class="c1">#(2)!</span>
+</span><span id="__span-4-4"><span class="w">   </span><span class="nv">flfrc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CD444.fc&#39;</span><span class="w">    </span><span class="c1">#(3)! </span>
+</span><span id="__span-4-5"><span class="w"> </span>/
+</span></code></pre></div></td></tr></table></div></p>
+<ol>
+<li><code>fildyn</code> is the name of the file for reading the dyamical matrices obtained from <code>ph.x</code>. </li>
+<li><code>zasr</code> decides how the acoustic sum rule is enforced. If the ASR is not enforced, the lowest frequency phonons at the <span class="arithmatex">\(\Gamma\)</span>-point will not have zero frequencies (as they should).   </li>
+<li><code>filefrc</code> specifies the output file name.</li>
+</ol>
+</li>
+<li>
+<p>Run <code>q2r.x &lt; 03_CD_q2r.in &gt; q2r.out</code>. This will run almost instantly.</p>
+</li>
+<li>This calculation produces the output file <code>CD444.fc</code> containing the force constant matrix for each pair of atoms in a 4x4x4 supercell. So this is <span class="arithmatex">\(K(\mathrm{R})\)</span>. </li>
+</ul>
+</div>
+<h3 id="step-4-run-the-matdynx-calculation">Step 4: run the <code>matdyn.x</code> calculation</h3>
+<p>Now we want to use this to generate phonon band structure of diamond. For this, we will use the <code>matdyn.x</code> code.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 4d - run <code>matdyn.x</code></p>
+<div class="admonition warning">
+<p class="admonition-title">Help file of <code>matdyn.x</code></p>
+<p>If you are interested in the input variables of <code>matdyn.x</code>, visit this <a href="https://www.quantum-espresso.org/Doc/INPUT_MATDYN.html">link</a>.</p>
+</div>
+<ul>
+<li>
+<p>Read the input file <code>04_CD_matdyn-bands.in</code>.
+<div class="language-bash highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><span class="w"> </span><span class="p">&amp;</span>input
+</span><span id="__span-5-2"><span class="w">    </span><span class="nv">asr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;simple&#39;</span><span class="w">            </span><span class="c1">#(1)!</span>
+</span><span id="__span-5-3"><span class="w">    </span><span class="nv">flfrc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CD444.fc&#39;</span><span class="w">        </span><span class="c1">#(2)!</span>
+</span><span id="__span-5-4"><span class="w">    </span><span class="nv">flfrq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;CD-bands.freq&#39;</span><span class="w">   </span><span class="c1">#(3)!</span>
+</span><span id="__span-5-5"><span class="w">    </span><span class="nv">dos</span><span class="o">=</span>.false.<span class="w">               </span><span class="c1">#(4)!</span>
+</span><span id="__span-5-6"><span class="w">    </span><span class="nv">q_in_band_form</span><span class="o">=</span>.true.<span class="w">     </span><span class="c1">#(5)!</span>
+</span><span id="__span-5-7"><span class="w"> </span>/
+</span><span id="__span-5-8"><span class="m">8</span><span class="w">   </span><span class="c1">#(6)!</span>
+</span><span id="__span-5-9"><span class="w"> </span><span class="m">0</span>.000<span class="w"> </span><span class="m">0</span>.000<span class="w"> </span><span class="m">0</span>.000<span class="w"> </span><span class="m">30</span><span class="w">   </span><span class="c1">#(7)! </span>
+</span><span id="__span-5-10"><span class="w"> </span><span class="m">0</span>.375<span class="w"> </span><span class="m">0</span>.375<span class="w"> </span><span class="m">0</span>.750<span class="w"> </span><span class="m">10</span>
+</span><span id="__span-5-11"><span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">1</span>.000<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-5-12"><span class="w"> </span><span class="m">1</span>.000<span class="w"> </span><span class="m">1</span>.000<span class="w"> </span><span class="m">1</span>.000<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-5-13"><span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-5-14"><span class="w"> </span><span class="m">0</span>.000<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-5-15"><span class="w"> </span><span class="m">0</span>.250<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.750<span class="w"> </span><span class="m">30</span>
+</span><span id="__span-5-16"><span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>.500<span class="w"> </span><span class="m">0</span>
+</span></code></pre></div></td></tr></table></div></p>
+<ol>
+<li><code>asr</code> tells the code to enforce the acoustic sum rule.</li>
+<li><code>flfrc</code> to  give it the name of the file with the real-space force constants from the <code>q2r.x</code> calculation.</li>
+<li><code>flfrq</code> to give it the name of the output file to store the calculated frequencies.</li>
+<li><code>dos=.false.</code> tells the code we're not calculating the density of states </li>
+<li><code>q_in_band_form=.true.</code> tells the code we want to calculate bands between high-symmetry points.</li>
+<li>The number of high-symmetry points on the path. </li>
+<li>The list of high-symmetry points with the number of points to calculate along each line, in the same way as we did for the electronic band structure.</li>
+</ol>
+</li>
+<li>
+<p>Run <code>matdyn.x &lt; 04_CD_matdyn-bands.in &gt; matdyn.out</code>. Again, this is very fast.</p>
+</li>
+<li>The code generates the output files <code>CD-bands.freq</code> and <code>CD-bands.freq.gp</code>. Both of which contain the frequencies along the path we requested.</li>
+</ul>
+</div>
+<h3 id="step-5-plotting-the-phonon-band-structure">Step 5: plotting the phonon band structure</h3>
+<p>Finally, we want to generate a graph of these frequencies. For this, we will use the output file <code>CD-bands.freq.gp</code> which contains frequencies in units of cm-1.</p>
+<div class="admonition example">
+<p class="admonition-title">Task 5 - plotting the phonon band structure</p>
+<p>A python script <code>PHONON_BAND.py</code> has been provided for generating the phonon band structure. If you are interested in how the plotting is done, you can read the script. </p>
+<details class="success">
+<summary>What does the phonon band structure look like?</summary>
+<p><figure markdown="span">
+  <img alt="band" src="../assets/bands.png" width="300" />
+</figure></p>
+</details>
+<details class="success">
+<summary>How many normal modes are there at each q-point?</summary>
+<p>There are 2 atoms in the unit cell so there are <span class="arithmatex">\(3\times2=6\)</span> normal modes. </p>
+</details>
+<p><!--??? success "Inspect the phonon band structure along <span class="arithmatex">\(\Gamma-L\)</span>, which two phonon bands become degenerate?"-->
+<!--    The two lowest energy phonon bands. Degenerate bands tend to appear in crystals with some symmetry. --></p>
+<!--??? success "Near which q-point do the three lowest energy phonon bands become approximately linear?" 
+    The <span class="arithmatex">\(\Gamma\)</span> point. In 3D crystals, the three lowest energy phonon bands always become linear near the <span class="arithmatex">\(\Gamma\)</span> point. If this is not the case, you might need to increase the PW cutoff or k(q)-point sampling in <code>pw.x</code> and <code>ph.x</code>. -->
+<!--??? tips "Extra notes: use of plotband.x (for the interested)"
+    It can be easier to use the <code>plotband.x</code> tool to help generate a plot. The steps are as follows:<br />    1. Call this with <code>plotband.x &lt; CD-bands.freq</code>.<br />    2. This will then ask you for an Emin and Emax value - you should pick values equal to or below and above the numbers it suggests.<br />    3. Then it will ask you for an output file name. Pick "CD-bands-gpl.dat" here.<br />    4. You can then cancel further running of this code with <code>ctrl+c</code>. Note it has output the location of the high-symmetry points along its x-axis. -->
+</div>
+<div class="admonition example">
+<p class="admonition-title">Task 6 - visualising the phonons</p>
+<ul>
+<li>
+<p>Go to the <a href="https://interactivephonon.materialscloud.io/">website</a>. This is a website for visualising phonons.</p>
+</li>
+<li>
+<p>Use <code>01_CD_scf.in</code> for the 'pw.x input file', <code>pw.out</code> for the 'pw.x output file', and <code>matdyn.modes</code> files for 'matdyn.modes file (generated by matdyn.x)'. </p>
+</li>
+<li>
+<p>Click 'Calculate phonon dispersion' and the visualisation should come up. </p>
+</li>
+<li>
+<p>You can select the phonon mode to visualise by clicking on the phonon band structure on the right. </p>
+</li>
+<li>
+<p>Now click on the lowest phonon band at the <span class="arithmatex">\(\Gamma\)</span> point. Firstly, you will notice that the frequencies of the three lowest phonon bands become zero. Secondly, all atoms move in-phase. These three lowest phonon modes are called <strong>acoustic modes</strong>. </p>
+</li>
+<li>
+<p>Now click on the highest phonon band at the <span class="arithmatex">\(\Gamma\)</span> point. You will notice how the atoms in each unit cell move in anti-phase. These phonon modes are called the <strong>optical modes</strong>. </p>
+</li>
+<li>
+<p>In both cases above, you will notice that periodicity of the atomic displacements is one unit cell. This is because we are at the <span class="arithmatex">\(\Gamma\)</span> point.</p>
+</li>
+<li>
+<p>Now click on any other phonon away from the <span class="arithmatex">\(\Gamma\)</span> point. Notice how there is now a modulation of the amplitude from one unit cell to another. You can increase the number of supercells to fully visualise the phonon. </p>
+</li>
+</ul>
+</div>
+<hr />
+<h2 id="summary">Summary</h2>
+<p>In this lab we have seen</p>
+<ul>
+<li>how to use the <code>ph.x</code> code to calculate the vibrational properties of a molecule.</li>
+<li>how to calculate the phonon band structure of a crystal.</li>
+</ul>
+<!-- T_2  G_15 P_4   I+R`. -->
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

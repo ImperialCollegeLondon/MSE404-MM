@@ -1,0 +1,1654 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Labs for MATE70020.">
+      
+      
+        <meta name="author" content="Johannes Lischner">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../../assets/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+    
+    
+      
+        <title>More Useful Linux Commands - Modeling Materials with Density Functional Theory</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.618322db.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../stylesheets/extra.css">
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#more-useful-linux-commands" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-header__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Modeling Materials with Density Functional Theory
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              More Useful Linux Commands
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="light" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="dark" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Modeling Materials with Density Functional Theory" class="md-nav__button md-logo" aria-label="Modeling Materials with Density Functional Theory" data-md-component="logo">
+      
+  <img src="../../../../../assets/IMPV2.svg" alt="logo">
+
+    </a>
+    Modeling Materials with Density Functional Theory
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/ImperialCollegeLondon/MSE404-MM" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+  </div>
+  <div class="md-source__repository">
+    ImperialCollegeLondon/MSE404-MM
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Labs
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Labs
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab01/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 1 - Getting Started in Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab02/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 2 - Quantum Espresso Input and Output for Molecules
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab03/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 3 - Convergence Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab04/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 4 - Crystals and the Electronic Band Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab05/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 5 - Metals and the Density of States
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab06/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 6 - Spin Polarization and Magnetic Systems
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab07/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 7 - Structural Optimisation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab08/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 8 - Vibrational Normal Modes and Phonons
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../lab09/readme/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lab 9 - Finite Temperature Properties
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#some-additional-useful-file-commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Some additional useful file commands
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#df" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        df
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="df">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#du" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        du
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="du">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quota" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        quota
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="quota">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#head-and-tail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        head and tail
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#chmod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chmod
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="chmod">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#permissions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Permissions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#chmod-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        chmod command
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        wc
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="wc">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        grep
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="grep">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regular-expressions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regular Expressions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cut" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cut
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="cut">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#awk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        awk
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="awk">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tr
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tr">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#find" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        find
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diff
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="diff">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sort" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sort
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="sort">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uniq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        uniq
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="uniq">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#useful-options_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Useful Options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tar" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tar
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tar">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#creating-archives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating Archives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extracting-archives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extracting Archives
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#listing-archive-content" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Listing Archive Content
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bc" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        bc
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="more-useful-linux-commands">More Useful Linux Commands</h1>
+<p>While we cover the basic file and navigation commands in <a href="../../../../lab01/readme/">Lab
+1</a>, There are many more commands that are available as
+standard on a Linux system that can make your life much easier. In this file we
+briefly go through some of the more commonly used ones and list a few useful
+options or potential use cases for each. We'll revisit many of these during the
+course as they'll help us automate some aspects of running and extracting data
+from our calculations.</p>
+<h3 id="some-additional-useful-file-commands">Some additional useful file commands</h3>
+<p>As you are all on the same system and file space is not unlimited, it is good
+to be aware of how much space you're using. Large calculations can often take
+more disk space than you might have expected, so it's important to be able to
+track down large files that are no longer needed if space becomes an issue.
+The first few commands here can help you with this, beyond using <code>ls -lh</code> to
+see how big files are.</p>
+<h3 id="df">df</h3>
+<p><code>df</code> is used to report file system disk space usage for all mounted
+partitions. This is a useful way to check how much space is free on the disks
+and partitions used to store files by the system. It also tells you which
+disks are are real local disks: these are the ones with labels like
+"/dev/sda2" under the filesystem heading, while disks mounted across the
+network will be labelled with the server address in this field. The "tmpfs"
+label indicates a temporary filesystem, usually this is stored in RAM while
+the system is running, but can be used through a directory in the file
+hierarchy.</p>
+<p>You might notice a remote server directory is mounted to <code>~/homedir</code>. This
+your windows home directory. You can copy files and folders there if you would
+like to make the available on your Imperial windows account.</p>
+<h4 id="useful-options">Useful Options</h4>
+<ul>
+<li><code>df -h</code> will list usage numbers in a human-readable format, i.e. instead of
+  10240, it would say "10M".</li>
+<li><code>df -T</code> will list the filesystem type e.g. ext3/ext4 for disks using a
+  typical Linux filestructure, and nfs or cifs for disks mounted remotely over
+  the network. It is useful to be able to identify filesystems that are
+  mounted over the network since these are usually slower to use than local
+  disks if your calculation produces many files. In these cases, if your home
+  directory is on a remote filesystem you should run your calculation using a
+  local disk and copy the results to your home directory once it is completed.</li>
+</ul>
+<h3 id="du">du</h3>
+<p><code>du</code> is used to estimate file space usage. Typing <code>du filename</code> will tell you
+how big <code>filename</code> is (usually in kB by default). <code>du dirname</code> will tell you
+how big all the files in directory <code>dirname</code> and its subdirectories are, with a
+total at the end.</p>
+<h4 id="useful-options_1">Useful Options</h4>
+<ul>
+<li><code>du -s</code> will only print the total size used for the argument. This is
+  typically used to find how much space a given directory is using.</li>
+<li><code>du -h</code> will print sizes in human-readable format.</li>
+</ul>
+<h3 id="quota">quota</h3>
+<p><code>quota</code> is used to check disk usage and limits. Many shared Linux systems,
+such as HPC systems, and the server you are using for this course, will impose
+a limit on the disk space used by any individual users. The <code>quota</code> command
+will tell you what those limits are and how much you have used.</p>
+<h4 id="useful-options_2">Useful Options</h4>
+<ul>
+<li><code>quota -s</code> will show limits and usage in a human-readable format, i.e.
+  instead of 3145180 it would say 3072M.</li>
+</ul>
+<h3 id="head-and-tail">head and tail</h3>
+<p><code>head</code> outputs the first few lines of a file to the terminal, while
+<code>tail</code> outputs the last few lines of a file to the terminal.</p>
+<ul>
+<li><code>head filename</code> outputs the first 10 lines of <code>filename</code>.</li>
+<li><code>head -5 filename</code> outputs the first 5 lines of <code>filename</code>.</li>
+<li><code>tail filename</code> outputs the last 10 lines of <code>filename</code>.</li>
+<li><code>tail -5 filename</code> outputs the last 5 lines of <code>filename</code>.</li>
+<li><code>tail -f filename</code> starts tail in "follow" mode, where tail will repeatedly
+  check for new data written to the file, and output them to the terminal.
+  This is useful for following the output from a running calculation for
+  example.</li>
+</ul>
+<h3 id="chmod">chmod</h3>
+<h4 id="permissions">Permissions</h4>
+<p>If you take a look at the output of <code>ls -l</code> you'll see the first column has a
+mix of letters (usually d, r, w, x, and hyphens).</p>
+<ul>
+<li>The first character in this column indicates the file: <code>d</code> for directories,
+  and <code>-</code> for regular files.</li>
+<li>The following nine characters indicate the permissions. These are in sets of
+  three where each set indicates the permission for a set of users.<ul>
+<li>The first set of three characters are the permissions for the user that
+  owns the file (listed in the third column).</li>
+<li>The second set of three characters are the permissions of other members
+  of the group that own the file (listed in the fourth column).<ul>
+<li>The default on many Linux systems is to create a group of the same
+    name as the username, that contains only that user.</li>
+<li>It's also possible for users to be added to several groups
+    by the system administrator. This is useful on shared systems
+    where a certain set of users want to share access to some set of
+    files, but without giving access to everyone.</li>
+<li>You can see what groups you are in by typing <code>groups</code> in the
+    terminal.</li>
+</ul>
+</li>
+<li>The third set of three characters are the permissions for all other
+  users.</li>
+</ul>
+</li>
+<li>Within each set of three characters:<ul>
+<li>The first character is "r" if users in that set have permission to read
+  the file and "-" otherwise.</li>
+<li>The second character is "w" if users in that set have permission to write
+  to the file and "-" otherwise.</li>
+<li>The third character is "x" if users in that set have permission to
+  exectute to the file, i.e. run it as a program.</li>
+</ul>
+</li>
+</ul>
+<h4 id="chmod-command">chmod command</h4>
+<p><code>chmod</code> can be used to change file permissions. This command can be invoked in
+two different ways:</p>
+<p>One can change the permission for a given set of users granularly:
+- <code>chmod u+x filename</code> grants the user who owns the file execute permission.
+  This is one of the main things you will be using <code>chmod</code> for as when you
+  create a script in a text editor it will not be executable by default.
+- <code>chmod g+rw filename</code> grants group members read and write permission.
+- <code>chmod o-r filename</code> revokes other users read permission.
+- <code>chmod a+x filename</code> grants all users execute permission.</p>
+<p>One can use a set of three numbers to set the full list of permissions at once.
+What each number corresponds to is listed in following table:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">#</th>
+<th style="text-align: left;">Permission</th>
+<th style="text-align: center;">rwx</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">7</td>
+<td style="text-align: left;">read, write and execute</td>
+<td style="text-align: center;">rwx</td>
+</tr>
+<tr>
+<td style="text-align: center;">6</td>
+<td style="text-align: left;">read and write</td>
+<td style="text-align: center;">rw-</td>
+</tr>
+<tr>
+<td style="text-align: center;">5</td>
+<td style="text-align: left;">read and execute</td>
+<td style="text-align: center;">r-x</td>
+</tr>
+<tr>
+<td style="text-align: center;">4</td>
+<td style="text-align: left;">read only</td>
+<td style="text-align: center;">r--</td>
+</tr>
+<tr>
+<td style="text-align: center;">3</td>
+<td style="text-align: left;">write and execute</td>
+<td style="text-align: center;">-wx</td>
+</tr>
+<tr>
+<td style="text-align: center;">2</td>
+<td style="text-align: left;">write only</td>
+<td style="text-align: center;">-w-</td>
+</tr>
+<tr>
+<td style="text-align: center;">1</td>
+<td style="text-align: left;">execute only</td>
+<td style="text-align: center;">--x</td>
+</tr>
+<tr>
+<td style="text-align: center;">0</td>
+<td style="text-align: left;">none</td>
+<td style="text-align: center;">---</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>To set the permissions of a directory so only the owner can access it in any
+  way you could use <code>chmod 700 directoryname</code>.</li>
+<li>To set a script you have created so that others can use and execute it you
+  could use <code>chmod 755 scriptname</code>.</li>
+</ul>
+<h3 id="wc">wc</h3>
+<p><code>wc filename</code> will output the newline, word and byte counts for <code>filename</code>.</p>
+<h4 id="useful-options_3">Useful Options</h4>
+<ul>
+<li><code>-l</code> to output the number of lines in the file.</li>
+<li><code>-w</code> to output the word count for the file.</li>
+</ul>
+<h3 id="grep">grep</h3>
+<p><code>grep</code> will print lines from a file or stdin which match a given pattern.</p>
+<ul>
+<li><code>grep searchtext filename</code> will output all lines in <code>filename</code> which contain
+  the text <code>searchtext</code>.</li>
+<li><code>history | grep less</code> will output all lines in the command history containing
+  <code>less</code>. This is useful for those times when you entered a complex command
+  some time ago that you want to repeat it.</li>
+</ul>
+<p>While <code>searchtext</code> in the first example above could be a particular word you
+want to find an exact match of, <code>grep</code> will also interpret this as a <em>regular
+expression</em> by default. This is somewhat similar to the wildcards you can use
+in the terminal, but has a slightly different syntax and allows for much more
+complex patterns.</p>
+<h4 id="regular-expressions">Regular Expressions</h4>
+<p>This is a very deep topic, so we'll only cover a few of the more simple
+examples. <code>man grep</code> has significantly more detail. The most useful symbols are
+probably:</p>
+<ul>
+<li><code>.</code> matches any single character.</li>
+<li><code>*</code> the preceding item will be matched zero or more times.</li>
+<li>These are quite useful when combined to form <code>.*</code>, which acts in the same way
+  as the terminal wildcard expression <code>*</code>.</li>
+<li>Note: to match the actual <code>.</code> or <code>*</code> symbols, you can escape them as <code>\.</code> and
+  <code>\*</code>.</li>
+</ul>
+<p>For example <code>grep "doc.*\.pdf" dirfiles.dat</code> will output all lines containing
+strings that begin with <code>doc</code> and end with <code>.pdf</code>.</p>
+<p>Note regular expressions can also be used in <code>less</code> (and hence <code>man</code>) when
+searching for text with <code>/</code>.</p>
+<h4 id="useful-options_4">Useful Options</h4>
+<ul>
+<li><code>grep -3 searchtext filename</code> will additionally output 3 lines before and
+  after any lines containing <code>searchtext</code>. Any number of lines can be used
+  here.</li>
+<li><code>grep -v searchtext filename</code> will output all lines <em>except</em> those containing
+  <code>searchtext</code>.</li>
+<li><code>grep -r searchtext</code> will recursively search all files and folders starting
+  from the current directory.</li>
+</ul>
+<h3 id="cut">cut</h3>
+<p><code>cut</code> prints selected parts from each line a file. Mostly this is used with the
+<code>-f</code> option which tells it to print only certain fields, and the <code>-d</code> option
+which allows you to set the delimiter for fields (TAB is the default). It is
+often useful to pipe (<code>|</code>) the output of <code>grep</code> into <code>cut</code> to parse data from
+an output file.</p>
+<p>For example, <code>cut -d ' ' -f 1 filename</code> will print the first word (separated by
+spaces) on each line of <code>filename</code>, and <code>cut -d ',' -f '3-5' data.csv</code> would
+print the 3rd, 4th and 5th columns of a csv data file.</p>
+<h4 id="useful-options_5">Useful Options</h4>
+<ul>
+<li><code>-s</code> tells <code>cut</code> not to output lines which do not contain delimiters. This is
+  useful for example if you have empty lines in the file you are parsing that
+  you want to suppress.</li>
+<li><code>--complement</code> will output the complement of the selected fields. For
+  example, if we had a 5 column csv data file, <code>cut -d ',' -f '2-4'
+  --complement</code> would output the 1st and 5th columns.</li>
+</ul>
+<h3 id="awk">awk</h3>
+<p><code>awk</code> is a pattern scanning and processing language. It is typically used to
+parse files in a similar manner to using <code>grep</code> combined with <code>cut</code>. <code>awk</code> is
+very powerful but we will only cover some very basic operations.</p>
+<ul>
+<li><code>awk '/regexp/{print}' filename</code> will output all lines in <code>filename</code>
+  containing <code>regexp</code>. As with <code>grep</code>, regular expressions can be used in
+  <code>regexp</code>.</li>
+<li><code>awk '/regexp/{print $1" "$3}' filename</code> will output the first and third
+  words in all lines containing <code>regexp</code>. Note by default <code>awk</code> uses spaces as
+  the field delimiter.</li>
+<li><code>awk 'BEGIN{i=0} /regexp/{i=i+1} END{print i}' filename</code> will output the
+  number of lines in <code>filename</code> containing <code>regexp</code>.</li>
+<li><code>awk '/searchtext/{printf "%f %f\n",$2-13.0,$4*10.0}' filename</code> will output
+  for each line containing <code>searchtext</code>, the second field with 13.0 subtracted,
+  and the fourth field times 10.</li>
+</ul>
+<p>Hopefully these examples give you an idea of what is possible with <code>awk</code>. More
+details and examples can be found with <code>man awk</code>.</p>
+<h4 id="useful-options_6">Useful Options</h4>
+<ul>
+<li><code>-F</code> allows you to set the field separator. For example <code>awk -F','</code> would be
+  useful for parsing a csv file.</li>
+<li><code>-f program-file</code> tells <code>awk</code> to run the commands listed in <code>program-file</code>.
+  This is useful if you have a complicated script so you don't need to type it
+  all in directly to the terminal.</li>
+</ul>
+<h3 id="sed">sed</h3>
+<p><code>sed</code> stands for stream editor. It allows you to perform basic text
+transformations on a file (or from stdin). <code>sed</code> is very powerful and we will
+only cover some very simple examples.</p>
+<ul>
+<li><code>sed 's/regexp/replacement/' filename &gt; newfile</code> will replace the first match
+  of <code>regexp</code> on each line of <code>filename</code> with <code>replacement</code>. Here the first <code>s</code>
+  stands for substitute, and is probably the most useful sed command. Note that
+  <code>sed</code> outputs to stdout by default, so you should redirect this to a <em>new</em>
+  file to save. <strong>Do not try to redirect output to the same file you are
+  reading</strong>, as <code>&gt;</code> will blank the file before <code>sed</code> can read anything from it.<ul>
+<li><code>sed 's/^...//' filename &gt; newfile</code> will remove the first three
+  characters from every line of <code>filename</code>. Note <code>^</code> is used to match the
+  beginning of a line.</li>
+</ul>
+</li>
+<li><code>sed 's/regexp/replacement/g' filename &gt; newfile</code> will replace <em>every</em> match
+  of <code>regexp</code> on each line of <code>filename</code> with <code>replacement</code>.<ul>
+<li><code>sed 's/,/\t/g' data.csv &gt; data.dat</code> would replace all commas with tabs
+  (<code>\t</code> is a tab) in <code>data.csv</code> and save it in <code>data.dat</code>.</li>
+</ul>
+</li>
+<li>The <code>-i</code> flag can be used to modify a file in-place.
+  <code>sed -i 's/regexp/replacement/g' filename</code> will replace every match of
+  <code>regexp</code> on each line of <code>filename</code> with <code>replacement</code>. <code>filename</code> itself
+  will be modified. You can also specify a suffix here such that a backup
+  will be created using that suffix: e.g.
+  <code>sed -i.bak 's/regexp/replacement/g' filename</code> will do the replacement in-place
+  but first backup the original file to <code>filename.bak</code>.</li>
+</ul>
+<p>See <code>man sed</code> for more information.</p>
+<h3 id="tr">tr</h3>
+<p><code>tr</code> is used to translate or delete characters. It always reads from stdin, and
+outputs to stdout. This means that to use it with a file, we need to redirect
+the file to stdin using <code>&lt;</code>.</p>
+<ul>
+<li><code>tr 1 2 &lt; test.dat</code> would output the contents of <code>test.dat</code> with all the 1s
+  replaced by 2s.</li>
+<li><code>tr abc ABC &lt; test.txt</code> would output the contents of <code>test.txt</code> with any 'a'
+  replaced by 'A', 'b' by 'B' and 'c' by 'C'.</li>
+</ul>
+<p>It also accepts some special input such as</p>
+<ul>
+<li><code>[:space:]</code> to match whitespace (both single and continuous).</li>
+<li><code>[:punct:]</code> to match punctuation</li>
+<li><code>[:lower:]</code> to match lower case letters</li>
+<li><code>[:upper:]</code> to match upper case letters</li>
+</ul>
+<p>For example:</p>
+<ul>
+<li><code>tr [:lower:] [:upper:] &lt; test.txt &gt; test_upper.txt</code> would to create a new
+  version <code>test.txt</code> converted to uppercase.</li>
+<li><code>tr [:space:] '\n' &lt; test.txt</code> would convert all spaces to newlines.</li>
+</ul>
+<h4 id="useful-options_7">Useful options</h4>
+<ul>
+<li><code>-d</code> deletes matching characters. For example, to output a file with all
+  punctuation removed we could do <code>tr -d [:punct:] &lt; test.txt</code></li>
+</ul>
+<h3 id="find">find</h3>
+<p><code>find</code> is used to search for files in a directory hierarchy. Most commonly this
+is used with the <code>-name</code> option to search for files with a particular name.
+Wildcards can be used in the search. Note: the first argument to <code>find</code> should
+be the path to search, e.g. <code>find /etc</code> to search for files in the <code>/etc</code>
+directory or <code>find .</code> to search for files in the current directory.</p>
+<ul>
+<li><code>find . -name "*.cpp"</code> will find all files ending in <code>.cpp</code> in the current
+  directory (<code>.</code>) and its subdirectories.</li>
+</ul>
+<p>See <code>man find</code> for more information.</p>
+<h3 id="diff">diff</h3>
+<p><code>diff</code> is used to compare two files. This is useful if for example, you want to
+see what changes have been made in a new version of a file.</p>
+<ul>
+<li><code>diff file1 file2</code> will output the lines which differ between the two files.
+  The lines from <code>file1</code> will be prepended with <code>&lt;</code> and the lines from <code>file2</code>
+  with <code>&gt;</code>.</li>
+</ul>
+<h4 id="useful-options_8">Useful Options</h4>
+<ul>
+<li><code>-q</code> will report only whether the two files differ and will not output the
+  differences.</li>
+<li><code>-r</code> will recursively compare files in subdirectories.</li>
+<li><code>-y</code> will output the two files side by side in two columns.</li>
+<li><code>-W</code> will allow you to set how wide the output is (130 columns by default).
+  This is particularly useful with the <code>-y</code> option.</li>
+</ul>
+<h3 id="sort">sort</h3>
+<p><code>sort</code> is used to sort lines of text files. For example, if we had a file
+called <code>users.txt</code> which contained a list of names, then <code>sort users.txt</code> would
+output (to stdout) the list sorted alphabetically. This is often useful
+combined with other commands. For example to generate a sorted list of all
+words in a file you can do <code>sed 's/ /\n/g' filename | sort</code>. Here the <code>sed</code>
+command replaces all spaces with new lines, so we have one word per line, and
+then we use this as input to the sort command.</p>
+<h4 id="useful-options_9">Useful Options</h4>
+<ul>
+<li><code>-n</code> will sort numerically rather than alphabetically. For example,
+  <code>du -s * | sort -n</code> will generate a listing of files and directories sorted
+  by size.</li>
+<li><code>-h</code> will use a human numeric sort, allowing numbers such as 2K and 1G to be
+  sorted. For example, <code>du -sh * | sort -h</code> will generate a listing of files
+  and directories sorted by size, but in human readable format.</li>
+<li><code>-u</code> will output only the first of an equal run. For example
+  <code>sed 's/ /\n/g' filename | sort -u</code> will generate a sorted list of all words
+  in <code>filename</code> with each listed only once.</li>
+<li><code>-f</code> will till <code>sort</code> to fold lower case to upper case characters.</li>
+<li><code>-r</code> will output in reverse order. This is useful for numeric sorts where you
+  often want to have the largest numbers at the top.</li>
+</ul>
+<h3 id="uniq">uniq</h3>
+<p><code>uniq</code> is used to report or omit repeated lines in a file. By default it will
+take any file or input from stdin, and output it with duplicated lines omitted.
+For example if we had a text file <code>test.txt</code> with</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span>
+<span class="normal">7</span>
+<span class="normal">8</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1">a
+</span><span id="__span-0-2">a
+</span><span id="__span-0-3">b
+</span><span id="__span-0-4">b
+</span><span id="__span-0-5">b
+</span><span id="__span-0-6">c
+</span><span id="__span-0-7">d
+</span><span id="__span-0-8">d
+</span></code></pre></div></td></tr></table></div>
+<p>Running <code>uniq test.txt</code> would output</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1">a
+</span><span id="__span-1-2">b
+</span><span id="__span-1-3">c
+</span><span id="__span-1-4">d
+</span></code></pre></div></td></tr></table></div>
+<h4 id="useful-options_10">Useful Options</h4>
+<ul>
+<li><code>-c</code> prefixes each line of output with a count of its number of occurrences.
+  We could for example, take the <code>sort</code> example to sort all words in a file,
+  and expand it to generate a word count of all words in a file:
+  <code>sed 's/ /\n/g' filename | sort | uniq -c</code>. We could add <code>| sort -n</code> to the
+  end of this to sort words in order of frequency, and we could use <code>tr</code> before
+  this to remove all punctuation.</li>
+<li><code>-i</code> tells <code>uniq</code> to ignore differences in case when comparing.</li>
+</ul>
+<h3 id="tar">tar</h3>
+<p><code>tar</code> is an archiving utility used to create an archive of files, i.e. generate
+a file containing many other files. This is usually used to create compressed
+bundles of files on Linux, in a similar way to zip file archives (note zip and
+unzip are usually available on Linux also, but compressed tar archives are more
+commonly used).</p>
+<h4 id="creating-archives">Creating Archives</h4>
+<p>The <code>-c</code> flag indicates to <code>tar</code> that you want to create an new archive.</p>
+<ul>
+<li><code>tar -cvf archive.tar file1 file2 dir1</code> will create an (uncompressed) archive
+  called <code>archive.tar</code> of the named set of files or directories. Here:<ul>
+<li><code>-v</code> is for verbose mode - it will list the files which are added. This
+  is not really necessary, but is useful so you can be sure you are adding
+  the files you intended to.</li>
+<li><code>-f</code> is used to specify the archive name. Here we have called it
+  <code>archive.tar</code>.</li>
+</ul>
+</li>
+<li><code>tar -czvf archive.tar.gz file1 file2 dir1</code> uses the additional <code>-z</code> flag to
+  compress the archive using <code>gzip</code> compression. The extension <code>.tar.gz</code> or
+  <code>.tgz</code> is typically used to indicate this type of file. Several other
+  possible compression algorithms could be used instead:<ul>
+<li><code>-j</code> will use <code>bzip2</code> compression. This typically results in slightly
+  smaller file size than <code>gzip</code>, but can take slightly longer. Files
+  created like this usually use the extension <code>.tar.bz</code> or <code>.tbz</code> or some
+  other similar variation.</li>
+<li><code>-J</code> will use <code>xz</code> compression. This is a very effective compression
+  algorithm, resulting in very small files, particularly for archives
+  containing a lot of text. This option can take quite a lot longer than
+  gzip for large archives however. Files created with this option usually
+  use the extension <code>.tar.xz</code> or <code>.txz</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="extracting-archives">Extracting Archives</h4>
+<p>The <code>-x</code> flag indicates to <code>tar</code> you want to unpack an archive.</p>
+<ul>
+<li><code>tar -xvf archivename</code> will uncompress and unpack a tar archive called
+  <code>archivename</code>, automatically detecting what kind of compression was used (if
+  any). Again the <code>-v</code> isn't necessary, but is useful.</li>
+</ul>
+<h4 id="listing-archive-content">Listing Archive Content</h4>
+<p>The <code>-t</code> flag will tell <code>tar</code> to list the contents of an archive.</p>
+<ul>
+<li><code>tar -tvf archivename</code> will list the contents of the tar archive
+  <code>archivename</code>, again automatically detecting what kind of compression was
+  used.</li>
+</ul>
+<h3 id="bc">bc</h3>
+<p><code>bc</code> is an arbitrary precision calculator language. This can be used from
+the command line by piping expressions to it. For example:</p>
+<ul>
+<li><code>echo "2+2" | bc</code></li>
+<li>For floating point operations, you should set the scale which defines how
+  many digits following the decimal points are output:</li>
+<li><code>echo "scale=10; 1.412*27.211" | bc</code></li>
+<li><code>echo "scale=10; sqrt(2)" | bc</code></li>
+<li>You can tell bc to load the standard math library with the <code>-l</code> flag. This
+  will also set the scale to 20 by default. This makes several additional
+  functions available such as <code>s(x)</code>, <code>c(x)</code> and <code>a(x)</code> for the sine, cosine
+  and arctan in radians. So <code>echo "4*a(1)" | bc -l</code> will output the first 20
+  decimal places of pi.</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 Johannes Lischner
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../../..", "features": ["content.code.copy", "content.code.annotate", "navigation.sections", "navigation.top", "navigation.expand"], "search": "../../../../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      
+        <script src="../../../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+      
+        <script src="../../../../../javascripts/katex.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

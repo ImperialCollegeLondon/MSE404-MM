@@ -1,0 +1,98 @@
+<style data-teleport="head">
+  .back-cover {
+    page: last;
+    height: 100%;
+  }
+
+  .back-cover img {
+    top: 0;
+    left: 0;
+    position: absolute;
+  }
+
+  .back-cover section {
+    .title {
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      left: 0;
+      vertical-align: middle;
+      font-size: 24pt;
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  @page last {
+    margin: 0;
+    background: var(--md-primary-fg-color);
+
+    @top-center {
+      content: none;
+    }
+
+    @bottom-center {
+      content: none;
+    }
+  }
+  .center_back_cover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px;
+  }
+</style>
+<div class="back-cover">
+  <section>
+    <div class="center_back_cover">
+      <svg
+         xmlns:dc="http://purl.org/dc/elements/1.1/"
+         xmlns:cc="http://creativecommons.org/ns#"
+         xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns="http://www.w3.org/2000/svg"
+         width="37.67857"
+         height="48.000011"
+         viewBox="0 0 37.67857 48.000011"
+         fill="none"
+         version="1.1"
+         id="svg20">
+        <metadata
+           id="metadata26">
+          <rdf:RDF>
+            <cc:Work
+               rdf:about="">
+              <dc:format>image/svg+xml</dc:format>
+              <dc:type
+                 rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+              <dc:title></dc:title>
+            </cc:Work>
+          </rdf:RDF>
+        </metadata>
+        <defs
+           id="defs24" />
+        <circle
+           cx="18.999969"
+           cy="24.00001"
+           r="16.5"
+           stroke="#ffffff"
+           stroke-width="3"
+           id="circle12" />
+        <path
+           d="m 12.67857,12.50001 h 3.9999 L 4,48.00001 H 0 Z"
+           fill="#ffffff"
+           id="path14" />
+        <path
+           d="m 34.17857,1e-5 3.5,-1e-5 -12.6786,35.50001 h -4 z"
+           fill="#ffffff"
+           id="path16" />
+        <path
+           d="m 20.99997,35.50001 h 4 l -8.3215,-23 h -3.9999 z"
+           fill="#ffffff"
+           id="path18" />
+      </svg>
+    </div>
+    <!--<div class="title">{{ config.site_name }}</div>-->
+  </section>
+</div>

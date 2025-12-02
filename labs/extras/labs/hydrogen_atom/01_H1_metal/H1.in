@@ -1,0 +1,25 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'none'
+ /
+
+ &SYSTEM
+   ibrav = 1
+   A = 10
+   nat = 1
+   ntyp = 1
+   ecutwfc = 30.0
+   occupations = 'smearing'
+   degauss = 0.001
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ H  1.008  H.pz-vbc.UPF
+
+ATOMIC_POSITIONS angstrom
+ H  0.0  0.0  0.0
+
+K_POINTS gamma
