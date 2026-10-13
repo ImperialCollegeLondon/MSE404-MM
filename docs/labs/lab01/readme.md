@@ -28,7 +28,7 @@ The server can be accessed by using PuTTY and XMing, which can be run from the [
     ![text](images/5putty.PNG){: width="600" }    
     4. If this is your first time connecting to this server, you might get a security alert asking whether you want to accept the host key. Press ***Accept***.<br>
     ![text](images/sec_alert.PNG){: width="600" }
-    5. A terminal will be presented to you. In order to login, you will have to enter your College username, press ***Enter***, enter your password and press ***Enter*** again.<br>
+    5. A terminal will be presented to you. In order to login, you will have to enter your College username, press ***Enter***, enter your password and press ***Enter*** again. Please note that your password will be invisible.<br>
     ![text](images/6terminal.PNG){: width="600" }
 
     ***Note:*** while we try to ensure students registered for the course have access before the first class, we may not have the most up-to-date information. If it doesn't accept your login details please let me know and we can give you access.<br>
