@@ -94,7 +94,7 @@ You can click on the annotation to see the explanation.
 There will also be admonitions like the one below:
 
 !!! Warning "Coder's Tip [important]"
-    Don'f forget to add comments to your code to explain what you are doing!
+    Don't forget to add comments to your code to explain what you are doing!
 ??? note "Coder's Tip [side-note]"
     Don't forget to sleep and eat! (well, this is important too!)
 
