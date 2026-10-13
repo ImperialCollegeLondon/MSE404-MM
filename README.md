@@ -90,7 +90,7 @@ web page).
 There will also be admonitions like the one below:
 
 > [!WARNING] 
-> Don'f forget to add comments to your code to explain what you are doing!
+> Don't forget to add comments to your code to explain what you are doing!
 
 where important/optional information is given. Also, the Tasks will also be
 marked as admonitions like the one below:
