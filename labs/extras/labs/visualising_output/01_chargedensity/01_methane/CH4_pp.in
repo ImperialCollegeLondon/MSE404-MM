@@ -1,0 +1,11 @@
+ &INPUTPP
+    filplot = 'methane_charge'
+    plot_num = 0
+ /
+
+ &PLOT
+    filepp(1) = 'methane_charge'
+    iflag = 3
+    output_format = 5
+    fileout = 'CH4.rho.xsf'
+ /
