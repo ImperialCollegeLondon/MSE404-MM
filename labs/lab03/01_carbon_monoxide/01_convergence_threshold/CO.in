@@ -1,0 +1,35 @@
+&CONTROL
+   calculation      = 'scf'
+   disk_io          = 'none'
+   pseudo_dir       = '.'
+/
+
+&SYSTEM
+   ibrav            = 1
+   A                = 30
+   nat              = 2
+   ntyp             = 2
+   ecutwfc          = 20
+/
+
+&ELECTRONS
+   mixing_beta      = 0.7
+   diagonalization  = 'david'
+   conv_thr = 1e-4
+/
+
+&IONS
+/
+
+&CELL
+/
+
+ATOMIC_SPECIES
+O 15.999 O.pz-rrkjus.UPF
+C 12.011 C.pz-vbc.UPF
+
+K_POINTS gamma
+
+ATOMIC_POSITIONS angstrom
+O 15.0000000000 15.0000000000 16.1503400000
+C 15.0000000000 15.0000000000 15.0000000000
