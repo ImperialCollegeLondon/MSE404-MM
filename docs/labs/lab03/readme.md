@@ -160,7 +160,7 @@ To converge the kinetic energy cutoff we are going to set up a series of input f
 
     Navigate to the directory `01_carbon_monoxide/02_kinetic_energy_cutoff`. Here, you will again see an input file for CO and two pseudopotential files. Make 10 copies of this file named `CO_i.in` where i ranges from 20 to 65 in steps of 5. Change the `ecutwfc` variable in these files to systematically increase from 20 to 65 i.e. set `ecutwfc` to be equal to the number i.
 
-    - Use `pw.x` to perform a DFT calculation for each input files.
+    - Use `pw.x` to perform a DFT calculation for each input files. This may take a while, so you can read on whilst you wait for your calculations to finish :-).
 
     - Check the output file `CO_20.out`. What is the converged total energy?
 
