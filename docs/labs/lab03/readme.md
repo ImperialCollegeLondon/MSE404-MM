@@ -275,7 +275,8 @@ Quantum Espresso uses periodic boundary conditions (recall that plane wave can o
 You have run a lot of DFT calculations in this lab. Running all of these `pw.x` commands manually is time consuming. To speed things up we can use a small bash script that will automate running these jobs for us. Bash is a programming language (the one we use to interact with the command line), like python. In the same directory `01_carbon_monoxide/03_box_size` you will find a run.sh bash script. Let's quickly examine it.
 
 ```bash
-#!/bin/bash #(1)!
+#!/bin/bash
+#(1)!
 
 # Run pw.x for each input file sequentially
 for i in {10..30..2}; #(2)!
@@ -284,7 +285,7 @@ do
 done
 ```
 
-1. This tells the compiler that the commands below are bash commands.
+1. The line above tells the compiler that the commands below are bash commands.
 2. Entering a simple for loop going from i=10 to i=30 in steps of 2.
 3. Issue the command `pw.x < CO_$i.in > CO_$i.out.`
 
