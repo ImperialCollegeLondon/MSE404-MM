@@ -235,8 +235,8 @@ $$
             ```
 
 
-## Convergence Test for K-Point Grid Above, we used a uniform
-4$\times$4$\times$4 k-point grid to sample the first Brillouin zone. However, to
+## Convergence Test for K-Point Grid
+Above, we used a uniform 4$\times$4$\times$4 k-point grid to sample the first Brillouin zone. However, to
 really converge a periodic system, **an additional convergence test with respect
 to the k-point sampling is necessary.**
 
