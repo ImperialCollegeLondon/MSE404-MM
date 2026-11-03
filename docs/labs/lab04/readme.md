@@ -435,7 +435,8 @@ at 0 eV. The directory `03_bandstructure` contains a python script
     Download the output file `C_diamond_bands.png` and take a look at it.
     Is carbon diamond a metal or an insulator? At which k-points is the valence
     band maximum and the conduction band minimum? How large is the band gap (and
-    is it direct or indirect)?
+    is it direct or indirect)? You may also edit the python file at the bottom to
+    display on a plot window as well as saving a .png.
 
     ??? success "Final result"
         <figure markdown="span">
