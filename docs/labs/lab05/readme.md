@@ -266,13 +266,13 @@ file.
 
 ??? note "Fermi Energy From The Integrated Density of States"
     The integrated density of states is the number of states up to a certain
-    energy. I.e., $\int_{-\infty}^{E_1} DOS(E) d(E)$. One can easily found the
+    energy. I.e., $\int_{-\infty}^{E_1} DOS(E) d(E)$. One can easily find the
     Fermi energy by looking at the energy where the integrated density of states
     is equal to the number of electrons in the system. However, it is worth
     noting that since we are using a smearing scheme and a denser k-point grid
     in the NSCF step (which is not the case for the SCF calculation), the Fermi
     energy calculated in this way may not be accurate. For accurate Fermi
-    energy, one should always refer to the output of the SCF calculation.
+    energy, one should always refer to the output of the NSCF calculation.
 
 The directory `03_densityofstates` contains a python script that can be used to
 plot the shifted DOS together with the integrated DOS.
@@ -429,21 +429,22 @@ K_POINTS automatic
     at each k-point and the corrresponding **occupations** number.
 
     ??? success "Example" 
+
         ```
-          k =-0.0625 0.0625 0.0625 (    59 PWs)   bands (ev):
+        k =-0.0625 0.0625 0.0625 (    59 PWs)   bands (ev):
 
-     3.5809  40.9721  43.7477  43.7477  49.9157  53.1364
+        3.5809  40.9721  43.7477  43.7477  49.9157  53.1364
 
-     occupation numbers 
-     1.0000   0.0000   0.0000   0.0000   0.0000   0.0000
+        occupation numbers 
+        1.0000   0.0000   0.0000   0.0000   0.0000   0.0000
 
-          k =-0.1875 0.1875-0.0625 (    58 PWs)   bands (ev):
+        k =-0.1875 0.1875-0.0625 (    58 PWs)   bands (ev):
 
-     4.7127  35.0485  40.5915  44.7949  50.9368  50.9459
+        4.7127  35.0485  40.5915  44.7949  50.9368  50.9459
 
-     occupation numbers 
-     1.0000   0.0001   0.0000   0.0000   0.0000   0.0000
-         ... 
+        occupation numbers 
+        1.0000   0.0001   0.0000   0.0000   0.0000   0.0000
+        ... 
         ```
 
     For a metal the default number of bands that are used in the SCF calculation
