@@ -1,0 +1,27 @@
+ &CONTROL
+    pseudo_dir = '.'
+    verbosity = 'high'
+ /
+
+ &SYSTEM
+    ibrav =  2
+    A = 2.863
+    nat =  1
+    ntyp = 1
+    ecutwfc = 18.0
+    occupations = 'smearing'
+    smearing = 'fermi-dirac'
+    degauss = 0.1d0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ Al  26.982  Al.pz-vbc.UPF
+
+ATOMIC_POSITIONS crystal
+ Al 0.00 0.00 0.00
+
+K_POINTS automatic
+  8 8 8 1 1 1

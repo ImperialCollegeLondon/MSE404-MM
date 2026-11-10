@@ -1,0 +1,22 @@
+ &CONTROL
+    pseudo_dir = '.'
+ /
+
+ &SYSTEM
+    ibrav = 1
+    A = 15.0
+    nat = 1
+    ntyp = 1
+    ecutwfc = 100.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ He   4.0026  He.pbe-mt_fhi.UPF
+
+ATOMIC_POSITIONS angstrom
+ He  0.0       0.0       0.0
+
+K_POINTS gamma

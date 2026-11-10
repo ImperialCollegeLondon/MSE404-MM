@@ -1,0 +1,4 @@
+&BANDS
+    prefix = 'Fe'
+    spin_component = 1
+ /

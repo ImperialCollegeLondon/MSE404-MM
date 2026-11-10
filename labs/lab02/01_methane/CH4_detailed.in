@@ -1,0 +1,83 @@
+ # This is a pretty minimal pw.x input file that makes extensive use of the
+ # values in the three sections 'control', 'system' and 'electrons'. Typically
+ # you'll want to specify many more things than we have here.
+
+ # The help file with details of all the parameters and their values is at
+ # /opt/share/quantum-espresso/doc-6.1/INPUT_PW.txt
+
+ # While we accept all defaults in the CONTROL and ELECTRONS sections, all
+ # the sections used here must always be present (there are a number of
+ # additional sections which may also be needed depending on the values used
+ # the CONTROL and SYSTEM sections.
+
+ &CONTROL
+    ! This section is used to control the calculation we want to do, such as
+    ! change the calculation type, the level of output, the directory where
+    ! output is stored, etc.
+    !
+    ! We can accept most defaults to start with.
+    !
+    ! For example the default type of calculation is 'scf' which is what we
+    ! want.
+    ! The only thing we'll set is the parameter that says it should look in
+    ! the same directory where you run the code for the pseudopotential file.
+    pseudo_dir = '.'
+ /
+
+ &SYSTEM
+    ! There are a number of required input variables in the "system" section.
+
+    ! This is the index of the type of Bravais-lattice we have. 1 is for simple cubic.
+    ! This tells the code what parameters need to be specified for the lattice.
+    ibrav = 1
+
+    ! This is the lattice length, which is the only free parameter for simple cubic.
+    ! A is in Angstrom. For molecules we take this to be large enough that the
+    ! molecule doesn't interact too strongly with its periodic replicas.
+    A = 15.0
+
+    ! This is the number of atoms in the cell.
+    nat = 5
+
+    ! This is the number of types of atoms. We have carbon and hydrogen so this is 2.
+    ntyp = 2
+
+    ! This is the planewave energy cutoff in Rydberg - more on this next week.
+    ecutwfc = 18.0
+ /
+
+ &ELECTRONS
+    ! This section is used to set how the electronic calculations converge for
+    ! self-consistent calculations.
+    !
+    ! Again we can accept all defaults.
+    !
+    ! Here we could, for example, set a lower convergence threshold for when
+    ! the code decides the self-consistent calculation is converged. Or
+    ! increase the maximum number of iterations.
+ /
+
+# In this section we list all the atomic species, so we need to have as many
+# entries as 'ntyp' above. These should be entered one per line, with the
+# atomic symbol, followed by the mass (only used for certain types of
+# calculations), followed by the name of the pseudopotential. In the same
+# directory as the input file we have a symbolic link to the pseudotential
+# file we need. This saves us from making multiple copies of the same file
+# for different calculations.
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+ H   1.008  H.pz-vbc.UPF
+
+# Now we list the postitions of all the atoms. There are several possible ways
+# to do this. Here we give the positions in cartesian coordinates, in Angstrom.
+# There should be one line for each atom in the cell - so 'nat' lines in total.
+ATOMIC_POSITIONS angstrom
+ C  0.0       0.0       0.0
+ H  0.0       0.0       1.089
+ H  1.026719  0.000000 -0.363000
+ H -0.513360 -0.889165 -0.363000
+ H -0.513360  0.889165 -0.363000
+
+# Finally we specify the k-point sampling to use. For molecules we just use the
+# gamma point - more on this later in the course.
+K_POINTS gamma

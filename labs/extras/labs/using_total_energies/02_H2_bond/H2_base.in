@@ -1,0 +1,28 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'none'
+ /
+
+ &SYSTEM
+    ibrav = 0
+    nat = 2
+    ntyp = 1
+    ecutwfc = 20.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ H   1.008  H.pz-vbc.UPF
+
+ATOMIC_POSITIONS angstrom
+ H  0.0   0.0   0.0
+ H  xxxx  0.0   0.0
+
+K_POINTS gamma
+
+CELL_PARAMETERS angstrom
+10.0  0.0  0.0
+ 0.0 10.0  0.0
+ 0.0  0.0 10.0

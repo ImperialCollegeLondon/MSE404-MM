@@ -1,0 +1,6 @@
+phonons of CH4 (gamma only)
+ &INPUTPH
+  tr2_ph = 1.0d-15
+  asr = .true.
+ /
+0.0 0.0 0.0

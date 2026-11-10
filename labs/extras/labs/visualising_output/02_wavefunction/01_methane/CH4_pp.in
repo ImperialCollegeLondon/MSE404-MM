@@ -1,0 +1,13 @@
+ &INPUTPP
+    filplot = 'CH4_wfn'
+    plot_num = 7
+    kpoint(1) = 1
+    kband(1) = 1
+    kband(2) = 4
+ /
+
+ &PLOT
+    iflag = 3
+    output_format = 5
+    fileout = '.xsf'
+ /

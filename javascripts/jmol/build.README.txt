@@ -1,0 +1,48 @@
+Jmol building notes 
+
+Developer note from Bob Hanson, 2023.11.16
+
+The JSmol and Jmol SourceForge projects have been integrated, 
+and the JSmol project is now just for reference, in case we 
+need to look back at previous versions of the JavaScript site 
+files. 
+
+I have disabled the automated release part of this task because
+SourceForge changed its security options, and I could not figure
+out how to use the new system. So now I just create a release
+directory at SourceForge using my browser and do a drag-drop
+of the four files that get created there. It's no real problem.
+I have to go there anyway to enable the updated release to be
+the default release package. 
+
+Maybe someone can help me figure out how that works. 
+
+Everything here ends up in the build/ directory. 
+The final release files are in build/release/.
+
+The workflow is considerably simpler now.
+For distribution, including JavaScript:
+
+1. Run build-1-clean-unzip-jsmol-to-site.xml.
+    This deletes the site/ folder and drops all the 
+    necessary JavaScript code that allows Jmol to work in JavaScript.
+    After doing this, you should be able to see your 
+    Java changes in JavaScript using the site/jsmol_dev.htm file
+    or using other HTML files in site/jsmol using the ?j2sdebugcode flag.
+ 
+2. Run build-2-jsmol-zip.xml.
+    This creates a series of compressed core packages that greatly
+    speed processing (and are required for all HTML files not
+    opened using the ?j2sdebugcode flag. 
+    
+3. Run build-3-jspecview.xml only if you have modified the src/jspecview/ code.
+    This builds build/JSpecView.jar.
+    
+4. Run build-4-jmol.jar-and-release.xml.
+    This creates Jmol.jar, JSpecView.jar, and 
+
+	a) run buld-jspecview.xml if you have modified that code
+	b) run jmol/builddist.xml
+	c) run jmol/tools/jmol-release.xml
+
+If you just want to create Jmol.jar, use build-0-app-only.xml

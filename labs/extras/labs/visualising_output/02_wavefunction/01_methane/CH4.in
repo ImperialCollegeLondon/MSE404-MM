@@ -1,0 +1,28 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'low'
+ /
+
+ &SYSTEM
+    ibrav =  1
+    A = 10.0
+    nat = 5
+    ntyp = 2
+    ecutwfc = 40.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+ H   1.008  H.pz-vbc.UPF
+
+ATOMIC_POSITIONS angstrom
+ C  0.0       0.0       0.0
+ H  0.0       0.0       1.089
+ H  1.026719  0.000000 -0.363000
+ H -0.513360 -0.889165 -0.363000
+ H -0.513360  0.889165 -0.363000
+
+K_POINTS gamma

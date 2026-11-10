@@ -1,0 +1,8 @@
+phonons of Carbon diamond on a grid
+ &INPUTPH
+  prefix = 'CD',
+  asr = .true.
+  ldisp = .true.
+  tr2_ph = 1.d-15
+  nq1=4, nq2=4, nq3=4
+ /

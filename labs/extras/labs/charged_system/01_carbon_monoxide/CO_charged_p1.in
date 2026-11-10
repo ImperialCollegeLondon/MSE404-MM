@@ -1,0 +1,28 @@
+ &CONTROL
+    pseudo_dir = '../../pseudo'
+ /
+
+ &SYSTEM
+   ibrav = 1
+   A = xxxx
+   nat = 2
+   ntyp = 2
+   ecutwfc = 18.0
+   tot_charge = 1
+   nspin = 2
+   occupations = 'fixed'
+   tot_magnetization =  1
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+ O  15.9999  O.pz-rrkjus.UPF
+
+ATOMIC_POSITIONS angstrom
+ C  yyyy yyyy zzz1
+ O  yyyy yyyy zzz2
+
+K_POINTS gamma
