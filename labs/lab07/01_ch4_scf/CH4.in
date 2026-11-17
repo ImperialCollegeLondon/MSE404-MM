@@ -1,0 +1,30 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'none'
+    tprnfor = .true.
+ /
+
+ &SYSTEM
+    ibrav =  1
+    A = 20.0
+    nat = 5
+    ntyp = 2
+    ecutwfc = 80
+ /
+
+ &ELECTRONS
+ /
+
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+ H   1.008  H.pz-vbc.UPF
+
+ATOMIC_POSITIONS angstrom
+C                0.0000041270        0.0000000000        0.0000085866
+H                0.0000018431        0.0000000000        0.3082999980
+H                1.0355025784        0.0000000000       -0.3661115015
+H               -0.5177547743       -0.8967788936       -0.3660985416
+H               -0.5177547743        0.8967788936       -0.3660985416
+
+K_POINTS gamma

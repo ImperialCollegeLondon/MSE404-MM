@@ -1,0 +1,25 @@
+ &CONTROL
+    pseudo_dir = '.'
+    disk_io = 'none'
+ /
+
+ &SYSTEM
+    ibrav = 2
+    A = xxxx
+    nat = 2
+    ntyp = 1
+    ecutwfc = 60.0
+ /
+
+ &ELECTRONS
+ /
+
+ATOMIC_SPECIES
+ C  12.011  C.pz-vbc.UPF
+
+ATOMIC_POSITIONS {crystal}
+ C 0.00 0.00 0.00
+ C 0.25 0.25 0.25
+
+K_POINTS {automatic}
+  4 4 4 1 1 1

@@ -1,0 +1,17 @@
+&LR_INPUT
+  prefix = 'CH4'
+  outdir = './out'
+/
+
+&LR_CONTROL
+  itermax = 400
+  charge_response = 1
+  ipol = 1
+/
+
+&LR_POST
+  omeg = 1.08
+  epsil = 0.002
+  w_T_npol = 3
+  plot_type = 3
+/

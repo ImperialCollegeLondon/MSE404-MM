@@ -1,0 +1,6 @@
+set title "Carbon Diamond, ecutwfc=60 Ry"
+set xlabel "Unit Cell Volume (Bohr^3)"
+set ylabel "Total Energy (Ry)"
+set term pngcairo
+set output "etot_v_vol.png"
+plot "etot_v_vol.dat"

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="svg8" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" version="1.1" viewBox="0 0 70.9 70.9">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        stroke-width: 0px;
+      }
+    </style>
+  </defs>
+  <sodipodi:namedview id="base" bordercolor="#666666" borderopacity="1.0" inkscape:current-layer="g853" inkscape:cx="44.810861" inkscape:cy="58.368124" inkscape:document-rotation="0" inkscape:document-units="mm" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:window-height="943" inkscape:window-maximized="0" inkscape:window-width="1252" inkscape:window-x="587" inkscape:window-y="66" inkscape:zoom="3.4913958" pagecolor="#ffffff" showgrid="false"/>
+  <polygon class="cls-1" points="12 0 12 12.4 28.7 12.4 28.7 58.5 12 58.5 12 70.9 58.8 70.9 58.8 58.5 42.2 58.5 42.2 12.4 58.8 12.4 58.8 0 12 0"/>
+  <metadata id="metadata5">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml
+        </dc:format>
+        <dc:type/>
+        <dc:title/>
+      </cc:Work>
+    </rdf:RDF>
+    <sfw xmlns="http://ns.adobe.com/SaveForWeb/1.0/">
+      <slices/>
+      <sliceSourceBounds x="12.05" y="0" width="46.77" height="70.87" bottomLeftOrigin="true"/>
+    </sfw>
+  </metadata>
+</svg>
