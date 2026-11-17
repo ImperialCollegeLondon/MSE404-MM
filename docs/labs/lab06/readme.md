@@ -28,7 +28,7 @@ electrons with different spins.
 The Oxygen Molecule
 -------------------
 
-An oxygen molecule has an even number of electrons.So you might expect that a
+An oxygen molecule has an even number of electrons. So you might expect that a
 certain number of Kohn-Sham states are filled with two electrons and therefore
 the total number of up-spin electrons is equal to the total number of down-spin
 electrons. This is, however, not true. 
@@ -141,8 +141,8 @@ K_POINTS gamma
 
     - Does the calculation now converge?
 
-    - Take a look at the log file, are the occupations of each band at each 
-      k-point matche your expectations?
+    - Take a look at the log file. Do the occupations of each band at each 
+      k-point match your expectations?
 
     ??? success "Answer"
 
@@ -367,9 +367,10 @@ achieved by setting the `starting_magnetization` input variable.
             <figure markdown="span"> 
             ![Diamond primitive cell](assets/Iron_bands.png){ width="500" } 
             </figure>
-
+            
             You can find `README.md` in the directory for more information on
-            how to reproduce this plot.
+            how to reproduce this plot. The red line denotes the spin up bands
+            and the blue line denotes the spin down bands.
 
 ------------------------------------------------------------------------------
 
